@@ -1,0 +1,86 @@
+.paciente-container {
+  padding: 20px;
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-volver {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.acciones {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-accion {
+  background-color: #FFE5D7;
+  border: none;
+  padding: 6px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.acciones button:hover {
+  transform: scale(1.05);
+  background-color: #fcd5ba;
+}
+
+.editar {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.formulario {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.columna-izquierda, .columna-derecha {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.columna-izquierda {
+  width: 60%;
+}
+
+.columna-derecha {
+  width: 35%;
+  padding-left: 20px;
+  padding-top: 30px;
+}
+
+.fila {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fila label {
+  width: 180px;
+  font-weight: 550;
+}
+
+input, select {
+  padding: 4px;
+  border: 1px solid #ccc;
+  width: 180px;
+}
+
+.requerido {
+  color: red;
+}

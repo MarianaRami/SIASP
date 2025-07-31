@@ -1,0 +1,32 @@
+<div class="popup-container" >
+  <div class="popup">
+    <button class="back-btn" (click)="volver()">
+        <img src="assets/images/volver.png" width="18" style="cursor:pointer;" />
+    </button>
+
+    <div class="form-group">
+      <label>Protocolo<span class="required">*</span></label>
+      <select>
+        <option disabled selected>Selecciona un protocolo</option>
+        <option *ngFor="let protocolo of protocolos">{{ protocolo }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Tipo de paciente<span class="required">*</span></label>
+      <select>
+        <option disabled selected>Selecciona un tipo</option>
+        <option *ngFor="let tipo of tipos">{{ tipo }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Razón del cambio<span class="required">*</span></label>
+      <textarea rows="4"></textarea>
+    </div>
+
+    <div class="button-group">
+      <button class="guardar-btn" (click)="guardar()">Guardar</button>
+      <button class="cancelar-btn" (click)="cancelar()">Cancelar</button>
+    </div>
+  </div>
+</div>

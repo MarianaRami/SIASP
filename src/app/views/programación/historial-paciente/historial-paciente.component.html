@@ -1,0 +1,17 @@
+<div class="contenedor">
+    <div class="header_izq">
+        <button class="btn-volver" (click)="volver()" >
+            <img src="assets/images/volver.png" width="18" style="cursor:pointer;" />
+        </button>
+        <h2>Historial del paciente</h2>
+    </div>
+
+    <app-tabla-dinamica
+        [columnas]="columnas"
+        [datos]="datos">
+    </app-tabla-dinamica>
+    
+    <div class="guardar-fijo">
+        <button>Guardar</button>
+    </div>
+</div>

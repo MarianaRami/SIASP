@@ -1,0 +1,20 @@
+.contenedor {
+  font-family: 'Roboto', sans-serif;
+}
+
+.btn-volver {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+h2 {
+  font-size: 20px;
+  margin-left: 20px;
+}

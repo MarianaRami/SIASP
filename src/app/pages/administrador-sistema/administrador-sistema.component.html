@@ -1,0 +1,32 @@
+<div class="contenedor">
+
+  <div class="header-con-buscador">
+        <h2>Protocolos</h2>
+
+        <div class="acciones">
+            <button class="add-btn" (click)="agregar()">+</button>
+            <input
+                type="text"
+                placeholder="Buscar por nombre del protocolo"
+                [(ngModel)]="filtro"
+                (input)="filtrarDatos()"
+            />
+        </div>
+    </div>
+
+  <app-tabla-dinamica
+        [columnas]="columnas"
+        [datos]="datosFiltrados"
+        (buscar)="handleBuscar($event)"
+        >
+    </app-tabla-dinamica>
+
+    <div class="filtro-inactivos-fijo">
+        <label>
+            Protocolo inactivos
+            <input type="checkbox" [(ngModel)]="mostrarInactivos" (change)="filtrarDatos()" />
+        </label>
+    </div>
+
+
+</div>

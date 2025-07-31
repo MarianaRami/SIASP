@@ -1,0 +1,31 @@
+.login-container {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 300px;
+  padding: 100px;
+  font-family: 'Roboto', sans-serif;
+  justify-content: center;
+}
+
+input {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid gray;
+}
+
+button {
+  padding: 8px;
+  background-color: #ffe6db;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.sidebar a {
+  color: black;             
+  text-decoration: none;    
+  display: block;           
+  padding: 5px 0;           /* Espaciado opcional */
+}

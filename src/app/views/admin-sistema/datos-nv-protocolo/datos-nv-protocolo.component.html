@@ -1,0 +1,62 @@
+<div class="contenedor">
+  <!-- Botón volver -->
+  <button class="btn-volver" (click)="volver()">
+    <img src="assets/images/volver.png" width="18" style="cursor:pointer;" />
+  </button>
+
+  <!-- Datos generales: en columnas -->
+  <div class="form-datos">
+    <div class="columna-labels">
+      <label>Nombre del Protocolo:</label>
+      <label>Descripción:</label>
+    </div>
+    <div class="columna-inputs">
+      <input type="text" [(ngModel)]="nombreProtocolo" />
+      <textarea rows="3" [(ngModel)]="descripcion"></textarea>
+    </div>
+  </div>
+
+  <!-- Tabla de medicamentos -->
+  <h4>Configuración de medicamentos</h4>
+  <div class="tabla-medicamentos">
+    <table>
+      <thead>
+        <tr>
+          <th>Medicamento</th>
+          <th>Dosis teórica</th>
+          <th>Fórmula</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let med of medicamentos; let i = index">
+          <td>
+            <select [(ngModel)]="medicamentos[i].nombre">
+              <option value="" disabled selected>Seleccione un medicamento</option>
+              <option *ngFor="let med of listaMedicamentos" [value]="med">{{ med }}</option>
+            </select>
+          </td>
+          <td><input [(ngModel)]="med.dosis" /></td>
+          <td>
+            <select [(ngModel)]="med.formula">
+              <option *ngFor="let opcion of opcionesFormula" [value]="opcion">{{ opcion }}</option>
+            </select>
+          </td>
+          <td>
+            <button (click)="eliminarMedicamento(i)" class="btn-trash">
+              <img src="assets/images/eliminar.png" width="18" />
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button class="btn-agregar" (click)="agregarMedicamento()">＋</button>
+  </div>
+
+  <!-- Botón siguiente -->
+  <div class="footer">
+    <button class="btn-siguiente" (click)="siguiente()">Siguiente</button>
+  </div>
+</div>
+

@@ -1,0 +1,56 @@
+<div class="contenedor">
+  <div class="header">
+    <button class="btn-volver" (click)="volver()">
+        <img src="assets/images/volver.png" width="18" />
+    </button>
+
+    <h2>Configuración del ciclo</h2>
+  </div>
+
+  <div class="form-datos">
+    <div class="columna-labels">
+      <label>Número de ciclo:</label>
+      <label>Duración del ciclo:</label>
+      <label>¿El ciclo necesita exámenes médicos?</label>
+    </div>
+    <div class="columna-inputs">
+      <input type="text" [(ngModel)]="numeroCiclo" />
+      <input type="text" [(ngModel)]="duracionCiclo" />
+      <input type="checkbox" [(ngModel)]="necesitaExamenes" />
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Día</th>
+        <th>Evento</th>
+        <th>Observación</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let fila of eventos; let i = index">
+        <td><input type="text" [(ngModel)]="fila.dia" /></td>
+        <td>
+          <select [(ngModel)]="fila.evento">
+            <option *ngFor="let op of opcionesEvento" [value]="op">{{ op }}</option>
+          </select>
+        </td>
+        <td><input type="text" [(ngModel)]="fila.observacion" /></td>
+        <td>
+          <button class="btn-trash" (click)="eliminarFila(i)">
+            <img src="assets/images/eliminar.png" width="18" />
+          </button>
+        </td>
+      </tr>
+      
+      <button class="btn-agregar" (click)="agregarFila()">＋</button>
+
+    </tbody>
+  </table>
+
+  <div class="guardar-fijo">
+    <button (click)="siguiente()">Siguiente</button>
+  </div>
+</div>

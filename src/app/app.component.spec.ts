@@ -1,29 +1,29 @@
-import { TestBed } from '@angular/core/testing';
-import { AppComponent } from './app.component';
+import { Component } from '@angular/core';
+import { RouterOutlet, Router, provideRouter } from '@angular/router';
+import { MenuSuperiorComponent } from './components/menu-superior/menu-superior.component';
+import { MenuIzquierdoComponent } from './components/menu-izquierdo/menu-izquierdo.component';
+import { NgIf } from '@angular/common';
+import { routes } from './app.routes';
+import { bootstrapApplication } from '@angular/platform-browser';
 
-describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [AppComponent],
-    }).compileComponents();
-  });
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [
+    RouterOutlet,  
+    MenuIzquierdoComponent, MenuSuperiorComponent, 
+  ],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
+})
+export class AppComponent {
+  constructor(private router: Router) {}
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
+  get isLoginRoute(): boolean {
+    return this.router.url === '/' || this.router.url === '/login';
+  }
+}
 
-  it(`should have the 'todo-app' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('todo-app');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, todo-app');
-  });
+bootstrapApplication(AppComponent, {
+  providers: [provideRouter(routes)]
 });

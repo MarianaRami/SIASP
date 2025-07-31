@@ -1,0 +1,71 @@
+.tabla {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.fila {
+  display: flex;
+  border-bottom: 1px solid #818181;
+}
+
+.fila.encabezado {
+  font-weight: bold;
+  border-bottom: 1px solid #818181;
+}
+
+.col {
+  flex: 1;
+  padding: 10px;
+  border-right: 1px solid #818181;
+}
+
+.col:last-child {
+  border-right: none;
+}
+
+/* Estilo para input de texto */
+.col input[type="text"] {
+  font-family: 'Roboto', sans-serif;
+  width: 90%;
+  padding: 6px 6px;
+  border: 1px solid #818181;
+  border-radius: 4px;
+  font-size: 14px;
+  height: 10px;
+}
+
+/* Estilo para input de fecha */
+.col input[type="date"] {
+  font-family: 'Roboto', sans-serif;
+  width: 90%;
+  border: 1px solid #818181;
+  border-radius: 4px;
+  font-size: 14px;
+  height: 25px;
+}
+
+/* Estilo para select */
+select {
+  width: 90%;
+  height: 20px;
+  padding: 1px;
+}
+
+/* Estilo para botón con ícono */
+.col button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.col button img {
+  width: 18px;
+  height: 18px;
+}
+
+/* Estilo para checkbox */
+.col input[type="checkbox"] {
+  transform: scale(1.2);
+  cursor: pointer;
+}

@@ -1,0 +1,30 @@
+<div class="popup-container">
+  <div class="popup">
+    <div class="header">
+      <button class="btn-volver" (click)="volver()" >
+        <img src="assets/images/volver.png" width="18" style="cursor:pointer;" />
+      </button>
+    </div>
+
+    <div class="fila">
+        <label>Fecha aplicación: </label>
+        <input type="date" [(ngModel)]="aplicacion" />
+    </div>
+
+    <div class="fila">
+        <label>Fehcha examenes:</label>
+        <input type="date" [(ngModel)]="examenes" />
+    </div>
+
+    <div class="fila">
+        <label>Fecha laboratorios:</label>
+        <input type="date" [(ngModel)]="laboratorios" />
+    </div>
+
+    <div class="button-group">
+      <button class="guardar-btn" (click)="guardar()">Guardar</button>
+      <button class="cancelar-btn" (click)="cancelar()">Cancelar</button>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,74 @@
+<div class="container">
+  <div class="header">
+    <button class="btn-volver" (click)="volver()" >
+        <img src="assets/images/volver.png" width="18" style="cursor:pointer;" />
+    </button>
+    <h2>Autorizaciones</h2>
+  </div>
+
+  <div class="formulario">
+    <div class="fila">
+        <label>Paciente:</label>
+        <div>{{ paciente }}</div>
+    </div>
+
+    <div class="fila">
+        <label>Identificación:</label>
+        <div>{{ identificacion }}</div>
+    </div>
+
+    <div class="fila">
+        <label>Protocolo:</label>
+        <div>{{ protocolo }}</div>
+    </div>
+
+    <div class="fila">
+        <label>EPS:</label>
+        <div>{{ eps }}</div>
+    </div>
+
+    <h3>Autorización de medicamentos</h3>
+
+    <div class="fila">
+        <label>Tipo de autorización:</label>
+        <select [(ngModel)]="tipoSeleccionado">
+            <option *ngFor="let opcion of tipoOpciones" [value]="opcion">
+                {{ opcion }}
+            </option>
+        </select>
+    </div>
+
+  </div>
+
+  <!-- Si es Individual -->
+  <div *ngIf="tipoSeleccionado === 'Universal'" class="layout-individual">
+    <div class="tabla-individual">
+        <app-tabla-dinamica [columnas]="columnasIndividual" [datos]="datos"></app-tabla-dinamica>
+    </div>
+    <div class="formulario-individual">
+        <label>No. Autorización:</label>
+        <input type="text" />
+        <label>Fecha:</label>
+        <input type="date" />
+  </div>
+</div>
+
+<!-- Si es Universal -->
+<div *ngIf="tipoSeleccionado === 'Individual'" class="layout-universal">
+  <app-tabla-dinamica [columnas]="columnasUniversal" [datos]="datos"></app-tabla-dinamica>
+</div>
+
+<h3>Autorización de laboratorios</h3>
+<div class="fila">
+  <label>No. Autorización</label>
+  <input type="text" class="input-small" />
+  <label>Fecha</label>
+  <input type="date" class="input-small" />
+</div>
+
+  <div class="acciones">
+    <button class="btn-accion" (click)="Cancelar()">Carcelar</button>
+    <button class="btn-accion" (click)="Guardar()">Guardar</button>
+  </div>
+
+</div>

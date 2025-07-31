@@ -1,0 +1,38 @@
+<div class="popup-container">
+  <div class="popup">
+    <table>
+      <thead>
+        <tr>
+          <th>Medicamento</th>
+          <th>Presentación</th>
+          <th>Dosis Calculada</th>
+          <th>Dosis formulada</th>
+          <th>Icono</th> 
+          <th>Unidad</th>
+          <th>Cantidad</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let fila of medicamentos; let i = index">
+          <td><input type="text" [(ngModel)]="fila.medicamento" /></td>
+          <td><input type="text" [(ngModel)]="fila.presentacion" /></td>
+          <td><input type="text" [(ngModel)]="fila.dosis_calculada" /></td>
+          <td><input type="text" [(ngModel)]="fila.dosis_formulada" /></td>
+          <td><input type="text" [(ngModel)]="fila.icono" /></td>
+          <td><input type="text" [(ngModel)]="fila.unidad" /></td>
+          <td><input type="text" [(ngModel)]="fila.cantidad" /></td>
+          <td>
+            <button class="delete" (click)="eliminarFila(i)">
+              <img src="assets/images/eliminar.png" width="18"  />
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button class="add-btn" (click)="agregarFila()">+</button>
+
+    <button class="guardar-btn" (click)="guardar()">Guardar</button>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="header">
+    <button class="btn-volver" (click)="volver()" >
+        <img src="assets/images/volver.png" width="18" style="cursor:pointer;" />
+    </button>
+    <div class="acciones">
+      <button class="btn-accion" (click)="abrirPopup()">Medicamentos</button>
+    </div>
+  </div>
+
+  <div class="formulario">
+    <div class="fila">
+        <label>Protocolo:</label>
+        <div>{{ protocolo }}</div>
+    </div>
+
+    <div class="fila">
+        <label>Ciclo:</label>
+        <div>{{ ciclo }}</div>
+    </div>
+
+    <div class="fila">
+        <label>Fecha de asignación:</label>
+        <div>{{ fecha_asignacion }}</div>
+    </div>
+  </div>
+
+  <div class="tabla">
+    <app-tabla-dinamica
+        [columnas]="columnas"
+        [datos]="datos">
+    </app-tabla-dinamica>
+  </div>
+
+</div>
+
+<app-pop-up-medicamentos *ngIf="mostrarPopup" (cerrar)="cerrarPopup()"></app-pop-up-medicamentos>

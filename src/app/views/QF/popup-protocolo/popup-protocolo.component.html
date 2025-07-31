@@ -1,0 +1,44 @@
+<div class="popup-container">
+  <div class="popup">
+    <div class="header">
+      <button class="btn-volver" (click)="volver()" >
+        <img src="assets/images/volver.png" width="18" style="cursor:pointer;" />
+      </button>
+    </div>
+
+    <form (ngSubmit)="guardar()">
+      <div class="form-row">
+        <label>Protocolo <span class="required">*</span></label>
+        <select [(ngModel)]="formData.protocolo" name="protocolo" required>
+          <option *ngFor="let p of protocolos" [value]="p">{{ p }}</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label>Fecha de consulta <span class="required">*</span></label>
+        <input type="date" [(ngModel)]="formData.fechaConsulta" name="fechaConsulta" required />
+      </div>
+
+      <div class="form-row">
+        <label>Fecha de ingreso</label>
+        <div>{{ fechaIngreso }}</div>
+      </div>
+
+      <div class="form-row">
+        <label>Tipo de paciente <span class="required">*</span></label>
+        <select [(ngModel)]="formData.tipoPaciente" name="tipoPaciente" required>
+          <option *ngFor="let tipo of tiposPaciente" [value]="tipo">{{ tipo }}</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label>Razón de tratamiento <span class="required">*</span></label>
+        <select [(ngModel)]="formData.razon" name="razon" required>
+          <option *ngFor="let r of razones" [value]="r">{{ r }}</option>
+        </select>
+      </div>
+
+      <button type="submit" class="guardar-btn">Guardar</button>
+    </form>
+  </div>
+</div>

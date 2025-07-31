@@ -1,0 +1,14 @@
+<div class="contenedor">
+  <h2>Proyección de Fórmulas</h2>
+
+  <div class="contenedor-principal">
+    <p class="subtitulo">Seleccionar un rango de fechas</p>
+
+    <div class="campos-fechas">
+        <input type="date" [(ngModel)]="fechaInicio" />
+        <input type="date" [(ngModel)]="fechaFin" />
+    </div>
+
+    <button (click)="buscar()" class="btn-confirmar">Confirmar</button>
+   </div>
+</div>

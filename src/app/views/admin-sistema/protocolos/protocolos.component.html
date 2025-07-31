@@ -1,0 +1,25 @@
+<div class="contenedor">
+  <div class="top-bar">
+    <button class="btn-volver" (click)="volver()">
+      <img src="assets/images/volver.png" width="18" />
+    </button>
+
+    <div class="acciones">
+      <button class="editar-btn" (click)="editar()">Editar</button>
+      <button class="desactivar-btn" (click)="desactivar()">Desactivar protocolo</button>
+    </div>
+  </div>
+
+  <div class="info">
+    <p><strong>Nombre del Protocolo:</strong> {{ protocolo.nombre }}</p>
+    <p><strong>Fecha de creación:</strong> {{ protocolo.fechaCreacion }}</p>
+    <p><strong>Versión:</strong> {{ protocolo.version }}</p>
+    <p><strong>Usuario creador:</strong> {{ protocolo.usuarioCreador }}</p>
+    <p><strong>Lista de ciclos:</strong></p>
+  </div>
+
+  <app-tabla-dinamica
+    [columnas]="columnas"
+    [datos]="datos">
+  </app-tabla-dinamica>
+</div>

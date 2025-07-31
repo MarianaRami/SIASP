@@ -1,0 +1,88 @@
+<div class="container">
+  <div class="header">
+    <div class="header_izq">
+        <button class="btn-volver" (click)="volver()" >
+            <img src="assets/images/volver.png" width="18" style="cursor:pointer;" />
+        </button>
+        <h2>Historial del paciente</h2>
+    </div>
+    <div class="acciones">
+      <button class="btn-accion" (click)="historial()">Historial</button>
+      <button class="btn-accion" (click)="abrirPopupP()">Programar</button>
+      <button class="btn-accion" (click)="abrirPopup()">Cancelar Ciclo</button>
+    </div>
+  </div>
+
+  <div class="formulario">
+    <div class="columna-izquierda">
+        <div class="fila">
+            <label>Paciente:</label>
+            <div>{{ paciente }}</div>
+        </div>
+
+        <div class="fila">
+            <label>Identificación:</label>
+            <div>{{ identificacion }}</div>
+        </div>
+
+        <div class="fila">
+            <label>Protocolo:</label>
+            <div>{{ protocolo }}</div>
+        </div>
+
+        <div class="fila">
+            <label>Médico tratante:</label>
+            <div>{{ medico }}</div>
+        </div>
+
+        <div class="fila">
+            <label>Teléfono:</label>
+            <div>{{ telefono }}</div>
+        </div>
+
+        <div class="fila">
+            <label>Tipo de tratamiento:</label>
+            <select [(ngModel)]="tipo">
+                <option value="" disabled selected>Seleccione</option>
+                <option *ngFor="let opcion of tipo" [value]="opcion">
+                {{ opcion }}
+                </option>
+            </select>
+        </div>
+
+        <div class="fila">
+            <label>Tratamiento:</label>
+            <select [(ngModel)]="tratamiento">
+                <option value="" disabled selected>Seleccione</option>
+                <option *ngFor="let opcion of tratamiento" [value]="opcion">
+                {{ opcion }}
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <div class="columna-derecha">
+        <div class="fila">
+            <label>Especialidad:</label>
+            <div>{{ especialidad }}</div>
+        </div>
+    </div>
+  </div>
+
+  <div class="inferior">
+    <div class="tabla">
+        <app-tabla-dinamica
+            [columnas]="columnas"
+            [datos]="datos">
+        </app-tabla-dinamica>
+    </div>
+
+    <div class="medicamentos">
+      <button class="btn-accion" (click)="abrirPopupM()">Medicamentos</button>
+    </div>
+  </div>
+
+</div>
+ <app-popup-motivo *ngIf="mostrarPopup" (cerrar)="cerrarPopup()"></app-popup-motivo>
+ <app-popup-medicamentos-obv *ngIf="mostrarPopupM" (cerrar)="cerrarPopupM()"></app-popup-medicamentos-obv>
+ <app-pop-up-programacion *ngIf="mostrarPopupP" (cerrar)="cerrarPopupP()"></app-pop-up-programacion>

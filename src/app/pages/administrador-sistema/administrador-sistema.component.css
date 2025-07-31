@@ -1,0 +1,68 @@
+.contenedor {
+  font-family: 'Roboto', sans-serif;
+}
+
+h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.acciones {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.header-con-buscador {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.header-con-buscador h2 {
+  margin: 0;
+}
+
+.acciones input {
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 15px;
+  border: 1px solid #818181;
+  width: 200px;
+  height: 20px;
+}
+
+.add-btn {
+  margin-top: 0px;
+  font-size: 20px;
+  padding: 5px 12px;
+  border-radius: 50%;
+  border: 1px solid black;
+  background: white;
+  cursor: pointer;
+}
+
+
+.filtro-inactivos-fijo {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  background-color: white;
+  padding: 10px 20px;
+  border-radius: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #333;
+}
+
+.filtro-inactivos-fijo input[type="checkbox"] {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+

@@ -1,0 +1,57 @@
+<div class="tabla">
+  <div class="fila encabezado">
+    <div class="col" *ngFor="let col of columnas">{{ col.label }}</div>
+  </div>
+
+  <div class="fila" *ngFor="let fila of datos">
+    <div class="col" *ngFor="let col of columnas">
+      
+      <!-- Selector -->
+      <ng-container *ngIf="col.tipo === 'select'; else siguienteTipo1">
+        <select [(ngModel)]="fila[col.key]">
+          <option *ngFor="let op of col.opciones" [value]="op">
+            {{ op }}
+          </option>
+        </select>
+      </ng-container>
+
+      <!-- Texto -->
+      <ng-template #siguienteTipo1>
+        <ng-container *ngIf="col.tipo === 'text'; else siguienteTipo2">
+          <input type="text" [(ngModel)]="fila[col.key]" />
+        </ng-container>
+      </ng-template>
+
+      <!-- Botón con ícono -->
+      <ng-template #siguienteTipo2>
+        <ng-container *ngIf="col.tipo === 'button'; else siguienteTipo3">
+          <button (click)="onEditar(fila)">
+            <img src="assets/images/editar.png" width="18" alt="Editar" />
+          </button>
+        </ng-container>
+      </ng-template>
+
+      <!-- Checkbox -->
+      <ng-template #siguienteTipo3>
+        <ng-container *ngIf="col.tipo === 'checkbox'; else siguienteTipo4">
+          <input type="checkbox" [(ngModel)]="fila[col.key]" />
+        </ng-container>
+      </ng-template>
+
+      <!-- Fecha -->
+      <ng-template #siguienteTipo4>
+        <ng-container *ngIf="col.tipo === 'fecha'; else textoNormal">
+          <input type="date" [(ngModel)]="fila[col.key]" />
+        </ng-container>
+      </ng-template>
+
+      <!-- Fallback final -->
+      <ng-template #textoNormal>
+        {{ fila[col.key] }}
+      </ng-template>
+
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,22 @@
+<div class="contenedor">
+
+    <div class="header-con-buscador">
+        <h2>Usuarios</h2>
+        <input
+            type="text"
+            placeholder="Buscar por nombre o cédula"
+            [(ngModel)]="filtro"
+            (input)="filtrarDatos()"
+        />
+    </div>
+  
+  <app-tabla-dinamica
+        [columnas]="columnas"
+        [datos]="datosFiltrados">
+    </app-tabla-dinamica>
+
+    <div class="acciones">
+        <button class="btn-accion" (click)="Agregar()">Agregar</button>
+        <button class="btn-accion" (click)="Roles()">Roles</button>
+  </div>
+</div>

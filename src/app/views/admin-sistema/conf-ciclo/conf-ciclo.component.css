@@ -1,0 +1,123 @@
+.contenedor {
+  font-family: 'Roboto', sans-serif;
+}
+
+.btn-volver {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+h2 {
+  font-size: 20px;
+  margin-left: 20px;
+}
+
+/* Datos arriba en columnas */
+.form-datos {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 30px;
+}
+
+.columna-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  margin-top: 5px;
+}
+
+.columna-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+input[type="text"] {
+  width: 220px;
+  height: 15px;
+  padding: 6px;
+  border: 1px solid #000;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+select {
+  width: 220px;
+  padding: 6px;
+  border: 1px solid #000;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+input[type="checkbox"] {
+  margin-top: 15px;
+  transform: scale(2.2);
+  border: 1px solid #000;
+}
+
+/* Tabla eventos */
+table {
+  width: 75%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid gray;
+  border-left: 1px solid #818181;
+}
+
+th:first-child, td:first-child {
+  border-left: none; /* para evitar borde doble a la izquierda */
+}
+
+.btn-trash {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.btn-agregar {
+  margin-top: 10px;
+  font-size: 20px;
+  padding: 3px 8px;
+  border-radius: 50%;
+  border: 1px solid black;
+  background: white;
+  cursor: pointer;
+}
+
+/* Botón fijo inferior derecho */
+.guardar-fijo {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+}
+
+.guardar-fijo button {
+  padding: 12px 32px;
+  background-color: #FFE5D7;
+  color: rgb(14, 13, 13);
+  border: none;
+  border-radius: 15px;
+  font-size: 16px;
+  min-width: 200px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+.guardar-fijo button:hover {
+  transform: scale(1.05);
+  background-color: #fcd5ba;
+}

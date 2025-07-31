@@ -1,0 +1,42 @@
+.circulos-programacion {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+}
+
+.fila {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+}
+
+.circulo {
+  width: 180px;
+  height: 180px;
+  background-color: #FFE5D7;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  font-size: 16px;
+  text-align: center;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.circulo:hover {
+  transform: scale(1.05);
+  background-color: #fcd5ba;
+}
+
+.fila-inferior {
+  margin-top: -10px; /* opcional: acercar segunda fila */
+}
+

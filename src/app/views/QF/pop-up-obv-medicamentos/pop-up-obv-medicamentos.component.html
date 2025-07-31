@@ -1,0 +1,28 @@
+<div class="popup-container">
+  <div class="popup">
+    <table>
+      <thead>
+        <tr>
+          <th *ngFor="let col of columnas">{{ col.label }}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let fila of datos; let i = index">
+          <td *ngFor="let col of columnas">
+            <input type="text" [(ngModel)]="fila[col.key]" />
+          </td>
+          <td>
+            <button class="delete" (click)="eliminarFila(i)">
+              <img src="assets/images/eliminar.png" width="18" />
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button class="add-btn" (click)="agregarFila()">+</button>
+    <button class="guardar-btn" (click)="guardar()">Guardar</button>
+  </div>
+</div>
+

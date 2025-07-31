@@ -1,0 +1,13 @@
+<div class="contenedor-buscador">
+  <input
+    type="text"
+    [(ngModel)]="valorInput"
+    [placeholder]="placeholder"
+    class="input-busqueda"
+    (keyup.enter)="onBuscar()"
+  />
+
+  <button class="boton-buscar" (click)="onBuscar()" aria-label="Buscar">
+    <img src="assets/images/buscador.png" alt="Buscar" class="icono-buscar" />
+  </button>
+</div>

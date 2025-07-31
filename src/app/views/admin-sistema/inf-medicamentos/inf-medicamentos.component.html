@@ -1,0 +1,15 @@
+<div class="contenedor">
+  <div class="header">
+    <button class="btn-volver" (click)="volver()">
+        <img src="assets/images/volver.png" width="18" />
+    </button>
+
+    <h2>Configuración de medicamentos</h2>
+  </div>
+
+  <app-tabla-dinamica
+    [columnas]="columnas"
+    [datos]="datosTabla"
+    (buscar)="manejarClickMedicamento($event)">
+  </app-tabla-dinamica>
+</div>

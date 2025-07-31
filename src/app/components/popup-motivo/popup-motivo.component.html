@@ -1,0 +1,23 @@
+<div class="popup-container">
+  <div class="popup">
+    <div class="popup-header">
+      <span style="cursor: pointer;" (click)="cerrar.emit()">✕</span>
+    </div>
+
+    <div class="popup-body">
+      <label for="motivo">Motivo</label>
+      <select id="motivo" [(ngModel)]="motivoSeleccionado">
+        <option value="" disabled selected>Seleccionar</option>
+        <option *ngFor="let m of motivos" [value]="m">{{ m }}</option>
+      </select>
+
+      <label for="observaciones">Observaciones</label>
+      <textarea id="observaciones" [(ngModel)]="observaciones" rows="3"></textarea>
+    </div>
+
+    <div class="popup-footer">
+      <button class="btn-confirmar" (click)="confirmar()">Confirmar</button>
+      <button class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+    </div>
+  </div>
+</div>

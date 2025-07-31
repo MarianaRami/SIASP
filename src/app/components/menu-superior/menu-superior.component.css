@@ -1,0 +1,23 @@
+.topbar {
+  height: 50px;
+  background-color: #F05A03;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 20px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.user-icon img {
+  width: 30px;
+  border-radius: 50%;
+  background-color: #e4d3ff;
+}
+
+h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: rgb(255, 255, 255);
+  font-family: 'Roboto', sans-serif;
+  align-items: flex-start;
+}

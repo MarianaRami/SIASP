@@ -1,0 +1,39 @@
+<div class="popup-container">
+  <div class="popup">
+    <div class="popup-header">
+      <button class="back-btn" (click)="volver()">
+        <img src="assets/images/volver.png" width="18" style="cursor:pointer;" />
+    </button>
+    </div>
+
+    <table class="med-table">
+      <thead>
+        <tr>
+          <th>Medicamento</th>
+          <th>Presentación</th>
+          <th>Dosis</th>
+          <th>Unidad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let m of medicamentos">
+          <td>{{ m.medicamento }}</td>
+          <td>{{ m.presentacion }}</td>
+          <td>{{ m.dosis }}</td>
+          <td>{{ m.unidad }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="observaciones">
+      <label for="obs">Observaciones</label>
+      <textarea id="obs" [(ngModel)]="observaciones" rows="2"></textarea>
+    </div>
+
+
+    <div class="acciones">
+      <button class="btn-accion" (click)="cancelar()">Cancelar</button>
+      <button class="btn-accion" (click)="guardar()">Programar</button>
+    </div>
+  </div>
+</div>

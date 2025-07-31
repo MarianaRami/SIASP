@@ -1,0 +1,53 @@
+.sidebar {
+  width: 150px;
+  background-color: #FFE5D7;
+  padding: 15px;
+  height: auto;            /* altura igual a la ventana */
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;       /* para posicionar logo absoluto */
+  overflow: hidden; 
+
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.sidebar a {
+  color: black;             /* Color de texto negro */
+  text-decoration: none;    /* Quitar subrayado */
+  display: block;           /* Que ocupe todo el <li> para clic completo */
+  padding: 5px 0;           /* Espaciado opcional */
+}
+
+.sidebar a.active {
+  font-weight: normal;
+  border-left: 4px solid #d35400;
+  border-radius: 5px;
+  padding-left: 10px;
+}
+
+.logo {
+  background-color: #FFE5D7;
+  position: fixed;
+  bottom: 20px;
+  left: 10px;
+  width: 150px; /* Igual que .sidebar */
+  display: flex;
+  justify-content: center;
+}
+
+.logo img {
+  width: 80px;
+}
+
+

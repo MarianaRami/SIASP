@@ -1,0 +1,47 @@
+.contenedor {
+    font-family: 'Roboto', sans-serif;
+}
+
+.contenedor-principal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 60px;
+  font-family: 'Roboto', sans-serif;
+}
+
+h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.subtitulo {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.campos-fechas {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 30px;
+}
+
+input[type="date"] {
+  padding: 8px;
+  width: 150px;
+  border: 1px solid #000;
+  border-radius: 4px;
+}
+
+.btn-confirmar {
+  background-color: #ffe1d6;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-confirmar:hover {
+  background-color: #fcd5ba;
+}

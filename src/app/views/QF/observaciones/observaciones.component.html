@@ -1,0 +1,11 @@
+<div class="contenedor">
+
+  <h2>Pacientes pendientes</h2>
+
+  <app-tabla-dinamica
+        [columnas]="columnas"
+        [datos]="datos"
+        (buscar)="handleBuscar($event)"
+        >
+    </app-tabla-dinamica>
+</div>

@@ -1,0 +1,27 @@
+<div class="contenedor">
+    <div class="header-con-buscador">
+        <div class="header_izq">
+            <button class="btn-volver" (click)="volver()" >
+                <img src="assets/images/volver.png" width="18" style="cursor:pointer;" />
+            </button>
+            <h2>Medicamentos </h2>
+        </div>
+        <input
+            type="text"
+            placeholder="Buscar por cédula o nombre"
+            [(ngModel)]="filtro"
+            (input)="filtrarDatos()"
+        />
+    </div>
+  
+  <app-tabla-dinamica
+        [columnas]="columnas"
+        [datos]="datosFiltrados">
+    </app-tabla-dinamica>
+
+  <div class="guardar-fijo">
+    <button class="btn-volver" (click)="descarga()" >
+        <img src="assets/images/descarga.png" width="18" style="cursor:pointer;" />
+    </button>
+  </div>
+</div>
