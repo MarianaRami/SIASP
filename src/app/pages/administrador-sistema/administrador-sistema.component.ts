@@ -36,11 +36,12 @@ export class AdministradorSistemaComponent {
   this.authService.getProtocolos().subscribe({
     next: (data) => {
       this.datos = data.map((protocolo: any) => ({
+        id: protocolo.id,
         Protocolo: protocolo.nombre,
         'Versión': protocolo.version,
         'Fecha': new Date(protocolo.fechaCreacion).toLocaleDateString(), // Formato legible
         Estado: protocolo.estado,
-        boton: 'Ver' // o el texto que desees en el botón
+        boton: 'Ver' 
       }));
       this.datosFiltrados = [...this.datos];
       console.log('Protocolos transformados:', this.datos);
@@ -56,9 +57,11 @@ export class AdministradorSistemaComponent {
   }
 
   handleBuscar(fila: any) {
-    console.log('Protocolo recibida:', fila.Protocolo);  
-    this.router.navigate(['admin-sistema/Protocolo'])
+    console.log('Protocolo recibido:', fila);
+    const protocoloId = fila.id; 
+    this.router.navigate(['admin-sistema/Protocolo', protocoloId]);
   }
+
 
   filtrarDatos() {
     if (this.mostrarInactivos) {

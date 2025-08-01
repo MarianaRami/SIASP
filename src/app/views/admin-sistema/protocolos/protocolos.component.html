@@ -11,11 +11,14 @@
   </div>
 
   <div class="info">
-    <p><strong>Nombre del Protocolo:</strong> {{ protocolo.nombre }}</p>
+    <p><strong>Nombre del Protocolo:</strong> {{ protocolo.nombreProtocolo }}</p>
     <p><strong>Fecha de creación:</strong> {{ protocolo.fechaCreacion }}</p>
     <p><strong>Versión:</strong> {{ protocolo.version }}</p>
     <p><strong>Usuario creador:</strong> {{ protocolo.usuarioCreador }}</p>
-    <p><strong>Lista de ciclos:</strong></p>
+    <p><strong>Número de ciclos:</strong> {{ protocolo.numeroCiclo }}</p>
+    <p><strong>Duración del ciclo:</strong> {{ protocolo.duracionCiclo }}</p>
+    <p><strong>¿Se necesitan exámenes?:</strong> {{ protocolo.necesitaExamenes }}</p>
+    <p><strong></strong></p>
   </div>
 
   <app-tabla-dinamica

@@ -56,6 +56,12 @@ export class AuthService {
     });
   }
 
+  getProtocoloCompletoById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/gestion-protocolos/protocolos/${id}/completo`, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
   // ----------------- VEHICULOS -----------------
 
   getVehiculos(): Observable<any[]> {
