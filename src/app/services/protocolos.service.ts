@@ -53,13 +53,13 @@ export class ProtocolosService {
     );
   }
 
-  crearNuevaVersionProtocoloCompleto(dto: any) {
-  return this.http.post<any>(
-    `${this.baseUrl}/gestion-protocolos/protocolos/completo/nueva-version`,{
-      headers: this.getAuthHeaders()
-    }
-  );
-}
+  crearNuevaVersionProtocoloCompleto(data: any): Observable<any> {
+    return this.http.post(
+      `${this.baseUrl}/gestion-protocolos/protocolos/completo/nueva-version`,
+      data,
+      { headers: this.getAuthHeaders() }
+    );
+  }
 
 
   private protocolo: any = null;
@@ -77,6 +77,14 @@ export class ProtocolosService {
 
   clearProtocolo() {
     this.protocolo = null;
+  }
+
+  desactivarProtocolo(id: string): Observable<any> {
+    return this.http.patch(
+      `${this.baseUrl}/gestion-protocolos/protocolos/${id}/desactivar`,
+      {}, // el backend decide qué hacer, no se envían datos
+      { headers: this.getAuthHeaders() }
+    );
   }
 
   // ----------------- VEHICULOS -----------------

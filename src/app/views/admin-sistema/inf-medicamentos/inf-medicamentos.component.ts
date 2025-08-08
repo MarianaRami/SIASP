@@ -95,7 +95,8 @@ export class InfMedicamentosComponent implements OnInit {
       next: (res) => {
         console.log("✅ Nueva versión creada:", res);
         alert(res.message || "¡Nueva versión del protocolo creada con éxito!");
-        this.router.navigate(['/admin-sistema/protocolos']); // cambia esto si querés redirigir a otro lugar
+        this.router.navigate(['/admin-sistema']); 
+        this.ProtocolosService.clearProtocolo();
       },
       error: (err) => {
         console.error("❌ Error al crear nueva versión:", err);
