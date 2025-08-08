@@ -1,23 +1,83 @@
 .topbar {
   height: 50px;
-  background-color: #F05A03;
+  background-color: white;
+  border-bottom: 1px solid #ccc;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
-  padding-right: 20px;
+  padding: 0 30px;
   font-family: 'Roboto', sans-serif;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);;
 }
 
-.user-icon img {
-  width: 30px;
-  border-radius: 50%;
-  background-color: #e4d3ff;
+.logout-container {
+  position: relative;
+  cursor: pointer;
 }
 
-h2 {
-  font-size: 20px;
-  margin-bottom: 10px;
-  color: rgb(255, 255, 255);
-  font-family: 'Roboto', sans-serif;
-  align-items: flex-start;
+.logout-box {
+  position: fixed;
+  top: 50px;
+  right: 0;
+  background-color: white;
+  padding: 15px 30px;
+  box-shadow: 0px 3px 6px rgba(0,0,0,0.2);
+  border-radius: 4px;
+  white-space: nowrap;
+  z-index: 1000;
+  transition: all 0.2s ease;
+  align-items: center;
+  justify-content: center;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 100px;
+  background-color: rgb(255, 103, 29);
+  color: #fff;
+  text-align: center;
+  padding: 4px 6px;
+  border-radius: 6px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 12px;
+  z-index: 10;
+}
+
+.icon-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+.logo img {
+  height: 40px;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.username {
+  font-weight: 500;
+  color: rgb(255, 103, 29); /* Mismo color corporativo */
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: rgb(255, 103, 29);
+  transform: rotate(180deg); /* Flecha hacia la izquierda */
+  transition: transform 0.2s ease;
+}
+
+.logout-button:hover {
+  transform: rotate(180deg) scale(1.1);
 }

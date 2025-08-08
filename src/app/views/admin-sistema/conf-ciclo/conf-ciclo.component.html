@@ -51,6 +51,11 @@
   </table>
 
   <div class="guardar-fijo">
-    <button (click)="siguiente()">Siguiente</button>
+    <button
+      [disabled]="!esFormularioValido()"
+      (click)="siguiente()"
+    >
+      Siguiente
+    </button>
   </div>
 </div>

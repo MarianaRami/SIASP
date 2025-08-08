@@ -56,7 +56,12 @@
 
   <!-- Botón siguiente -->
   <div class="footer">
-    <button class="btn-siguiente" (click)="siguiente()">Siguiente</button>
+    <button class="btn-siguiente" 
+      [disabled]="!esFormularioValido()"
+      (click)="siguiente()"
+    >
+      Siguiente
+    </button>
   </div>
 </div>
 

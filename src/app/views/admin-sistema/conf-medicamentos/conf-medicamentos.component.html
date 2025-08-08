@@ -30,6 +30,11 @@
   </table>
 
   <div class="guardar-fijo">
-    <button (click)="Guardar()">Guardar</button>
+    <button 
+      [disabled]="!esFormularioValido()"
+      (click)="Guardar()"
+      >
+      Guardar
+    </button>
   </div>
 </div>

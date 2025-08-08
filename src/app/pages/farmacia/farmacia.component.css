@@ -11,7 +11,8 @@
 .circle-button {
   width: 180px;
   height: 180px;
-  background-color: #FFE5D7;
+  background-color: rgb(255, 103, 29);
+  color: white;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -27,5 +28,5 @@
 
 .circle-button:hover {
   transform: scale(1.05);
-  background-color: #fcd5ba;
+  background-color: rgb(255, 85, 0);
 }

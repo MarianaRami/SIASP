@@ -13,9 +13,20 @@ import { Router } from '@angular/router';
 export class ConfCicloComponent {
   constructor(private router: Router) {
     const navigation = this.router.getCurrentNavigation();
-    this.datosProtocolo = navigation?.extras?.state?.['protocolo'];
-    console.log('Recibido:', this.datosProtocolo);
+    const datos = navigation?.extras?.state?.['protocolo'];
+    this.datosProtocolo = datos;
+
+    // Si hay datos, cargar al formulario
+    if (datos) {
+      this.numeroCiclo = datos.numeroCiclo || '';
+      this.duracionCiclo = datos.duracionCiclo || '';
+      this.necesitaExamenes = datos.necesitaExamenes || false;
+      this.eventos = datos.eventos?.length > 0
+        ? datos.eventos
+        : [{ dia: '', evento: '', observacion: '', activo: true }];
+    }
   }
+
 
   datosProtocolo: any;
 
@@ -37,13 +48,33 @@ export class ConfCicloComponent {
     this.eventos.splice(index, 1);
   }
 
+  esFormularioValido(): boolean {
+    // Validar campos principales
+    if (!this.numeroCiclo || !this.duracionCiclo) {
+      return false;
+    }
+
+    // Validar cada evento
+    for (let evento of this.eventos) {
+      if (
+        evento.activo && (
+          evento.dia === '' ||
+          evento.evento === '' ||
+          evento.observacion === ''
+        )
+      ) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   siguiente() {
-    console.log({
-      numeroCiclo: this.numeroCiclo,
-      duracionCiclo: this.duracionCiclo,
-      necesitaExamenes: this.necesitaExamenes,
-      eventos: this.eventos
-    });
+    if (!this.numeroCiclo.trim() || !this.duracionCiclo.trim()) {
+      alert('Por favor completa el numero de ciclos y la duración del ciclo.');
+      return;
+    }
 
     const datosProtocolo = this.datosProtocolo;
 
@@ -64,7 +95,10 @@ export class ConfCicloComponent {
   }
 
   volver() {
-    this.router.navigate(['admin-sistema/Nuevo-protocolo']);
+    this.router.navigate(
+      ['admin-sistema/Nuevo-protocolo'],
+      { state: { protocolo: this.datosProtocolo } }
+  );
   }
 }
 

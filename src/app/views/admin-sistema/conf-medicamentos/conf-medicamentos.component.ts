@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { ProtocolosService } from '../../../services/protocolos.service';
 
 @Component({
   selector: 'app-conf-medicamentos',
@@ -21,7 +22,8 @@ export class ConfMedicamentosComponent {
 
   constructor(
     private router: Router,
-    private AuthService: AuthService
+    private AuthService: AuthService,
+    private ProtocolosService: ProtocolosService,
   ) {
     const navigation = this.router.getCurrentNavigation();
     this.datosRecibidos = navigation?.extras?.state?.['payload'];
@@ -32,7 +34,9 @@ export class ConfMedicamentosComponent {
   }
 
   volver() {
-    this.router.navigate(['admin-sistema/Nuevo-protocolo']);
+    this.router.navigate(['admin-sistema/Nuevo-protocolo/Conf-Ciclo'],
+      { state: { protocolo: this.datosRecibidos } }
+    );
   }
 
   generarColumnas() {
@@ -66,7 +70,28 @@ export class ConfMedicamentosComponent {
     }
   }
 
+  esFormularioValido(): boolean {
+    // Verificar que cada fila tenga al menos un medicamento seleccionado
+    for (let fila of this.datosTabla) {
+      const tieneAlMenosUno = this.datosRecibidos.medicamentos.some((_: any, index: number) => {
+        return fila[`medicamento_${index}`] === true;
+      });
+
+      if (!tieneAlMenosUno) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+
   Guardar() {
+    if (!this.esFormularioValido()) {
+      alert('Por favor selecciona al menos un medicamento por día de aplicación y completa todos los campos del protocolo.');
+      return;
+    }
+
     const datosRecibidos = this.datosRecibidos;
 
     // Crear estructura con medicamentos seleccionados por día
@@ -85,22 +110,25 @@ export class ConfMedicamentosComponent {
       };
     });
 
+    const usuario = this.AuthService.getUser();
+
     // Construir el payload final incluyendo la tabla
     const payload = {
       nombreProtocolo: datosRecibidos.nombreProtocolo,
+      usuarioCreacion: usuario,
       descripción: datosRecibidos.descripcion,
       medicamentos: datosRecibidos.medicamentos,
       numeroCiclo: datosRecibidos.numeroCiclo,
       duracionCiclo: datosRecibidos.duracionCiclo,
       necesitaExamenes: datosRecibidos.necesitaExamenes,
       eventos: datosRecibidos.eventos,
-      configuracionMedicamentos // ✅ Aquí va la tabla con los checks
+      configuracionMedicamentos 
     };
 
     console.log("Esto son los datos finales",payload)
 
     // ✅ Guardar en backend
-    this.AuthService.saveProtocolo(payload).subscribe({
+    this.ProtocolosService.saveProtocolo(payload).subscribe({
       next: (respuesta) => {
         console.log('✅ Protocolo guardado exitosamente:', respuesta);
         this.router.navigate(['admin-sistema']); // Redirigir luego de guardar

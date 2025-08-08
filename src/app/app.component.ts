@@ -23,6 +23,7 @@ export class AppComponent {
   get isLoginRoute(): boolean {
     return this.router.url === '/' || this.router.url === '/login';
   }
+  
 }
 
 bootstrapApplication(AppComponent, {

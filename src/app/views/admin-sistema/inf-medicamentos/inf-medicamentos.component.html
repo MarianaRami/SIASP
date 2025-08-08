@@ -6,10 +6,33 @@
 
     <h2>Configuración de medicamentos</h2>
   </div>
+  <table>
+    <thead>
+      <tr>
+        <th *ngFor="let col of columnas">{{ col.label }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let fila of datosTabla">
+        <td *ngFor="let col of columnas">
+          <ng-container [ngSwitch]="col.tipo">
+            <span *ngSwitchDefault>{{ fila[col.key] }}</span>
+            <input
+              *ngSwitchCase="'checkbox'"
+              type="checkbox"
+              [(ngModel)]="fila[col.key]"
+            />
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-  <app-tabla-dinamica
-    [columnas]="columnas"
-    [datos]="datosTabla"
-    (buscar)="manejarClickMedicamento($event)">
-  </app-tabla-dinamica>
+  <div class="guardar-fijo">
+    <button 
+      (click)="crearNuevaVersion()"
+      >
+      Guardar
+    </button>
+  </div>
 </div>

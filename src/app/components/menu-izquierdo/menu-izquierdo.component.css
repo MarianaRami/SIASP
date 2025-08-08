@@ -1,6 +1,7 @@
 .sidebar {
   width: 150px;
-  background-color: #FFE5D7;
+  background-color: #ffffff;
+  color: rgb(255, 103, 29);
   padding: 15px;
   height: auto;            /* altura igual a la ventana */
   font-family: 'Roboto', sans-serif;
@@ -9,6 +10,7 @@
   justify-content: flex-start;
   position: relative;       /* para posicionar logo absoluto */
   overflow: hidden; 
+  box-shadow: 4px 0 8px rgba(0, 0, 0, 0.1);
 
 }
 
@@ -31,23 +33,11 @@
 
 .sidebar a.active {
   font-weight: normal;
-  border-left: 4px solid #d35400;
+  border-left: 4px solid rgb(255, 103, 29);
   border-radius: 5px;
   padding-left: 10px;
 }
 
-.logo {
-  background-color: #FFE5D7;
-  position: fixed;
-  bottom: 20px;
-  left: 10px;
-  width: 150px; /* Igual que .sidebar */
-  display: flex;
-  justify-content: center;
-}
 
-.logo img {
-  width: 80px;
-}
 
 

@@ -1,3 +1,13 @@
 <div class="topbar">
-  <h2></h2>
+  <div class="logo">
+    <img src="assets/images/logo.png" alt="Logo" />
+  </div>
+
+  <div class="logout-container" (click)="toggleLogoutMenu()">
+    <span class="username">{{ user }}</span>
+    <i class="arrow-icon">⮕</i>
+    <div class="logout-box" *ngIf="showLogoutMenu" (click)="logout($event)">
+      Salir
+    </div>
+  </div>
 </div>

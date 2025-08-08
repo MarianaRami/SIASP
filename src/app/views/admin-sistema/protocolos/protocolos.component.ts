@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla-dinamica.component.spec';
 import { OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
-
+import { ProtocolosService } from '../../../services/protocolos.service';
 
 @Component({
   selector: 'app-protocolos',
@@ -23,7 +23,7 @@ export class ProtocolosComponent {
   constructor(
   private router: Router,
   private route: ActivatedRoute,
-  private protocoloService: AuthService
+  private protocoloService: ProtocolosService
   ) {}
 
   ngOnInit(): void {
@@ -39,6 +39,8 @@ export class ProtocolosComponent {
         this.protocoloService.getProtocoloCompletoById(this.protocoloId).subscribe({
           next: (data) => {
             this.protocolo = data;
+            this.protocoloService.setProtocolo(this.protocoloId, data);
+
             this.transformarDatosParaTabla(data);
             console.log('Protocolo cargado:', data);
           },

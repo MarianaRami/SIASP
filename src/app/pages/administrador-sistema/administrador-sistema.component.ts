@@ -4,6 +4,7 @@ import { TablaDinamicaComponent } from '../../components/tabla-dinamica/tabla-di
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { ProtocolosService } from '../../services/protocolos.service';
 
 @Component({
   selector: 'app-examenes',
@@ -16,7 +17,7 @@ import { AuthService } from '../../services/auth.service';
   ]
 })
 export class AdministradorSistemaComponent {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: ProtocolosService, private router: Router) {}
 
   columnas = [
     { key: 'Protocolo', label: 'Protocolo' },
@@ -67,7 +68,7 @@ export class AdministradorSistemaComponent {
     if (this.mostrarInactivos) {
       this.datosFiltrados = this.datos;
     } else {
-      this.datosFiltrados = this.datos.filter(d => d.Estado !== 'Inactivo');
+      this.datosFiltrados = this.datos.filter(d => d.Estado !== 'inactivo');
     }
   }
 

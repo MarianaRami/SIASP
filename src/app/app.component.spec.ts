@@ -17,6 +17,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+mostrarMenu: any;
   constructor(private router: Router) {}
 
   get isLoginRoute(): boolean {

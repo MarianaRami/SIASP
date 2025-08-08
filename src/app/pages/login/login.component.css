@@ -17,14 +17,15 @@ input {
 
 button {
   padding: 8px;
-  background-color: #ffe6db;
+  color: white;
+  background-color: rgb(255, 103, 29);
   border: none;
   border-radius: 20px;
   cursor: pointer;
 }
 
 .sidebar a {
-  color: black;             
+  color: rgb(255, 255, 255);             
   text-decoration: none;    
   display: block;           
   padding: 5px 0;           /* Espaciado opcional */

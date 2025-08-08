@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -9,8 +9,9 @@ import { Observable } from 'rxjs';
 export class AuthService {
   private baseUrl = 'http://localhost:3000';
   private token: string | null = null;
+  private user: string | null = null;
 
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient);
 
   // ------------------- AUTH -------------------
 
@@ -31,58 +32,15 @@ export class AuthService {
     return this.token;
   }
 
-  private getAuthHeaders(): HttpHeaders {
-    const token = this.getToken();
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {})
-    });
+  setUser(user: string) {
+    this.user = user;
+    localStorage.setItem('jwtUser', user);
   }
 
-  // ------------------- PROTOCOLOS -------------------
-
-  getProtocolos(): Observable<any[]> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${this.getToken()}`
-    });
-
-    return this.http.get<any[]>(`${this.baseUrl}/gestion-protocolos/protocolos`, { headers });
-  }
-
-  saveProtocolo(data: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/gestion-protocolos/protocolos/completo`, data, {
-      headers: this.getAuthHeaders()
-    });
-  }
-
-  getProtocoloCompletoById(id: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/gestion-protocolos/protocolos/${id}/completo`, {
-      headers: this.getAuthHeaders()
-    });
-  }
-
-  // ----------------- VEHICULOS -----------------
-
-  getVehiculos(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/gestion-protocolos/vehiculos`, {
-      headers: this.getAuthHeaders()
-    });
-  }
-
-  // ----------------- CATEGORIA MEDICAMENTO -----------------
-
-  getCategoriasMedicamento(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/categoria-medicamento`, {
-      headers: this.getAuthHeaders()
-    });
-  }
-
-  // ----------------- MEDICAMENTOS -----------------
-
-  getMedicamentos(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/gestion-protocolos/medicamentos`, {
-      headers: this.getAuthHeaders()
-    });
+  getUser(): string | null {
+    if (!this.user) {
+      this.user = localStorage.getItem('jwtUser');
+    }
+    return this.user;
   }
 }

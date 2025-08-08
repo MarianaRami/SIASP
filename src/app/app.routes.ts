@@ -63,8 +63,8 @@ export const routes: Routes = [
   { path: 'admin-sistema/Nuevo-protocolo/Conf-Ciclo', component: ConfCicloComponent },
   { path: 'admin-sistema/Nuevo-protocolo/Conf-Ciclo/Conf-Medicamento', component: ConfMedicamentosComponent },
   { path: 'admin-sistema/Nuevo-protocolo', component: DatosNvProtocoloComponent },
-  { path: 'admin-sistema/Protocolo/:id/Info-Ciclo', component: InfCicloComponent },
-  { path: 'admin-sistema/Protocolo/:id/Info-Ciclo/Info-Medicamentos', component: InfMedicamentosComponent },
+  { path: 'admin-sistema/Protocolo/Info-Ciclo', component: InfCicloComponent },
+  { path: 'admin-sistema/Protocolo/Info-Ciclo/Info-Medicamentos', component: InfMedicamentosComponent },
   { path: 'admin-sistema/Protocolo/:id', component: ProtocolosComponent },
 
   //Director Famacia

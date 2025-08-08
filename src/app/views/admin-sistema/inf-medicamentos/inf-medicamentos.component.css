@@ -18,3 +18,54 @@ h2 {
   font-size: 20px;
   margin-left: 20px;
 }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-family: 'Roboto', sans-serif;
+}
+
+thead tr {
+  font-weight: bold;
+  border-bottom: 1px solid #818181;
+}
+
+td, th {
+  border-right: 1px solid #818181;
+  padding: 10px;
+  text-align: center;
+}
+
+th:last-child,
+td:last-child {
+  border-right: none;
+}
+
+tbody tr {
+  border-bottom: 1px solid #818181;
+}
+
+/* Botón fijo inferior derecho */
+.guardar-fijo {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+}
+
+.guardar-fijo button {
+  padding: 12px 32px;
+  background-color: #FFE5D7;
+  color: rgb(14, 13, 13);
+  border: none;
+  border-radius: 15px;
+  font-size: 16px;
+  min-width: 200px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+.guardar-fijo button:hover {
+  transform: scale(1.05);
+  background-color: #fcd5ba;
+}
