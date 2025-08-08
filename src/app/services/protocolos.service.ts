@@ -54,12 +54,14 @@ export class ProtocolosService {
   }
 
   crearNuevaVersionProtocoloCompleto(dto: any) {
-  return this.http.post<any>(
-    `${this.baseUrl}/gestion-protocolos/protocolos/completo/nueva-version`,{
-      headers: this.getAuthHeaders()
-    }
-  );
-}
+    return this.http.post<any>(
+      `${this.baseUrl}/gestion-protocolos/protocolos/completo/nueva-version`,
+      dto,
+      {
+        headers: this.getAuthHeaders()
+      }
+    );
+  }
 
 
   private protocolo: any = null;
