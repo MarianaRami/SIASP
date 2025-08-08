@@ -53,13 +53,13 @@ export class ProtocolosService {
     );
   }
 
-  crearNuevaVersionProtocoloCompleto(data: any): Observable<any> {
-    return this.http.post(
-      `${this.baseUrl}/gestion-protocolos/protocolos/completo/nueva-version`,
-      data,
-      { headers: this.getAuthHeaders() }
-    );
-  }
+  crearNuevaVersionProtocoloCompleto(dto: any) {
+  return this.http.post<any>(
+    `${this.baseUrl}/gestion-protocolos/protocolos/completo/nueva-version`,
+    dto,
+    { headers: this.getAuthHeaders() }
+  );
+}
 
 
   private protocolo: any = null;
