@@ -15,6 +15,9 @@ import { PopUpMedicamentosComponent } from "../pop-up-medicamentos/pop-up-medica
   styleUrl: './protocolo.component.css'
 })
 export class ProtocoloComponent {
+peso: any;
+superficie: any;
+tfg: any;
 abrirPopup() {
 throw new Error('Method not implemented.');
 }

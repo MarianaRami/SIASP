@@ -92,8 +92,39 @@ export class ProtocolosComponent {
     this.router.navigate(['admin-sistema/Protocolo/Info-Ciclo'])
   }
 
-  desactivar() {
+  desactivarOactivar() {
+    if (!this.protocoloId) {
+      console.warn('No hay ID de protocolo para cambiar estado');
+      return;
+    }
 
+    const accion = this.protocolo.estado === 'activo' ? 'desactivar' : 'activar';
+    const confirmacion = confirm(`¿Estás seguro de que deseas ${accion} este protocolo?`);
+
+    if (!confirmacion) return;
+
+    let servicio$;
+
+    if (accion === 'desactivar') {
+      servicio$ = this.protocoloService.desactivarProtocolo(this.protocoloId);
+    } else {
+      servicio$ = this.protocoloService.activarProtocolo(this.protocoloId);
+    }
+
+    servicio$.subscribe({
+      next: () => {
+        alert(`Cambio de estado correctamente.`);
+        // Cambiamos el estado en memoria para que el botón se actualice sin recargar
+        this.protocolo.estado = accion === 'desactivar' ? 'inactivo' : 'activo';
+        this.router.navigate(['admin-sistema'])
+      },
+      error: (err) => {
+        console.error(`Error al ${accion} el protocolo:`, err);
+        alert(`Hubo un error al ${accion} el protocolo.`);
+      }
+    });
   }
+
+
 }
 

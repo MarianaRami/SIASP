@@ -38,6 +38,11 @@
         </select>
       </div>
 
+      <div class="form-row" *ngIf="esNuevo()">
+        <label>Fecha inicio <span class="required">*</span></label>
+        <input type="date" [(ngModel)]="formData.fechaInicio" name="fechaInicio" required />
+      </div>
+
       <button type="submit" class="guardar-btn">Guardar</button>
     </form>
   </div>

@@ -3,14 +3,17 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PopupCambioProtocoloComponent } from "../popup-cambio-protocolo/popup-cambio-protocolo.component";
 import { PopupProtocoloComponent } from "../popup-protocolo/popup-protocolo.component";
+import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla-dinamica.component';
 
 @Component({
   selector: 'app-paciente',
-  imports: [FormsModule, PopupCambioProtocoloComponent, PopupProtocoloComponent],
+  imports: [FormsModule, PopupCambioProtocoloComponent, PopupProtocoloComponent, TablaDinamicaComponent],
   templateUrl: './paciente.component.html',
   styleUrl: './paciente.component.css'
 })
 export class PacienteComponent {
+columnas: any;
+  datos!: any[];
 cerrarPopupPr() {
 throw new Error('Method not implemented.');
 }

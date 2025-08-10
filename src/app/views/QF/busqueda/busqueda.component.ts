@@ -15,8 +15,7 @@ export class BusquedaComponent {
   constructor(private router: Router) {}
 
   filtrarPorCedula(cedula: string) {
-    // lógica para filtrar o llamar API
     console.log('Buscar cédula:', cedula);
-    this.router.navigate(['/qf/busqueda/paciente']);
+    this.router.navigate(['/qf/busqueda/paciente', cedula]);
   }
 }

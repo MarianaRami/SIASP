@@ -31,6 +31,10 @@ export class ProtocoloComponent {
   protocolo = '';
   ciclo = '';
   fecha_asignacion = '';
+  cie10 = '';
+  peso = '';
+  superficie = '';
+  tfg = '';
 
   columnas = [
     { key: 'Aplicacion', label: 'No. Aplicación' },

@@ -101,7 +101,7 @@ export const routes: Routes = [
   { path: 'qf/busqueda', component: BusquedaComponent },
   { path: 'qf/observaciones', component: ObservacionesComponent },
   { path: 'qf/observaciones/medicamentos', component: PopUpObvMedicamentosComponent },
-  { path: 'qf/busqueda/paciente', component: PacienteComponent },
+  { path: 'qf/busqueda/paciente/:cedula', component: PacienteComponent },
   { path: 'qf/busqueda/paciente/nuevo_protocolo', component: PopupProtocoloComponent },
   { path: 'qf/busqueda/paciente/protocolo' , component: ProtocoloComponent },
 

@@ -1,24 +1,72 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PopupCambioProtocoloComponent } from '../popup-cambio-protocolo/popup-cambio-protocolo.component';
 import { PopupProtocoloComponent } from '../popup-protocolo/popup-protocolo.component';
-
+import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
+import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla-dinamica.component';
 
 @Component({
   selector: 'app-paciente',
   imports: [
-    PopupCambioProtocoloComponent, PopupProtocoloComponent,
+    PopupCambioProtocoloComponent, PopupProtocoloComponent, TablaDinamicaComponent,
     FormsModule,CommonModule],
   templateUrl: './paciente.component.html',
   styleUrl: './paciente.component.css'
 })
 export class PacienteComponent {
-  constructor(private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private miServicio: GestionPacientesService,
+    private router: Router
+  ) {}
 
   mostrarPopup = false;
   mostrarPopupPr = false;
+  cedula!: string;
+  paciente = '';
+  identificacion = '';
+  medico = '';
+  protocolo = '';
+  eps = '';
+  cie10 = '';
+  especialidad = '';
+
+  ngOnInit() {
+    this.cedula = this.route.snapshot.paramMap.get('cedula') || '';
+    
+    this.miServicio.getPacienteCompletoByDocumento(this.cedula)
+      .subscribe({
+        next: (resp) => {
+          console.log('Paciente desde backend:', resp);
+
+          if (resp.success && resp.data) {
+            const p = resp.data;
+            this.paciente = p.nombre_completo;
+            this.identificacion = p.identificacion;
+            this.medico = p.medico_tratante;
+            this.protocolo = p.protocolo_actual; // Puede ser null
+            this.eps = p.eps;
+            this.cie10 = p.CIE11_descripcion;
+            this.especialidad = p.especialidad;
+          }
+        },
+        error: (err) => {
+          console.error('Error al obtener paciente:', err);
+        }
+      });
+  }
+
+  columnas = [
+    { key: 'Ciclo', label: 'Ciclo' },
+    { key: 'Estado', label: 'Estado' },
+    { key: 'Fecha', label: 'Fecha Finalización' }
+  ];
+  datos = [
+    { Ciclo: '1', Estado: 'Activo', Fecha: '01/08/2024' },
+    { Ciclo: '2', Estado: 'Activo', Fecha: '01/09/2025' }
+  ];
 
   abrirPopup() {
     this.mostrarPopup = true;
@@ -36,18 +84,6 @@ export class PacienteComponent {
     this.mostrarPopupPr = false;
   }
 
-  paciente = 'Ana María Torres López';
-  identificacion = '5201919351';
-  medico = 'Dr. Carlos Méndez';
-  protocolo = 'Cáncer de mama estadio II – Protocolo FAC';
-  eps = 'Sanitas';
-  cie10 = '';
-  peso = '';
-  superficie = '';
-  tfg = '';
-  especialidad = 'Oncología Clínica';
-
-
   anadirCiclo() {
     this.router.navigate(['qf/busqueda/paciente/protocolo'])
   }
@@ -59,4 +95,5 @@ export class PacienteComponent {
   volver() {
     this.router.navigate(['qf/busqueda'])
   }
+
 }

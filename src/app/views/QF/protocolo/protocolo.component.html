@@ -23,6 +23,21 @@
         <label>Fecha de asignación:</label>
         <div>{{ fecha_asignacion }}</div>
     </div>
+
+    <div class="fila">
+            <label>Peso <span class="requerido">*</span>:</label>
+            <input type="number" [(ngModel)]="peso" />
+        </div>
+
+        <div class="fila">
+            <label>Superficie corporal <span class="requerido">*</span>:</label>
+            <input type="text" [(ngModel)]="superficie" />
+        </div>
+
+        <div class="fila">
+            <label>TFG:</label>
+            <input type="text" [(ngModel)]="tfg" />
+        </div>
   </div>
 
   <div class="tabla">

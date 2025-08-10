@@ -13,10 +13,11 @@ import { Router } from '@angular/router';
 })
 export class PopupProtocoloComponent {
   @Output() cerrar = new EventEmitter<void>();
+  @Output() guardarPaciente = new EventEmitter<any>();
 
   protocolos = ['Protocolo A', 'Protocolo B'];
   tiposPaciente = ['Ambulatorio', 'Hospitalizado'];
-  razones = ['Tratamiento 1', 'Tratamiento 2'];
+  razones = ['Nuevo', 'Cambio de tratamiento'];
 
   fechaIngreso = '07/06/2025' ;
 
@@ -24,7 +25,8 @@ export class PopupProtocoloComponent {
     protocolo: '',
     fechaConsulta: '',
     tipoPaciente: '',
-    razon: ''
+    razon: '',
+    fechaInicio: ''
   };
 
   volver() {
@@ -33,7 +35,12 @@ export class PopupProtocoloComponent {
 
   guardar() {
     console.log('Datos guardados:', this.formData);
+    this.guardarPaciente.emit(this.formData);
     this.cerrar.emit();
+  }
+
+  esNuevo(): boolean {
+    return this.formData.razon === 'Nuevo';
   }
 }
 

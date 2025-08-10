@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { Protocolo, ProtocoloCreate } from '../models/protocolo.model';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +39,7 @@ export class ProtocolosService {
     });
   }
 
-  getProtocoloCompletoById(id: string): Observable<any> {
+  getProtocoloCompletoById(id: string): Observable<Protocolo> {
     return this.http.get<any>(`${this.baseUrl}/gestion-protocolos/protocolos/${id}/completo`, {
       headers: this.getAuthHeaders()
     });
@@ -82,8 +83,16 @@ export class ProtocolosService {
   desactivarProtocolo(id: string): Observable<any> {
     return this.http.patch(
       `${this.baseUrl}/gestion-protocolos/protocolos/${id}/desactivar`,
-      {}, // el backend decide qué hacer, no se envían datos
+      {}, 
       { headers: this.getAuthHeaders() }
+    );
+  }
+
+  activarProtocolo(id: string): Observable<any> {
+    return this.http.patch(
+      `${this.baseUrl}/gestion-protocolos/protocolos/${id}/activar`,
+      {}, 
+      {headers: this.getAuthHeaders()}
     );
   }
 

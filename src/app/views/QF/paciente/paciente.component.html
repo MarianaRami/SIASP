@@ -4,7 +4,7 @@
         <img src="assets/images/volver.png" width="18" style="cursor:pointer;" />
     </button>
     <div class="acciones">
-      <button class="btn-accion" (click)="anadirCiclo()">Añadir Ciclo</button>
+      <button class="btn-accion" (click)="anadirCiclo()">Configurar Ciclo</button>
       <button class="btn-accion" (click)="abrirPopupPr()">Seleccionar protocolo</button>
     </div>
   </div>
@@ -43,21 +43,6 @@
             <label>CIE10:</label>
             <div>{{ cie10 }}</div>
         </div>
-
-        <div class="fila">
-            <label>Peso <span class="requerido">*</span>:</label>
-            <input type="number" [(ngModel)]="peso" />
-        </div>
-
-        <div class="fila">
-            <label>Superficie corporal <span class="requerido">*</span>:</label>
-            <input type="text" [(ngModel)]="superficie" />
-        </div>
-
-        <div class="fila">
-            <label>TFG:</label>
-            <input type="text" [(ngModel)]="tfg" />
-        </div>
     </div>
 
     <div class="columna-derecha">
@@ -68,7 +53,17 @@
     </div>
     </div>
 
+    <app-tabla-dinamica
+        [columnas]="columnas"
+        [datos]="datos">
+    </app-tabla-dinamica>
+
 </div>
 
-<app-popup-protocolo *ngIf="mostrarPopupPr" (cerrar)="cerrarPopupPr()"></app-popup-protocolo>
+<app-popup-protocolo 
+    *ngIf="mostrarPopupPr" 
+    (cerrar)="cerrarPopupPr()"
+    
+    >
+</app-popup-protocolo>
 <app-popup-cambio-protocolo *ngIf="mostrarPopup" (cerrar)="cerrarPopup()"></app-popup-cambio-protocolo>

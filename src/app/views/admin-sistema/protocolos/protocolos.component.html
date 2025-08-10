@@ -6,7 +6,10 @@
 
     <div class="acciones">
       <button class="editar-btn" (click)="editar()">Editar</button>
-      <button class="desactivar-btn" (click)="desactivar()">Desactivar protocolo</button>
+      
+      <button class="desactivar-btn" (click)="desactivarOactivar()">
+        {{ protocolo?.estado === 'activo' ? 'Desactivar protocolo' : 'Activar protocolo' }}
+      </button>
     </div>
   </div>
 
