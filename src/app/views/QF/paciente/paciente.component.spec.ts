@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { PopupCambioProtocoloComponent } from "../popup-cambio-protocolo/popup-cambio-protocolo.component";
 import { PopupProtocoloComponent } from "../popup-protocolo/popup-protocolo.component";
 import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla-dinamica.component';
+import { Paciente } from '../../../models/paciente';
 
 @Component({
   selector: 'app-paciente',
@@ -12,8 +13,12 @@ import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla
   styleUrl: './paciente.component.css'
 })
 export class PacienteComponent {
+onGuardarPaciente($event: any) {
+throw new Error('Method not implemented.');
+}
 columnas: any;
   datos!: any[];
+pacienteData!: Paciente ;
 cerrarPopupPr() {
 throw new Error('Method not implemented.');
 }

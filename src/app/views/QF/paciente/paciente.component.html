@@ -63,7 +63,8 @@
 <app-popup-protocolo 
     *ngIf="mostrarPopupPr" 
     (cerrar)="cerrarPopupPr()"
-    
+    (guardarPaciente)="onGuardarPaciente($event)"
     >
 </app-popup-protocolo>
 <app-popup-cambio-protocolo *ngIf="mostrarPopup" (cerrar)="cerrarPopup()"></app-popup-cambio-protocolo>
+

@@ -6,6 +6,7 @@ import { PopupCambioProtocoloComponent } from '../popup-cambio-protocolo/popup-c
 import { PopupProtocoloComponent } from '../popup-protocolo/popup-protocolo.component';
 import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
 import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla-dinamica.component';
+import { Paciente } from '../../../models/paciente';
 
 @Component({
   selector: 'app-paciente',
@@ -22,8 +23,11 @@ export class PacienteComponent {
     private router: Router
   ) {}
 
+  pacienteData!: Paciente;
+
   mostrarPopup = false;
   mostrarPopupPr = false;
+
   cedula!: string;
   paciente = '';
   identificacion = '';
@@ -42,13 +46,21 @@ export class PacienteComponent {
           console.log('Paciente desde backend:', resp);
 
           if (resp.success && resp.data) {
+            this.pacienteData = resp.data;
+
             const p = resp.data;
-            this.paciente = p.nombre_completo;
-            this.identificacion = p.identificacion;
+
+            // Construir el nombre manualmente
+            this.paciente = [p.nombre1, p.nombre2, p.apellido1, p.apellido2]
+              .filter(Boolean) // Elimina nulos o vacíos
+              .join(' ');
+
+            // Construir la identificación manualmente
+            this.identificacion = `${p.tipoDocumento?.toUpperCase() || ''}-${p.documento || ''}`;
+
             this.medico = p.medico_tratante;
             this.protocolo = p.protocolo_actual; // Puede ser null
             this.eps = p.eps;
-            this.cie10 = p.CIE11_descripcion;
             this.especialidad = p.especialidad;
           }
         },
@@ -57,6 +69,7 @@ export class PacienteComponent {
         }
       });
   }
+
 
   columnas = [
     { key: 'Ciclo', label: 'Ciclo' },
@@ -88,12 +101,38 @@ export class PacienteComponent {
     this.router.navigate(['qf/busqueda/paciente/protocolo'])
   }
 
-  editar() {
-    this.router.navigate(['qf/busqueda/paciente/cambio_protocolo'])
-  }
-
   volver() {
     this.router.navigate(['qf/busqueda'])
   }
+
+  onGuardarPaciente(formData: any) {
+    // Construir DTO con info de pacienteData + los nuevos datos
+    const nuevoPacienteDto = {
+      success: true,
+      data: {
+        ...this.pacienteData, // datos originales del paciente
+        protocolo_actual: formData.protocolo,
+        fecha_consulta: formData.fechaConsulta,
+        tipoPaciente: formData.tipoPaciente,
+        razon: formData.razon,
+        fechaInicio: formData.fechaInicio
+      }
+    };
+
+    console.log('Enviando paciente nuevo:', nuevoPacienteDto);
+
+    this.miServicio.createPacienteNuevoCompleto(nuevoPacienteDto.data)
+      .subscribe({
+        next: (resp) => {
+          console.log('Paciente creado correctamente:', resp);
+          alert('Paciente guardado con éxito');
+        },
+        error: (err) => {
+          console.error('Error al guardar paciente:', err);
+          alert('Error al guardar paciente');
+        }
+      });
+  }
+
 
 }

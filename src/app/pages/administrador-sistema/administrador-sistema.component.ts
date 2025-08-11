@@ -36,6 +36,7 @@ export class AdministradorSistemaComponent {
   ngOnInit(): void {
   this.authService.getProtocolos().subscribe({
     next: (data) => {
+      console.log("estos son los datos:", data)
       this.datos = data.map((protocolo: any) => ({
         id: protocolo.id,
         Protocolo: protocolo.nombre,

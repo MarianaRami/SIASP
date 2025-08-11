@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { ProtocolosService } from '../../../services/protocolos.service';
 
 
 @Component({
@@ -15,11 +16,17 @@ export class PopupProtocoloComponent {
   @Output() cerrar = new EventEmitter<void>();
   @Output() guardarPaciente = new EventEmitter<any>();
 
-  protocolos = ['Protocolo A', 'Protocolo B'];
+  private protocolosService = inject(ProtocolosService);
+
+  protocolos: string[] = [];
   tiposPaciente = ['Ambulatorio', 'Hospitalizado'];
   razones = ['Nuevo', 'Cambio de tratamiento'];
 
-  fechaIngreso = '07/06/2025' ;
+  fechaIngreso: string = new Date().toLocaleDateString('es-CO', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
 
   formData = {
     protocolo: '',
@@ -28,6 +35,19 @@ export class PopupProtocoloComponent {
     razon: '',
     fechaInicio: ''
   };
+
+  ngOnInit() {
+    this.protocolosService.getProtocolos().subscribe({
+      next: (resp) => {
+        // Extraer solo los nombres
+        this.protocolos = resp.map(p => p.nombre);
+        console.log('Protocolos cargados:', this.protocolos);
+      },
+      error: (err) => {
+        console.error('Error cargando protocolos:', err);
+      }
+    });
+  }
 
   volver() {
     this.cerrar.emit();
@@ -43,4 +63,3 @@ export class PopupProtocoloComponent {
     return this.formData.razon === 'Nuevo';
   }
 }
-

@@ -1,21 +1,31 @@
 export interface Paciente {
   id_paciente: string;
   nombre_completo: string;
+  nombre1: string;
+  nombre2: string;
+  apellido1: string;
+  apellido2: string;
   identificacion: string;
-  protocolo_actual: '';
+  tipoDocumento: string;
+  documento: string;
+  protocolo_actual: '' | string;
   tratamiento: string | null;
   medico_tratante: string;
   especialidad: string;
+  codigoMedicoTratante: string;
+  codigoEspecialidad: number;
+  CIE11Descripcion: string;
+  CIE11: string;
   peso: string;
   altura: string;
   tfg: string;
   eps: string;
-  CIE11_descripcion: string;
   imc: number;
   superficie_corporal: number;
-  fecha_consulta: string; // formato ISO (YYYY-MM-DD)
+  fecha_consulta: string;
   fuente_datos: string;
 }
+
 
 export interface PacienteResponse {
   success: boolean;
