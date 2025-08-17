@@ -80,13 +80,13 @@ export class InfCicloComponent {
     };
 
       this.router.navigate(
-      ['admin-sistema/Protocolo/Info-Ciclo/Info-Medicamentos'],
+      ['admin-sistema/Protocolo/Info-Protocolo/Info-Ciclo/Info-Medicamentos'],
       { state: { ciclo } }
     );
   }
 
   volver() {
-    this.router.navigate(['admin-sistema/Protocolo', this.id]);
+    this.router.navigate(['admin-sistema/Protocolo/Info-Protocolo', this.id]);
   }
 
   nuevoprotocolo(protocolo: any) {

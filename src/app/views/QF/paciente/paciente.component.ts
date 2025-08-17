@@ -7,6 +7,7 @@ import { PopupProtocoloComponent } from '../popup-protocolo/popup-protocolo.comp
 import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
 import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla-dinamica.component';
 import { Paciente } from '../../../models/paciente';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-paciente',
@@ -20,6 +21,7 @@ export class PacienteComponent {
   constructor(
     private route: ActivatedRoute,
     private miServicio: GestionPacientesService,
+    private AuthService: AuthService,
     private router: Router
   ) {}
 
@@ -106,16 +108,44 @@ export class PacienteComponent {
   }
 
   onGuardarPaciente(formData: any) {
+    const usuario = this.AuthService.getUser();
     // Construir DTO con info de pacienteData + los nuevos datos
     const nuevoPacienteDto = {
       success: true,
       data: {
-        ...this.pacienteData, // datos originales del paciente
-        protocolo_actual: formData.protocolo,
-        fecha_consulta: formData.fechaConsulta,
-        tipoPaciente: formData.tipoPaciente,
-        razon: formData.razon,
-        fechaInicio: formData.fechaInicio
+        nombre1: this.pacienteData.nombre1,
+        nombre2: this.pacienteData.nombre2,
+        apellido1: this.pacienteData.apellido1,
+        apellido2: this.pacienteData.apellido2,
+        tipoDocumento: this.pacienteData.tipoDocumento,
+        documento: this.pacienteData.documento,
+        fechaNacimiento: "1990-05-15T00:00:00.000Z",
+        nombreContacto: "Juan Pérez",
+        telefono1: "3001234567",
+        email1 : "ana.martinez@email.com",
+        telefono2: "3109876543",
+        email2 : "contacto.secundario@email.com",
+        eps: this.pacienteData.eps,
+        estado: "activo",
+        indicadores: {
+          peso: this.pacienteData.peso,
+          altura: this.pacienteData.altura,
+          tfg: this.pacienteData.tfg,
+          fecha: "2024-08-07T00:00:00.000Z"
+        },
+        idProtocolo: "caef0b78-1cb7-407c-b297-4505a83e5bd2",
+        medicoTratante: this.pacienteData.medico_tratante,
+        codigoMedicoTratante: 15,
+        codigoEspecialidad: 15,
+        fechaConsulta: formData.fechaConsulta,
+        tipo: formData.tipoPaciente,
+        razonTratamiento: formData.razon,
+        especialidad: this.pacienteData.especialidad,
+        CIE11Descripcion: this.pacienteData.CIE11Descripcion,
+        CIE11: this.pacienteData.CIE11,
+        tratamiento: "Quimioterapia",
+        codigoTratamiento: 1,
+        usuarioCreacion: usuario
       }
     };
 

@@ -28,7 +28,7 @@ export class ProtocolosService {
   // ------------------- PROTOCOLOS -------------------
 
   getProtocolos(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/gestion-protocolos/protocolos`, {
+    return this.http.get<any[]>(`${this.baseUrl}/gestion-protocolos/protocolos-recientes`, {
       headers: this.getAuthHeaders()
     });
   }

@@ -11,7 +11,8 @@
   position: relative;       /* para posicionar logo absoluto */
   overflow: hidden; 
   box-shadow: 4px 0 8px rgba(0, 0, 0, 0.1);
-
+  transition: width 0.3s ease;
+  overflow-x: hidden;
 }
 
 .sidebar ul {

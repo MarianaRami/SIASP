@@ -117,7 +117,12 @@ export class ConfMedicamentosComponent {
       nombreProtocolo: datosRecibidos.nombreProtocolo,
       usuarioCreacion: usuario,
       descripción: datosRecibidos.descripcion,
-      medicamentos: datosRecibidos.medicamentos,
+      medicamentos: datosRecibidos.medicamentos.map((med: { nombre: any; dosis: any; formula: any; duracion: { horas: any; minutos: any; }; }) => ({
+        nombre: med.nombre,
+        dosis: med.dosis,
+        formula: med.formula,
+        duracion: (parseInt(med.duracion.horas || '0', 10) * 60) + parseInt(med.duracion.minutos || '0', 10)
+      })),
       numeroCiclo: datosRecibidos.numeroCiclo,
       duracionCiclo: datosRecibidos.duracionCiclo,
       necesitaExamenes: datosRecibidos.necesitaExamenes,

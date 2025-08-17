@@ -43,6 +43,7 @@ import { DatosNvProtocoloComponent } from './views/admin-sistema/datos-nv-protoc
 import { InfCicloComponent } from './views/admin-sistema/inf-ciclo/inf-ciclo.component';
 import { InfMedicamentosComponent } from './views/admin-sistema/inf-medicamentos/inf-medicamentos.component';
 import { ProtocolosComponent } from './views/admin-sistema/protocolos/protocolos.component';
+import { InfProtocoloComponent } from './views/admin-sistema/inf-protocolo/inf-protocolo.component';
 
 export const routes: Routes = [
   { path: 'examenes', component: ExamenesComponent },
@@ -63,8 +64,9 @@ export const routes: Routes = [
   { path: 'admin-sistema/Nuevo-protocolo/Conf-Ciclo', component: ConfCicloComponent },
   { path: 'admin-sistema/Nuevo-protocolo/Conf-Ciclo/Conf-Medicamento', component: ConfMedicamentosComponent },
   { path: 'admin-sistema/Nuevo-protocolo', component: DatosNvProtocoloComponent },
-  { path: 'admin-sistema/Protocolo/Info-Ciclo', component: InfCicloComponent },
-  { path: 'admin-sistema/Protocolo/Info-Ciclo/Info-Medicamentos', component: InfMedicamentosComponent },
+  { path: 'admin-sistema/Protocolo/Info-Protocolo/Info-Ciclo', component: InfCicloComponent },
+  { path: 'admin-sistema/Protocolo/Info-Protocolo/Info-Ciclo/Info-Medicamentos', component: InfMedicamentosComponent },
+  { path:  'admin-sistema/Protocolo/Info-Protocolo', component: InfProtocoloComponent},
   { path: 'admin-sistema/Protocolo/:id', component: ProtocolosComponent },
 
   //Director Famacia

@@ -1,39 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../../services/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProtocolosService } from '../../../services/protocolos.service';
 
 @Component({
-  selector: 'app-datos-nv-protocolo',
-  standalone: true,
+  selector: 'app-inf-protocolo',
   imports: [CommonModule, FormsModule],
-  templateUrl: './datos-nv-protocolo.component.html',
-  styleUrl: './datos-nv-protocolo.component.css'
+  templateUrl: './inf-protocolo.component.html',
+  styleUrl: './inf-protocolo.component.css'
 })
-export class DatosNvProtocoloComponent {
-  constructor(private router: Router, private protocoloService: ProtocolosService) {
-    const navigation = this.router.getCurrentNavigation();
-    const protocolo = navigation?.extras?.state?.['protocolo'];
-
-    if (protocolo) {
-      this.nombreProtocolo = protocolo.nombreProtocolo || '';
-      this.descripcion = protocolo.descripcion || '';
-      this.medicamentos = protocolo.medicamentos?.length > 0
-        ? protocolo.medicamentos
-        : [{ nombre: '', dosis: '', formula: '', duracion: { horas: '', minutos: '' } }];
-    }
-
-    this.protocoloService.getMedicamentos().subscribe({
-      next: (data) => {
-        this.listaMedicamentos = data.map(med => med.nombre); // ajusta según tu DTO
-      },
-      error: (err) => {
-        console.error('Error cargando medicamentos:', err);
-      }
-    });
-  }
+export class InfProtocoloComponent {
+  constructor(
+    private router: Router,
+    private protocoloService: ProtocolosService,
+    private route: ActivatedRoute
+  ){}
 
   nombreProtocolo: string = '';
   descripcion: string = '';
@@ -41,6 +23,40 @@ export class DatosNvProtocoloComponent {
 
   opcionesFormula = ['SC', 'Peso', 'AUC', 'Fija'];
   listaMedicamentos: string[] = [];
+
+  id: string = '';
+
+  ngOnInit(): void {
+    // Ejemplo: obtener protocolo por ID desde la URL
+    const protocolo = this.protocoloService.getProtocolo();
+    if (protocolo) {
+      this.id = protocolo.id;
+
+      this.nombreProtocolo = protocolo.nombreProtocolo || '';
+      this.descripcion = protocolo.descripcion || '';
+      this.medicamentos = protocolo.medicamentos?.length > 0
+        ? protocolo.medicamentos.map((m: any) => ({
+            nombre: m.nombre || '',
+            dosis: m.dosis || '',
+            formula: m.formula || '',
+            duracion: {
+              horas: m.duracion ? Math.floor(m.duracion / 60).toString() : '',
+              minutos: m.duracion ? (m.duracion % 60).toString() : ''
+            }
+          }))
+        : [{ nombre: '', dosis: '', formula: '', duracion: { horas: '', minutos: '' } }];
+    }
+
+    // Obtener lista de medicamentos disponibles
+    this.protocoloService.getMedicamentos().subscribe({
+      next: (data) => {
+        this.listaMedicamentos = data.map((med: any) => med.nombre);
+      },
+      error: (err) => {
+        console.error('Error cargando medicamentos:', err);
+      }
+    });
+  }
 
   agregarMedicamento() {
     this.medicamentos.push({ nombre: '', dosis: '', formula: '', duracion: { horas: '', minutos: '' } });
@@ -86,20 +102,21 @@ export class DatosNvProtocoloComponent {
     }
 
     try {
-      const respuesta = await this.protocoloService.existeProtocoloPorNombre(this.nombreProtocolo).toPromise();
+      const protocolo = this.protocoloService.getProtocolo();
 
-      if (respuesta?.existe) {
-        alert('Ya existe un protocolo con este nombre. Por favor elige otro.');
-        return;
-      }
-
-      const protocolo = {
+      const payload = {
+        ...protocolo,
         nombreProtocolo: this.nombreProtocolo,
         descripcion: this.descripcion,
-        medicamentos: this.medicamentos
+        medicamentos: this.medicamentos.map(m => ({
+          ...m,
+          duracion: (parseInt(m.duracion.horas) * 60) + parseInt(m.duracion.minutos) // minutos totales
+        }))
       };
 
-      this.router.navigate(['admin-sistema/Nuevo-protocolo/Conf-Ciclo'], {
+      this.protocoloService.setProtocolo(protocolo.id, payload);
+
+      this.router.navigate(['admin-sistema/Protocolo/Info-Protocolo/Info-Ciclo'], {
         state: { protocolo }
       });
 
@@ -121,5 +138,3 @@ export class DatosNvProtocoloComponent {
     this.router.navigate(['admin-sistema']);
   }
 }
-
-

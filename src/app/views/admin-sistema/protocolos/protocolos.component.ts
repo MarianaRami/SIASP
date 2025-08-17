@@ -89,7 +89,7 @@ export class ProtocolosComponent {
   }
 
   editar() {
-    this.router.navigate(['admin-sistema/Protocolo/Info-Ciclo'])
+    this.router.navigate(['admin-sistema/Protocolo/Info-Protocolo'])
   }
 
   desactivarOactivar() {

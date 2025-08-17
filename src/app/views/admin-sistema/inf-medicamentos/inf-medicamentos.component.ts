@@ -35,7 +35,7 @@ export class InfMedicamentosComponent implements OnInit {
   }
 
   volver() {
-    this.router.navigate(['admin-sistema/Nuevo-protocolo/Info-Ciclo']);
+    this.router.navigate(['admin-sistema/Nuevo-protocolo/Info-Protocolo/Info-Ciclo']);
   }
 
   generarColumnas() {

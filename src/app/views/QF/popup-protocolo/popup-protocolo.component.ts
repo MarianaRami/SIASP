@@ -39,8 +39,11 @@ export class PopupProtocoloComponent {
   ngOnInit() {
     this.protocolosService.getProtocolos().subscribe({
       next: (resp) => {
-        // Extraer solo los nombres
-        this.protocolos = resp.map(p => p.nombre);
+        this.protocolos = resp
+          // filtrar solo protocolos activos 
+          .filter((p: any) => p.estado === 'activo')
+          // Extraer solo los nombres
+          .map((p: any) => p.nombre);
         console.log('Protocolos cargados:', this.protocolos);
       },
       error: (err) => {
