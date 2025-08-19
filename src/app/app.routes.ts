@@ -17,7 +17,7 @@ import { JefePisoComponent } from './pages/jefe-piso/jefe-piso.component';
 import { BusquedaComponent } from './views/QF/busqueda/busqueda.component';
 import { ObservacionesComponent } from './views/QF/observaciones/observaciones.component';
 import { PacienteComponent } from './views/QF/paciente/paciente.component';
-import { ProtocoloComponent } from './views/QF/protocolo/protocolo.component';
+import { ConfiguracionCicloComponent } from './views/QF/configuracion-ciclo/configuracion-ciclo.component';
 import { PopUpObvMedicamentosComponent } from './views/QF/pop-up-obv-medicamentos/pop-up-obv-medicamentos.component';
 import { PopupProtocoloComponent } from './views/QF/popup-protocolo/popup-protocolo.component';
 
@@ -104,8 +104,7 @@ export const routes: Routes = [
   { path: 'qf/observaciones', component: ObservacionesComponent },
   { path: 'qf/observaciones/medicamentos', component: PopUpObvMedicamentosComponent },
   { path: 'qf/busqueda/paciente/:cedula', component: PacienteComponent },
-  { path: 'qf/busqueda/paciente/nuevo_protocolo', component: PopupProtocoloComponent },
-  { path: 'qf/busqueda/paciente/protocolo' , component: ProtocoloComponent },
+  { path: 'qf/busqueda/paciente/:cedula/conf-ciclo' , component: ConfiguracionCicloComponent },
 
   { path: '', component: LoginComponent }, 
 ];

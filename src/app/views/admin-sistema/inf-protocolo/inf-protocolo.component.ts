@@ -118,7 +118,7 @@ export class InfProtocoloComponent {
 
       this.router.navigate(['admin-sistema/Protocolo/Info-Protocolo/Info-Ciclo'], {
         state: { protocolo }
-      });
+      }); 
 
     } catch (error) {
       console.error('Error al verificar el nombre del protocolo:', error);

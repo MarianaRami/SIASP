@@ -99,8 +99,8 @@ export class PacienteComponent {
     this.mostrarPopupPr = false;
   }
 
-  anadirCiclo() {
-    this.router.navigate(['qf/busqueda/paciente/protocolo'])
+  configurarCiclo() {
+    this.router.navigate(['qf/busqueda/paciente',this.cedula, 'conf-ciclo'])
   }
 
   volver() {
@@ -113,6 +113,7 @@ export class PacienteComponent {
     const nuevoPacienteDto = {
       success: true,
       data: {
+        idPacienteServinte: "1838fc29-1e14-4e56-8d7e-d8e1d7ac7841",
         nombre1: this.pacienteData.nombre1,
         nombre2: this.pacienteData.nombre2,
         apellido1: this.pacienteData.apellido1,
@@ -131,13 +132,13 @@ export class PacienteComponent {
           peso: this.pacienteData.peso,
           altura: this.pacienteData.altura,
           tfg: this.pacienteData.tfg,
-          fecha: "2024-08-07T00:00:00.000Z"
+          fecha: "2024-06-07T00:00:00.000Z"
         },
-        idProtocolo: "caef0b78-1cb7-407c-b297-4505a83e5bd2",
+        idProtocolo: "7d900dd0-6caa-4782-8947-a35e3adca6b2",
         medicoTratante: this.pacienteData.medico_tratante,
         codigoMedicoTratante: 15,
         codigoEspecialidad: 15,
-        fechaConsulta: formData.fechaConsulta,
+        fechaConsulta: "2024-06-07T00:00:00.000Z",
         tipo: formData.tipoPaciente,
         razonTratamiento: formData.razon,
         especialidad: this.pacienteData.especialidad,
@@ -145,7 +146,7 @@ export class PacienteComponent {
         CIE11: this.pacienteData.CIE11,
         tratamiento: "Quimioterapia",
         codigoTratamiento: 1,
-        usuarioCreacion: usuario
+        usuarioCreacion: "edd4153e-3594-496a-9165-cec3d4e46234"
       }
     };
 

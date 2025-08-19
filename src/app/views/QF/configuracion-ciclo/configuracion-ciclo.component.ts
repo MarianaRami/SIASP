@@ -1,21 +1,20 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla-dinamica.component';
-import { CommonModule } from '@angular/common';
 import { PopUpMedicamentosComponent } from '../pop-up-medicamentos/pop-up-medicamentos.component';
-
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-protocolo',
+  selector: 'app-configuracion-ciclo',
   imports: [
     TablaDinamicaComponent, PopUpMedicamentosComponent,
     FormsModule, CommonModule
   ],
-  templateUrl: './protocolo.component.html',
-  styleUrl: './protocolo.component.css'
+  templateUrl: './configuracion-ciclo.component.html',
+  styleUrl: './configuracion-ciclo.component.css'
 })
-export class ProtocoloComponent {
+export class ConfiguracionCicloComponent {
   constructor(private router: Router) {}
 
   mostrarPopup = false;
@@ -31,10 +30,12 @@ export class ProtocoloComponent {
   protocolo = '';
   ciclo = '';
   fecha_asignacion = '';
+  fecha_consulta = '';
   cie10 = '';
   peso = '';
   superficie = '';
   tfg = '';
+  conf_medicamentos: '' | undefined;
 
   columnas = [
     { key: 'Aplicacion', label: 'No. Aplicación' },

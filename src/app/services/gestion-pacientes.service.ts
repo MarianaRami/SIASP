@@ -33,7 +33,7 @@ export class GestionPacientesService {
     );
   }
 
-  createPacienteNuevoCompleto(dto: any): Observable<any> {
+  createPacienteNuevoCompleto(dto: any) {
     return this.http.post<any>(
       `${this.apiUrl}/pacientes/nuevo-paciente/`, dto,
       { headers: this.getAuthHeaders() }

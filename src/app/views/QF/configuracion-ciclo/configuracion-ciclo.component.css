@@ -57,3 +57,13 @@
 .tabla {
   width: 700px;
 }
+
+input, select {
+  padding: 4px;
+  border: 1px solid #ccc;
+  width: 180px;
+}
+
+.requerido {
+  color: red;
+}

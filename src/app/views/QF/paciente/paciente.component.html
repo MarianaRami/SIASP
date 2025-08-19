@@ -4,7 +4,7 @@
         <img src="assets/images/volver.png" width="18" style="cursor:pointer;" />
     </button>
     <div class="acciones">
-      <button class="btn-accion" (click)="anadirCiclo()">Configurar Ciclo</button>
+      <button class="btn-accion" (click)="configurarCiclo()">Configurar Ciclo</button>
       <button class="btn-accion" (click)="abrirPopupPr()">Seleccionar protocolo</button>
     </div>
   </div>
@@ -67,4 +67,3 @@
     >
 </app-popup-protocolo>
 <app-popup-cambio-protocolo *ngIf="mostrarPopup" (cerrar)="cerrarPopup()"></app-popup-cambio-protocolo>
-

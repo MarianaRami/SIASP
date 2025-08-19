@@ -54,7 +54,7 @@ throw new Error('Method not implemented.');
     
   }
 
-  anadirCiclo() {
+  configurarCiclo() {
     this.router.navigate(['qf/busqueda/paciente/protocolo'])
   }
 
