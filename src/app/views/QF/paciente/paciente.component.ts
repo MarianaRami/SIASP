@@ -6,7 +6,7 @@ import { PopupCambioProtocoloComponent } from '../popup-cambio-protocolo/popup-c
 import { PopupProtocoloComponent } from '../popup-protocolo/popup-protocolo.component';
 import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
 import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla-dinamica.component';
-import { Paciente } from '../../../models/paciente';
+import { PacienteResponseDto } from '../../../models/paciente';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
@@ -25,7 +25,7 @@ export class PacienteComponent {
     private router: Router
   ) {}
 
-  pacienteData!: Paciente;
+  pacienteData!: PacienteResponseDto;
 
   mostrarPopup = false;
   mostrarPopupPr = false;
@@ -40,36 +40,7 @@ export class PacienteComponent {
   especialidad = '';
 
   ngOnInit() {
-    this.cedula = this.route.snapshot.paramMap.get('cedula') || '';
-    
-    this.miServicio.getPacienteCompletoByDocumento(this.cedula)
-      .subscribe({
-        next: (resp) => {
-          console.log('Paciente desde backend:', resp);
-
-          if (resp.success && resp.data) {
-            this.pacienteData = resp.data;
-
-            const p = resp.data;
-
-            // Construir el nombre manualmente
-            this.paciente = [p.nombre1, p.nombre2, p.apellido1, p.apellido2]
-              .filter(Boolean) // Elimina nulos o vacíos
-              .join(' ');
-
-            // Construir la identificación manualmente
-            this.identificacion = `${p.tipoDocumento?.toUpperCase() || ''}-${p.documento || ''}`;
-
-            this.medico = p.medico_tratante;
-            this.protocolo = p.protocolo_actual; // Puede ser null
-            this.eps = p.eps;
-            this.especialidad = p.especialidad;
-          }
-        },
-        error: (err) => {
-          console.error('Error al obtener paciente:', err);
-        }
-      });
+    this.cargaDatos()
   }
 
 
@@ -107,56 +78,104 @@ export class PacienteComponent {
     this.router.navigate(['qf/busqueda'])
   }
 
+  cargaDatos(){
+    this.cedula = this.route.snapshot.paramMap.get('cedula') || '';
+    
+    this.miServicio.getPacienteCompletoByDocumento(this.cedula)
+      .subscribe({
+        next: (resp) => {
+          console.log('Paciente desde backend:', resp);
+
+          if (resp.success && resp.data) {
+            this.pacienteData = resp.data;
+
+            const p = resp.data;
+
+            // Construir el nombre manualmente
+            this.paciente = [p.nombre1, p.nombre2, p.apellido1, p.apellido2]
+              .filter(Boolean) // Elimina nulos o vacíos
+              .join(' ');
+
+            // Construir la identificación manualmente
+            this.identificacion = `${p.tipoDocumento?.toUpperCase() || ''}-${p.documento || ''}`;
+
+            this.medico = p.medico_tratante;
+            this.protocolo = p.protocolo_actual; // Puede ser null
+            this.eps = p.eps;
+            this.especialidad = p.especialidad;
+
+            /*
+            if (this.protocolo) {
+              console.log('Paciente tiene protocolo, cargando protocolo completo...');
+              this.miServicio.getProtocoloCompletoByPaciente(this.cedula) 
+                .subscribe({
+                  next: (protocoloResp) => {
+                    console.log('Protocolo completo desde backend:', protocoloResp);
+                    // Aquí puedes guardar la info en una variable de la clase
+                    // o actualizar UI según lo que necesites
+                  },
+                  error: (err) => {
+                    console.error('Error al obtener protocolo completo:', err);
+                  }
+                });
+            }
+            */
+          }
+        },
+        error: (err) => {
+          console.error('Error al obtener paciente:', err);
+        }
+      });
+  }
+
   onGuardarPaciente(formData: any) {
     const usuario = this.AuthService.getUser();
-    // Construir DTO con info de pacienteData + los nuevos datos
+
+    // Mapea lo que recibes del servicio al DTO que espera el backend
     const nuevoPacienteDto = {
-      success: true,
-      data: {
-        idPacienteServinte: "1838fc29-1e14-4e56-8d7e-d8e1d7ac7841",
-        nombre1: this.pacienteData.nombre1,
-        nombre2: this.pacienteData.nombre2,
-        apellido1: this.pacienteData.apellido1,
-        apellido2: this.pacienteData.apellido2,
-        tipoDocumento: this.pacienteData.tipoDocumento,
-        documento: this.pacienteData.documento,
-        fechaNacimiento: "1990-05-15T00:00:00.000Z",
-        nombreContacto: "Juan Pérez",
-        telefono1: "3001234567",
-        email1 : "ana.martinez@email.com",
-        telefono2: "3109876543",
-        email2 : "contacto.secundario@email.com",
-        eps: this.pacienteData.eps,
-        estado: "activo",
-        indicadores: {
-          peso: this.pacienteData.peso,
-          altura: this.pacienteData.altura,
-          tfg: this.pacienteData.tfg,
-          fecha: "2024-06-07T00:00:00.000Z"
-        },
-        idProtocolo: "7d900dd0-6caa-4782-8947-a35e3adca6b2",
-        medicoTratante: this.pacienteData.medico_tratante,
-        codigoMedicoTratante: 15,
-        codigoEspecialidad: 15,
-        fechaConsulta: "2024-06-07T00:00:00.000Z",
-        tipo: formData.tipoPaciente,
-        razonTratamiento: formData.razon,
-        especialidad: this.pacienteData.especialidad,
-        CIE11Descripcion: this.pacienteData.CIE11Descripcion,
-        CIE11: this.pacienteData.CIE11,
-        tratamiento: "Quimioterapia",
-        codigoTratamiento: 1,
-        usuarioCreacion: "edd4153e-3594-496a-9165-cec3d4e46234"
-      }
+      idServinte: this.pacienteData.idServinte, 
+      nombre1: this.pacienteData.nombre1,
+      nombre2: this.pacienteData.nombre2,
+      apellido1: this.pacienteData.apellido1,
+      apellido2: this.pacienteData.apellido2,
+      tipoDocumento: this.pacienteData.tipoDocumento,
+      documento: this.pacienteData.documento,
+      fechaNacimiento: "1990-05-15T00:00:00.000Z", 
+      nombreContacto: "Juan Pérez",
+      telefono1: this.pacienteData.telefono1,
+      email1: this.pacienteData.email1,
+      telefono2: this.pacienteData.telefono2,
+      email2: this.pacienteData.email2,
+      eps: this.pacienteData.eps,
+      estado: "activo",
+      indicadores: {
+        peso: Number(this.pacienteData.peso), 
+        altura: Number(this.pacienteData.altura),
+        tfg: Number(this.pacienteData.tfg),
+        fecha: "2024-06-07T00:00:00.000Z"
+      },
+      idProtocolo: formData.idProtocolo, 
+      medicoTratante: this.pacienteData.medico_tratante,
+      codigoMedicoTratante: this.pacienteData.codigoMedicoTratante,
+      codigoEspecialidad: this.pacienteData.codigoEspecialidad,
+      fechaConsulta: "2024-06-07T00:00:00.000Z",
+      tipo: formData.tipoPaciente,
+      razonTratamiento: "nuevo", //formData.razon,
+      especialidad: this.pacienteData.especialidad,
+      CIE11Descripcion: this.pacienteData.CIE11Descripcion,
+      CIE11: this.pacienteData.CIE11,
+      tratamiento: this.pacienteData.tratamiento , 
+      usuarioCreacion: usuario
     };
 
     console.log('Enviando paciente nuevo:', nuevoPacienteDto);
 
-    this.miServicio.createPacienteNuevoCompleto(nuevoPacienteDto.data)
+    this.miServicio.createPacienteNuevoCompleto(nuevoPacienteDto)
       .subscribe({
         next: (resp) => {
           console.log('Paciente creado correctamente:', resp);
           alert('Paciente guardado con éxito');
+          this.cargaDatos();
         },
         error: (err) => {
           console.error('Error al guardar paciente:', err);
@@ -164,6 +183,5 @@ export class PacienteComponent {
         }
       });
   }
-
 
 }

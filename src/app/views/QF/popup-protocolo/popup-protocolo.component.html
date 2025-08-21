@@ -9,8 +9,9 @@
     <form (ngSubmit)="guardar()">
       <div class="form-row">
         <label>Protocolo <span class="required">*</span></label>
-        <select [(ngModel)]="formData.protocolo" name="protocolo" required>
-          <option *ngFor="let p of protocolos" [value]="p">{{ p }}</option>
+        <select (change)="seleccionarProtocolo($event)" required>
+          <option value="" disabled selected>-- Seleccione un protocolo --</option>
+          <option *ngFor="let p of protocolos" [value]="p.id">{{ p.nombre }}</option>
         </select>
       </div>
 

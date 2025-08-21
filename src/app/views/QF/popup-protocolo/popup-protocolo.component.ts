@@ -1,9 +1,7 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { ProtocolosService } from '../../../services/protocolos.service';
-
 
 @Component({
   selector: 'app-popup-protocolo',
@@ -18,7 +16,8 @@ export class PopupProtocoloComponent {
 
   private protocolosService = inject(ProtocolosService);
 
-  protocolos: string[] = [];
+  // Guardar objetos completos
+  protocolos: any[] = [];
   tiposPaciente = ['Ambulatorio', 'Hospitalizado'];
   razones = ['Nuevo', 'Cambio de tratamiento'];
 
@@ -29,7 +28,8 @@ export class PopupProtocoloComponent {
   });
 
   formData = {
-    protocolo: '',
+    idProtocolo: '',
+    protocolo: '', 
     fechaConsulta: '',
     tipoPaciente: '',
     razon: '',
@@ -39,11 +39,7 @@ export class PopupProtocoloComponent {
   ngOnInit() {
     this.protocolosService.getProtocolos().subscribe({
       next: (resp) => {
-        this.protocolos = resp
-          // filtrar solo protocolos activos 
-          .filter((p: any) => p.estado === 'activo')
-          // Extraer solo los nombres
-          .map((p: any) => p.nombre);
+        this.protocolos = resp.filter((p: any) => p.estado === 'activo');
         console.log('Protocolos cargados:', this.protocolos);
       },
       error: (err) => {
@@ -64,5 +60,16 @@ export class PopupProtocoloComponent {
 
   esNuevo(): boolean {
     return this.formData.razon === 'Nuevo';
+  }
+
+  // Cuando cambia el select, actualizar nombre + id
+  seleccionarProtocolo(event: any) {
+    const idSeleccionado = event.target.value;
+    const protocolo = this.protocolos.find(p => p.id === idSeleccionado);
+
+    if (protocolo) {
+      this.formData.idProtocolo = protocolo.id;
+      this.formData.protocolo = protocolo.nombre;
+    }
   }
 }

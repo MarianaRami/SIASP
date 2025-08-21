@@ -39,4 +39,14 @@ export class GestionPacientesService {
       { headers: this.getAuthHeaders() }
     );
   }
+
+  // ------------------- PROTOCOLOS -------------------
+
+  getProtocoloCompletoByPaciente(idPaciente: string): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}/protocolos/paciente/${idPaciente}/completo`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
 }
+

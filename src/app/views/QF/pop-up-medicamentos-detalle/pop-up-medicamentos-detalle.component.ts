@@ -3,20 +3,20 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-pop-up-medicamentos',
-  imports: [CommonModule, FormsModule],
-  templateUrl: './pop-up-medicamentos.component.html',
-  styleUrl: './pop-up-medicamentos.component.css'
+  selector: 'app-pop-up-medicamentos-detalle',
+  imports: [FormsModule, CommonModule],
+  templateUrl: './pop-up-medicamentos-detalle.component.html',
+  styleUrl: './pop-up-medicamentos-detalle.component.css'
 })
-export class PopUpMedicamentosComponent {
+export class PopUpMedicamentosDetalleComponent {
   @Output() cerrar = new EventEmitter<void>();
 
   medicamentos: any[] = [
-    { medicamento: '', dosis_calculada: '', dosis_formulada: '', icono: '' , formula: '' }
+    { medicamento: '', presentacion: '', cantidad: '' }
   ];
 
   agregarFila() {
-    this.medicamentos.push({ medicamento: '', dosis_calculada: '', dosis_formulada: '', icono: '', formula: '' });
+    this.medicamentos.push({ medicamento: '', presentacion: '', cantidad: '' });
   }
 
   eliminarFila(index: number) {

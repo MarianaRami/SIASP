@@ -3,7 +3,8 @@ import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla
 import { PopUpMedicamentosComponent } from '../pop-up-medicamentos/pop-up-medicamentos.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
 
 @Component({
   selector: 'app-configuracion-ciclo',
@@ -15,19 +16,16 @@ import { Router } from '@angular/router';
   styleUrl: './configuracion-ciclo.component.css'
 })
 export class ConfiguracionCicloComponent {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private miServicio: GestionPacientesService
+  ) {}
 
   mostrarPopup = false;
+  cedula!: string;
 
-  abrirPopup() {
-    this.mostrarPopup = true;
-  }
-
-  cerrarPopup() {
-    this.mostrarPopup = false;
-  }
-
-  protocolo = '';
+  protocolo: any; // aquí luego tipamos
   ciclo = '';
   fecha_asignacion = '';
   fecha_consulta = '';
@@ -42,26 +40,35 @@ export class ConfiguracionCicloComponent {
     { key: 'Fecha', label: 'Fecha programada' },
     { key: 'Estado', label: 'Estado' }
   ];
-  datos = [
-    {
-      Aplicacion: '1',
-      Fecha: '2025-05-20',
-      Estado: '',
-    },
-    {
-      Aplicacion: '2',
-      Fecha: '2025-05-21',
-      Estado: '',
-    },
-    {
-      Aplicacion: '3',
-      Fecha: '2025-05-22',
-      Estado: '',
-    }
-  ];
+  datos = [];
+
+  ngOnInit() {
+    // 1. Tomar la cédula de la URL
+    this.cedula = this.route.snapshot.paramMap.get('cedula') || '';
+
+    // 2. Llamar a tu servicio con la cédula
+    this.miServicio.getProtocoloCompletoByPaciente(this.cedula)
+      .subscribe({
+        next: (resp) => {
+          console.log('Protocolo recibido:', resp);
+          this.protocolo = resp; // Guardar los datos para usarlos
+        },
+        error: (err) => {
+          console.error('Error obteniendo protocolo:', err);
+        }
+      });
+  }
+
+  abrirPopup() {
+    this.mostrarPopup = true;
+  }
+
+  cerrarPopup() {
+    this.mostrarPopup = false;
+  }
 
   volver() {
     this.router.navigate(['qf/busqueda/paciente'])
   }
-
 }
+
