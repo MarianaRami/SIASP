@@ -40,7 +40,7 @@
           <td><input [(ngModel)]="med.dosis" /></td>
           <td>
             <select [(ngModel)]="med.formula">
-              <option *ngFor="let opcion of opcionesFormula" [value]="opcion">{{ opcion }}</option>
+              <option *ngFor="let opcion of opcionesFormula" [value]="opcion.value">{{ opcion.label }}</option>
             </select>
           </td>
           <td class="duracion-inputs">

@@ -19,7 +19,13 @@ export class PopupProtocoloComponent {
   // Guardar objetos completos
   protocolos: any[] = [];
   tiposPaciente = ['Ambulatorio', 'Hospitalizado'];
-  razones = ['Nuevo', 'Cambio de tratamiento'];
+  razones = [
+  { label: 'Nuevo', value: 'nuevo' },
+  { label: 'Cambio de tratamiento', value: 'cambio_protocolo' },
+  { label: 'Recaida', value: 'recaida' },
+  { label: 'Transferencia', value: 'transferencia' }
+];
+
 
   fechaIngreso: string = new Date().toLocaleDateString('es-CO', {
     day: '2-digit',
@@ -53,8 +59,18 @@ export class PopupProtocoloComponent {
   }
 
   guardar() {
-    console.log('Datos guardados:', this.formData);
-    this.guardarPaciente.emit(this.formData);
+    const payload = {
+      ...this.formData,
+      fechaConsulta: this.formData.fechaConsulta
+        ? new Date(this.formData.fechaConsulta).toISOString()
+        : null,
+      fechaInicio: this.formData.fechaInicio
+        ? new Date(this.formData.fechaInicio).toISOString()
+        : null
+    };
+
+    console.log('Datos guardados:', payload);
+    this.guardarPaciente.emit(payload);
     this.cerrar.emit();
   }
 

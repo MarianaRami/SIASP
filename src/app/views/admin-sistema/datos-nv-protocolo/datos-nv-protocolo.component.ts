@@ -39,7 +39,12 @@ export class DatosNvProtocoloComponent {
   descripcion: string = '';
   medicamentos = [{ nombre: '', dosis: '', formula: '', duracion: { horas: '', minutos: '' } }];
 
-  opcionesFormula = ['SC', 'Peso', 'AUC', 'Fija'];
+  opcionesFormula = [
+    { label:'SC', value: 'SC' }, 
+    { label:'Peso', value: 'peso' }, 
+    { label:'AUC', value: 'AUC' }, 
+    { label:'Fija', value: 'fija' }
+  ];
   listaMedicamentos: string[] = [];
 
   agregarMedicamento() {

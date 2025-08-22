@@ -1,34 +1,81 @@
-// 📌 Esto es lo que VIENE del backend al consultar paciente
 export interface PacienteResponseDto {
-  idServinte: string;
-  nombre_completo: string;
+  idPaciente: string;
   nombre1: string;
   nombre2: string;
   apellido1: string;
   apellido2: string;
-  documento: string;
   tipoDocumento: string;
-  protocolo_actual: '' | string;
+  documento: string;
+  fechaNacimiento: string; // sigue ISO
+  nombreCompleto: string;
+  identificacion: string;
+
+  protocoloActual: {
+    id: string;
+    nombreProtocolo: string;
+    version: number;
+    descripcion: string;
+    numeroCiclo: string;
+    duracionCiclo: string;
+    necesitaExamenes: boolean;
+    estado: string;
+    fechaCreacion: string;
+    medicamentos: {
+      id: string;
+      nombre: string;
+      dosis: string;
+      formula: string;
+      dosisCalculada: string;
+    }[];
+    eventos: {
+      dia: number;
+      tipo: string;
+      descripcion: string;
+    }[];
+    configuracionMedicamentos: {
+      [dia: string]: string[];
+    };
+  } | null;
+
   tratamiento: string | null;
-  medico_tratante: string;
-  especialidad: string;
-  codigoMedicoTratante: string;
+  tratamientoCodigo: string | null;
+  tratamientoNombre: string | null;
+
+  medicoTratante: string;
+  codigoMedicoTratante: number;
   codigoEspecialidad: number;
-  CIE11Descripcion: string;
-  CIE11: string;
+  nombreEspecialidad: string;
+  especialidad: string;
+
   peso: number;
   altura: number;
   tfg: number;
   eps: string;
   imc: number;
-  superficie_corporal: number;
-  fecha_consulta: string;
+  superficieCorporal: number;
+  edad: number;
+
+  estadoPaciente: string;
+  fechaCreacion: string;
+
   telefono1: string;
-  email1: string;
   telefono2: string;
+  email1: string;
   email2: string;
-  fuente_datos: string;
+  nombreContacto: string;
+  fuenteDatos: string;
+
+  fechaConsulta: string;
+  protocoloPacienteId: string;
+  fechaRegistroProtocolo: string;
+  estadoProtocoloPaciente: string;
+  tipoProtocolo: string;
+  razonTratamiento: string;
+
+  CIE11: string;
+  CIE11Descripcion: string;
 }
+
 
 // 📌 Esto es lo que ENVÍAS al backend al crear/guardar paciente
 export interface PacienteNuevoDto {

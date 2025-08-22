@@ -39,10 +39,12 @@ export class PacienteComponent {
   cie10 = '';
   especialidad = '';
 
+  protocoloCompleto: any = null; 
+  ciclos: any[] = [];
+
   ngOnInit() {
     this.cargaDatos()
   }
-
 
   columnas = [
     { key: 'Ciclo', label: 'Ciclo' },
@@ -91,35 +93,30 @@ export class PacienteComponent {
 
             const p = resp.data;
 
-            // Construir el nombre manualmente
-            this.paciente = [p.nombre1, p.nombre2, p.apellido1, p.apellido2]
-              .filter(Boolean) // Elimina nulos o vacíos
-              .join(' ');
+            // ahora el backend ya trae nombre completo y identificacion
+            this.paciente = this.pacienteData.nombreCompleto;
+            this.identificacion = this.pacienteData.identificacion;
+            this.medico = this.pacienteData.medicoTratante;
+            this.protocolo = this.pacienteData.protocoloActual?.nombreProtocolo || '';
+            this.eps = this.pacienteData.eps;
+            this.especialidad = this.pacienteData.especialidad;
 
-            // Construir la identificación manualmente
-            this.identificacion = `${p.tipoDocumento?.toUpperCase() || ''}-${p.documento || ''}`;
-
-            this.medico = p.medico_tratante;
-            this.protocolo = p.protocolo_actual; // Puede ser null
-            this.eps = p.eps;
-            this.especialidad = p.especialidad;
-
-            /*
+            
             if (this.protocolo) {
               console.log('Paciente tiene protocolo, cargando protocolo completo...');
               this.miServicio.getProtocoloCompletoByPaciente(this.cedula) 
                 .subscribe({
                   next: (protocoloResp) => {
                     console.log('Protocolo completo desde backend:', protocoloResp);
-                    // Aquí puedes guardar la info en una variable de la clase
-                    // o actualizar UI según lo que necesites
+                    this.protocoloCompleto = protocoloResp;
+                    this.ciclos = protocoloResp.ciclos || [];
                   },
                   error: (err) => {
                     console.error('Error al obtener protocolo completo:', err);
                   }
                 });
             }
-            */
+            
           }
         },
         error: (err) => {
@@ -133,15 +130,15 @@ export class PacienteComponent {
 
     // Mapea lo que recibes del servicio al DTO que espera el backend
     const nuevoPacienteDto = {
-      idServinte: this.pacienteData.idServinte, 
+      idServinte: this.pacienteData.idPaciente, 
       nombre1: this.pacienteData.nombre1,
       nombre2: this.pacienteData.nombre2,
       apellido1: this.pacienteData.apellido1,
       apellido2: this.pacienteData.apellido2,
       tipoDocumento: this.pacienteData.tipoDocumento,
       documento: this.pacienteData.documento,
-      fechaNacimiento: "1990-05-15T00:00:00.000Z", 
-      nombreContacto: "Juan Pérez",
+      fechaNacimiento: this.pacienteData.fechaNacimiento, 
+      nombreContacto: this.pacienteData.nombreContacto,
       telefono1: this.pacienteData.telefono1,
       email1: this.pacienteData.email1,
       telefono2: this.pacienteData.telefono2,
@@ -152,15 +149,15 @@ export class PacienteComponent {
         peso: Number(this.pacienteData.peso), 
         altura: Number(this.pacienteData.altura),
         tfg: Number(this.pacienteData.tfg),
-        fecha: "2024-06-07T00:00:00.000Z"
+        fecha: formData.fechaInicio
       },
       idProtocolo: formData.idProtocolo, 
-      medicoTratante: this.pacienteData.medico_tratante,
+      medicoTratante: this.pacienteData.medicoTratante,
       codigoMedicoTratante: this.pacienteData.codigoMedicoTratante,
       codigoEspecialidad: this.pacienteData.codigoEspecialidad,
-      fechaConsulta: "2024-06-07T00:00:00.000Z",
+      fechaConsulta: formData.fechaInicio,
       tipo: formData.tipoPaciente,
-      razonTratamiento: "nuevo", //formData.razon,
+      razonTratamiento: formData.razon,
       especialidad: this.pacienteData.especialidad,
       CIE11Descripcion: this.pacienteData.CIE11Descripcion,
       CIE11: this.pacienteData.CIE11,

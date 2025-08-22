@@ -4,8 +4,8 @@
         <img src="assets/images/volver.png" width="18" style="cursor:pointer;" />
     </button>
     <div class="acciones">
-      <button class="btn-accion" (click)="configurarCiclo()">Configurar Ciclo</button>
-      <button class="btn-accion" (click)="abrirPopupPr()">Seleccionar protocolo</button>
+      <button class="btn-accion" *ngIf="protocolo" (click)="configurarCiclo()">Configurar Ciclo</button>
+      <button class="btn-accion" *ngIf="!protocolo" (click)="abrirPopupPr()">Seleccionar protocolo</button>
     </div>
   </div>
 
@@ -29,7 +29,7 @@
         <div class="fila">
             <label>Protocolo:</label>
             <div>{{ protocolo }}</div>
-            <button class="editar" (click)="abrirPopup()" >
+            <button class="editar" *ngIf="protocolo" (click)="abrirPopup()" >
                 <img src="assets/images/editar.png"  width="18" style="cursor:pointer;" />
             </button>
         </div>
@@ -54,6 +54,7 @@
     </div>
 
     <app-tabla-dinamica
+        *ngIf="protocolo && ciclos.length > 0"
         [columnas]="columnas"
         [datos]="datos">
     </app-tabla-dinamica>
@@ -61,7 +62,7 @@
 </div>
 
 <app-popup-protocolo 
-    *ngIf="mostrarPopupPr" 
+    *ngIf="mostrarPopup" 
     (cerrar)="cerrarPopupPr()"
     (guardarPaciente)="onGuardarPaciente($event)"
     >

@@ -35,7 +35,7 @@
       <div class="form-row">
         <label>Razón de tratamiento <span class="required">*</span></label>
         <select [(ngModel)]="formData.razon" name="razon" required>
-          <option *ngFor="let r of razones" [value]="r">{{ r }}</option>
+          <option *ngFor="let r of razones" [value]="r.value">{{ r.label }}</option>
         </select>
       </div>
 

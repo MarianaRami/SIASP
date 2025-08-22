@@ -68,7 +68,7 @@ export class ConfiguracionCicloComponent {
   }
 
   volver() {
-    this.router.navigate(['qf/busqueda/paciente'])
+    this.router.navigate(['qf/busqueda/paciente', this.cedula])
   }
 }
 
