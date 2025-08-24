@@ -6,11 +6,17 @@
 
     <div class="form-group">
       <label>Protocolo<span class="required">*</span></label>
-      <select>
-        <option disabled selected>Selecciona un protocolo</option>
-        <option *ngFor="let protocolo of protocolos">{{ protocolo }}</option>
+      <select (change)="seleccionarProtocolo($event)" required>
+        <option value="" disabled selected>-- Seleccione un protocolo --</option>
+        <option *ngFor="let p of protocolos" [value]="p.id">{{ p.nombre }}</option>
       </select>
     </div>
+
+    <div class="form-row">
+      <label>Fecha de consulta <span class="required">*</span></label>
+      <input type="date" [(ngModel)]="formData.fechaConsulta" name="fechaConsulta" required />
+    </div>
+
     <div class="form-group">
       <label>Tipo de paciente<span class="required">*</span></label>
       <select>
@@ -19,9 +25,11 @@
       </select>
     </div>
 
-    <div class="form-group">
-      <label>Razón del cambio<span class="required">*</span></label>
-      <textarea rows="4"></textarea>
+    <div class="form-row">
+      <label>Razón de tratamiento <span class="required">*</span></label>
+      <select [(ngModel)]="formData.razon" name="razon" required>
+        <option *ngFor="let r of razones" [value]="r.value">{{ r.label }}</option>
+      </select>
     </div>
 
     <div class="button-group">

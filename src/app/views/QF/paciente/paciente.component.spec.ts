@@ -14,6 +14,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './paciente.component.css'
 })
 export class PacienteComponent {
+guardarCambio($event: any) {
+throw new Error('Method not implemented.');
+}
 ciclos: any;
 onGuardarPaciente($event: any) {
 throw new Error('Method not implemented.');
@@ -28,6 +31,7 @@ abrirPopupPr() {
 throw new Error('Method not implemented.');
 }
 mostrarPopup: any;
+mostrarPopupPr: any;
 cerrarPopup() {
 throw new Error('Method not implemented.');
 }

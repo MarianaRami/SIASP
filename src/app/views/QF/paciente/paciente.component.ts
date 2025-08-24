@@ -6,7 +6,7 @@ import { PopupCambioProtocoloComponent } from '../popup-cambio-protocolo/popup-c
 import { PopupProtocoloComponent } from '../popup-protocolo/popup-protocolo.component';
 import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
 import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla-dinamica.component';
-import { PacienteResponseDto } from '../../../models/paciente';
+import { PacienteResponseDto, CreateProtocoloPacienteCompletoDto } from '../../../models/paciente';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
@@ -155,7 +155,7 @@ export class PacienteComponent {
       medicoTratante: this.pacienteData.medicoTratante,
       codigoMedicoTratante: this.pacienteData.codigoMedicoTratante,
       codigoEspecialidad: this.pacienteData.codigoEspecialidad,
-      fechaConsulta: formData.fechaInicio,
+      fechaConsulta: formData.fechaConsulta,
       tipo: formData.tipoPaciente,
       razonTratamiento: formData.razon,
       especialidad: this.pacienteData.especialidad,
@@ -177,6 +177,43 @@ export class PacienteComponent {
         error: (err) => {
           console.error('Error al guardar paciente:', err);
           alert('Error al guardar paciente');
+        }
+      });
+  }
+
+  guardarCambio(formData: any) {
+    const usuario = this.AuthService.getUser();
+
+      const dto: CreateProtocoloPacienteCompletoDto = {
+        idProtocolo: formData.idProtocolo,
+        idPaciente: this.pacienteData.idPaciente,
+        usuarioCreacion: usuario,
+        documento: this.pacienteData.documento,
+        tipoDocumento: this.pacienteData.tipoDocumento,
+        fechaRegistroProtocolo: formData.fechaInicio,
+        estado: "activo",
+        tipo: formData.tipoPaciente,
+        razonTratamiento: formData.razon,
+        fechaConsulta: formData.fechaConsulta,
+        CIE11Descripcion: this.pacienteData.CIE11Descripcion,
+        CIE11: this.pacienteData.CIE11,
+        medicoTratante: this.pacienteData.medicoTratante,
+        codigoMedicoTratante: this.pacienteData.codigoMedicoTratante,
+        especialidad: this.pacienteData.especialidad,
+        codigoEspecialidad: this.pacienteData.codigoEspecialidad,
+        tratamiento: this.pacienteData.tratamiento!,
+        codigoTratamiento: this.pacienteData.tratamientoCodigo,
+      };
+
+      this.miServicio.asignarNuevoProtocoloPaciente(dto).subscribe({
+        next: (resp) => {
+          console.log("✅ Protocolo asignado:", resp);
+          alert("Protocolo actualizado con éxito");
+          this.cargaDatos();
+        },
+        error: (err) => {
+          console.error("❌ Error asignando protocolo:", err);
+          alert("Error al asignar protocolo");
         }
       });
   }

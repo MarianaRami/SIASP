@@ -40,6 +40,14 @@ export class GestionPacientesService {
     );
   }
 
+  asignarNuevoProtocoloPaciente(dto: any) {
+    return this.http.post<any>(
+      `${this.apiUrl}/pacientes/asignar-protocolo/`,
+      dto,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
   // ------------------- PROTOCOLOS -------------------
 
   getProtocoloCompletoByPaciente(idPaciente: string): Observable<any> {

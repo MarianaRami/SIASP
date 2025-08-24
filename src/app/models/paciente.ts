@@ -38,7 +38,7 @@ export interface PacienteResponseDto {
   } | null;
 
   tratamiento: string | null;
-  tratamientoCodigo: string | null;
+  tratamientoCodigo: number;
   tratamientoNombre: string | null;
 
   medicoTratante: string;
@@ -117,5 +117,28 @@ export interface PacienteNuevoDto {
 
 export interface PacienteResponse {
   success: boolean;
-  data: PacienteResponseDto; // 👈 OJO aquí
+  data: PacienteResponseDto; 
+}
+
+export interface CreateProtocoloPacienteCompletoDto {
+  idProtocolo: string;
+  idPaciente: string;
+  usuarioCreacion: string | null;
+  documento: string;
+  tipoDocumento: string;
+  fechaRegistroProtocolo: string; // ISO string
+  estado: "activo" | "suspendido" | "finalizado";
+  tipo: "ambulatorio" | "hospitalizado";
+  razonTratamiento: "cambio_protocolo" | "nuevo" | "recaida" | "transferencia";
+  fechaConsulta: string;
+  CIE11Descripcion: string;
+  CIE11: string;
+  medicoTratante: string;
+  codigoMedicoTratante: number;
+  especialidad: string;
+  codigoEspecialidad: number;
+  tratamiento: string;
+  codigoTratamiento: number;
+  fechaFinProtocolo?: string;
+  tipoFin?: "cancelado" | "cambio_protocolo" | "concluido" | "desistido";
 }

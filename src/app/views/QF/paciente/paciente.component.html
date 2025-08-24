@@ -62,9 +62,14 @@
 </div>
 
 <app-popup-protocolo 
-    *ngIf="mostrarPopup" 
+    *ngIf="mostrarPopupPr" 
     (cerrar)="cerrarPopupPr()"
     (guardarPaciente)="onGuardarPaciente($event)"
     >
 </app-popup-protocolo>
-<app-popup-cambio-protocolo *ngIf="mostrarPopup" (cerrar)="cerrarPopup()"></app-popup-cambio-protocolo>
+<app-popup-cambio-protocolo 
+    *ngIf="mostrarPopup" 
+    (cerrar)="cerrarPopup()"
+    (guardarPaciente)="guardarCambio($event)"
+    >
+</app-popup-cambio-protocolo>

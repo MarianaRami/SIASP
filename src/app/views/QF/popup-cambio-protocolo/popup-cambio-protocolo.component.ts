@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ProtocolosService } from '../../../services/protocolos.service';
 
 @Component({
   selector: 'app-popup-cambio-protocolo',
@@ -10,13 +11,69 @@ import { FormsModule } from '@angular/forms';
 })
 export class PopupCambioProtocoloComponent {
   @Output() cerrar = new EventEmitter<void>();
+  @Output() guardarPaciente = new EventEmitter<any>();
 
-  protocolos = ['Protocolo A', 'Protocolo B', 'Protocolo C'];
-  tipos = ['Ambulatorio', 'Hospitalizado']
+  private protocolosService = inject(ProtocolosService);
+
+  protocolos: any[] = [];
+  tipos = ['Ambulatorio', 'Hospitalizado'];
+  razones = [
+    { label: 'Cambio de tratamiento', value: 'cambio_protocolo' },
+    { label: 'Recaida', value: 'recaida' },
+    { label: 'Transferencia', value: 'transferencia' }
+  ];
+
+  fechaIngreso: string = new Date().toLocaleDateString('es-CO', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+
+  formData = {
+    idProtocolo: '',
+    protocolo: '', 
+    fechaConsulta: '',
+    tipoPaciente: '',
+    razon: '',
+    fechaInicio: ''
+  };
+
+  ngOnInit() {
+    this.protocolosService.getProtocolos().subscribe({
+      next: (resp) => {
+        this.protocolos = resp.filter((p: any) => p.estado === 'activo');
+        console.log('Protocolos cargados:', this.protocolos);
+      },
+      error: (err) => {
+        console.error('Error cargando protocolos:', err);
+      }
+    });
+  }
 
   guardar() {
-    console.log('Guardado');
+    const payload = {
+      ...this.formData,
+      fechaConsulta: this.formData.fechaConsulta
+        ? new Date(this.formData.fechaConsulta).toISOString()
+        : null,
+      fechaInicio: this.formData.fechaInicio
+        ? new Date(this.formData.fechaInicio).toISOString()
+        : null
+    };
+
+    console.log('Datos guardados:', payload);
+    this.guardarPaciente.emit(payload);
     this.cerrar.emit(); // cierra después de guardar (opcional)
+  }
+
+  seleccionarProtocolo(event: any) {
+    const idSeleccionado = event.target.value;
+    const protocolo = this.protocolos.find(p => p.id === idSeleccionado);
+
+    if (protocolo) {
+      this.formData.idProtocolo = protocolo.id;
+      this.formData.protocolo = protocolo.nombre;
+    }
   }
 
   cancelar() {

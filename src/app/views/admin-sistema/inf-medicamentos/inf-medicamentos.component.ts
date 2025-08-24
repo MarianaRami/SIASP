@@ -76,8 +76,22 @@ export class InfMedicamentosComponent implements OnInit {
 
   crearNuevaVersion() {
     const protocolo = this.datosRecibidos;
-
     const usuario = this.AuthService.getUser();
+
+    const configuracionMedicamentos = this.datosTabla.map(fila => {
+      const medicamentosSeleccionados: string[] = [];
+
+      this.datosRecibidos.medicamentos.forEach((_: any, index: number) => {
+        if (fila[`medicamento_${index}`]) {
+          medicamentosSeleccionados.push(this.datosRecibidos.medicamentos[index].nombre);
+        }
+      });
+
+      return {
+        dia: fila.dia,
+        medicamentos: medicamentosSeleccionados
+      };
+    });
 
     const payload = {
       nombreProtocolo: protocolo.nombreProtocolo,
@@ -87,7 +101,7 @@ export class InfMedicamentosComponent implements OnInit {
       duracionCiclo: protocolo.duracionCiclo,
       necesitaExamenes: protocolo.necesitaExamenes,
       eventos: protocolo.eventos,
-      configuracionMedicamentos: protocolo.configuracionMedicamentos
+      configuracionMedicamentos: configuracionMedicamentos
     };
     console.log(payload)
 

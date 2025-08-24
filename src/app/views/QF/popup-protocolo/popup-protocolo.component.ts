@@ -16,15 +16,14 @@ export class PopupProtocoloComponent {
 
   private protocolosService = inject(ProtocolosService);
 
-  // Guardar objetos completos
   protocolos: any[] = [];
   tiposPaciente = ['Ambulatorio', 'Hospitalizado'];
   razones = [
-  { label: 'Nuevo', value: 'nuevo' },
-  { label: 'Cambio de tratamiento', value: 'cambio_protocolo' },
-  { label: 'Recaida', value: 'recaida' },
-  { label: 'Transferencia', value: 'transferencia' }
-];
+    { label: 'Nuevo', value: 'nuevo' },
+    { label: 'Cambio de tratamiento', value: 'cambio_protocolo' },
+    { label: 'Recaida', value: 'recaida' },
+    { label: 'Transferencia', value: 'transferencia' }
+  ];
 
 
   fechaIngreso: string = new Date().toLocaleDateString('es-CO', {
