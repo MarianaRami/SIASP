@@ -25,7 +25,7 @@ export class ConfiguracionCicloComponent {
   mostrarPopup = false;
   cedula!: string;
 
-  protocolo: any; // aquí luego tipamos
+  protocolo: any; 
   ciclo = '';
   fecha_asignacion = '';
   fecha_consulta = '';
@@ -40,18 +40,29 @@ export class ConfiguracionCicloComponent {
     { key: 'Fecha', label: 'Fecha programada' },
     { key: 'Estado', label: 'Estado' }
   ];
-  datos = [];
+  datos: any[] = [];
 
   ngOnInit() {
-    // 1. Tomar la cédula de la URL
     this.cedula = this.route.snapshot.paramMap.get('cedula') || '';
 
-    // 2. Llamar a tu servicio con la cédula
     this.miServicio.getProtocoloCompletoByPaciente(this.cedula)
       .subscribe({
         next: (resp) => {
           console.log('Protocolo recibido:', resp);
-          this.protocolo = resp; // Guardar los datos para usarlos
+          this.protocolo = resp.nombreProtocolo;
+
+          const ciclo = resp.ciclos?.[0];
+          if (ciclo) {
+            this.ciclo = ciclo.numCiclo;
+            this.fecha_consulta = ciclo.fechaConsulta;
+            this.fecha_asignacion = ciclo.fechaIniEstimada;
+          }
+
+          this.datos = resp.eventos?.map((evento: any, index: number) => ({
+            Aplicacion: index + 1,
+            Fecha: `Día ${evento.dia}`,
+            Estado: evento.tipo
+          })) || [];
         },
         error: (err) => {
           console.error('Error obteniendo protocolo:', err);
@@ -71,4 +82,3 @@ export class ConfiguracionCicloComponent {
     this.router.navigate(['qf/busqueda/paciente', this.cedula])
   }
 }
-
