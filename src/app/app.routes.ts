@@ -94,7 +94,7 @@ export const routes: Routes = [
   { path: 'autorizaciones', component: AutorizacionesComponent },
 
   { path: 'autorizaciones/busquedaAU', component: BusquedaAUComponent },
-  { path: 'autorizaciones/busquedaAU/Autorizacion', component: AutorizacionComponent },
+  { path: 'autorizaciones/busquedaAU/Autorizacion/:cedula', component: AutorizacionComponent },
   { path: 'autorizaciones/Pacientes', component: PacientesComponent },
 
   // QF

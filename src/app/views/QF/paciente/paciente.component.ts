@@ -100,6 +100,7 @@ export class PacienteComponent {
             this.protocolo = this.pacienteData.protocoloActual?.nombreProtocolo || '';
             this.eps = this.pacienteData.eps;
             this.especialidad = this.pacienteData.especialidad;
+            this.cie10 = this.pacienteData.CIE11Descripcion
 
             
             if (this.protocolo) {

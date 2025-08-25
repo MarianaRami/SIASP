@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla-dinamica.component';
 import { CommonModule } from '@angular/common';
+import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
+import { AuthService } from '../../../services/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PacienteResponseDto } from '../../../models/paciente';
 
 
 @Component({
@@ -15,12 +18,19 @@ import { CommonModule } from '@angular/common';
 ],
 })
 export class AutorizacionComponent {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private miServicio: GestionPacientesService,
+    private AuthService: AuthService,
+    private route: ActivatedRoute
+  ) {}
 
-  paciente = 'Ana María Torres López';
-  identificacion = '5201919351';
-  protocolo = 'Cáncer de mama estadio II – Protocolo FAC';
-  eps = 'Sanitas';
+  paciente = '';
+  identificacion = '';
+  protocolo = '';
+  eps = '';
+
+  pacienteData!: PacienteResponseDto;
 
   tipoOpciones = ['Individual', 'Universal']; 
   tipoSeleccionado = 'Individual';
@@ -53,6 +63,36 @@ export class AutorizacionComponent {
 
     }
   ];
+
+  ngOnInit() {
+    this.cargaDatos()
+  }
+
+  cargaDatos(){
+    this.identificacion = this.route.snapshot.paramMap.get('cedula') || '';
+    
+    this.miServicio.getPacienteCompletoByDocumento(this.identificacion)
+      .subscribe({
+        next: (resp) => {
+          console.log('Paciente desde backend:', resp);
+
+          if (resp.success && resp.data) {
+            this.pacienteData = resp.data;
+
+            const p = resp.data;
+
+            // ahora el backend ya trae nombre completo y identificacion
+            this.paciente = this.pacienteData.nombreCompleto;
+            this.identificacion = this.pacienteData.identificacion;
+            this.protocolo = this.pacienteData.protocoloActual?.nombreProtocolo || '';
+            this.eps = this.pacienteData.eps;       
+          }
+        },
+        error: (err) => {
+          console.error('Error al obtener paciente:', err);
+        }
+      });
+  }
 
   volver() {
     this.router.navigate(['autorizaciones/busquedaAU'])

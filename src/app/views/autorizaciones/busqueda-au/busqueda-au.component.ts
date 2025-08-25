@@ -17,6 +17,6 @@ export class BusquedaAUComponent {
   filtrarPorCedula(cedula: string) {
     // lógica para filtrar o llamar API
     console.log('Buscar cédula:', cedula);
-    this.router.navigate(['/autorizaciones/busquedaAU/Autorizacion']);
+    this.router.navigate(['/autorizaciones/busquedaAU/Autorizacion', cedula]);
   }
 }
