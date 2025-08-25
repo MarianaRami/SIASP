@@ -21,7 +21,7 @@
       <label>Tipo de paciente<span class="required">*</span></label>
       <select>
         <option disabled selected>Selecciona un tipo</option>
-        <option *ngFor="let tipo of tipos">{{ tipo }}</option>
+        <option *ngFor="let tipo of tipos" [value]="tipo.value">{{ tipo.label }}</option>
       </select>
     </div>
 
