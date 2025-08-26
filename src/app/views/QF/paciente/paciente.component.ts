@@ -203,8 +203,10 @@ export class PacienteComponent {
         especialidad: this.pacienteData.especialidad,
         codigoEspecialidad: this.pacienteData.codigoEspecialidad,
         tratamiento: this.pacienteData.tratamiento!,
-        codigoTratamiento: this.pacienteData.tratamientoCodigo,
+        codigoTratamiento: 1,
       };
+
+      console.log('Enviando paciente nuevo:', dto);
 
       this.miServicio.asignarNuevoProtocoloPaciente(dto).subscribe({
         next: (resp) => {

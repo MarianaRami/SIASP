@@ -114,14 +114,6 @@ export class DatosNvProtocoloComponent {
     }
   }
 
-  listaMedicamentosFiltrada(index: number): string[] {
-    const medicamentosSeleccionados = this.medicamentos
-      .map((m, i) => i !== index ? m.nombre : null) // excluye el actual
-      .filter(nombre => nombre); // quita null/empty
-
-    return this.listaMedicamentos.filter(med => !medicamentosSeleccionados.includes(med));
-  }
-
   volver() {
     this.router.navigate(['admin-sistema']);
   }

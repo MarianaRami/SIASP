@@ -19,7 +19,7 @@
 
     <div class="form-group">
       <label>Tipo de paciente<span class="required">*</span></label>
-      <select>
+      <select [(ngModel)]="formData.tipoPaciente" name="tipoPaciente" required>
         <option disabled selected>Selecciona un tipo</option>
         <option *ngFor="let tipo of tipos" [value]="tipo.value">{{ tipo.label }}</option>
       </select>

@@ -35,14 +35,14 @@ export class AutorizacionComponent {
   tipoOpciones = ['Individual', 'Universal']; 
   tipoSeleccionado = 'Individual';
 
-  columnasIndividual = [
+  columnasUniversal = [
     { key: 'Medicamento', label: 'Medicamento' },
     { key: 'Presentacion', label: 'Presentación' },
     { key: 'Dosis', label: 'Dosis' },
     { key: 'Unidad', label: 'Unidad' }
   ];
 
-  columnasUniversal = [
+  columnasIndividual = [
     { key: 'Medicamento', label: 'Medicamento' },
     { key: 'Presentacion', label: 'Presentación' },
     { key: 'Dosis', label: 'Dosis' },
@@ -52,17 +52,19 @@ export class AutorizacionComponent {
   ];
 
   datos = [
-    {
-      Medicamento: '1',
-    },
-    {
-      Medicamento: '2',
-    },
-    {
-      Medicamento: '3',
-
-    }
+    { Medicamento: '1' },
+    { Medicamento: '2' },
+    { Medicamento: '3' }
   ];
+
+  laboratorios: any[] = [
+    { autorizacion: '', fecha: '', descripcion: '' }
+  ];
+
+  autorizacionIndividual = {
+    numero: '',
+    fecha: ''
+  };
 
   ngOnInit() {
     this.cargaDatos()
@@ -94,16 +96,32 @@ export class AutorizacionComponent {
       });
   }
 
+  agregarLaboratorio() {
+    this.laboratorios.push({ autorizacion: '', fecha: '', descripcion: '' });
+  }
+
+  eliminarLaboratorio(index: number) {
+    this.laboratorios.splice(index, 1);
+  }
+
   volver() {
     this.router.navigate(['autorizaciones/busquedaAU'])
   }
 
   Cancelar() {
-
+    this.laboratorios = [{ autorizacion: '', fecha: '', descripcion: '' }];
+    this.autorizacionIndividual = { numero: '', fecha: '' };
   }
 
   Guardar() {
+    const payload = {
+      tipoAutorizacion: this.tipoSeleccionado,
+      autorizacionIndividual: this.tipoSeleccionado === 'Individual' ? this.autorizacionIndividual : null,
+      medicamentos: this.datos,
+      laboratorios: this.laboratorios
+    };
 
+    console.log('Payload a guardar:', payload);
   }
 
 }

@@ -42,6 +42,21 @@ h3 {
   gap: 10px;
 }
 
+.fila-individual {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.fila-individual input {
+  font-family: "Roboto", sans-serif;
+  border-radius: 4px;
+  width: 50%;
+  border: 1px solid #818181;
+  height: 20px;
+}
+
 .fila label {
   width: 180px;
   font-weight: 550;
@@ -75,7 +90,7 @@ select {
   align-items: center;
 }
 
-.formulario-individual input{
+.formulario-individual input {
   font-family: 'Roboto', sans-serif;
   border-radius: 4px;
   width: 50%;
@@ -115,4 +130,72 @@ select {
 .acciones button:hover {
   transform: scale(1.05);
   background-color: #fcd5ba;
+}
+
+.btn-agregar {
+  border: none;
+  background: #ffffff;
+  border-color: #333;
+  color: white;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 20px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.btn-icono {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+  margin-left: 8px;
+}
+
+.input-small {
+  width: 120px;
+  margin-right: 8px;
+}
+
+.input-medium {
+  width: 200px;
+  margin-right: 8px;
+}
+
+/* 🔹 Fila cuando es Individual */
+.fila-individual {
+  margin: 20px 0; /* espacio arriba y abajo */
+  display: flex;
+  gap: 15px; /* espacio entre inputs */
+}
+
+.fila-individual input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* 🔹 Sección de Autorización de laboratorios */
+.laboratorios-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* espacio entre cada campo */
+}
+
+.laboratorios-group label {
+  margin-bottom: 2px; /* label más pegado al input */
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.laboratorios-group input {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
 }

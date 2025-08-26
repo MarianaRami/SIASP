@@ -34,7 +34,7 @@
           <td>
             <select [(ngModel)]="medicamentos[i].nombre">
               <option value="" disabled selected>Seleccione un medicamento</option>
-              <option *ngFor="let med of listaMedicamentosFiltrada(i)" [value]="med">{{ med }}</option>
+              <option *ngFor="let med of listaMedicamentos" [value]="med">{{ med }}</option>
             </select>
           </td>
           <td><input [(ngModel)]="med.dosis" /></td>
