@@ -133,16 +133,20 @@ select {
 }
 
 .btn-agregar {
-  border: none;
-  background: #ffffff;
-  border-color: #333;
-  color: white;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
+  margin-top: 10px;
   font-size: 20px;
+  padding: 3px 8px;
+  border-radius: 50%;
+  border: 1px solid black;
+  background: white;
   cursor: pointer;
-  margin-top: 8px;
+}
+
+.btn-trash {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
 }
 
 .btn-icono {

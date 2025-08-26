@@ -34,13 +34,13 @@
           <td>
             <select [(ngModel)]="medicamentos[i].nombre">
               <option value="" disabled selected>Seleccione un medicamento</option>
-              <option *ngFor="let med of listaMedicamentosFiltrada(i)" [value]="med">{{ med }}</option>
+              <option *ngFor="let med of listaMedicamentos" [value]="med">{{ med }}</option>
             </select>
           </td>
-          <td><input [(ngModel)]="med.dosis" /></td>
+          <td><input type="number" [(ngModel)]="med.dosis" /></td>
           <td>
             <select [(ngModel)]="med.formula">
-              <option *ngFor="let opcion of opcionesFormula" [value]="opcion">{{ opcion }}</option>
+              <option *ngFor="let opcion of opcionesFormula" [value]="opcion.value">{{ opcion.label }}</option>
             </select>
           </td>
           <td class="duracion-inputs">

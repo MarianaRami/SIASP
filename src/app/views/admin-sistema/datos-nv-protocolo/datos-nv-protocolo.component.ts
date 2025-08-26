@@ -27,7 +27,7 @@ export class DatosNvProtocoloComponent {
 
     this.protocoloService.getMedicamentos().subscribe({
       next: (data) => {
-        this.listaMedicamentos = data.map(med => med.nombre); // ajusta según tu DTO
+        this.listaMedicamentos = data.map(med => med.nombre); 
       },
       error: (err) => {
         console.error('Error cargando medicamentos:', err);

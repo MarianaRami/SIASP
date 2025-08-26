@@ -1,4 +1,5 @@
 export interface PacienteResponseDto {
+  idServinte: string;
   idPaciente: string;
   nombre1: string;
   nombre2: string;
@@ -6,7 +7,7 @@ export interface PacienteResponseDto {
   apellido2: string;
   tipoDocumento: string;
   documento: string;
-  fechaNacimiento: string; // sigue ISO
+  fechaNacimiento: string;
   nombreCompleto: string;
   identificacion: string;
 

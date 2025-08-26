@@ -131,7 +131,7 @@ export class PacienteComponent {
 
     // Mapea lo que recibes del servicio al DTO que espera el backend
     const nuevoPacienteDto = {
-      idServinte: this.pacienteData.idPaciente, 
+      idServinte: this.pacienteData.idServinte, 
       nombre1: this.pacienteData.nombre1,
       nombre2: this.pacienteData.nombre2,
       apellido1: this.pacienteData.apellido1,
@@ -187,7 +187,7 @@ export class PacienteComponent {
 
       const dto: CreateProtocoloPacienteCompletoDto = {
         idProtocolo: formData.idProtocolo,
-        idPaciente: this.pacienteData.idPaciente,
+        idPaciente: this.pacienteData.idServinte,
         usuarioCreacion: usuario,
         documento: this.pacienteData.documento,
         tipoDocumento: this.pacienteData.tipoDocumento,

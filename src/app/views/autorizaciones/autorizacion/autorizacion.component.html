@@ -78,10 +78,12 @@
       <label>Descripción:</label>
       <input type="text" [(ngModel)]="lab.descripcion" class="input-medium" />
 
-      <button class="btn-icono" (click)="eliminarLaboratorio(i)">🗑️</button>
+      <button class="btn-icono" (click)="eliminarLaboratorio(i)" class="btn-trash">
+        <img src="assets/images/eliminar.png" width="18" />
+      </button>
     </div>
 
-    <button class="btn-agregar" (click)="agregarLaboratorio()">➕</button>
+    <button class="btn-agregar" (click)="agregarLaboratorio()">+</button>
   </div>
 
   <div class="acciones">

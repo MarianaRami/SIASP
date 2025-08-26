@@ -21,13 +21,17 @@ export class InfProtocoloComponent {
   descripcion: string = '';
   medicamentos = [{ nombre: '', dosis: '', formula: '', duracion: { horas: '', minutos: '' } }];
 
-  opcionesFormula = ['SC', 'Peso', 'AUC', 'Fija'];
+   opcionesFormula = [
+    { label:'SC', value: 'SC' }, 
+    { label:'Peso', value: 'peso' }, 
+    { label:'AUC', value: 'AUC' }, 
+    { label:'Fija', value: 'fija' }
+  ];
   listaMedicamentos: string[] = [];
 
   id: string = '';
 
   ngOnInit(): void {
-    // Ejemplo: obtener protocolo por ID desde la URL
     const protocolo = this.protocoloService.getProtocolo();
     if (protocolo) {
       this.id = protocolo.id;

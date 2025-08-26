@@ -38,7 +38,12 @@ export class ConfCicloComponent {
     { dia: '', evento: '', observacion: '', activo: true }
   ];
 
-  opcionesEvento = ['Exámenes', 'Aplicación', 'Otro'];
+  opcionesEvento = [
+    { label:'Exámenes', value: 'examenes' }, 
+    { label:'Aplicación', value: 'aplicacion' }, 
+    { label:'Lavado de cateter', value: 'lavado' }, 
+    { label:'Otro', value: 'otro' }
+  ];
 
   agregarFila() {
     this.eventos.push({ dia: '', evento: '', observacion: '', activo: true });

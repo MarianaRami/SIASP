@@ -34,7 +34,7 @@
         <td><input type="text" [(ngModel)]="fila.dia" /></td>
         <td>
           <select [(ngModel)]="fila.evento">
-            <option *ngFor="let op of opcionesEvento" [value]="op">{{ op }}</option>
+            <option *ngFor="let op of opcionesEvento" [value]="op.value">{{ op.label }}</option>
           </select>
         </td>
         <td><input type="text" [(ngModel)]="fila.observacion" /></td>

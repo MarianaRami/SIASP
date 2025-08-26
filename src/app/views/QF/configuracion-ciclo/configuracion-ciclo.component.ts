@@ -33,6 +33,7 @@ export class ConfiguracionCicloComponent {
   peso = '';
   superficie = '';
   tfg = '';
+  talla = '';
   conf_medicamentos: '' | undefined;
 
   columnas = [
@@ -50,6 +51,9 @@ export class ConfiguracionCicloComponent {
         next: (resp) => {
           console.log('Protocolo recibido:', resp);
           this.protocolo = resp.nombreProtocolo;
+          this.peso = resp.peso;
+          this.superficie = resp.superficie;
+          this.talla = resp.talla;
 
           const ciclo = resp.ciclos?.[0];
           if (ciclo) {
