@@ -30,8 +30,8 @@ export class ConfCicloComponent {
 
   datosProtocolo: any;
 
-  numeroCiclo: string = '';
-  duracionCiclo: string = '';
+  numeroCiclo: number = 0;
+  duracionCiclo: number = 0;
   necesitaExamenes: boolean = false;
 
   eventos: any[] = [
@@ -76,11 +76,6 @@ export class ConfCicloComponent {
   }
 
   siguiente() {
-    if (!this.numeroCiclo.trim() || !this.duracionCiclo.trim()) {
-      alert('Por favor completa el numero de ciclos y la duración del ciclo.');
-      return;
-    }
-
     const datosProtocolo = this.datosProtocolo;
 
     const payload = {

@@ -18,8 +18,8 @@ export class InfCicloComponent {
 ) {}
   
 
-  numeroCiclo: string = '';
-  duracionCiclo: string = '';
+  numeroCiclo: number = 0;
+  duracionCiclo: number = 0;
   necesitaExamenes: boolean = false;
 
   id: string = '';

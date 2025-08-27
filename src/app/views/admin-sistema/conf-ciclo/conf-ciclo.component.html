@@ -14,8 +14,8 @@
       <label>¿El ciclo necesita exámenes médicos?</label>
     </div>
     <div class="columna-inputs">
-      <input type="text" [(ngModel)]="numeroCiclo" />
-      <input type="text" [(ngModel)]="duracionCiclo" />
+      <input type="number" [(ngModel)]="numeroCiclo" />
+      <input type="number" [(ngModel)]="duracionCiclo" />
       <input type="checkbox" [(ngModel)]="necesitaExamenes" />
     </div>
   </div>
@@ -31,7 +31,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let fila of eventos; let i = index">
-        <td><input type="text" [(ngModel)]="fila.dia" /></td>
+        <td><input type="number" [(ngModel)]="fila.dia" /></td>
         <td>
           <select [(ngModel)]="fila.evento">
             <option *ngFor="let op of opcionesEvento" [value]="op.value">{{ op.label }}</option>
