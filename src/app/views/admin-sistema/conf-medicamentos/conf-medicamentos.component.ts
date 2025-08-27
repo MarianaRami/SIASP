@@ -53,7 +53,7 @@ export class ConfMedicamentosComponent {
 
   generarDatosTabla() {
     if (this.datosRecibidos) {
-      const eventosAplicacion = this.datosRecibidos.eventos.filter((e: any) => e.evento === 'Aplicación');
+      const eventosAplicacion = this.datosRecibidos.eventos.filter((e: any) => e.evento === 'aplicacion');
 
       eventosAplicacion.forEach((evento: any) => {
         const fila: any = {
@@ -116,7 +116,7 @@ export class ConfMedicamentosComponent {
     const payload = {
       nombreProtocolo: datosRecibidos.nombreProtocolo,
       usuarioCreacion: usuario,
-      descripcion: datosRecibidos.descripcion,
+      descripción: datosRecibidos.descripcion,
       medicamentos: datosRecibidos.medicamentos.map((med: { nombre: any; dosis: any; formula: any; duracion: { horas: any; minutos: any; }; }) => ({
         nombre: med.nombre,
         dosis: med.dosis,

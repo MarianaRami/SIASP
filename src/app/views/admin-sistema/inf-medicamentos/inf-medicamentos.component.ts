@@ -52,7 +52,7 @@ export class InfMedicamentosComponent implements OnInit {
 
   generarDatosTabla() {
     if (this.datosRecibidos) {
-      const eventosAplicacion = this.datosRecibidos.eventos?.filter((e: any) => e.evento === 'Aplicación') || [];
+      const eventosAplicacion = this.datosRecibidos.eventos?.filter((e: any) => e.evento === 'aplicacion') || [];
       const configuracion = this.datosRecibidos.configuracionMedicamentos || [];
 
       eventosAplicacion.forEach((evento: any) => {

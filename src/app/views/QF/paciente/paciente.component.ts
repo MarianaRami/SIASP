@@ -187,7 +187,7 @@ export class PacienteComponent {
 
       const dto: CreateProtocoloPacienteCompletoDto = {
         idProtocolo: formData.idProtocolo,
-        idPaciente: this.pacienteData.idServinte,
+        idPaciente: this.pacienteData.idPaciente,
         usuarioCreacion: usuario,
         documento: this.pacienteData.documento,
         tipoDocumento: this.pacienteData.tipoDocumento,
