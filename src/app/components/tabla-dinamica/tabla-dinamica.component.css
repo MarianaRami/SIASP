@@ -34,6 +34,16 @@
   height: 10px;
 }
 
+.col input[type="number"] {
+  font-family: 'Roboto', sans-serif;
+  width: 70%;
+  padding: 6px 6px;
+  border: 1px solid #818181;
+  border-radius: 4px;
+  font-size: 14px;
+  height: 10px;
+}
+
 /* Estilo para input de fecha */
 .col input[type="date"] {
   font-family: 'Roboto', sans-serif;

@@ -38,30 +38,30 @@ export class AutorizacionComponent {
   columnasUniversal = [
     { key: 'Medicamento', label: 'Medicamento' },
     { key: 'Presentacion', label: 'Presentación' },
-    { key: 'Dosis', label: 'Dosis' },
-    { key: 'Unidad', label: 'Unidad' }
+    { key: 'Cantidad', label: 'Cantidad' },
+    { key: 'Unidad', label: 'Unidad', tipo: 'number' }
   ];
 
   columnasIndividual = [
     { key: 'Medicamento', label: 'Medicamento' },
     { key: 'Presentacion', label: 'Presentación' },
-    { key: 'Dosis', label: 'Dosis' },
-    { key: 'Unidad', label: 'Unidad' },
+    { key: 'Cantidad', label: 'Cantidad' },
+    { key: 'Unidad', label: 'Unidad', tipo: 'number' },
     { key: 'Autorizacion', label: 'No. Autorización', tipo: 'text' },
     { key: 'Fecha', label: 'Fecha', tipo: 'fecha' }
   ];
 
   datos = [
-    { Medicamento: '1' },
-    { Medicamento: '2' },
-    { Medicamento: '3' }
+    { Medicamento: 'Doxorrubicina', Presentacion: '200mg', Cantidad: '3' },
+    { Medicamento: 'Ciclofosfamida', Presentacion: '100mg', Cantidad: '33'  },
+    { Medicamento: 'Carboplatino', Presentacion: '50mg', Cantidad: '13' }
   ];
 
   laboratorios: any[] = [
     { autorizacion: '', fecha: '', descripcion: '' }
   ];
 
-  autorizacionIndividual = {
+  autorizacion = {
     numero: '',
     fecha: ''
   };
@@ -110,15 +110,32 @@ export class AutorizacionComponent {
 
   Cancelar() {
     this.laboratorios = [{ autorizacion: '', fecha: '', descripcion: '' }];
-    this.autorizacionIndividual = { numero: '', fecha: '' };
+    this.autorizacion = { numero: '', fecha: '' };
   }
 
   Guardar() {
+    let medicamentosFinal = [];
+
+    if (this.tipoSeleccionado === 'Individual') {
+      // Cada fila ya trae sus propios No. Autorización y Fecha desde la tabla
+      medicamentosFinal = this.datos;
+    } else {
+      // Universal → copiar el número y fecha a todos los medicamentos
+      medicamentosFinal = this.datos.map(med => ({
+        ...med,
+        Autorizacion: this.autorizacion.numero,
+        Fecha: this.autorizacion.fecha
+      }));
+    }
+
     const payload = {
+      idPaciente: this.pacienteData?.idPaciente,
+      idServinte: this.pacienteData?.idServinte,
+      documento: this.pacienteData?.documento,
       tipoAutorizacion: this.tipoSeleccionado,
-      autorizacionIndividual: this.tipoSeleccionado === 'Individual' ? this.autorizacionIndividual : null,
-      medicamentos: this.datos,
-      laboratorios: this.laboratorios
+      autorizacion: this.autorizacion,
+      medicamentos: medicamentosFinal,
+      laboratorios: this.laboratorios,
     };
 
     console.log('Payload a guardar:', payload);

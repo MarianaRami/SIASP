@@ -162,7 +162,8 @@ export class PacienteComponent {
       especialidad: this.pacienteData.especialidad,
       CIE11Descripcion: this.pacienteData.CIE11Descripcion,
       CIE11: this.pacienteData.CIE11,
-      tratamiento: this.pacienteData.tratamiento , 
+      tratamiento: formData.tratamiento , 
+      tipoTratamiento: formData.tipoTratamiento ,
       usuarioCreacion: usuario
     };
 

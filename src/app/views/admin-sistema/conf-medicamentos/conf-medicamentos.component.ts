@@ -44,7 +44,7 @@ export class ConfMedicamentosComponent {
       this.datosRecibidos.medicamentos.forEach((med: any, index: number) => {
         this.columnas.push({
           key: `medicamento_${index}`,
-          label: med.nombre,
+          label: `${med.nombre} (${med.dosis})`,
           tipo: 'checkbox'
         });
       });
@@ -53,11 +53,12 @@ export class ConfMedicamentosComponent {
 
   generarDatosTabla() {
     if (this.datosRecibidos) {
+      console.log("Esto es lo que trae: ", this.datosRecibidos)
       const eventosAplicacion = this.datosRecibidos.eventos.filter((e: any) => e.evento === 'aplicacion');
 
       eventosAplicacion.forEach((evento: any) => {
         const fila: any = {
-          dia: `${evento.dia}`
+          dia: evento.dia
         };
 
         // Inicializar checkboxes en false
@@ -105,7 +106,7 @@ export class ConfMedicamentosComponent {
       });
 
       return {
-        dia: fila.dia,
+        dia: parseInt(fila.dia),
         medicamentos: medicamentosSeleccionados
       };
     });

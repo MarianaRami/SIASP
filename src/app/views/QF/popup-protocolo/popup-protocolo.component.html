@@ -44,6 +44,22 @@
         <input type="date" [(ngModel)]="formData.fechaInicio" name="fechaInicio" required />
       </div>
 
+      <div class="form-row">
+        <label>Tratamiento <span class="required">*</span></label>
+        <select [(ngModel)]="formData.tratamiento" name="tratamiento" required>
+          <option value="" disabled selected>-- Seleccione un tratamiento --</option>
+          <option *ngFor="let t of tratamientos" [value]="t.value">{{ t.label }}</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label>Tipo de tratamiento <span class="required">*</span></label>
+        <select [(ngModel)]="formData.tipoTratamiento" name="tipoTratamiento" required>
+          <option value="" disabled selected>-- Seleccione un tipo --</option>
+          <option *ngFor="let tt of tiposTratamiento" [value]="tt.value">{{ tt.label }}</option>
+        </select>
+      </div>
+
       <button type="submit" class="guardar-btn">Guardar</button>
     </form>
   </div>

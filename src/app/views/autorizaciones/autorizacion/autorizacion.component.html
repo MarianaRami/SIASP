@@ -47,9 +47,9 @@
     </div>
     <div class="formulario-individual">
         <label>No. Autorización:</label>
-        <input type="text" />
+        <input type="text" [(ngModel)]="autorizacion.numero" />
         <label>Fecha:</label>
-        <input type="date" />
+        <input type="date" [(ngModel)]="autorizacion.fecha" />
   </div>
 </div>
 
@@ -57,9 +57,9 @@
 <div *ngIf="tipoSeleccionado === 'Individual'" class="layout-universal">
   <div class="fila-individual">
     <label>No. Autorización:</label>
-    <input type="text" [(ngModel)]="autorizacionIndividual.numero" />
+    <input type="text" [(ngModel)]="autorizacion.numero" />
     <label>Fecha:</label>
-    <input type="date" [(ngModel)]="autorizacionIndividual.fecha" />
+    <input type="date" [(ngModel)]="autorizacion.fecha" />
   </div>
   <div class="tabla-individual">
       <app-tabla-dinamica [columnas]="columnasIndividual" [datos]="datos"></app-tabla-dinamica>

@@ -25,6 +25,15 @@ export class PopupProtocoloComponent {
     { label: 'Transferencia', value: 'transferencia' }
   ];
 
+  tratamientos = [
+    { label: 'Mono', value: 'mono' },
+    { label: 'Poli', value: 'poli' }
+  ];
+
+  tiposTratamiento = [
+    { label: 'Alta', value: 'alta' },
+    { label: 'Baja', value: 'baja' }
+  ];
 
   fechaIngreso: string = new Date().toLocaleDateString('es-CO', {
     day: '2-digit',
@@ -38,7 +47,9 @@ export class PopupProtocoloComponent {
     fechaConsulta: '',
     tipoPaciente: '',
     razon: '',
-    fechaInicio: ''
+    fechaInicio: '',
+    tratamiento: '',       
+    tipoTratamiento: ''      
   };
 
   ngOnInit() {

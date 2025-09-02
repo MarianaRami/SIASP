@@ -40,8 +40,15 @@
 
       <!-- Fecha -->
       <ng-template #siguienteTipo4>
-        <ng-container *ngIf="col.tipo === 'fecha'; else textoNormal">
+        <ng-container *ngIf="col.tipo === 'fecha'; else siguienteTipo5">
           <input type="date" [(ngModel)]="fila[col.key]" />
+        </ng-container>
+      </ng-template>
+
+      <!-- Número -->
+      <ng-template #siguienteTipo5>
+        <ng-container *ngIf="col.tipo === 'number'; else textoNormal">
+          <input type="number" [(ngModel)]="fila[col.key]" />
         </ng-container>
       </ng-template>
 

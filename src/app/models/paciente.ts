@@ -112,6 +112,7 @@ export interface PacienteNuevoDto {
   CIE11Descripcion: string;
   CIE11: string;
   tratamiento: string;
+  tipoTratamiento: string;
   codigoTratamiento: number;
   usuarioCreacion: string;
 }

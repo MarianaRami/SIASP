@@ -58,7 +58,7 @@ export class InfMedicamentosComponent implements OnInit {
       eventosAplicacion.forEach((evento: any) => {
         const fila: any = {
           ciclo: this.datosRecibidos.numeroCiclo,
-          dia: `${evento.dia}`
+          dia: evento.dia
         };
 
         const configDia = configuracion.find((c: any) => c.dia === evento.dia);
@@ -88,7 +88,7 @@ export class InfMedicamentosComponent implements OnInit {
       });
 
       return {
-        dia: fila.dia,
+        dia: parseInt(fila.dia),
         medicamentos: medicamentosSeleccionados
       };
     });
