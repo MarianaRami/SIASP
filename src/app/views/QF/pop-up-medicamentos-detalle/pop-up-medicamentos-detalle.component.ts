@@ -23,6 +23,10 @@ export class PopUpMedicamentosDetalleComponent {
     this.medicamentos.splice(index, 1);
   }
 
+  volver() {
+    this.cerrar.emit();
+  }
+
   guardar() {
     console.log('Datos guardados:', this.medicamentos);
     // Aquí podrías emitir un evento o cerrar el popup

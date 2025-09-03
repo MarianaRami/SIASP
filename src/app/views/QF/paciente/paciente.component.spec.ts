@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './paciente.component.css'
 })
 export class PacienteComponent {
+version: any;
 guardarCambio($event: any) {
 throw new Error('Method not implemented.');
 }

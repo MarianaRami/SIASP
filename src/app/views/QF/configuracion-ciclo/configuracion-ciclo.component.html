@@ -4,7 +4,7 @@
         <img src="assets/images/volver.png" width="18" style="cursor:pointer;" />
     </button>
     <div class="acciones">
-      <button class="btn-accion" (click)="abrirPopup()">Medicamentos</button>
+      <button class="btn-accion" (click)="abrirPopupMedicamentos()">Medicamentos</button>
     </div>
   </div>
 
@@ -56,12 +56,50 @@
   </div>
 
   <div class="tabla">
-    <app-tabla-dinamica
-        [columnas]="columnas"
-        [datos]="datos">
-    </app-tabla-dinamica>
+    <table class="tabla-eventos">
+        <thead>
+            <tr>
+            <th>Día</th>
+            <th>Tipo</th>
+            <th>Observación</th>
+            <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let evento of eventos; let i = index">
+            <td>
+                <input type="number" [(ngModel)]="evento.dia" min="0" />
+            </td>
+            <td>
+                <select [(ngModel)]="evento.tipo">
+                <option value="">Seleccione</option>
+                <option *ngFor="let op of opcionesEvento" [value]="op.value">{{ op.label }}</option>
+                </select>
+            </td>
+            <td>
+                <input type="text" [(ngModel)]="evento.observacion" />
+            </td>
+            <td>
+                <button class="btn-trash" (click)="eliminarFila(i)" *ngIf="eventos.length > 1">
+                    <img src="assets/images/eliminar.png" width="18" style="cursor:pointer;" />
+                </button>
+            </td>
+            </tr>
+        </tbody>
+        </table>
+        <button class="btn-agregar" (click)="agregarFila()">+</button>
   </div>
 
 </div>
 
-<app-pop-up-medicamentos *ngIf="mostrarPopup" (cerrar)="cerrarPopup()"></app-pop-up-medicamentos>
+<app-pop-up-medicamentos
+  *ngIf="mostrarPopupMedicamentos"
+  [medicamentos]="medicamentos"
+  (cerrar)="cerrarPopupMedicamentos()"
+  (siguiente)="abrirPopupMedicamentosDetalle()">
+</app-pop-up-medicamentos>
+
+<app-pop-up-medicamentos-detalle
+  *ngIf="mostrarPopupMedicamentosDetalle"
+  (cerrar)="cerrarPopupMedicamentosDetalle()">
+</app-pop-up-medicamentos-detalle>

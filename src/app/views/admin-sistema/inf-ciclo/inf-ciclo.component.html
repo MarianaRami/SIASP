@@ -37,7 +37,13 @@
             <option *ngFor="let op of opcionesEvento" [value]="op.value">{{ op.label }}</option>
           </select>
         </td>
-        <td><input type="text" [(ngModel)]="fila.observacion" /></td>
+        <td>
+          <input 
+            type="text" 
+            [(ngModel)]="fila.observacion" 
+            [disabled]="fila.evento === 'aplicacion'" 
+          />
+        </td>
         <td>
           <button class="btn-trash" (click)="eliminarFila(i)">
             <img src="assets/images/eliminar.png" width="18" />

@@ -22,6 +22,12 @@
   gap: 10px;
 }
 
+.fila span {
+    color: #000000;
+    font-size: 0.9em;
+    margin-left: 5px;
+}
+
 .btn-accion {
   background-color: #FFE5D7;
   border: none;

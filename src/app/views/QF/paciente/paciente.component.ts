@@ -38,6 +38,7 @@ export class PacienteComponent {
   eps = '';
   cie10 = '';
   especialidad = '';
+  version = ''
 
   protocoloCompleto: any = null; 
   ciclos: any[] = [];
@@ -47,14 +48,11 @@ export class PacienteComponent {
   }
 
   columnas = [
-    { key: 'Ciclo', label: 'Ciclo' },
-    { key: 'Estado', label: 'Estado' },
-    { key: 'Fecha', label: 'Fecha Finalización' }
+    { key: 'ciclo', label: 'Ciclo' },
+    { key: 'estado', label: 'Estado' },
+    { key: 'fechaFinEstimada', label: 'Fecha Finalización' }
   ];
-  datos = [
-    { Ciclo: '1', Estado: 'Activo', Fecha: '01/08/2024' },
-    { Ciclo: '2', Estado: 'Activo', Fecha: '01/09/2025' }
-  ];
+  datos: { ciclo: any; estado: string; fechaFinEstimada: any }[] = [];
 
   abrirPopup() {
     this.mostrarPopup = true;
@@ -110,7 +108,15 @@ export class PacienteComponent {
                   next: (protocoloResp) => {
                     console.log('Protocolo completo desde backend:', protocoloResp);
                     this.protocoloCompleto = protocoloResp;
+                    this.version = protocoloResp.version;
                     this.ciclos = protocoloResp.ciclos || [];
+
+                    // Aquí transformas los ciclos para la tabla
+                    this.datos = (this.ciclos || []).map((ciclo: any) => ({
+                      ciclo: ciclo.numCiclo,
+                      estado: ciclo.fechaFinReal ? 'Inactivo' : 'Activo',
+                      fechaFinEstimada: ciclo.fechaFinReal || '-'
+                    }));
                   },
                   error: (err) => {
                     console.error('Error al obtener protocolo completo:', err);

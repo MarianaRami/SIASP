@@ -1,31 +1,76 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ProtocolosService } from '../../../services/protocolos.service';
+
 
 @Component({
   selector: 'app-pop-up-medicamentos',
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule, FormsModule
+  ],
   templateUrl: './pop-up-medicamentos.component.html',
   styleUrl: './pop-up-medicamentos.component.css'
 })
 export class PopUpMedicamentosComponent {
+  @Input() medicamentos: any[] = [];
   @Output() cerrar = new EventEmitter<void>();
+  @Output() siguiente = new EventEmitter<void>();
 
-  medicamentos: any[] = [
-    { medicamento: '', dosis_calculada: '', dosis_formulada: '', icono: '' , formula: '' }
+  listaMedicamentos: string[] = [];
+
+  opcionesFormula = [
+    { label:'SC', value: 'SC' }, 
+    { label:'Peso', value: 'peso' }, 
+    { label:'AUC', value: 'AUC' }, 
+    { label:'Fija', value: 'fija' }
   ];
 
+  constructor(private protocoloService: ProtocolosService) {}
+
+  ngOnInit() {
+    this.protocoloService.getMedicamentos().subscribe({
+      next: (data) => {
+        this.listaMedicamentos = data.map((med: any) => med.nombre);
+      },
+      error: (err) => {
+        console.error('Error cargando medicamentos:', err);
+      }
+    });
+  }
+
+  estaEnRango(fila: any): boolean {
+    const dosisCalculada = Number(fila.dosisCalculada);
+    const dosisFormulada = Number(fila.dosisFormulada);
+    if (isNaN(dosisFormulada)) return false;
+    return dosisFormulada >= (dosisCalculada - 5) && dosisFormulada <= (dosisCalculada + 5);
+  }
+
   agregarFila() {
-    this.medicamentos.push({ medicamento: '', dosis_calculada: '', dosis_formulada: '', icono: '', formula: '' });
+    this.medicamentos.push({
+      nombre: '',
+      dosisCalculada: '',
+      dosisFormulada: '',
+      formula: '',
+      esNueva: true
+    });
   }
 
   eliminarFila(index: number) {
     this.medicamentos.splice(index, 1);
   }
 
-  guardar() {
-    console.log('Datos guardados:', this.medicamentos);
-    // Aquí podrías emitir un evento o cerrar el popup
+  volver() {
     this.cerrar.emit();
+  }
+
+  irASiguiente() {
+    const datosEnviar = this.medicamentos.map(med => ({
+      nombre: med.nombre,
+      dosisFormulada: med.dosisFormulada,
+      formula: med.formula
+    }));
+    this.siguiente.emit();
+    console.log('Datos enviados:', datosEnviar);
   }
 }

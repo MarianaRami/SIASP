@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla-dinamica.component';
 import { PopUpMedicamentosComponent } from '../pop-up-medicamentos/pop-up-medicamentos.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
+import { PopUpMedicamentosDetalleComponent } from '../pop-up-medicamentos-detalle/pop-up-medicamentos-detalle.component';
 
 @Component({
   selector: 'app-configuracion-ciclo',
   imports: [
-    TablaDinamicaComponent, PopUpMedicamentosComponent,
+    PopUpMedicamentosComponent, PopUpMedicamentosDetalleComponent,
     FormsModule, CommonModule
   ],
   templateUrl: './configuracion-ciclo.component.html',
@@ -36,12 +36,27 @@ export class ConfiguracionCicloComponent {
   talla = '';
   conf_medicamentos: '' | undefined;
 
+  mostrarPopupMedicamentos = false;
+  mostrarPopupMedicamentosDetalle = false;
+  medicamentos: any[] = [];
+
   columnas = [
     { key: 'Aplicacion', label: 'No. Aplicación' },
     { key: 'Fecha', label: 'Fecha programada' },
     { key: 'Estado', label: 'Estado' }
   ];
   datos: any[] = [];
+
+  eventos: any[] = [
+    { dia: 0, tipo: '', observacion: '', activo: true }
+  ];
+
+  opcionesEvento = [
+    { label: 'Exámenes', value: 'examenes' },
+    { label:'Aplicación', value: 'aplicacion' }, 
+    { label: 'Lavado de catéter', value: 'lavado' },
+    { label: 'Otro', value: 'otro' }
+  ];
 
   ngOnInit() {
     this.cedula = this.route.snapshot.paramMap.get('cedula') || '';
@@ -51,9 +66,11 @@ export class ConfiguracionCicloComponent {
         next: (resp) => {
           console.log('Protocolo recibido:', resp);
           this.protocolo = resp.nombreProtocolo;
-          this.peso = resp.peso;
-          this.superficie = resp.superficie;
-          this.talla = resp.talla;
+          this.peso = resp.indicadores.peso;
+          this.superficie = resp.indicadores.sc;
+          this.talla = resp.indicadores.altura;
+          this.tfg = resp.indicadores.tfg;
+          this.medicamentos = resp.medicamentos || [];
 
           const ciclo = resp.ciclos?.[0];
           if (ciclo) {
@@ -62,11 +79,12 @@ export class ConfiguracionCicloComponent {
             this.fecha_asignacion = ciclo.fechaIniEstimada;
           }
 
-          this.datos = resp.eventos?.map((evento: any, index: number) => ({
-            Aplicacion: index + 1,
-            Fecha: `Día ${evento.dia}`,
-            Estado: evento.tipo
-          })) || [];
+          this.eventos = resp.eventos?.map((evento: any) => ({
+            dia: Number(evento.dia),
+            tipo: evento.tipo || '',
+            observacion: evento.observacion || '',
+            activo: evento.activo !== false
+          })) || [{ dia: 0, tipo: '', observacion: '', activo: true }];
         },
         error: (err) => {
           console.error('Error obteniendo protocolo:', err);
@@ -74,12 +92,29 @@ export class ConfiguracionCicloComponent {
       });
   }
 
-  abrirPopup() {
-    this.mostrarPopup = true;
+  agregarFila() {
+    this.eventos.push({ dia: 0, tipo: '', observacion: '', activo: true });
   }
 
-  cerrarPopup() {
-    this.mostrarPopup = false;
+  eliminarFila(index: number) {
+    this.eventos.splice(index, 1);
+  }
+
+  abrirPopupMedicamentos() {
+    this.mostrarPopupMedicamentos = true;
+  }
+
+  cerrarPopupMedicamentos() {
+    this.mostrarPopupMedicamentos = false;
+  }
+
+  abrirPopupMedicamentosDetalle() {
+    this.mostrarPopupMedicamentos = false;
+    this.mostrarPopupMedicamentosDetalle = true;
+  }
+
+  cerrarPopupMedicamentosDetalle() {
+    this.mostrarPopupMedicamentosDetalle = false;
   }
 
   volver() {

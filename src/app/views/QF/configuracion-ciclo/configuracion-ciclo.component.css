@@ -67,3 +67,78 @@ input, select {
 .requerido {
   color: red;
 }
+
+input[type="text"] {
+  width: 220px;
+  height: 15px;
+  padding: 6px;
+  border: 1px solid #818181;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+input[type="date"] {
+  width: 220px;
+  height: 15px;
+  padding: 6px;
+  border: 1px solid #818181;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+input[type="number"] {
+  width: 220px;
+  height: 15px;
+  padding: 6px;
+  border: 1px solid #818181;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+input[type="checkbox"] {
+  margin-top: 10px;
+  transform: scale(2.2);
+  border: 1px solid #818181;
+}
+
+select {
+  width: 220px;
+  padding: 6px;
+  border: 1px solid #818181;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+table {
+  width: 75%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid gray;
+  border-left: 1px solid #818181;
+}
+
+th:first-child, td:first-child {
+  border-left: none; /* para evitar borde doble a la izquierda */
+}
+
+.btn-trash {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.btn-agregar {
+  margin-top: 10px;
+  font-size: 20px;
+  padding: 3px 8px;
+  border-radius: 50%;
+  border: 1px solid black;
+  background: white;
+  cursor: pointer;
+}

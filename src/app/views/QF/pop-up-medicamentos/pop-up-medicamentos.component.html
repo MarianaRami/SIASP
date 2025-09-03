@@ -1,5 +1,8 @@
 <div class="popup-container">
   <div class="popup">
+    <button class="close-btn" (click)="volver()">
+      <img src="assets/images/close.png" width="18" style="cursor:pointer;" />
+    </button>
     <table>
       <thead>
         <tr>
@@ -13,11 +16,47 @@
       </thead>
       <tbody>
         <tr *ngFor="let fila of medicamentos; let i = index">
-          <td><input type="text" [(ngModel)]="fila.medicamento" /></td>
-          <td><input type="text" [(ngModel)]="fila.dosis_calculada" /></td>
-          <td><input type="text" [(ngModel)]="fila.dosis_formulada" /></td>
-          <td><input type="text" [(ngModel)]="fila.icono" /></td>
-          <td><input type="text" [(ngModel)]="fila.formula" /></td>
+          <td>
+            <ng-container *ngIf="fila.esNueva; else soloLecturaNombre">
+              <select [(ngModel)]="fila.nombre">
+                <option value="" disabled selected>Seleccione un medicamento</option>
+                <option *ngFor="let med of listaMedicamentos" [value]="med">{{ med }}</option>
+              </select>
+            </ng-container>
+            <ng-template #soloLecturaNombre>
+              {{ fila.nombre }}
+            </ng-template>
+          </td>
+          <td>
+            <ng-container *ngIf="fila.esNueva; else soloLecturaDosisCalculada">
+              <input type="number" [(ngModel)]="fila.dosisCalculada" />
+            </ng-container>
+            <ng-template #soloLecturaDosisCalculada>
+              {{ fila.dosisCalculada }}
+            </ng-template>
+          </td>
+          <td>
+            <input type="number" [(ngModel)]="fila.dosisFormulada" />
+          </td>
+          <td>
+            <button 
+              [ngStyle]="{
+                'background-color': estaEnRango(fila) ? 'green' : 'red',
+                'color': 'white',
+                'border': 'none',
+                'border-radius': '50%',
+                'width': '24px',
+                'height': '24px'
+              }"
+              title="Validación de rango"
+            >
+            </button>
+          </td>
+          <td>
+            <select [(ngModel)]="fila.formula">
+              <option *ngFor="let opcion of opcionesFormula" [value]="opcion.value">{{ opcion.label }}</option>
+            </select>
+          </td>
           <td>
             <button class="delete" (click)="eliminarFila(i)">
               <img src="assets/images/eliminar.png" width="18"  />
@@ -29,6 +68,6 @@
 
     <button class="add-btn" (click)="agregarFila()">+</button>
 
-    <button class="guardar-btn" (click)="guardar()">Siguiente</button>
+    <button class="guardar-btn" (click)="irASiguiente()">Siguiente</button>
   </div>
 </div>

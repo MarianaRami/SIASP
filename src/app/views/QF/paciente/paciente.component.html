@@ -28,7 +28,7 @@
 
         <div class="fila">
             <label>Protocolo:</label>
-            <div>{{ protocolo }}</div>
+            <div>{{ protocolo }} <span *ngIf="version">- versión {{ version }}</span> </div>
             <button class="editar" *ngIf="protocolo" (click)="abrirPopup()" >
                 <img src="assets/images/editar.png"  width="18" style="cursor:pointer;" />
             </button>
