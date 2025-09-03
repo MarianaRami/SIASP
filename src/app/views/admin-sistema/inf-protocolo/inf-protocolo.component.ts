@@ -19,7 +19,7 @@ export class InfProtocoloComponent {
 
   nombreProtocolo: string = '';
   descripcion: string = '';
-  medicamentos = [{ nombre: '', dosis: '', formula: '', duracion: { horas: '', minutos: '' } }];
+  medicamentos = [{ nombre: '', dosis: 0, formula: '', duracion: { horas: '', minutos: '' } }];
 
    opcionesFormula = [
     { label:'SC', value: 'SC' }, 
@@ -41,14 +41,14 @@ export class InfProtocoloComponent {
       this.medicamentos = protocolo.medicamentos?.length > 0
         ? protocolo.medicamentos.map((m: any) => ({
             nombre: m.nombre || '',
-            dosis: m.dosis || '',
+            dosis: m.dosis,
             formula: m.formula || '',
             duracion: {
               horas: m.duracion ? Math.floor(m.duracion / 60).toString() : '',
               minutos: m.duracion ? (m.duracion % 60).toString() : ''
             }
           }))
-        : [{ nombre: '', dosis: '', formula: '', duracion: { horas: '', minutos: '' } }];
+        : [{ nombre: '', dosis: 0, formula: '', duracion: { horas: '', minutos: '' } }];
     }
 
     // Obtener lista de medicamentos disponibles
@@ -63,7 +63,7 @@ export class InfProtocoloComponent {
   }
 
   agregarMedicamento() {
-    this.medicamentos.push({ nombre: '', dosis: '', formula: '', duracion: { horas: '', minutos: '' } });
+    this.medicamentos.push({ nombre: '', dosis: 0, formula: '', duracion: { horas: '', minutos: '' } });
   }
 
   eliminarMedicamento(index: number) {
@@ -78,7 +78,7 @@ export class InfProtocoloComponent {
     for (let medicamento of this.medicamentos) {
       if (
         medicamento.nombre === '' ||
-        medicamento.dosis === '' ||
+        medicamento.dosis === 0 ||
         medicamento.formula === '' ||
         medicamento.duracion.horas === '' ||
         medicamento.duracion.minutos === ''
@@ -114,6 +114,7 @@ export class InfProtocoloComponent {
         descripcion: this.descripcion,
         medicamentos: this.medicamentos.map(m => ({
           ...m,
+          dosis: Number(m.dosis),
           duracion: (parseInt(m.duracion.horas) * 60) + parseInt(m.duracion.minutos) // minutos totales
         }))
       };

@@ -13,7 +13,10 @@ export interface Evento {
 
 export interface ConfiguracionMedicamento {
   dia: string;
-  medicamentos: string[];
+  medicamentos: {
+    nombre: string;
+    dosis: number
+  };
 }
 
 export interface Protocolo {

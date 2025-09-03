@@ -25,7 +25,7 @@ export class InfCicloComponent {
   id: string = '';
 
   eventos: any[] = [
-    { dia: '', evento: '', observacion: '', activo: true }
+    { dia: 0, evento: '', observacion: '', activo: true }
   ];
 
   opcionesEvento = [
@@ -42,8 +42,8 @@ export class InfCicloComponent {
     if (protocolo) {
       this.id = protocolo.id;
 
-      this.numeroCiclo = protocolo.numeroCiclo || '';
-      this.duracionCiclo = protocolo.duracionCiclo || '';
+      this.numeroCiclo = protocolo.numeroCiclo;
+      this.duracionCiclo = protocolo.duracionCiclo;
       this.necesitaExamenes = protocolo.necesitaExamenes || false;
 
       // ⚡ Aquí mantenemos el value en minúscula
@@ -57,7 +57,7 @@ export class InfCicloComponent {
   }
 
   agregarFila() {
-    this.eventos.push({ dia: '', evento: '', observacion: '', activo: true });
+    this.eventos.push({ dia: 0, evento: '', observacion: '', activo: true });
   }
 
   eliminarFila(index: number) {
@@ -72,7 +72,10 @@ export class InfCicloComponent {
       numeroCiclo: this.numeroCiclo,
       duracionCiclo: this.duracionCiclo,
       necesitaExamenes: this.necesitaExamenes,
-      eventos: this.eventos
+      eventos: this.eventos.map(evento => ({
+        ...evento,
+        dia: Number(evento.dia) // Convertir explícitamente a número
+      }))
     };
 
     this.ProtocolosService.setProtocolo(protocolo.id, payload);

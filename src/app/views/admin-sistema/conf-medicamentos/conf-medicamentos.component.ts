@@ -103,7 +103,7 @@ export class ConfMedicamentosComponent {
         if (fila[`medicamento_${index}`]) {
           medicamentosSeleccionados.push({
             nombre: med.nombre,
-            dosis: med.dosis
+            dosis: parseInt(med.dosis)
           });
         }
       });
@@ -120,7 +120,7 @@ export class ConfMedicamentosComponent {
     const payload = {
       nombreProtocolo: datosRecibidos.nombreProtocolo,
       usuarioCreacion: usuario,
-      descripción: datosRecibidos.descripcion,
+      descripcion: datosRecibidos.descripcion,
       medicamentos: datosRecibidos.medicamentos.map((med: { nombre: any; dosis: any; formula: any; duracion: { horas: any; minutos: any; }; }) => ({
         nombre: med.nombre,
         dosis: med.dosis,

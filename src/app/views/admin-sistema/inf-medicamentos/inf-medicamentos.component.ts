@@ -30,6 +30,8 @@ export class InfMedicamentosComponent implements OnInit {
   ngOnInit(): void {
     this.datosRecibidos = this.ProtocolosService.getProtocolo();
 
+    console.log('Datos recibidos:', this.datosRecibidos);
+
     this.generarColumnas();
     this.generarDatosTabla();
   }
@@ -52,16 +54,20 @@ export class InfMedicamentosComponent implements OnInit {
 
   generarDatosTabla() {
     if (this.datosRecibidos) {
-      const eventosAplicacion = this.datosRecibidos.eventos?.filter((e: any) => e.evento === 'aplicacion') || [];
+      const eventosAplicacion = this.datosRecibidos.eventos?.filter((e: any) => 
+        e.evento.toLowerCase() === 'aplicacion'
+      ) || [];
       const configuracion = this.datosRecibidos.configuracionMedicamentos || [];
 
       eventosAplicacion.forEach((evento: any) => {
         const fila: any = {
           ciclo: this.datosRecibidos.numeroCiclo,
-          dia: evento.dia
+          dia: parseInt(evento.dia)
         };
 
-        const configDia = configuracion.find((c: any) => c.dia === evento.dia);
+        const configDia = configuracion.find((c: any) => 
+          parseInt(c.dia) === parseInt(evento.dia)
+        );
 
         // Inicializar checkboxes en false
         this.datosRecibidos.medicamentos.forEach((med: any, index: number) => {
@@ -87,7 +93,7 @@ export class InfMedicamentosComponent implements OnInit {
         if (fila[`medicamento_${index}`]) {
           medicamentosSeleccionados.push({
             nombre: med.nombre,
-            dosis: med.dosis
+            dosis: parseInt(med.dosis)
           });
         }
       });
@@ -102,8 +108,8 @@ export class InfMedicamentosComponent implements OnInit {
       nombreProtocolo: protocolo.nombreProtocolo,
       usuarioCreacion: usuario, 
       medicamentos: protocolo.medicamentos,
-      numeroCiclo: protocolo.numeroCiclo,
-      duracionCiclo: protocolo.duracionCiclo,
+      numeroCiclo: parseInt(protocolo.numeroCiclo),
+      duracionCiclo: parseInt(protocolo.duracionCiclo),
       necesitaExamenes: protocolo.necesitaExamenes,
       eventos: protocolo.eventos,
       configuracionMedicamentos: configuracionMedicamentos
