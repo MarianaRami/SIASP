@@ -189,6 +189,7 @@ export class PacienteComponent {
       const dto: CreateProtocoloPacienteCompletoDto = {
         idProtocolo: formData.idProtocolo,
         idPaciente: this.pacienteData.idPaciente,
+        idServinte: this.pacienteData.idServinte,
         usuarioCreacion: usuario,
         documento: this.pacienteData.documento,
         tipoDocumento: this.pacienteData.tipoDocumento,
@@ -203,8 +204,8 @@ export class PacienteComponent {
         codigoMedicoTratante: this.pacienteData.codigoMedicoTratante,
         especialidad: this.pacienteData.especialidad,
         codigoEspecialidad: this.pacienteData.codigoEspecialidad,
-        tratamiento: this.pacienteData.tratamiento!,
-        codigoTratamiento: 1,
+        tratamiento: formData.tratamiento , 
+        tipoTratamiento: formData.tipoTratamiento 
       };
 
       console.log('Enviando paciente nuevo:', dto);

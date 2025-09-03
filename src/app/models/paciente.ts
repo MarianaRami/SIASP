@@ -125,6 +125,7 @@ export interface PacienteResponse {
 export interface CreateProtocoloPacienteCompletoDto {
   idProtocolo: string;
   idPaciente: string;
+  idServinte: string;
   usuarioCreacion: string | null;
   documento: string;
   tipoDocumento: string;
@@ -140,7 +141,7 @@ export interface CreateProtocoloPacienteCompletoDto {
   especialidad: string;
   codigoEspecialidad: number;
   tratamiento: string;
-  codigoTratamiento: number;
+  tipoTratamiento: string;
   fechaFinProtocolo?: string;
   tipoFin?: "cancelado" | "cambio_protocolo" | "concluido" | "desistido";
 }
