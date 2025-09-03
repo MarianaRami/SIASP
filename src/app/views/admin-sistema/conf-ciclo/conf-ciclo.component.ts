@@ -64,8 +64,7 @@ export class ConfCicloComponent {
       if (
         evento.activo && (
           evento.dia === '' ||
-          evento.evento === '' ||
-          evento.observacion === ''
+          evento.evento === '' 
         )
       ) {
         return false;
