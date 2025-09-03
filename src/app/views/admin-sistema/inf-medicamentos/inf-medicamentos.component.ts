@@ -106,6 +106,7 @@ export class InfMedicamentosComponent implements OnInit {
 
     const payload = {
       nombreProtocolo: protocolo.nombreProtocolo,
+      descripcion: protocolo.descripcion,
       usuarioCreacion: usuario, 
       medicamentos: protocolo.medicamentos,
       numeroCiclo: parseInt(protocolo.numeroCiclo),
