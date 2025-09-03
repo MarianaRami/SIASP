@@ -43,7 +43,7 @@ export class InfMedicamentosComponent implements OnInit {
       this.datosRecibidos.medicamentos.forEach((med: any, index: number) => {
         this.columnas.push({
           key: `medicamento_${index}`,
-          label: med.nombre,
+          label: `${med.nombre} (${med.dosis})`,
           tipo: 'checkbox'
         });
       });
@@ -66,7 +66,9 @@ export class InfMedicamentosComponent implements OnInit {
         // Inicializar checkboxes en false
         this.datosRecibidos.medicamentos.forEach((med: any, index: number) => {
           const medKey = `medicamento_${index}`;
-          fila[medKey] = configDia?.medicamentos?.includes(med.nombre) || false;
+          fila[medKey] = configDia?.medicamentos?.some(
+            (m: any) => m.nombre === med.nombre && m.dosis == med.dosis
+          ) || false;
         });
 
         this.datosTabla.push(fila);
@@ -79,11 +81,14 @@ export class InfMedicamentosComponent implements OnInit {
     const usuario = this.AuthService.getUser();
 
     const configuracionMedicamentos = this.datosTabla.map(fila => {
-      const medicamentosSeleccionados: string[] = [];
+      const medicamentosSeleccionados: any[] = [];
 
-      this.datosRecibidos.medicamentos.forEach((_: any, index: number) => {
+      this.datosRecibidos.medicamentos.forEach((med: any, index: number) => {
         if (fila[`medicamento_${index}`]) {
-          medicamentosSeleccionados.push(this.datosRecibidos.medicamentos[index].nombre);
+          medicamentosSeleccionados.push({
+            nombre: med.nombre,
+            dosis: med.dosis
+          });
         }
       });
 
@@ -103,7 +108,7 @@ export class InfMedicamentosComponent implements OnInit {
       eventos: protocolo.eventos,
       configuracionMedicamentos: configuracionMedicamentos
     };
-    console.log(payload)
+    console.log(payload);
 
     this.ProtocolosService.crearNuevaVersionProtocoloCompleto(payload).subscribe({
       next: (res) => {

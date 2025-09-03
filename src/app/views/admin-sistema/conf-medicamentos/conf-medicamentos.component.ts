@@ -97,11 +97,14 @@ export class ConfMedicamentosComponent {
 
     // Crear estructura con medicamentos seleccionados por día
     const configuracionMedicamentos = this.datosTabla.map(fila => {
-      const medicamentosSeleccionados: string[] = [];
+      const medicamentosSeleccionados: any[] = [];
 
-      this.datosRecibidos.medicamentos.forEach((_: any, index: number) => {
+      this.datosRecibidos.medicamentos.forEach((med: any, index: number) => {
         if (fila[`medicamento_${index}`]) {
-          medicamentosSeleccionados.push(this.datosRecibidos.medicamentos[index].nombre);
+          medicamentosSeleccionados.push({
+            nombre: med.nombre,
+            dosis: med.dosis
+          });
         }
       });
 
@@ -128,10 +131,10 @@ export class ConfMedicamentosComponent {
       duracionCiclo: datosRecibidos.duracionCiclo,
       necesitaExamenes: datosRecibidos.necesitaExamenes,
       eventos: datosRecibidos.eventos,
-      configuracionMedicamentos 
+      configuracionMedicamentos
     };
 
-    console.log("Esto son los datos finales",payload)
+    console.log("Esto son los datos finales", payload);
 
     // ✅ Guardar en backend
     this.ProtocolosService.saveProtocolo(payload).subscribe({
@@ -145,7 +148,6 @@ export class ConfMedicamentosComponent {
       }
     });
   }
-
 }
 
 

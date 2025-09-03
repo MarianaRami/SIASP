@@ -72,8 +72,8 @@ export class ProtocolosComponent {
       .filter((evento: any) => evento.activo)
       .map((evento: any) => {
         const configDia = configuracion.find((c: any) => c.dia === evento.dia);
-        const meds = (evento.evento === 'aplicación' && configDia)
-          ? configDia.medicamentos.join(', ')
+        const meds = (evento.evento === 'aplicacion' && configDia)
+          ? configDia.medicamentos.map((m: any) => `${m.nombre} (${m.dosis})`).join(', ')
           : '-';
 
         return {

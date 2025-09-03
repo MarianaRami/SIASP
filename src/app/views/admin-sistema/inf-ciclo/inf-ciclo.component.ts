@@ -46,13 +46,13 @@ export class InfCicloComponent {
       this.duracionCiclo = protocolo.duracionCiclo || '';
       this.necesitaExamenes = protocolo.necesitaExamenes || false;
 
+      // ⚡ Aquí mantenemos el value en minúscula
       this.eventos = (protocolo.eventos?.filter((e: any) => e.activo) || this.eventos).map((evento: any) => {
-      const eventoCapitalizado = this.capitalizarEvento(evento.evento);
-      return {
-        ...evento,
-        evento: eventoCapitalizado
-      };
-    });
+        return {
+          ...evento,
+          evento: evento.evento.toLowerCase()  // mantener en minúscula para que haga match
+        };
+      });
     }
   }
 

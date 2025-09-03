@@ -48,7 +48,7 @@ input[type="text"] {
   font-family: inherit;
 }
 
-input[type="text"] {
+input[type="number"] {
   width: 220px;
   height: 15px;
   padding: 6px;
