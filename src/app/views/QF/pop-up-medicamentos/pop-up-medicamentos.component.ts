@@ -15,7 +15,7 @@ import { ProtocolosService } from '../../../services/protocolos.service';
 export class PopUpMedicamentosComponent {
   @Input() medicamentos: any[] = [];
   @Output() cerrar = new EventEmitter<void>();
-  @Output() siguiente = new EventEmitter<void>();
+  @Output() siguiente = new EventEmitter<any[]>(); 
 
   listaMedicamentos: string[] = [];
 
@@ -49,6 +49,7 @@ export class PopUpMedicamentosComponent {
   agregarFila() {
     this.medicamentos.push({
       nombre: '',
+      dosisTeorica: '',
       dosisCalculada: '',
       dosisFormulada: '',
       formula: '',
@@ -66,11 +67,11 @@ export class PopUpMedicamentosComponent {
 
   irASiguiente() {
     const datosEnviar = this.medicamentos.map(med => ({
-      nombre: med.nombre,
+      nombre: med.nombre ,
       dosisFormulada: med.dosisFormulada,
-      formula: med.formula
+      formula: med.formula,
+      dosisTeorica: med.dosisTeorica
     }));
-    this.siguiente.emit();
-    console.log('Datos enviados:', datosEnviar);
+    this.siguiente.emit(datosEnviar);
   }
 }

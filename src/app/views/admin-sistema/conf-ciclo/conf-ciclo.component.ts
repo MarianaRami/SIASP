@@ -79,7 +79,7 @@ export class ConfCicloComponent {
 
     const payload = {
       nombreProtocolo: datosProtocolo.nombreProtocolo,
-      descripción: datosProtocolo.descripcion,
+      descripcion: datosProtocolo.descripcion,
       medicamentos: datosProtocolo.medicamentos,
       numeroCiclo: this.numeroCiclo,
       duracionCiclo: this.duracionCiclo,

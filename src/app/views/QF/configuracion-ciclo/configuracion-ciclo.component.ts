@@ -26,6 +26,7 @@ export class ConfiguracionCicloComponent {
   cedula!: string;
 
   protocolo: any; 
+  version = '';
   ciclo = '';
   fecha_asignacion = '';
   fecha_consulta = '';
@@ -35,6 +36,8 @@ export class ConfiguracionCicloComponent {
   tfg = '';
   talla = '';
   conf_medicamentos: '' | undefined;
+
+  medicamentosDetalle: any[] = [];
 
   mostrarPopupMedicamentos = false;
   mostrarPopupMedicamentosDetalle = false;
@@ -66,6 +69,7 @@ export class ConfiguracionCicloComponent {
         next: (resp) => {
           console.log('Protocolo recibido:', resp);
           this.protocolo = resp.nombreProtocolo;
+          this.version = resp.version;
           this.peso = resp.indicadores.peso;
           this.superficie = resp.indicadores.sc;
           this.talla = resp.indicadores.altura;
@@ -108,9 +112,10 @@ export class ConfiguracionCicloComponent {
     this.mostrarPopupMedicamentos = false;
   }
 
-  abrirPopupMedicamentosDetalle() {
+  abrirPopupMedicamentosDetalle(datos: any[]) {
     this.mostrarPopupMedicamentos = false;
     this.mostrarPopupMedicamentosDetalle = true;
+    this.medicamentosDetalle = datos; 
   }
 
   cerrarPopupMedicamentosDetalle() {

@@ -38,7 +38,7 @@ export class PacienteComponent {
   eps = '';
   cie10 = '';
   especialidad = '';
-  version = ''
+  version = '';
 
   protocoloCompleto: any = null; 
   ciclos: any[] = [];

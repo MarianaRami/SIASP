@@ -74,7 +74,7 @@ export class InfCicloComponent {
       necesitaExamenes: this.necesitaExamenes,
       eventos: this.eventos.map(evento => ({
         ...evento,
-        dia: Number(evento.dia) // Convertir explícitamente a número
+        dia: Number(evento.dia) 
       }))
     };
 

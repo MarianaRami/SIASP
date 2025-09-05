@@ -11,7 +11,7 @@
   <div class="formulario">
     <div class="fila">
         <label>Protocolo:</label>
-        <div>{{ protocolo }}</div>
+        <div>{{ protocolo }} <span *ngIf="version">- Versión {{ version }}</span> </div>
     </div>
 
     <div class="fila">
@@ -77,7 +77,11 @@
                 </select>
             </td>
             <td>
-                <input type="text" [(ngModel)]="evento.observacion" />
+                <input 
+                    type="text" 
+                    [(ngModel)]="evento.observacion" 
+                    [disabled]="evento.tipo === 'aplicacion'"
+                />
             </td>
             <td>
                 <button class="btn-trash" (click)="eliminarFila(i)" *ngIf="eventos.length > 1">
@@ -96,10 +100,11 @@
   *ngIf="mostrarPopupMedicamentos"
   [medicamentos]="medicamentos"
   (cerrar)="cerrarPopupMedicamentos()"
-  (siguiente)="abrirPopupMedicamentosDetalle()">
+  (siguiente)="abrirPopupMedicamentosDetalle($event)">
 </app-pop-up-medicamentos>
 
 <app-pop-up-medicamentos-detalle
   *ngIf="mostrarPopupMedicamentosDetalle"
+  [medicamentos]="medicamentosDetalle"
   (cerrar)="cerrarPopupMedicamentosDetalle()">
 </app-pop-up-medicamentos-detalle>

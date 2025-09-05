@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { PacienteResponse } from '../models/paciente';
+import { DescripcionMedicamentoParaPresentacionDto, MedicamentoPresentacionResponse } from '../models/descripcion-medicamentos';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,17 @@ export class GestionPacientesService {
   getProtocoloCompletoByPaciente(idPaciente: string): Observable<any> {
     return this.http.get<any>(
       `${this.apiUrl}/protocolos/paciente/${idPaciente}/completo`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  // ------------------- Medicamentos Presentación -------------------
+  createPacienteMedicamentoPresentacion(
+    dto: DescripcionMedicamentoParaPresentacionDto[]
+  ): Observable<MedicamentoPresentacionResponse> {
+    return this.http.post<MedicamentoPresentacionResponse>(
+      `${this.apiUrl}/pacientes/medicamentos-presentacion`,
+      dto,
       { headers: this.getAuthHeaders() }
     );
   }
