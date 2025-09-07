@@ -77,6 +77,8 @@
 
     <button class="add-btn" (click)="agregarFila()">+</button>
 
-    <button class="guardar-btn" (click)="irASiguiente()">Siguiente</button>
+    <button class="guardar-btn" 
+        [disabled]="!esFormularioValido()" 
+        (click)="irASiguiente()">Siguiente</button>
   </div>
 </div>

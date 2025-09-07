@@ -13,6 +13,7 @@ import { CombinacionOptima, MedicamentoPresentacionResponse } from '../../../mod
 export class PopUpMedicamentosDetalleComponent {
   @Input() medicamentos: any[] = []; 
   @Output() cerrar = new EventEmitter<void>();
+  @Output() siguiente = new EventEmitter<any>();
 
   filasTabla: any[] = [];
 
@@ -33,7 +34,7 @@ export class PopUpMedicamentosDetalleComponent {
           this.filasTabla = resp.resultados.flatMap((resultado: any) =>
             resultado.combinacionOptima.map((combo: CombinacionOptima) => ({
               nombreMedicamento: resultado.nombreMedicamento,
-              dosisTeorica: resultado.dosis,
+              dosisTeorica: resultado.dosisTeorica,
               dosisRequerida: resultado.dosisRequerida,
               dosisFormulada: resultado.dosisTotal,
               formula: this.medicamentos.find(m => m.nombre === resultado.nombre)?.formula ?? '',
@@ -50,9 +51,6 @@ export class PopUpMedicamentosDetalleComponent {
       });
   }
 
-  agregarFila() {
-    this.medicamentos.push({ medicamento: '', presentacion: '', cantidad: '' });
-  }
 
   eliminarFila(index: number) {
     this.medicamentos.splice(index, 1);
@@ -63,8 +61,7 @@ export class PopUpMedicamentosDetalleComponent {
   }
 
   guardar() {
-    console.log('Datos guardados:', this.medicamentos);
-    // Aquí podrías emitir un evento o cerrar el popup
-    this.cerrar.emit();
+    console.log('Datos guardados:', this.filasTabla);
+    this.siguiente.emit(this.filasTabla);
   }
 }

@@ -19,7 +19,7 @@ import { ObservacionesComponent } from './views/QF/observaciones/observaciones.c
 import { PacienteComponent } from './views/QF/paciente/paciente.component';
 import { ConfiguracionCicloComponent } from './views/QF/configuracion-ciclo/configuracion-ciclo.component';
 import { PopUpObvMedicamentosComponent } from './views/QF/pop-up-obv-medicamentos/pop-up-obv-medicamentos.component';
-import { PopupProtocoloComponent } from './views/QF/popup-protocolo/popup-protocolo.component';
+import { ConfiguracionAplicacionesComponent } from './views/QF/configuracion-aplicaciones/configuracion-aplicaciones.component';
 
 import { BusquedaAUComponent } from './views/autorizaciones/busqueda-au/busqueda-au.component';
 import { AutorizacionComponent } from './views/autorizaciones/autorizacion/autorizacion.component';
@@ -105,6 +105,7 @@ export const routes: Routes = [
   { path: 'qf/observaciones/medicamentos', component: PopUpObvMedicamentosComponent },
   { path: 'qf/busqueda/paciente/:cedula', component: PacienteComponent },
   { path: 'qf/busqueda/paciente/:cedula/conf-ciclo' , component: ConfiguracionCicloComponent },
+  { path: 'qf/busqueda/paciente/:cedula/conf-ciclo/conf-aplicaciones', component: ConfiguracionAplicacionesComponent },
 
   { path: '', component: LoginComponent }, 
 ];

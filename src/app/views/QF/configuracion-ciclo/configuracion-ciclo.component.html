@@ -3,9 +3,6 @@
     <button class="btn-volver" (click)="volver()" >
         <img src="assets/images/volver.png" width="18" style="cursor:pointer;" />
     </button>
-    <div class="acciones">
-      <button class="btn-accion" (click)="abrirPopupMedicamentos()">Medicamentos</button>
-    </div>
   </div>
 
   <div class="formulario">
@@ -27,6 +24,11 @@
     <div class="fila">
         <label>Fecha consulta <span class="requerido">*</span>:</label>
         <input type="date" [(ngModel)]="fecha_consulta" />
+    </div>
+
+    <div class="fila">
+        <label>Fecha de inicio estimada:</label>
+        <input type="date" [(ngModel)]="fecha_inicio_estimada" />
     </div>
 
     <div class="fila">
@@ -94,6 +96,14 @@
         <button class="btn-agregar" (click)="agregarFila()">+</button>
   </div>
 
+  <div class="guardar-fijo">
+    <button
+      (click)="abrirPopupMedicamentos()"
+    >
+      Siguiente
+    </button>
+  </div>
+
 </div>
 
 <app-pop-up-medicamentos
@@ -106,5 +116,6 @@
 <app-pop-up-medicamentos-detalle
   *ngIf="mostrarPopupMedicamentosDetalle"
   [medicamentos]="medicamentosDetalle"
-  (cerrar)="cerrarPopupMedicamentosDetalle()">
+  (cerrar)="cerrarPopupMedicamentosDetalle()"
+  (siguiente)="abrirResumenFinal($event)">
 </app-pop-up-medicamentos-detalle>

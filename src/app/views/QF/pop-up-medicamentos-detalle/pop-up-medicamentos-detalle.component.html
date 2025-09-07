@@ -14,9 +14,11 @@
       </thead>
       <tbody>
         <tr *ngFor="let fila of filasTabla; let i = index">
-          <td>{{ fila.nombreMedicamento }}</td>
+          <td>{{ fila.nombreMedicamento }} - {{ fila.dosisTeorica }}</td>
           <td>{{ fila.presentacion }}</td>
-          <td>{{ fila.cantidad }}</td>
+          <td>
+            <input type="number" [(ngModel)]="fila.cantidad" min="0" />
+          </td>
           <td>
             <button class="delete" (click)="eliminarFila(i)">
               <img src="assets/images/eliminar.png" width="18"  />
@@ -26,8 +28,6 @@
       </tbody>
     </table>
 
-    <button class="add-btn" (click)="agregarFila()">+</button>
-
-    <button class="guardar-btn" (click)="guardar()">Guardar</button>
+    <button class="guardar-btn" (click)="guardar()">siguiente</button>
   </div>
 </div>

@@ -22,6 +22,8 @@ export class ConfiguracionCicloComponent {
     private miServicio: GestionPacientesService
   ) {}
 
+  protocoloOriginal: any;
+
   mostrarPopup = false;
   cedula!: string;
 
@@ -30,6 +32,7 @@ export class ConfiguracionCicloComponent {
   ciclo = '';
   fecha_asignacion = '';
   fecha_consulta = '';
+  fecha_inicio_estimada = '';
   cie10 = '';
   peso = '';
   superficie = '';
@@ -38,6 +41,8 @@ export class ConfiguracionCicloComponent {
   conf_medicamentos: '' | undefined;
 
   medicamentosDetalle: any[] = [];
+
+  infoCicloCompleta: any = {};
 
   mostrarPopupMedicamentos = false;
   mostrarPopupMedicamentosDetalle = false;
@@ -67,7 +72,9 @@ export class ConfiguracionCicloComponent {
     this.miServicio.getProtocoloCompletoByPaciente(this.cedula)
       .subscribe({
         next: (resp) => {
+          this.protocoloOriginal = resp;
           console.log('Protocolo recibido:', resp);
+          
           this.protocolo = resp.nombreProtocolo;
           this.version = resp.version;
           this.peso = resp.indicadores.peso;
@@ -116,13 +123,49 @@ export class ConfiguracionCicloComponent {
     this.mostrarPopupMedicamentos = false;
     this.mostrarPopupMedicamentosDetalle = true;
     this.medicamentosDetalle = datos; 
+    this.infoCicloCompleta.medicamentos = datos;
   }
 
   cerrarPopupMedicamentosDetalle() {
     this.mostrarPopupMedicamentosDetalle = false;
   }
 
+  abrirResumenFinal(datos: any) {
+    this.mostrarPopupMedicamentosDetalle = false;
+    this.infoCicloCompleta.presentaciones = datos;
+
+    // Clona el protocolo original para no modificar el objeto original
+    const protocoloFinal = { ...this.protocoloOriginal };
+
+    // Actualiza los campos con lo que el usuario llenó
+    protocoloFinal.peso = this.peso;
+    protocoloFinal.superficie = this.superficie;
+    protocoloFinal.tfg = this.tfg;
+    protocoloFinal.talla = this.talla;
+    protocoloFinal.fecha_consulta = this.fecha_consulta;
+    protocoloFinal.fecha_inicio_estimada = this.fecha_inicio_estimada;
+    protocoloFinal.conf_medicamentos = this.conf_medicamentos;
+
+    // Actualiza medicamentos
+    protocoloFinal.medicamentos = this.infoCicloCompleta.medicamentos;
+
+    // Actualiza presentaciones
+    protocoloFinal.presentaciones = this.infoCicloCompleta.presentaciones;
+
+    // Actualiza eventos si el usuario los modificó
+    protocoloFinal.eventos = this.eventos;
+
+    // Puedes actualizar otros campos si el usuario los modificó...
+
+    // Navega al nuevo componente y le pasa el protocolo final
+    this.router.navigate(
+      ['qf/busqueda/paciente', this.cedula, 'conf-ciclo', 'conf-aplicaciones'],
+      { state: { info: protocoloFinal } }
+    );
+  }
+
   volver() {
     this.router.navigate(['qf/busqueda/paciente', this.cedula])
   }
+
 }

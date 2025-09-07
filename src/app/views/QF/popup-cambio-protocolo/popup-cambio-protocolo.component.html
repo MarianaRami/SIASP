@@ -20,7 +20,7 @@
     <div class="form-group">
       <label>Tipo de paciente<span class="required">*</span></label>
       <select [(ngModel)]="formData.tipoPaciente" name="tipoPaciente" required>
-        <option disabled selected>Selecciona un tipo</option>
+        <option value="" disabled selected>-- Seleccione un tipo --</option>
         <option *ngFor="let tipo of tipos" [value]="tipo.value">{{ tipo.label }}</option>
       </select>
     </div>
@@ -28,6 +28,7 @@
     <div class="form-row">
       <label>Razón de tratamiento <span class="required">*</span></label>
       <select [(ngModel)]="formData.razon" name="razon" required>
+        <option value="" disabled selected>-- Seleccione la razón de tratamiento --</option>
         <option *ngFor="let r of razones" [value]="r.value">{{ r.label }}</option>
       </select>
     </div>

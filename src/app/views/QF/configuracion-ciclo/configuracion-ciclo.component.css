@@ -142,3 +142,27 @@ th:first-child, td:first-child {
   background: white;
   cursor: pointer;
 }
+
+.guardar-fijo {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+}
+
+.guardar-fijo button {
+  padding: 12px 32px;
+  background-color: #FFE5D7;
+  color: rgb(14, 13, 13);
+  border: none;
+  border-radius: 15px;
+  font-size: 16px;
+  min-width: 200px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+.guardar-fijo button:hover {
+  transform: scale(1.05);
+  background-color: #fcd5ba;
+}

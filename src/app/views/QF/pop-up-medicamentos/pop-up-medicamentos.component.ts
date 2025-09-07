@@ -42,8 +42,9 @@ export class PopUpMedicamentosComponent {
   estaEnRango(fila: any): boolean {
     const dosisCalculada = Number(fila.dosisCalculada);
     const dosisFormulada = Number(fila.dosisFormulada);
-    if (isNaN(dosisFormulada)) return false;
-    return dosisFormulada >= (dosisCalculada - 5) && dosisFormulada <= (dosisCalculada + 5);
+    if (isNaN(dosisFormulada) || isNaN(dosisCalculada)) return false;
+    const margen = dosisCalculada * 0.05;
+    return dosisFormulada >= (dosisCalculada - margen) && dosisFormulada <= (dosisCalculada + margen);
   }
 
   agregarFila() {
@@ -73,5 +74,18 @@ export class PopUpMedicamentosComponent {
       dosisTeorica: med.dosisTeorica
     }));
     this.siguiente.emit(datosEnviar);
+  }
+
+  esFilaValida(fila: any): boolean {
+    // Solo valida si es nueva
+    if (fila.esNueva) {
+      return !!fila.nombre && !!fila.dosisTeorica && !!fila.dosisCalculada && !!fila.dosisFormulada && !!fila.formula;
+    }
+    // Para las filas no nuevas, solo dosisFormulada y formula son editables
+    return !!fila.dosisFormulada && !!fila.formula;
+  }
+
+  esFormularioValido(): boolean {
+    return this.medicamentos.every(fila => this.esFilaValida(fila));
   }
 }
