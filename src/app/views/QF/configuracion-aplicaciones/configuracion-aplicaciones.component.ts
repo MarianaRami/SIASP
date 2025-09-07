@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
+
 
 @Component({
   selector: 'app-configuracion-aplicaciones',
@@ -18,7 +20,7 @@ export class ConfiguracionAplicacionesComponent implements OnInit {
   ];
   datosTabla: any[] = [];
 
-  constructor(private router: Router) {
+  constructor(private router: Router,private AuthService: AuthService,) {
     const nav = this.router.getCurrentNavigation();
     this.infoCicloCompleta = nav?.extras.state?.['info'];
     console.log('Información recibida:', this.infoCicloCompleta);
@@ -84,7 +86,7 @@ export class ConfiguracionAplicacionesComponent implements OnInit {
         if (fila[`medicamento_${index}`]) {
           medicamentosSeleccionados.push({
             nombre: med.nombre,
-            dosis: med.dosisTeorica
+            dosis: parseInt(med.dosisTeorica)
           });
         }
       });
@@ -97,7 +99,11 @@ export class ConfiguracionAplicacionesComponent implements OnInit {
 
     this.infoCicloCompleta.configuracionMedicamentos = nuevaConfiguracion;
 
+    const usuario = this.AuthService.getUser();
+    this.infoCicloCompleta.usuarioCreacion = usuario;
+
     console.log("✅ Configuración actualizada:", this.infoCicloCompleta);
+    this.router.navigate(['qf/busqueda']);
   }
 }
 

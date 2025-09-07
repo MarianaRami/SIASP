@@ -138,10 +138,10 @@ export class ConfiguracionCicloComponent {
     const protocoloFinal = { ...this.protocoloOriginal };
 
     // Actualiza los campos con lo que el usuario llenó
-    protocoloFinal.peso = this.peso;
-    protocoloFinal.superficie = this.superficie;
-    protocoloFinal.tfg = this.tfg;
-    protocoloFinal.talla = this.talla;
+    protocoloFinal.indicadores.peso = parseInt(this.peso);
+    protocoloFinal.indicadores.sc = parseInt(this.superficie);
+    protocoloFinal.indicadores.tfg = parseInt(this.tfg);
+    protocoloFinal.indicadores.talla = parseInt(this.talla);
     protocoloFinal.fecha_consulta = this.fecha_consulta;
     protocoloFinal.fecha_inicio_estimada = this.fecha_inicio_estimada;
     protocoloFinal.conf_medicamentos = this.conf_medicamentos;
