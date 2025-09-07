@@ -26,6 +26,7 @@ export class PopUpMedicamentosDetalleComponent {
     this.gestionPacientesService.createPacienteMedicamentoPresentacion(this.medicamentos)
       .subscribe({
         next: (resp: MedicamentoPresentacionResponse) => {
+          //
           console.log('Respuesta del servicio:', resp);
 
           // transformar resultados → filas para la tabla
