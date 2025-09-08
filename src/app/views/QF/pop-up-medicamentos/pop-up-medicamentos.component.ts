@@ -3,7 +3,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ProtocolosService } from '../../../services/protocolos.service';
 
-
 @Component({
   selector: 'app-pop-up-medicamentos',
   imports: [
@@ -37,6 +36,14 @@ export class PopUpMedicamentosComponent {
         console.error('Error cargando medicamentos:', err);
       }
     });
+
+    this.medicamentos = this.medicamentos.map(m => ({
+      ...m,
+      duracion: {
+        horas: m.duracion ? Math.floor(m.duracion / 60).toString() : '',
+        minutos: m.duracion ? (m.duracion % 60).toString() : ''
+      }
+    }));
   }
 
   estaEnRango(fila: any): boolean {
@@ -54,6 +61,7 @@ export class PopUpMedicamentosComponent {
       dosisCalculada: '',
       dosisFormulada: '',
       formula: '',
+      duracion: { horas: 0, minutos: 0 },
       esNueva: true
     });
   }
@@ -68,20 +76,19 @@ export class PopUpMedicamentosComponent {
 
   irASiguiente() {
     const datosEnviar = this.medicamentos.map(med => ({
-      nombre: med.nombre ,
+      nombre: med.nombre,
       dosisFormulada: med.dosisFormulada,
       formula: med.formula,
-      dosisTeorica: med.dosisTeorica
+      dosisTeorica: med.dosisTeorica,
+      duracion: (Number(med.duracion.horas || 0) * 60) + Number(med.duracion.minutos || 0)
     }));
     this.siguiente.emit(datosEnviar);
   }
 
   esFilaValida(fila: any): boolean {
-    // Solo valida si es nueva
     if (fila.esNueva) {
       return !!fila.nombre && !!fila.dosisTeorica && !!fila.dosisCalculada && !!fila.dosisFormulada && !!fila.formula;
     }
-    // Para las filas no nuevas, solo dosisFormulada y formula son editables
     return !!fila.dosisFormulada && !!fila.formula;
   }
 

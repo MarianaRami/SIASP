@@ -12,6 +12,7 @@
           <th>Dosis formulada</th>
           <th></th> 
           <th>Formula</th>
+          <th>Duración</th>
           <th></th>
         </tr>
       </thead>
@@ -67,6 +68,17 @@
             </select>
           </td>
           <td>
+            <ng-container *ngIf="fila.esNueva; else soloLecturaDuracion">
+              <div class="duracion-inputs">
+                <input type="number" min="0" [(ngModel)]="fila.duracion.horas" placeholder="Horas" style="width:50px;" />
+                <input type="number" min="0" max="59" [(ngModel)]="fila.duracion.minutos" placeholder="Minutos" style="width:50px;" />
+              </div>
+            </ng-container>
+            <ng-template #soloLecturaDuracion>
+              {{ fila.duracion?.horas || 0 }}h {{ fila.duracion?.minutos || 0 }}m
+            </ng-template>
+          </td>
+          <td>
             <button class="delete" (click)="eliminarFila(i)">
               <img src="assets/images/eliminar.png" width="18"  />
             </button>
@@ -82,3 +94,4 @@
         (click)="irASiguiente()">Siguiente</button>
   </div>
 </div>
+
