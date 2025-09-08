@@ -29,7 +29,7 @@ export class ConfiguracionCicloComponent {
 
   protocolo: any; 
   version = '';
-  ciclo = '';
+  ciclo = 0;
   fecha_asignacion = '';
   fecha_consulta = '';
   fecha_inicio_estimada = '';
@@ -83,12 +83,9 @@ export class ConfiguracionCicloComponent {
           this.tfg = resp.indicadores.tfg;
           this.medicamentos = resp.medicamentos || [];
 
-          const ciclo = resp.ciclos?.[0];
-          if (ciclo) {
-            this.ciclo = ciclo.numCiclo;
-            this.fecha_consulta = ciclo.fechaConsulta;
-            this.fecha_asignacion = ciclo.fechaIniEstimada;
-          }
+          this.ciclo = resp.numeroCiclo;
+          this.fecha_consulta = resp.fechaConsulta;
+          this.fecha_asignacion = resp.fechaCreacion;
 
           this.eventos = resp.eventos?.map((evento: any) => ({
             dia: Number(evento.dia),
