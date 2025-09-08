@@ -20,10 +20,15 @@
         <tr *ngFor="let fila of medicamentos; let i = index">
           <td>
             <ng-container *ngIf="fila.esNueva; else soloLecturaNombre">
-              <select [(ngModel)]="fila.nombre">
-                <option value="" disabled selected>Seleccione un medicamento</option>
-                <option *ngFor="let med of listaMedicamentos" [value]="med">{{ med }}</option>
-              </select>
+              <input 
+                type="text"
+                list="medicamentosList" 
+                [(ngModel)]="medicamentos[i].nombre" 
+                placeholder="Escriba un medicamento"
+              />
+              <datalist id="medicamentosList">
+                <option *ngFor="let med of listaMedicamentos" [value]="med"></option>
+              </datalist>
             </ng-container>
             <ng-template #soloLecturaNombre>
               {{ fila.nombre }}

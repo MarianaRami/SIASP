@@ -32,10 +32,14 @@
       <tbody>
         <tr *ngFor="let med of medicamentos; let i = index">
           <td>
-            <select [(ngModel)]="medicamentos[i].nombre">
-              <option value="" disabled selected>Seleccione un medicamento</option>
-              <option *ngFor="let med of listaMedicamentos" [value]="med">{{ med }}</option>
-            </select>
+            <input 
+              list="medicamentosList" 
+              [(ngModel)]="medicamentos[i].nombre" 
+              placeholder="Escriba un medicamento"
+            />
+            <datalist id="medicamentosList">
+              <option *ngFor="let med of listaMedicamentos" [value]="med"></option>
+            </datalist>
           </td>
           <td><input type="number" [(ngModel)]="med.dosis" /></td>
           <td>
