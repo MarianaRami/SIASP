@@ -3,11 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { PopUpMedicamentosDetalleComponent } from '../pop-up-medicamentos-detalle/pop-up-medicamentos-detalle.component';
 
 
 @Component({
   selector: 'app-configuracion-aplicaciones',
   imports: [
+    PopUpMedicamentosDetalleComponent,
     CommonModule, FormsModule
   ],
   templateUrl: './configuracion-aplicaciones.component.html',
@@ -19,6 +21,11 @@ export class ConfiguracionAplicacionesComponent implements OnInit {
     { key: 'dia', label: 'Día de Aplicación' }
   ];
   datosTabla: any[] = [];
+
+  medicamentosDetalle: any[] = [];
+
+  mostrarPopupMedicamentos = false;
+  mostrarPopupMedicamentosDetalle = false;
 
   constructor(private router: Router,private AuthService: AuthService,) {
     const nav = this.router.getCurrentNavigation();
@@ -74,8 +81,28 @@ export class ConfiguracionAplicacionesComponent implements OnInit {
     });
   }
 
+  abrirPopupMedicamentosDetalle(datos: any[]) {
+    this.mostrarPopupMedicamentosDetalle = true;
+    this.medicamentosDetalle = datos; 
+  }
+
+  cerrarPopupMedicamentosDetalle() {
+    this.mostrarPopupMedicamentosDetalle = false;
+  }
+
   volver() {
     this.router.navigate(['admin-sistema/Nuevo-protocolo/Info-Protocolo/Info-Ciclo']);
+  }
+
+  abrirResumenFinal(datos: any) {
+    this.mostrarPopupMedicamentosDetalle = false;
+    this.infoCicloCompleta.presentaciones = datos;
+
+    const usuario = this.AuthService.getUser();
+    this.infoCicloCompleta.usuarioCreacion = usuario;
+
+    console.log("✅ Configuración actualizada:", this.infoCicloCompleta);
+    this.router.navigate(['qf/busqueda']);
   }
 
   Guardar() {
@@ -99,11 +126,7 @@ export class ConfiguracionAplicacionesComponent implements OnInit {
 
     this.infoCicloCompleta.configuracionMedicamentos = nuevaConfiguracion;
 
-    const usuario = this.AuthService.getUser();
-    this.infoCicloCompleta.usuarioCreacion = usuario;
-
-    console.log("✅ Configuración actualizada:", this.infoCicloCompleta);
-    this.router.navigate(['qf/busqueda']);
+    this.abrirPopupMedicamentosDetalle(this.infoCicloCompleta); 
   }
 }
 

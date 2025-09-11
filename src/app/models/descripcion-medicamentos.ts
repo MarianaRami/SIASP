@@ -1,8 +1,23 @@
-export interface DescripcionMedicamentoParaPresentacionDto {
+export interface MedicamentoParaPresentacionDto {
+  medicamentos: MedicamentoDto[];
+  diaConfiguracionMedicamentos: DiaConfiguracionDto[];
+}
+
+export interface MedicamentoDto {
   nombre: string;
   dosisFormulada: number;
   formula: string;
-  dosisTeorica: number
+  dosisTeorica: number;
+}
+
+export interface DiaConfiguracionDto {
+  dia: number;
+  medicamentos: MedicamentoDiaDto[];
+}
+
+export interface MedicamentoDiaDto {
+  nombre: string;
+  dosisTeorica: number;
 }
 
 export interface MedicamentoPresentacionResponse {
@@ -12,29 +27,15 @@ export interface MedicamentoPresentacionResponse {
 
 export interface ResultadoMedicamento {
   nombre: string;
-  data: MedicamentoData;
-}
-
-export interface MedicamentoData {
-  nombre: string;
   dosisTeorica: number;
-  success: boolean;
-  medicamentoId: string;
-  nombreMedicamento: string;
-  unidadBase: string;
-  dosisBase: number;
-  dosisRequerida: number;
-  dosisTotal: number;
-  sobrante: number;
-  porcentajeSobrante: string;
-  combinacionOptima: CombinacionOptima[];
+  presentaciones: CombinacionOptima;
 }
 
 export interface CombinacionOptima {
-  presentacionId: string;
-  nombre: string;
-  cantidad: number;
-  concentracion: number;
-  unidad: string;
-  dosisAportada: number;
+  nombrePresentacion: string;
+  dosisTotal: number;
+  cantidadPorAplicacion: number;
+  dosisAportadaPorAplicacion: number;
+  cantidadPorCiclo: number;
+  dosisAportadaPorCiclo: number;
 }

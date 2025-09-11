@@ -27,64 +27,49 @@
         <div>{{ eps }}</div>
     </div>
 
-    <h3>Autorización de medicamentos</h3>
-
     <div class="fila">
-        <label>Tipo de autorización:</label>
-        <select [(ngModel)]="tipoSeleccionado">
-            <option *ngFor="let opcion of tipoOpciones" [value]="opcion">
-                {{ opcion }}
-            </option>
-        </select>
+      <label>Tratamiento:</label>
+      <div>{{ tratamientoFinal }}</div>
     </div>
-
   </div>
 
-  <!-- Si es Universal -->
-  <div *ngIf="tipoSeleccionado === 'Universal'" class="layout-individual">
-    <div class="tabla-individual">
-        <app-tabla-dinamica [columnas]="columnasUniversal" [datos]="datos"></app-tabla-dinamica>
-    </div>
-    <div class="formulario-individual">
-        <label>No. Autorización:</label>
-        <input type="text" [(ngModel)]="autorizacion.numero" />
-        <label>Fecha:</label>
-        <input type="date" [(ngModel)]="autorizacion.fecha" />
-  </div>
-</div>
+  <h3>Autorización de medicamentos</h3>
 
-<!-- Si es Individual -->
-<div *ngIf="tipoSeleccionado === 'Individual'" class="layout-universal">
-  <div class="fila-individual">
-    <label>No. Autorización:</label>
-    <input type="text" [(ngModel)]="autorizacion.numero" />
-    <label>Fecha:</label>
-    <input type="date" [(ngModel)]="autorizacion.fecha" />
-  </div>
-  <div class="tabla-individual">
-      <app-tabla-dinamica [columnas]="columnasIndividual" [datos]="datos"></app-tabla-dinamica>
-  </div>
-</div>
-
-<h3>Autorización de laboratorios</h3>
-<div class="laboratorios">
-    <div *ngFor="let lab of laboratorios; let i = index" class="fila">
+  <!-- Si es Individual -->
+  <div class="layout-universal">
+    <div class="fila-individual">
       <label>No. Autorización:</label>
-      <input type="text" [(ngModel)]="lab.autorizacion" class="input-small" />
-
+      <input type="text" [(ngModel)]="autorizacion.numero" />
       <label>Fecha:</label>
-      <input type="date" [(ngModel)]="lab.fecha" class="input-small" />
-
-      <label>Descripción:</label>
-      <input type="text" [(ngModel)]="lab.descripcion" class="input-small" />
-
-      <button class="btn-icono" (click)="eliminarLaboratorio(i)" class="btn-trash">
-        <img src="assets/images/eliminar.png" width="18" />
-      </button>
+      <input type="date" [(ngModel)]="autorizacion.fecha" />
     </div>
-
-    <button class="btn-agregar" (click)="agregarLaboratorio()">+</button>
+    <div class="tabla-individual">
+        <app-tabla-dinamica [columnas]="columnasIndividual" [datos]="datos"></app-tabla-dinamica>
+    </div>
   </div>
+
+  <h3>Autorización de procedimientos</h3>
+  <div class="laboratorios">
+      <div *ngFor="let lab of laboratorios; let i = index" class="fila">
+        <label>No. Autorización:</label>
+        <input type="text" [(ngModel)]="lab.autorizacion" class="input-small" />
+
+        <label>Fecha:</label>
+        <input type="date" [(ngModel)]="lab.fecha" class="input-small" />
+
+        <label>Fecha vencimiento:</label>
+        <input type="date" [(ngModel)]="lab.fecha_vencimiento" class="input-small" />
+
+        <label>Descripción:</label>
+        <input type="text" [(ngModel)]="lab.descripcion" class="input-small" />
+
+        <button class="btn-icono" (click)="eliminarLaboratorio(i)" class="btn-trash">
+          <img src="assets/images/eliminar.png" width="18" />
+        </button>
+      </div>
+
+      <button class="btn-agregar" (click)="agregarLaboratorio()">+</button>
+    </div>
 
   <div class="acciones">
     <button class="btn-accion" (click)="Cancelar()">Carcelar</button>

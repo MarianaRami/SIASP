@@ -33,7 +33,14 @@
 
       (click)="Guardar()"
     >
-      Guardar
+      Siguiente
     </button>
   </div>
 </div>
+
+<app-pop-up-medicamentos-detalle
+  *ngIf="mostrarPopupMedicamentosDetalle"
+  [infoCiclo]="infoCicloCompleta"
+  (cerrar)="cerrarPopupMedicamentosDetalle()"
+  (siguiente)="abrirResumenFinal($event)">
+</app-pop-up-medicamentos-detalle>

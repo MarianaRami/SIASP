@@ -110,12 +110,6 @@
   *ngIf="mostrarPopupMedicamentos"
   [medicamentos]="medicamentos"
   (cerrar)="cerrarPopupMedicamentos()"
-  (siguiente)="abrirPopupMedicamentosDetalle($event)">
+  (siguiente)="abrirResumenFinal($event)">
 </app-pop-up-medicamentos>
 
-<app-pop-up-medicamentos-detalle
-  *ngIf="mostrarPopupMedicamentosDetalle"
-  [medicamentos]="medicamentosDetalle"
-  (cerrar)="cerrarPopupMedicamentosDetalle()"
-  (siguiente)="abrirResumenFinal($event)">
-</app-pop-up-medicamentos-detalle>

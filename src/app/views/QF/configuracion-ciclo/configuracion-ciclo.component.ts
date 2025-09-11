@@ -4,12 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
-import { PopUpMedicamentosDetalleComponent } from '../pop-up-medicamentos-detalle/pop-up-medicamentos-detalle.component';
 
 @Component({
   selector: 'app-configuracion-ciclo',
   imports: [
-    PopUpMedicamentosComponent, PopUpMedicamentosDetalleComponent,
+    PopUpMedicamentosComponent, 
     FormsModule, CommonModule
   ],
   templateUrl: './configuracion-ciclo.component.html',
@@ -40,8 +39,6 @@ export class ConfiguracionCicloComponent {
   talla = '';
   conf_medicamentos: '' | undefined;
 
-  medicamentosDetalle: any[] = [];
-
   infoCicloCompleta: any = {};
 
   mostrarPopupMedicamentos = false;
@@ -62,7 +59,7 @@ export class ConfiguracionCicloComponent {
   opcionesEvento = [
     { label: 'Exámenes', value: 'examenes' },
     { label:'Aplicación', value: 'aplicacion' }, 
-    { label: 'Lavado de catéter', value: 'lavado' },
+    { label:'Retiro de infusión', value: 'retiro' },
     { label: 'Otro', value: 'otro' }
   ];
 
@@ -116,20 +113,14 @@ export class ConfiguracionCicloComponent {
     this.mostrarPopupMedicamentos = false;
   }
 
-  abrirPopupMedicamentosDetalle(datos: any[]) {
-    this.mostrarPopupMedicamentos = false;
-    this.mostrarPopupMedicamentosDetalle = true;
-    this.medicamentosDetalle = datos; 
-    this.infoCicloCompleta.medicamentos = datos;
-  }
 
-  cerrarPopupMedicamentosDetalle() {
-    this.mostrarPopupMedicamentosDetalle = false;
+  volver() {
+    this.router.navigate(['qf/busqueda/paciente', this.cedula])
   }
 
   abrirResumenFinal(datos: any) {
     this.mostrarPopupMedicamentosDetalle = false;
-    this.infoCicloCompleta.presentaciones = datos;
+    this.infoCicloCompleta.medicamentos = datos;
 
     // Clona el protocolo original para no modificar el objeto original
     const protocoloFinal = { ...this.protocoloOriginal };
@@ -145,23 +136,15 @@ export class ConfiguracionCicloComponent {
     // Actualiza medicamentos
     protocoloFinal.medicamentos = this.infoCicloCompleta.medicamentos;
 
-    // Actualiza presentaciones
-    protocoloFinal.presentaciones = this.infoCicloCompleta.presentaciones;
 
     // Actualiza eventos si el usuario los modificó
     protocoloFinal.eventos = this.eventos;
-
-    // Puedes actualizar otros campos si el usuario los modificó...
 
     // Navega al nuevo componente y le pasa el protocolo final
     this.router.navigate(
       ['qf/busqueda/paciente', this.cedula, 'conf-ciclo', 'conf-aplicaciones'],
       { state: { info: protocoloFinal } }
     );
-  }
-
-  volver() {
-    this.router.navigate(['qf/busqueda/paciente', this.cedula])
   }
 
 }

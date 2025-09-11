@@ -41,7 +41,7 @@ export class ConfCicloComponent {
   opcionesEvento = [
     { label:'Exámenes', value: 'examenes' }, 
     { label:'Aplicación', value: 'aplicacion' }, 
-    { label:'Lavado de cateter', value: 'lavado' }, 
+    { label:'Retiro de infusión', value: 'retiro' }, 
     { label:'Otro', value: 'otro' }
   ];
 

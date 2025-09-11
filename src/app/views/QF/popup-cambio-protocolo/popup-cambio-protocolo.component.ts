@@ -27,13 +27,13 @@ export class PopupCambioProtocoloComponent {
   ];
 
   tratamientos = [
-    { label: 'Mono', value: 'mono' },
-    { label: 'Poli', value: 'poli' }
+    { label: 'Monoterapia', value: 'mono' },
+    { label: 'Politerapia', value: 'poli' }
   ];
 
   tiposTratamiento = [
-    { label: 'Alta', value: 'alta' },
-    { label: 'Baja', value: 'baja' }
+    { label: 'Alta toxicidad', value: 'alta' },
+    { label: 'Baja toxicidad', value: 'baja' }
   ];
 
   fechaIngreso: string = new Date().toLocaleDateString('es-CO', {

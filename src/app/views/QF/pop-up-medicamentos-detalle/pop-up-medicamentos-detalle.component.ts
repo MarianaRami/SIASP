@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
-import { CombinacionOptima, MedicamentoPresentacionResponse } from '../../../models/descripcion-medicamentos';
+import { MedicamentoParaPresentacionDto, CombinacionOptima, MedicamentoPresentacionResponse } from '../../../models/descripcion-medicamentos';
 
 @Component({
   selector: 'app-pop-up-medicamentos-detalle',
@@ -11,39 +11,46 @@ import { CombinacionOptima, MedicamentoPresentacionResponse } from '../../../mod
   styleUrl: './pop-up-medicamentos-detalle.component.css'
 })
 export class PopUpMedicamentosDetalleComponent {
-  @Input() medicamentos: any[] = []; 
+  @Input() infoCiclo: any; 
   @Output() cerrar = new EventEmitter<void>();
   @Output() siguiente = new EventEmitter<any>();
 
   filasTabla: any[] = [];
 
   presentaciones: any[] = [];
+  resultados: any[] = [];
 
   constructor(private gestionPacientesService: GestionPacientesService) {}
 
   ngOnInit() {
-    console.log("Medicamentos recibidos en el popup:", this.medicamentos);
+    if (!this.infoCiclo) return;
 
-    this.gestionPacientesService.createPacienteMedicamentoPresentacion(this.medicamentos)
+    console.log("Info recibida en el popup:", this.infoCiclo);
+
+    // Construimos el payload en la forma de MedicamentoParaPresentacionDto
+    const payload: MedicamentoParaPresentacionDto = {
+      medicamentos: this.infoCiclo.medicamentos.map((m: any) => ({
+        nombre: m.nombre,
+        dosisFormulada: m.dosisFormulada,
+        formula: m.formula,
+        dosisTeorica: m.dosisTeorica
+      })),
+      diaConfiguracionMedicamentos: this.infoCiclo.configuracionMedicamentos.map((conf: any) => ({
+        dia: conf.dia,
+        medicamentos: conf.medicamentos.map((med: any) => ({
+          nombre: med.nombre,
+          dosisTeorica: med.dosis
+        }))
+      }))
+    };
+
+    console.log("Payload enviado al servicio:", payload);
+
+    this.gestionPacientesService.createPacienteMedicamentoPresentacion(payload)
       .subscribe({
-        next: (resp: MedicamentoPresentacionResponse) => {
-          //
+        next: (resp: any) => {
           console.log('Respuesta del servicio:', resp);
-
-          // transformar resultados → filas para la tabla
-          this.filasTabla = resp.resultados.flatMap((resultado: any) =>
-            resultado.combinacionOptima.map((combo: CombinacionOptima) => ({
-              nombreMedicamento: resultado.nombreMedicamento,
-              dosisTeorica: resultado.dosisTeorica,
-              dosisRequerida: resultado.dosisRequerida,
-              dosisFormulada: resultado.dosisTotal,
-              formula: this.medicamentos.find(m => m.nombre === resultado.nombre)?.formula ?? '',
-              presentacion: combo.nombre,
-              cantidad: combo.cantidad
-            }))
-          );
-
-          console.log("Filas de tabla transformadas:", this.filasTabla);
+          this.resultados = resp.resultados
         },
         error: (err) => {
           console.error('Error al obtener presentaciones:', err);
@@ -53,7 +60,7 @@ export class PopUpMedicamentosDetalleComponent {
 
 
   eliminarFila(index: number) {
-    this.medicamentos.splice(index, 1);
+    this.infoCiclo.splice(index, 1);
   }
 
   volver() {
@@ -61,7 +68,8 @@ export class PopUpMedicamentosDetalleComponent {
   }
 
   guardar() {
-    console.log('Datos guardados:', this.filasTabla);
-    this.siguiente.emit(this.filasTabla);
+    console.log('Datos guardados:', this.resultados);
+
+    this.siguiente.emit(this.resultados);
   }
 }

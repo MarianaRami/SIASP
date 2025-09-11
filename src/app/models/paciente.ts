@@ -41,6 +41,7 @@ export interface PacienteResponseDto {
   tratamiento: string | null;
   tratamientoCodigo: number;
   tratamientoNombre: string | null;
+  tratamientoTipo: string | null;
 
   medicoTratante: string;
   codigoMedicoTratante: number;

@@ -33,7 +33,6 @@ h3 {
   flex-direction: column;
   gap: 12px;
   padding-top: 20px;
-  padding-bottom: 20px;
 }
 
 .fila {
@@ -70,11 +69,6 @@ select {
   padding: 4px;
   border: 1px solid #ccc;
   width: 180px;
-}
-
-.layout-individual {
-  display: flex;
-  gap: 20px;
 }
 
 .tabla-individual {
@@ -187,7 +181,7 @@ select {
 .laboratorios-group {
   display: flex;
   flex-direction: column;
-  gap: 10px; /* espacio entre cada campo */
+  gap: 0px; /* espacio entre cada campo */
 }
 
 .laboratorios-group label {

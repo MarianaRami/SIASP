@@ -3,31 +3,39 @@
     <button class="close-btn" (click)="volver()">
       <img src="assets/images/close.png" width="18" style="cursor:pointer;" />
     </button>
+
     <table>
       <thead>
         <tr>
           <th>Medicamento</th>
           <th>Presentación</th>
-          <th>Cantidad</th>
-          <th></th>
+          <th>Cantidad por aplicación</th>
+          <th>Cantidad por ciclo</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let fila of filasTabla; let i = index">
-          <td>{{ fila.nombreMedicamento }} - {{ fila.dosisTeorica }}</td>
-          <td>{{ fila.presentacion }}</td>
-          <td>
-            <input type="number" [(ngModel)]="fila.cantidad" min="0" />
-          </td>
-          <td>
-            <button class="delete" (click)="eliminarFila(i)">
-              <img src="assets/images/eliminar.png" width="18"  />
-            </button>
-          </td>
-        </tr>
+        <ng-container *ngFor="let med of resultados">
+          <!-- segundo *ngFor: recorre presentaciones de cada medicamento -->
+          <tr *ngFor="let pres of med.presentaciones">
+            <td>{{ med.nombre }}</td>
+            <td>{{ pres.nombrePresentacion }}</td>
+            <td>
+              <input 
+                type="number" 
+                [(ngModel)]="pres.cantidadPorAplicacion" 
+                min="0" />
+            </td>
+            <td>
+              <input 
+                type="number" 
+                [(ngModel)]="pres.cantidadPorCiclo" 
+                min="0" />
+            </td>
+          </tr>
+        </ng-container>
       </tbody>
     </table>
 
-    <button class="guardar-btn" (click)="guardar()">siguiente</button>
+    <button class="guardar-btn" (click)="guardar()">Siguiente</button>
   </div>
 </div>

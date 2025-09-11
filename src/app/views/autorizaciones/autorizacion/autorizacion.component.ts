@@ -29,36 +29,38 @@ export class AutorizacionComponent {
   identificacion = '';
   protocolo = '';
   eps = '';
+  tratamientoOptions = [
+    { value: 'poli', label: 'Politerapia' },
+    { value: 'mono', label: 'Monoterapia' },
+  ];
+
+  tipoTratamientoOptions = [
+    { key: 'alta', label: 'Alta toxicidad' },
+    { key: 'baja', label: 'Baja toxicidad' },
+  ];
+
+  tratamientoFinal = '';
 
   pacienteData!: PacienteResponseDto;
 
-  tipoOpciones = ['Individual', 'Universal']; 
-  tipoSeleccionado = 'Individual';
-
-  columnasUniversal = [
-    { key: 'Medicamento', label: 'Medicamento' },
-    { key: 'Presentacion', label: 'Presentación' },
-    { key: 'Cantidad', label: 'Cantidad' },
-    { key: 'Unidad', label: 'Unidad', tipo: 'number' }
-  ];
-
   columnasIndividual = [
-    { key: 'Medicamento', label: 'Medicamento' },
-    { key: 'Presentacion', label: 'Presentación' },
-    { key: 'Cantidad', label: 'Cantidad' },
-    { key: 'Unidad', label: 'Unidad', tipo: 'number' },
-    { key: 'Autorizacion', label: 'No. Autorización', tipo: 'text' },
-    { key: 'Fecha', label: 'Fecha', tipo: 'fecha' }
+    { key: 'medicamento', label: 'Medicamento' },
+    { key: 'presentacion', label: 'Presentación' },
+    { key: 'cantidad', label: 'Cantidad' },
+    { key: 'unidad', label: 'Unidad', tipo: 'number' },
+    { key: 'autorizacion', label: 'No. Autorización', tipo: 'text' },
+    { key: 'fecha', label: 'Fecha', tipo: 'fecha' },
+    { key: 'fecha_vencimiento', label: 'Fecha vencimiento', tipo: 'fecha' }
   ];
 
   datos = [
-    { Medicamento: 'Doxorrubicina', Presentacion: '200mg', Cantidad: '3' },
-    { Medicamento: 'Ciclofosfamida', Presentacion: '100mg', Cantidad: '33'  },
-    { Medicamento: 'Carboplatino', Presentacion: '50mg', Cantidad: '13' }
+    { medicamento: 'Doxorrubicina', presentacion: '200mg', cantidad: '3' },
+    { medicamento: 'Ciclofosfamida', presentacion: '100mg', cantidad: '33'  },
+    { medicamento: 'Carboplatino', presentacion: '50mg', cantidad: '13' }
   ];
 
   laboratorios: any[] = [
-    { autorizacion: '', fecha: '', descripcion: '' }
+    { autorizacion: '', fecha: '', fecha_vencimiento: '', descripcion: '' }
   ];
 
   autorizacion = {
@@ -87,7 +89,12 @@ export class AutorizacionComponent {
             this.paciente = this.pacienteData.nombreCompleto;
             this.identificacion = this.pacienteData.identificacion;
             this.protocolo = this.pacienteData.protocoloActual?.nombreProtocolo || '';
-            this.eps = this.pacienteData.eps;       
+            this.eps = this.pacienteData.eps;    
+
+            const nombreTrat = this.tratamientoOptions.find(t => t.value === this.pacienteData.tratamientoNombre)?.label || this.pacienteData.tratamientoNombre;
+            const tipoTrat = this.tipoTratamientoOptions.find(t => t.key === this.pacienteData.tratamientoTipo)?.label || this.pacienteData.tratamientoTipo;
+
+            this.tratamientoFinal = `${nombreTrat} - ${tipoTrat}`;
           }
         },
         error: (err) => {
@@ -115,24 +122,14 @@ export class AutorizacionComponent {
 
   Guardar() {
     let medicamentosFinal = [];
-
-    if (this.tipoSeleccionado === 'Individual') {
       // Cada fila ya trae sus propios No. Autorización y Fecha desde la tabla
       medicamentosFinal = this.datos;
-    } else {
-      // Universal → copiar el número y fecha a todos los medicamentos
-      medicamentosFinal = this.datos.map(med => ({
-        ...med,
-        Autorizacion: this.autorizacion.numero,
-        Fecha: this.autorizacion.fecha
-      }));
-    }
+
 
     const payload = {
       idPaciente: this.pacienteData?.idPaciente,
       idServinte: this.pacienteData?.idServinte,
       documento: this.pacienteData?.documento,
-      tipoAutorizacion: this.tipoSeleccionado,
       autorizacion: this.autorizacion,
       medicamentos: medicamentosFinal,
       laboratorios: this.laboratorios,
