@@ -37,7 +37,7 @@ export class ConfiguracionCicloComponent {
   superficie = '';
   tfg = '';
   talla = '';
-  conf_medicamentos: '' | undefined;
+  conf_medicamentos: boolean = false;
 
   infoCicloCompleta: any = {};
 
