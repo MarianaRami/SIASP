@@ -76,7 +76,7 @@ export class ConfiguracionCicloComponent {
           this.version = resp.version;
           this.peso = resp.indicadores.peso;
           this.superficie = resp.indicadores.sc;
-          this.talla = resp.indicadores.altura;
+          this.talla = resp.indicadores.talla;
           this.tfg = resp.indicadores.tfg;
           this.medicamentos = resp.medicamentos || [];
 
@@ -132,6 +132,8 @@ export class ConfiguracionCicloComponent {
     protocoloFinal.indicadores.talla = parseInt(this.talla);
     protocoloFinal.fecha_consulta = this.fecha_consulta;
     protocoloFinal.fecha_inicio_estimada = this.fecha_inicio_estimada;
+
+    protocoloFinal.conciliacion_medicamentos = this.conf_medicamentos
 
     // Actualiza medicamentos
     protocoloFinal.medicamentos = this.infoCicloCompleta.medicamentos;

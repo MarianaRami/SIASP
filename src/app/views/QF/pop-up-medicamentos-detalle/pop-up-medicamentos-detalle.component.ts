@@ -68,8 +68,18 @@ export class PopUpMedicamentosDetalleComponent {
   }
 
   guardar() {
-    console.log('Datos guardados:', this.resultados);
+    // Transformamos resultados antes de emitir
+    const transformados = this.resultados.map((med: any) => ({
+      nombre: med.nombre,
+      dosisTotal: med.dosisTotal,
+      presentaciones: med.presentaciones.map((pres: any) => ({
+        nombrePresentacion: pres.nombrePresentacion,
+        cantidadPorCiclo: pres.cantidadPorCiclo
+      }))
+    }));
 
-    this.siguiente.emit(this.resultados);
+    console.log('Datos transformados para enviar:', transformados);
+    this.siguiente.emit(transformados);
   }
+
 }

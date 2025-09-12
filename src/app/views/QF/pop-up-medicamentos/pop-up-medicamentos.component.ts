@@ -80,6 +80,7 @@ export class PopUpMedicamentosComponent {
       dosisFormulada: med.dosisFormulada,
       formula: med.formula,
       dosisTeorica: med.dosisTeorica,
+      dosisCalculada: med.dosisCalculada,
       duracion: (Number(med.duracion.horas || 0) * 60) + Number(med.duracion.minutos || 0)
     }));
     this.siguiente.emit(datosEnviar);
