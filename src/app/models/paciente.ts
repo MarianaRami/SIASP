@@ -146,3 +146,37 @@ export interface CreateProtocoloPacienteCompletoDto {
   fechaFinProtocolo?: string;
   tipoFin?: "cancelado" | "cambio_protocolo" | "concluido" | "desistido";
 }
+
+export interface DescripcionCicloPacienteCompleto {
+  nombreProtocolo: string;
+  version: number;
+  descripcion: string;
+  fechaCreacion: string; // se envía como string en formato ISO
+  numero_ciclos: number;
+  usuarioCreacion?: string | null;
+  eventos: any[]; // puedes tiparlo con tu EventoDto
+  numeroCiclo: number;
+  ciclos: any[]; // CicloDto
+  configuracionMedicamentos: any[]; // ConfiguracionMedicamentosDto
+  indicadores: any; // IndicadoresDto
+  medicamentos: any[]; // MedicamentoDto
+  fecha_consulta: string; // también como string ISO (yyyy-MM-dd)
+  fecha_inicio_estimada?: string | null;
+  conciliacionMedicamentos: boolean;
+  presentaciones: any[]; // PresentacionDto
+  idPaciente: string;
+  idProtocoloPaciente: string;
+}
+
+export interface DescripcionCicloPacienteCompletoResponse {
+  success: boolean;
+  message: string;
+  data: DescripcionCicloPacienteCompleto;
+  estadisticas?: {
+    totalEventos: number;
+    eventosActivos: number;
+    totalMedicamentos: number;
+    totalPresentaciones: number;
+    ciclosActivos: number;
+  };
+}

@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
-import { PacienteResponse } from '../models/paciente';
+import { PacienteResponse, DescripcionCicloPacienteCompleto, DescripcionCicloPacienteCompletoResponse } from '../models/paciente';
 import { MedicamentoParaPresentacionDto } from '../models/descripcion-medicamentos';
 
 @Injectable({
@@ -66,6 +66,14 @@ export class GestionPacientesService {
       `${this.apiUrl}/pacientes/medicamentos-presentacion`,
       dto,
       { headers: this.getAuthHeaders() }
+    );
+  }
+
+  // ------------------- Medicamentos Presentación -------------------
+  createCicloPaciente(dto: DescripcionCicloPacienteCompleto): Observable<DescripcionCicloPacienteCompletoResponse> {
+    return this.http.post<DescripcionCicloPacienteCompletoResponse>(
+      `${this.apiUrl}/pacientes/ciclo-paciente`,
+      dto
     );
   }
 }

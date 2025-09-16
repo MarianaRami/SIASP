@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { PopUpMedicamentosDetalleComponent } from '../pop-up-medicamentos-detalle/pop-up-medicamentos-detalle.component';
-
+import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
 
 @Component({
   selector: 'app-configuracion-aplicaciones',
@@ -27,7 +27,11 @@ export class ConfiguracionAplicacionesComponent implements OnInit {
   mostrarPopupMedicamentos = false;
   mostrarPopupMedicamentosDetalle = false;
 
-  constructor(private router: Router,private AuthService: AuthService,) {
+  constructor(
+    private router: Router,
+    private AuthService: AuthService,
+    private cicloPacienteService: GestionPacientesService,
+  ) {
     const nav = this.router.getCurrentNavigation();
     this.infoCicloCompleta = nav?.extras.state?.['info'];
     console.log('Información recibida:', this.infoCicloCompleta);
@@ -102,7 +106,17 @@ export class ConfiguracionAplicacionesComponent implements OnInit {
     this.infoCicloCompleta.usuarioCreacion = usuario;
 
     console.log("✅ Configuración actualizada:", this.infoCicloCompleta);
-    this.router.navigate(['qf/busqueda']);
+
+    this.cicloPacienteService.createCicloPaciente(this.infoCicloCompleta).subscribe({
+      next: (resp) => {
+        console.log('✅ Ciclo creado:', resp);
+        this.router.navigate(['qf/busqueda']);
+      },
+      error: (err) => {
+        console.error('❌ Error creando ciclo:', err);
+      }
+    });
+
   }
 
   Guardar() {

@@ -18,7 +18,7 @@ export class ConfiguracionCicloComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private miServicio: GestionPacientesService
+    private miServicio: GestionPacientesService,
   ) {}
 
   protocoloOriginal: any;
