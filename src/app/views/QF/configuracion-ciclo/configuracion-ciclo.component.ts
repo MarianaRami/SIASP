@@ -130,7 +130,7 @@ export class ConfiguracionCicloComponent {
     protocoloFinal.indicadores.sc = parseInt(this.superficie);
     protocoloFinal.indicadores.tfg = parseInt(this.tfg);
     protocoloFinal.indicadores.talla = parseInt(this.talla);
-    protocoloFinal.fecha_consulta = this.fecha_consulta;
+    protocoloFinal.fechaConsulta = this.fecha_consulta;
     protocoloFinal.fecha_inicio_estimada = this.fecha_inicio_estimada;
 
     protocoloFinal.conciliacion_medicamentos = this.conf_medicamentos
