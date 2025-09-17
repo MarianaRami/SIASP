@@ -117,6 +117,8 @@
   *ngIf="mostrarPopupMedicamentos"
   [medicamentos]="medicamentos"
   (cerrar)="cerrarPopupMedicamentos()"
-  (siguiente)="abrirResumenFinal($event)">
+  (siguiente)="abrirResumenFinal($event)"
+  (guardar)="guardarBorrador($event)"
+  >
 </app-pop-up-medicamentos>
 

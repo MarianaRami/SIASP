@@ -15,6 +15,7 @@ export class PopUpMedicamentosComponent {
   @Input() medicamentos: any[] = [];
   @Output() cerrar = new EventEmitter<void>();
   @Output() siguiente = new EventEmitter<any[]>(); 
+  @Output() guardar = new EventEmitter<any[]>();
 
   listaMedicamentos: string[] = [];
 
@@ -54,6 +55,10 @@ export class PopUpMedicamentosComponent {
     return dosisFormulada >= (dosisCalculada - margen) && dosisFormulada <= (dosisCalculada + margen);
   }
 
+  tieneFueraDeRango(): boolean {
+    return this.medicamentos.some(fila => !this.estaEnRango(fila));
+  }
+
   agregarFila() {
     this.medicamentos.push({
       nombre: '',
@@ -66,6 +71,19 @@ export class PopUpMedicamentosComponent {
     });
   }
 
+  emitirGuardar() {
+    const datosEnviar = this.medicamentos.map(med => ({
+      nombre: med.nombre,
+      dosisFormulada: med.dosisFormulada,
+      formula: med.formula,
+      dosisTeorica: med.dosisTeorica,
+      dosisCalculada: med.dosisCalculada,
+      duracion: (Number(med.duracion.horas || 0) * 60) + Number(med.duracion.minutos || 0)
+    }));
+
+    this.guardar.emit(datosEnviar);
+  }
+
   eliminarFila(index: number) {
     this.medicamentos.splice(index, 1);
   }
@@ -75,6 +93,17 @@ export class PopUpMedicamentosComponent {
   }
 
   irASiguiente() {
+    if (this.tieneFueraDeRango()) {
+      const continuar = confirm(
+        'Algunos medicamentos están fuera del rango permitido.\n\n¿Desea continuar de todas formas?'
+      );
+
+      if (!continuar) {
+        // Solo se cierra la alerta y sigue en el pop-up
+        return;
+      }
+    }
+
     const datosEnviar = this.medicamentos.map(med => ({
       nombre: med.nombre,
       dosisFormulada: med.dosisFormulada,
@@ -83,6 +112,8 @@ export class PopUpMedicamentosComponent {
       dosisCalculada: med.dosisCalculada,
       duracion: (Number(med.duracion.horas || 0) * 60) + Number(med.duracion.minutos || 0)
     }));
+
+    // Emitir siempre si llegó aquí (ya sea porque está en rango o eligió continuar)
     this.siguiente.emit(datosEnviar);
   }
 

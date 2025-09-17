@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-configuracion-ciclo',
@@ -18,6 +19,7 @@ export class ConfiguracionCicloComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private AuthService: AuthService,
     private miServicio: GestionPacientesService,
   ) {}
 
@@ -147,6 +149,46 @@ export class ConfiguracionCicloComponent {
       ['qf/busqueda/paciente', this.cedula, 'conf-ciclo', 'conf-aplicaciones'],
       { state: { info: protocoloFinal } }
     );
+  }
+
+  guardarBorrador(datos: any) {
+    this.mostrarPopupMedicamentosDetalle = false;
+    this.infoCicloCompleta.medicamentos = datos;
+
+    // Clona el protocolo original para no modificar el objeto original
+    const protocoloFinal = { ...this.protocoloOriginal };
+
+    // Actualiza los campos con lo que el usuario llenó
+    protocoloFinal.indicadores.peso = parseInt(this.peso);
+    protocoloFinal.indicadores.sc = parseInt(this.superficie);
+    protocoloFinal.indicadores.tfg = parseInt(this.tfg);
+    protocoloFinal.indicadores.talla = parseInt(this.talla);
+    protocoloFinal.fechaConsulta = this.fecha_consulta;
+    protocoloFinal.fecha_inicio_estimada = this.fecha_inicio_estimada;
+
+    protocoloFinal.conciliacionMedicamentos = this.conf_medicamentos
+
+    // Actualiza medicamentos
+    protocoloFinal.medicamentos = this.infoCicloCompleta.medicamentos;
+
+
+    // Actualiza eventos si el usuario los modificó
+    protocoloFinal.eventos = this.eventos;
+
+    const usuario = this.AuthService.getUser();
+    protocoloFinal.usuarioCreacion = usuario;
+
+    console.log("esto mando: ", protocoloFinal)
+
+    this.miServicio.createCicloPaciente(protocoloFinal).subscribe({
+      next: (resp) => {
+        console.log('✅ Ciclo creado:', resp);
+        this.router.navigate(['qf/busqueda']);
+      },
+      error: (err) => {
+        console.error('❌ Error creando ciclo:', err);
+      }
+    });
   }
 
 }

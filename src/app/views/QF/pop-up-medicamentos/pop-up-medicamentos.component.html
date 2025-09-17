@@ -96,7 +96,12 @@
 
     <button class="guardar-btn" 
         [disabled]="!esFormularioValido()" 
-        (click)="irASiguiente()">Siguiente</button>
+        (click)="irASiguiente()">Siguiente
+    </button>
+    <button class="guardar-btn" 
+        [disabled]="!esFormularioValido()" 
+        (click)="emitirGuardar()">Guardar borrador
+    </button>
   </div>
 </div>
 
