@@ -74,7 +74,7 @@ export class PopUpMedicamentosDetalleComponent {
       dosisTotal: med.dosisTotal,
       presentaciones: med.presentaciones.map((pres: any) => ({
         nombrePresentacion: pres.nombrePresentacion,
-        cantidadPorApliacion: pres.cantidadPorAplicacion,
+        cantidadPorAplicacion: pres.cantidadPorAplicacion,
         cantidadPorCiclo: pres.cantidadPorCiclo
       }))
     }));

@@ -28,7 +28,13 @@
 
     <div class="fila">
         <label>Fecha de inicio estimada:</label>
-        <input type="date" [(ngModel)]="fecha_inicio_estimada" />
+        <input 
+            id="fecha_inicio_estimada" 
+            type="date" 
+            class="form-control" 
+            [(ngModel)]="fecha_inicio_estimada"
+            required 
+        />
     </div>
 
     <div class="fila">
@@ -99,6 +105,7 @@
   <div class="guardar-fijo">
     <button
       (click)="abrirPopupMedicamentos()"
+      [disabled]="!fecha_inicio_estimada"
     >
       Siguiente
     </button>
