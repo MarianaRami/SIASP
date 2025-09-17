@@ -73,7 +73,8 @@ export class GestionPacientesService {
   createCicloPaciente(dto: DescripcionCicloPacienteCompleto): Observable<DescripcionCicloPacienteCompletoResponse> {
     return this.http.post<DescripcionCicloPacienteCompletoResponse>(
       `${this.apiUrl}/pacientes/ciclo-paciente`,
-      dto
+      dto,
+      { headers: this.getAuthHeaders() }
     );
   }
 }

@@ -133,7 +133,7 @@ export class ConfiguracionCicloComponent {
     protocoloFinal.fechaConsulta = this.fecha_consulta;
     protocoloFinal.fecha_inicio_estimada = this.fecha_inicio_estimada;
 
-    protocoloFinal.conciliacion_medicamentos = this.conf_medicamentos
+    protocoloFinal.conciliacionMedicamentos = this.conf_medicamentos
 
     // Actualiza medicamentos
     protocoloFinal.medicamentos = this.infoCicloCompleta.medicamentos;
