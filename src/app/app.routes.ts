@@ -85,7 +85,7 @@ export const routes: Routes = [
 
   { path: 'programacion/busquedaPro', component: BusquedaProComponent },
   { path: 'programacion/confirmación', component: ConfirmacionComponent },
-  { path: 'programacion/busquedaPro/historial', component: HistorialComponent },
+  { path: 'programacion/busquedaPro/historial/:cedula', component: HistorialComponent },
   { path: 'programacion/pendientesNotificacion', component: PendientesNotificacionComponent },
   { path: 'programacion/reprogramacion', component: ReprogramacionComponent },
   { path: 'programacion/busquedaPro/historial/historial', component: HistorialPacienteComponent },

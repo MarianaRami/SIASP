@@ -45,7 +45,6 @@ export class AutorizacionComponent {
 
   columnasIndividual = [
     { key: 'medicamento', label: 'Medicamento' },
-    { key: 'presentacion', label: 'Presentación' },
     { key: 'cantidad', label: 'Cantidad' },
     { key: 'unidad', label: 'Unidad', tipo: 'number' },
     { key: 'autorizacion', label: 'No. Autorización', tipo: 'text' },

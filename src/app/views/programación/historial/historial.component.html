@@ -42,22 +42,12 @@
 
         <div class="fila">
             <label>Tipo de tratamiento:</label>
-            <select [(ngModel)]="tipo">
-                <option value="" disabled selected>Seleccione</option>
-                <option *ngFor="let opcion of tipo" [value]="opcion">
-                {{ opcion }}
-                </option>
-            </select>
+            <div>{{ nombreTrat }}</div>
         </div>
 
         <div class="fila">
             <label>Tratamiento:</label>
-            <select [(ngModel)]="tratamiento">
-                <option value="" disabled selected>Seleccione</option>
-                <option *ngFor="let opcion of tratamiento" [value]="opcion">
-                {{ opcion }}
-                </option>
-            </select>
+            <div>{{ tipoTrat }}</div>
         </div>
     </div>
 
@@ -86,3 +76,4 @@
  <app-popup-motivo *ngIf="mostrarPopup" (cerrar)="cerrarPopup()"></app-popup-motivo>
  <app-popup-medicamentos-obv *ngIf="mostrarPopupM" (cerrar)="cerrarPopupM()"></app-popup-medicamentos-obv>
  <app-pop-up-programacion *ngIf="mostrarPopupP" (cerrar)="cerrarPopupP()"></app-pop-up-programacion>
+ 

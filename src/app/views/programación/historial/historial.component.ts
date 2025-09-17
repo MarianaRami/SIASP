@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla-dinamica.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PopupMotivoComponent } from '../../../components/popup-motivo/popup-motivo.component';
 import { PopupMedicamentosObvComponent } from '../popup-medicamentos-obv/popup-medicamentos-obv.component';
 import { PopUpProgramacionComponent } from '../pop-up-programacion/pop-up-programacion.component';
-
+import { AuthService } from '../../../services/auth.service';
+import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
+import { PacienteResponseDto, CreateProtocoloPacienteCompletoDto } from '../../../models/paciente';
 
 @Component({
   selector: 'app-historial',
@@ -18,44 +20,73 @@ import { PopUpProgramacionComponent } from '../pop-up-programacion/pop-up-progra
   ]
 })
 export class HistorialComponent {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private AuthService: AuthService,
+    private miServicio: GestionPacientesService,
+  ) {}
+  pacienteData!: PacienteResponseDto;
 
-  paciente = 'Ana María Torres López';
-  identificacion = '5201919351';
-  medico = 'Dr. Carlos Méndez';
-  protocolo = 'Cáncer de mama estadio II – Protocolo FAC';
+  paciente = '';
+  identificacion = '';
+  medico = '';
+  protocolo = '';
   telefono = ''; 
   tipo = '';
   tratamiento = '';
-  especialidad = 'Oncología Clínica';
+  especialidad = '';
+  nombreTrat!: string | null;
+  tipoTrat!: string | null;
+  cedula!: string;
+
+  tratamientoOptions = [
+    { value: 'poli', label: 'Politerapia' },
+    { value: 'mono', label: 'Monoterapia' },
+  ];
+
+  tipoTratamientoOptions = [
+    { key: 'alta', label: 'Alta toxicidad' },
+    { key: 'baja', label: 'Baja toxicidad' },
+  ];
 
   columnas = [
-    { key: 'Ciclo', label: 'ciclo' },
-    { key: 'Sesion', label: 'Sesión' },
-    { key: 'Fecha', label: 'Fecha' },
-    { key: 'Estado', label: 'Estado' },
-    { key: 'Boton', label: ' ', tipo: 'button' }
+    { key: 'aplicacion', label: 'Aplicación' },
+    { key: 'fecha', label: 'Fecha' },
+    { key: 'estado', label: 'Estado' },
+    { key: 'boton', label: ' ', tipo: 'button' }
   ];
-  datos = [
-    {
-      Ciclo: '1',
-      Sesion: '1',
-      Fecha: '2025-05-20',
-      Estado: '',
-    },
-    {
-      Ciclo: '1',
-      Sesion: '2',
-      Fecha: '2025-05-21',
-      Estado: '',
-    },
-    {
-      Ciclo: '1',
-      Sesion: '3',
-      Fecha: '2025-05-22',
-      Estado: '',
-    }
-  ];
+  datos: any[] = [];
+
+  ngOnInit() {
+    this.cedula = this.route.snapshot.paramMap.get('cedula') || '';
+    
+    this.miServicio.getPacienteCompletoByDocumento(this.cedula)
+      .subscribe({
+        next: (resp) => {
+          console.log('Paciente desde backend:', resp);
+
+          if (resp.success && resp.data) {
+            this.pacienteData = resp.data;
+
+            const p = resp.data;
+
+            // ahora el backend ya trae nombre completo y identificacion
+            this.paciente = this.pacienteData.nombreCompleto;
+            this.identificacion = this.pacienteData.identificacion;
+            this.medico = this.pacienteData.medicoTratante;
+            this.protocolo = this.pacienteData.protocoloActual?.nombreProtocolo || '';
+            this.especialidad = this.pacienteData.especialidad;
+
+            this.nombreTrat = this.tratamientoOptions.find(t => t.value === this.pacienteData.tratamientoNombre)?.label || this.pacienteData.tratamientoNombre;
+            this.tipoTrat = this.tipoTratamientoOptions.find(t => t.key === this.pacienteData.tratamientoTipo)?.label || this.pacienteData.tratamientoTipo;
+          }
+        },
+        error: (err) => {
+          console.error('Error al obtener paciente:', err);
+        }
+      });
+  }
 
   programar() {
 

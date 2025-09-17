@@ -44,7 +44,10 @@
       <input type="date" [(ngModel)]="autorizacion.fecha" />
     </div>
     <div class="tabla-individual">
-        <app-tabla-dinamica [columnas]="columnasIndividual" [datos]="datos"></app-tabla-dinamica>
+        <app-tabla-dinamica 
+          [columnas]="columnasIndividual" 
+          [datos]="datos"
+        ></app-tabla-dinamica>
     </div>
   </div>
 

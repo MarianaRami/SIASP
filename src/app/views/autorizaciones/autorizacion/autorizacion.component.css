@@ -2,6 +2,7 @@
   padding: 20px;
   font-family: 'Roboto', sans-serif;
   color: #333;
+  width: 1000px;
 }
 
 .header {
@@ -72,6 +73,7 @@ select {
 }
 
 .tabla-individual {
+  width: 1100px;
   flex: 7;
 }
 
@@ -93,7 +95,11 @@ select {
 }
 
 .layout-universal {
-  width: 100%;
+  width: 1100px;
+}
+
+.layout-universal input{
+  width: 50px;
 }
 
 .input-small {
@@ -179,6 +185,7 @@ select {
 
 /* 🔹 Sección de Autorización de laboratorios */
 .laboratorios-group {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 0px; /* espacio entre cada campo */
@@ -193,6 +200,7 @@ select {
 
 .laboratorios-group input {
   width: 100%;
+  height: 15px;
   padding: 8px 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
