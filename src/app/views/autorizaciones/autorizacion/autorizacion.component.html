@@ -39,7 +39,7 @@
   <div class="layout-universal">
     <div class="fila-individual">
       <label>No. Autorización:</label>
-      <input type="text" [(ngModel)]="autorizacion.numero" />
+      <input type="number" [(ngModel)]="autorizacion.numero" />
       <label>Fecha:</label>
       <input type="date" [(ngModel)]="autorizacion.fecha" />
     </div>
@@ -55,7 +55,7 @@
   <div class="laboratorios">
       <div *ngFor="let lab of laboratorios; let i = index" class="fila">
         <label>No. Autorización:</label>
-        <input type="text" [(ngModel)]="lab.autorizacion" class="input-small" />
+        <input type="number" [(ngModel)]="lab.autorizacion" class="input-small" />
 
         <label>Fecha:</label>
         <input type="date" [(ngModel)]="lab.fecha" class="input-small" />

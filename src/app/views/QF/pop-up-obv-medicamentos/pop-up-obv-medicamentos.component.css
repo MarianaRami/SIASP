@@ -65,10 +65,11 @@ button.delete {
 
 .guardar-btn {
   margin-top: 20px;
-  background: #FFE5D7;
+  background: rgb(255, 103, 29);
   border: none;
-  padding: 10px 20px;
-  border-radius: 20px;
+  padding: 12px 32px;
+  border-radius: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   cursor: pointer;
   float: right;
 }

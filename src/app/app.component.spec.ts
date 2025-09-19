@@ -5,14 +5,16 @@ import { MenuIzquierdoComponent } from './components/menu-izquierdo/menu-izquier
 import { NgIf } from '@angular/common';
 import { routes } from './app.routes';
 import { bootstrapApplication } from '@angular/platform-browser';
+import { GeneralFooterComponent } from './components/general-footer/general-footer.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    RouterOutlet,  
-    MenuIzquierdoComponent, MenuSuperiorComponent, 
-  ],
+    RouterOutlet,
+    MenuIzquierdoComponent, MenuSuperiorComponent,
+    GeneralFooterComponent
+],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

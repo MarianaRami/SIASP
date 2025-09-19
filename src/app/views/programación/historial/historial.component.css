@@ -34,9 +34,11 @@ h2 {
 }
 
 .btn-accion {
-  background-color: #FFE5D7;
+  background-color: rgb(255, 103, 29);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  color: white;
   border: none;
-  padding: 6px 15px;
+  padding: 12px 32px;
   border-radius: 20px;
   cursor: pointer;
 }

@@ -55,10 +55,11 @@ select {
 .guardar-btn {
   margin: 16px auto 0 auto; /* centrar horizontalmente */
   display: block;
-  padding: 8px 24px;
-  background-color: #FFE5D7;
+  padding: 12px 32px;
+  background-color: rgb(255, 103, 29);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   border: none;
-  border-radius: 20px;
+  border-radius: 15px;
   cursor: pointer;
 }
 

@@ -34,9 +34,11 @@ input[type="date"] {
 }
 
 .btn-confirmar {
-  background-color: #ffe1d6;
+  background-color: rgb(255, 103, 29);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  color: white;
   border: none;
-  padding: 8px 20px;
+  padding: 12px 32px;
   border-radius: 20px;
   cursor: pointer;
   font-size: 14px;

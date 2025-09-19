@@ -1,0 +1,27 @@
+.container {
+  background-color: rgb(255, 103, 29); /* Color solicitado */
+  color: white; /* Letra blanca */
+  padding: 20px 0;
+  text-align: center;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* Centrado horizontal */
+  justify-content: center; /* Centrado vertical */
+}
+
+.footer-text {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.footer-strong {
+  font-weight: bold;
+}
+
+.footer-subtext {
+  font-size: 12px;
+  opacity: 0.9;
+}
