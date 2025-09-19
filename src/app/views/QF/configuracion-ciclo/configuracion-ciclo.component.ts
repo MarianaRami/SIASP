@@ -175,6 +175,8 @@ export class ConfiguracionCicloComponent {
     // Actualiza eventos si el usuario los modificó
     protocoloFinal.eventos = this.eventos;
 
+    protocoloFinal.presentaciones = [];
+
     const usuario = this.AuthService.getUser();
     protocoloFinal.usuarioCreacion = usuario;
 

@@ -105,6 +105,8 @@ export class ConfiguracionAplicacionesComponent implements OnInit {
     const usuario = this.AuthService.getUser();
     this.infoCicloCompleta.usuarioCreacion = usuario;
 
+    this.infoCicloCompleta.estado = 'activo';
+
     console.log("✅ Configuración actualizada:", this.infoCicloCompleta);
 
     this.cicloPacienteService.createCicloPaciente(this.infoCicloCompleta).subscribe({
