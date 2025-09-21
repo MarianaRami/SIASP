@@ -28,7 +28,7 @@ export class AutorizacionesService {
   // ------------------- AUTORIZACIONES -------------------
   getPacienteByDocumento(pacienteId: string): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}/pacientes/autorizaciones/datos/${pacienteId}`,{
+      `${this.apiUrl}/autorizaciones/datos/${pacienteId}`,{
         headers: this.getAuthHeaders()
       }
     );
