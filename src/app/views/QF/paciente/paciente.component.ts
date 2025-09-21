@@ -154,7 +154,7 @@ export class PacienteComponent {
       estado: "activo",
       indicadores: {
         peso: Number(this.pacienteData.peso), 
-        altura: Number(this.pacienteData.altura),
+        talla: Number(this.pacienteData.talla),
         tfg: Number(this.pacienteData.tfg),
         fecha: formData.fechaInicio
       },
@@ -210,8 +210,8 @@ export class PacienteComponent {
         codigoMedicoTratante: this.pacienteData.codigoMedicoTratante,
         especialidad: this.pacienteData.especialidad,
         codigoEspecialidad: this.pacienteData.codigoEspecialidad,
-        tratamiento: formData.tratamiento , 
-        tipoTratamiento: formData.tipoTratamiento 
+        //tratamiento: formData.tratamiento , 
+        //tipoTratamiento: formData.tipoTratamiento 
       };
 
       console.log('Enviando paciente nuevo:', dto);

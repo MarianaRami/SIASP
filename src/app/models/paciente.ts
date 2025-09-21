@@ -50,7 +50,7 @@ export interface PacienteResponseDto {
   especialidad: string;
 
   peso: number;
-  altura: number;
+  talla: number;
   tfg: number;
   eps: string;
   imc: number;
@@ -141,8 +141,8 @@ export interface CreateProtocoloPacienteCompletoDto {
   codigoMedicoTratante: number;
   especialidad: string;
   codigoEspecialidad: number;
-  tratamiento: string;
-  tipoTratamiento: string;
+  //tratamiento: string;
+  //tipoTratamiento: string;
   fechaFinProtocolo?: string;
   tipoFin?: "cancelado" | "cambio_protocolo" | "concluido" | "desistido";
 }
