@@ -6,7 +6,7 @@ import { GestionPacientesService } from '../../../services/gestion-pacientes.ser
 import { AuthService } from '../../../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PacienteResponseDto } from '../../../models/paciente';
-
+import { AutorizacionesService } from '../../../services/autorizaciones.service';
 
 @Component({
   selector: 'app-autorizacion',
@@ -23,6 +23,7 @@ export class AutorizacionComponent {
     private miServicio: GestionPacientesService,
     private AuthService: AuthService,
     private route: ActivatedRoute
+    , private autorizacionesService: AutorizacionesService
   ) {}
 
   paciente = '';
@@ -98,6 +99,13 @@ export class AutorizacionComponent {
         },
         error: (err) => {
           console.error('Error al obtener paciente:', err);
+        }
+      });
+
+    this.autorizacionesService.getPacienteByDocumento(this.identificacion)
+      .subscribe({
+        next: (resp) => {
+          console.log('Autorizaciones desde backend:', resp);
         }
       });
   }
