@@ -82,6 +82,8 @@ export class ConfiguracionCicloComponent {
           this.tfg = resp.indicadores.tfg;
           this.medicamentos = resp.medicamentos || [];
 
+          this.fecha_inicio_estimada = resp.fechaIniEstimada;
+
           this.ciclo = resp.numeroCiclo;
           this.fecha_consulta = resp.fechaConsulta;
           this.fecha_asignacion = resp.fechaCreacion;
@@ -176,6 +178,7 @@ export class ConfiguracionCicloComponent {
     protocoloFinal.eventos = this.eventos;
 
     protocoloFinal.presentaciones = [];
+    this.infoCicloCompleta.estado = 'borrador';
 
     const usuario = this.AuthService.getUser();
     protocoloFinal.usuarioCreacion = usuario;
