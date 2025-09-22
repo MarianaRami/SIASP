@@ -139,10 +139,10 @@ export interface CreateProtocoloPacienteCompletoDto {
   CIE11: string;
   medicoTratante: string;
   codigoMedicoTratante: number;
-  especialidad: string;
+  especialidadNombre: string;
   codigoEspecialidad: number;
-  //tratamiento: string;
-  //tipoTratamiento: string;
+  tratamiento: string;
+  tipoTratamiento: string;
   fechaFinProtocolo?: string;
   tipoFin?: "cancelado" | "cambio_protocolo" | "concluido" | "desistido";
 }

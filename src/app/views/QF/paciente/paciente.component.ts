@@ -208,10 +208,10 @@ export class PacienteComponent {
         CIE11: this.pacienteData.CIE11,
         medicoTratante: this.pacienteData.medicoTratante,
         codigoMedicoTratante: this.pacienteData.codigoMedicoTratante,
-        especialidad: this.pacienteData.especialidad,
+        especialidadNombre: this.pacienteData.especialidad,
         codigoEspecialidad: this.pacienteData.codigoEspecialidad,
-        //tratamiento: formData.tratamiento , 
-        //tipoTratamiento: formData.tipoTratamiento 
+        tratamiento: formData.tratamiento , 
+        tipoTratamiento: formData.tipoTratamiento 
       };
 
       console.log('Enviando paciente nuevo:', dto);
