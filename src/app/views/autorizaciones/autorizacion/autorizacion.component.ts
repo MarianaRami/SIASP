@@ -20,8 +20,8 @@ import { AutorizacionesService } from '../../../services/autorizaciones.service'
 export class AutorizacionComponent {
   constructor(
     private router: Router,
-    private route: ActivatedRoute
-    , private autorizacionesService: AutorizacionesService
+    private route: ActivatedRoute, 
+    private autorizacionesService: AutorizacionesService
   ) {}
 
   paciente = '';

@@ -82,7 +82,8 @@ export class ConfiguracionCicloComponent {
           this.tfg = resp.indicadores.tfg;
           this.medicamentos = resp.medicamentos || [];
 
-          this.fecha_inicio_estimada = resp.fechaIniEstimada;
+          this.fecha_inicio_estimada = resp.ciclos[0].fechaIniEstimada;
+          // revisar porque debe traer del ciclo activo
 
           this.ciclo = resp.numeroCiclo;
           this.fecha_consulta = resp.fechaConsulta;

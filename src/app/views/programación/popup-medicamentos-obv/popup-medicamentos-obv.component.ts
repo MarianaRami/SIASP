@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { AutorizacionesService } from '../../../services/autorizaciones.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-popup-medicamentos-obv',
@@ -13,13 +15,38 @@ import { FormsModule } from '@angular/forms';
 export class PopupMedicamentosObvComponent {
  @Output() cerrar = new EventEmitter<void>();
 
-  observaciones: string = '';
+ constructor(
+    private route: ActivatedRoute,
+    private autorizacionesService: AutorizacionesService
+ ){}
 
-  medicamentos = [
-    { medicamento: 'Paracetamol', presentacion: 'Tableta', dosis: '500mg', unidad: 'mg' },
-    { medicamento: 'Ibuprofeno', presentacion: 'Jarabe', dosis: '200mg', unidad: 'ml' },
-    { medicamento: 'Amoxicilina', presentacion: 'Cápsula', dosis: '250mg', unidad: 'mg' },
-  ];
+  observaciones: string = '';
+  identificacion = '';
+
+  medicamentos: any[] = [];
+
+  ngOnInit() {
+    this.cargaDatos()
+  }
+
+  cargaDatos(){
+    this.identificacion = this.route.snapshot.paramMap.get('cedula') || '';
+
+    this.autorizacionesService.getPacienteByDocumento(this.identificacion)
+      .subscribe({
+        next: (resp) => {
+          console.log('Respuesta autorizaciones:', resp);
+
+          if (resp && resp.paciente) {
+            // Cargar medicamentos en la tabla
+            this.medicamentos = resp.autorizaciones || [];
+          }
+        },
+        error: (err) => {
+          console.error('Error al obtener autorizaciones:', err);
+        }
+      });
+  }
 
   volver() {
     this.cerrar.emit();

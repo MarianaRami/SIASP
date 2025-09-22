@@ -32,7 +32,8 @@ export class HistorialComponent {
   identificacion = '';
   medico = '';
   protocolo = '';
-  telefono = ''; 
+  telefono1 = ''; 
+  telefono2 = '';
   tipo = '';
   tratamiento = '';
   especialidad = '';
@@ -51,7 +52,7 @@ export class HistorialComponent {
   ];
 
   columnas = [
-    { key: 'aplicacion', label: 'Aplicación' },
+    { key: 'dia', label: 'Aplicación' },
     { key: 'fecha', label: 'Fecha' },
     { key: 'estado', label: 'Estado' },
     { key: 'boton', label: ' ', tipo: 'button' }
@@ -77,6 +78,11 @@ export class HistorialComponent {
             this.medico = this.pacienteData.medicoTratante;
             this.protocolo = this.pacienteData.protocoloActual?.nombreProtocolo || '';
             this.especialidad = this.pacienteData.especialidad;
+
+            this.telefono1 = this.pacienteData.telefono1;
+            this.telefono2 = this.pacienteData.telefono2;
+
+            this.datos = this.pacienteData.protocoloActual?.eventos || [];
 
             this.nombreTrat = this.tratamientoOptions.find(t => t.value === this.pacienteData.tratamientoNombre)?.label || this.pacienteData.tratamientoNombre;
             this.tipoTrat = this.tipoTratamientoOptions.find(t => t.key === this.pacienteData.tratamientoTipo)?.label || this.pacienteData.tratamientoTipo;

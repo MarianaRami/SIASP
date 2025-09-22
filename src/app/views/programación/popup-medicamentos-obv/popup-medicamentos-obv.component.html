@@ -10,17 +10,15 @@
       <thead>
         <tr>
           <th>Medicamento</th>
-          <th>Presentación</th>
           <th>Dosis</th>
-          <th>Unidad</th>
+          <th>Cantidad</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let m of medicamentos">
-          <td>{{ m.medicamento }}</td>
-          <td>{{ m.presentacion }}</td>
+          <td>{{ m.nombreMedicamentoPresentacion }}</td>
           <td>{{ m.dosis }}</td>
-          <td>{{ m.unidad }}</td>
+          <td>{{ m.cantidad }}</td>
         </tr>
       </tbody>
     </table>
