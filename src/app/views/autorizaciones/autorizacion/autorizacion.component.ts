@@ -20,8 +20,6 @@ import { AutorizacionesService } from '../../../services/autorizaciones.service'
 export class AutorizacionComponent {
   constructor(
     private router: Router,
-    private miServicio: GestionPacientesService,
-    private AuthService: AuthService,
     private route: ActivatedRoute
     , private autorizacionesService: AutorizacionesService
   ) {}
@@ -42,22 +40,18 @@ export class AutorizacionComponent {
 
   tratamientoFinal = '';
 
-  pacienteData!: PacienteResponseDto;
+  pacienteData: any;
 
   columnasIndividual = [
-    { key: 'medicamento', label: 'Medicamento' },
+    { key: 'nombreMedicamentoPresentacion', label: 'Medicamento' },
     { key: 'cantidad', label: 'Cantidad' },
     { key: 'unidad', label: 'Unidad', tipo: 'number' },
-    { key: 'autorizacion', label: 'No. Autorización', tipo: 'text' },
-    { key: 'fecha', label: 'Fecha', tipo: 'fecha' },
-    { key: 'fecha_vencimiento', label: 'Fecha vencimiento', tipo: 'fecha' }
+    { key: 'numeroAutorizacion', label: 'No. Autorización', tipo: 'text' },
+    { key: 'fechaAutorizacion', label: 'Fecha', tipo: 'fecha' },
+    { key: 'fechaVencimiento', label: 'Fecha vencimiento', tipo: 'fecha' }
   ];
 
-  datos = [
-    { medicamento: 'Doxorrubicina', presentacion: '200mg', cantidad: '3' },
-    { medicamento: 'Ciclofosfamida', presentacion: '100mg', cantidad: '33'  },
-    { medicamento: 'Carboplatino', presentacion: '50mg', cantidad: '13' }
-  ];
+  datos: any[] = [];
 
   laboratorios: any[] = [
     { autorizacion: '', fecha: '', fecha_vencimiento: '', descripcion: '' }
@@ -74,38 +68,27 @@ export class AutorizacionComponent {
 
   cargaDatos(){
     this.identificacion = this.route.snapshot.paramMap.get('cedula') || '';
-    
-    this.miServicio.getPacienteCompletoByDocumento(this.identificacion)
-      .subscribe({
-        next: (resp) => {
-          console.log('Paciente desde backend:', resp);
-
-          if (resp.success && resp.data) {
-            this.pacienteData = resp.data;
-
-            const p = resp.data;
-
-            // ahora el backend ya trae nombre completo y identificacion
-            this.paciente = this.pacienteData.nombreCompleto;
-            this.identificacion = this.pacienteData.identificacion;
-            this.protocolo = this.pacienteData.protocoloActual?.nombreProtocolo || '';
-            this.eps = this.pacienteData.eps;    
-
-            const nombreTrat = this.tratamientoOptions.find(t => t.value === this.pacienteData.tratamientoNombre)?.label || this.pacienteData.tratamientoNombre;
-            const tipoTrat = this.tipoTratamientoOptions.find(t => t.key === this.pacienteData.tratamientoTipo)?.label || this.pacienteData.tratamientoTipo;
-
-            this.tratamientoFinal = `${nombreTrat} - ${tipoTrat}`;
-          }
-        },
-        error: (err) => {
-          console.error('Error al obtener paciente:', err);
-        }
-      });
 
     this.autorizacionesService.getPacienteByDocumento(this.identificacion)
       .subscribe({
         next: (resp) => {
-          console.log('Autorizaciones desde backend:', resp);
+          console.log('Respuesta autorizaciones:', resp);
+
+          if (resp && resp.paciente) {
+            this.pacienteData = resp.paciente;
+
+            this.paciente = `${resp.paciente.nombre1} ${resp.paciente.nombre2 || ''} ${resp.paciente.apellido1} ${resp.paciente.apellido2 || ''}`.trim();
+            this.identificacion = resp.paciente.documento;
+            this.protocolo = resp.nombreProtocolo || '';
+            this.eps = resp.paciente.eps;
+            this.tratamientoFinal = `${resp.tratamientoNombre || 'N/A'} - ${resp.tratamientoTipo || 'N/A'}`;
+
+            // Cargar medicamentos en la tabla
+            this.datos = resp.autorizaciones || [];
+          }
+        },
+        error: (err) => {
+          console.error('Error al obtener autorizaciones:', err);
         }
       });
   }
