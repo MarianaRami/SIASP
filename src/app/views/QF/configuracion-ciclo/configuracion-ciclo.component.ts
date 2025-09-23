@@ -82,8 +82,14 @@ export class ConfiguracionCicloComponent {
           this.tfg = resp.indicadores.tfg;
           this.medicamentos = resp.medicamentos || [];
 
-          this.fecha_inicio_estimada = resp.ciclos[0].fechaIniEstimada;
-          // revisar porque debe traer del ciclo activo
+          if (resp.ciclos && resp.ciclos.length > 0) {
+            // Si hay ciclos, tomar el ciclo activo
+            const cicloActivo = resp.ciclos.find((c: any) => c.estado === 'activo') || resp.ciclos[0];
+            this.fecha_inicio_estimada = cicloActivo.fechaIniEstimada || '';
+          } else {
+            // Si no hay ciclos dejar vacío
+            this.fecha_inicio_estimada = '';
+          }
 
           this.ciclo = resp.numeroCiclo;
           this.fecha_consulta = resp.fechaConsulta;

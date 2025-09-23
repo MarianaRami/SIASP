@@ -57,6 +57,7 @@ select {
   display: block;
   padding: 12px 32px;
   background-color: rgb(255, 103, 29);
+  color: white;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   border: none;
   border-radius: 15px;

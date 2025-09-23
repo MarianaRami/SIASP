@@ -74,6 +74,7 @@ textarea {
 .guardar-btn,
 .cancelar-btn {
   padding: 12px 32px;
+  color: white;
   border: none;
   border-radius: 20px;
   background-color: rgb(255, 103, 29);
