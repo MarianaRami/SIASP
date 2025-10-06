@@ -1,10 +1,21 @@
 <div class="calendario-container">
-  <h2>Calendario de Pacientes</h2>
+  <div class="header">
+    <button (click)="previousMonth()">◀</button>
+    <h2>{{ currentDate | date:'MMMM yyyy' }}</h2>
+    <button (click)="nextMonth()">▶</button>
+  </div>
 
-  <!-- Vista mensual fija -->
-  <mwl-calendar-month-view
-    [viewDate]="viewDate"
-    [events]="events"
-    (dayClicked)="dayClicked($event)">
-  </mwl-calendar-month-view>
+  <div class="weekdays">
+    <div *ngFor="let day of ['L', 'M', 'M', 'J', 'V', 'S', 'D']">{{ day }}</div>
+  </div>
+
+  <div class="days">
+    <div 
+      *ngFor="let day of montDays" 
+      class="day" 
+      [class.empty]="!day"
+      (click)="openDay(day)">
+      {{ day ? day.getDate() : '' }}
+    </div>
+  </div>
 </div>
