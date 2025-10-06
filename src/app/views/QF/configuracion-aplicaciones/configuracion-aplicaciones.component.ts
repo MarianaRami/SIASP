@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { PopUpMedicamentosDetalleComponent } from '../pop-up-medicamentos-detalle/pop-up-medicamentos-detalle.component';
 import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
@@ -24,11 +24,14 @@ export class ConfiguracionAplicacionesComponent implements OnInit {
 
   medicamentosDetalle: any[] = [];
 
+  cedula!: string;
+
   mostrarPopupMedicamentos = false;
   mostrarPopupMedicamentosDetalle = false;
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private AuthService: AuthService,
     private cicloPacienteService: GestionPacientesService,
   ) {
@@ -95,7 +98,8 @@ export class ConfiguracionAplicacionesComponent implements OnInit {
   }
 
   volver() {
-    this.router.navigate(['admin-sistema/Nuevo-protocolo/Info-Protocolo/Info-Ciclo']);
+    this.cedula = this.route.snapshot.paramMap.get('cedula') || '';
+    this.router.navigate(['qf/busqueda/paciente', this.cedula,'conf-ciclo']);
   }
 
   abrirResumenFinal(datos: any) {
@@ -119,6 +123,28 @@ export class ConfiguracionAplicacionesComponent implements OnInit {
       }
     });
 
+  }
+
+  guardarBorrador(datos: any) {
+    this.mostrarPopupMedicamentosDetalle = false;
+    this.infoCicloCompleta.presentaciones = datos;
+
+    const usuario = this.AuthService.getUser();
+    this.infoCicloCompleta.usuarioCreacion = usuario;
+
+    this.infoCicloCompleta.estado = 'borrador';
+
+    console.log("✅ Configuración actualizada:", this.infoCicloCompleta);
+
+    this.cicloPacienteService.createCicloPaciente(this.infoCicloCompleta).subscribe({
+      next: (resp) => {
+        console.log('✅ Ciclo creado:', resp);
+        this.router.navigate(['qf/busqueda']);
+      },
+      error: (err) => {
+        console.error('❌ Error creando ciclo:', err);
+      }
+    });
   }
 
   Guardar() {

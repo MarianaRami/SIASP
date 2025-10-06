@@ -14,6 +14,7 @@ export class PopUpMedicamentosDetalleComponent {
   @Input() infoCiclo: any; 
   @Output() cerrar = new EventEmitter<void>();
   @Output() siguiente = new EventEmitter<any>();
+  @Output() pendiente = new EventEmitter<any>();
 
   filasTabla: any[] = [];
 
@@ -81,6 +82,22 @@ export class PopUpMedicamentosDetalleComponent {
 
     console.log('Datos transformados para enviar:', transformados);
     this.siguiente.emit(transformados);
+  }
+
+  borrador() {
+    // Transformamos resultados antes de emitir
+    const transformados = this.resultados.map((med: any) => ({
+      nombre: med.nombre,
+      dosisTotal: med.dosisTotal,
+      presentaciones: med.presentaciones.map((pres: any) => ({
+        nombrePresentacion: pres.nombrePresentacion,
+        cantidadPorAplicacion: pres.cantidadPorAplicacion,
+        cantidadPorCiclo: pres.cantidadPorCiclo
+      }))
+    }));
+
+    console.log('Datos transformados para enviar:', transformados);
+    this.pendiente.emit(transformados);
   }
 
 }

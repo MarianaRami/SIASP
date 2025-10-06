@@ -94,8 +94,15 @@ export class HistorialComponent {
       });
   }
 
-  programar() {
+  programar(datos: any) {
+    const usuario = this.AuthService.getUser();
+    datos.usuarioModificacion = usuario;
 
+    datos.cedula = this.cedula;
+    datos.PacienteComponento = this.paciente;
+
+    console.log('Datos para programar:', datos);
+    this.cerrarPopupP()
   }
 
   volver() {
@@ -103,7 +110,7 @@ export class HistorialComponent {
   }
 
   historial() {
-    this.router.navigate(['programacion/busquedaPro/historial/historial'])
+    this.router.navigate(['programacion/busquedaPro/historial',this.cedula ,'historial'])
   }
 
   // Pop up motivo

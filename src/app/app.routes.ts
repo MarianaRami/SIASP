@@ -31,6 +31,7 @@ import { HistorialComponent } from './views/programación/historial/historial.co
 import { PendientesNotificacionComponent } from './views/programación/pendientes-notificacion/pendientes-notificacion.component';
 import { ReprogramacionComponent } from './views/programación/reprogramacion/reprogramacion.component';
 import { HistorialPacienteComponent } from './views/programación/historial-paciente/historial-paciente.component';
+import { CalendarioPacientesComponent } from './views/programación/calendario-pacientes/calendario-pacientes.component';
 
 import { MedFarmaciaComponent } from './views/farmacia/med-farmacia/med-farmacia.component';
 import { OPComponent } from './views/farmacia/op/op.component';
@@ -88,7 +89,8 @@ export const routes: Routes = [
   { path: 'programacion/busquedaPro/historial/:cedula', component: HistorialComponent },
   { path: 'programacion/pendientesNotificacion', component: PendientesNotificacionComponent },
   { path: 'programacion/reprogramacion', component: ReprogramacionComponent },
-  { path: 'programacion/busquedaPro/historial/historial', component: HistorialPacienteComponent },
+  { path: 'programacion/busquedaPro/historial/:cedula/historial', component: HistorialPacienteComponent },
+  { path: 'programacion/calendario', component: CalendarioPacientesComponent },
 
   // Autorizaciones
   { path: 'autorizaciones', component: AutorizacionesComponent },

@@ -73,7 +73,19 @@
   </div>
 
 </div>
- <app-popup-motivo *ngIf="mostrarPopup" (cerrar)="cerrarPopup()"></app-popup-motivo>
- <app-popup-medicamentos-obv *ngIf="mostrarPopupM" (cerrar)="cerrarPopupM()"></app-popup-medicamentos-obv>
- <app-pop-up-programacion *ngIf="mostrarPopupP" (cerrar)="cerrarPopupP()"></app-pop-up-programacion>
+ <app-popup-motivo 
+    *ngIf="mostrarPopup" 
+    (cerrar)="cerrarPopup()"
+></app-popup-motivo>
+
+ <app-popup-medicamentos-obv 
+    *ngIf="mostrarPopupM" 
+    (cerrar)="cerrarPopupM()"
+></app-popup-medicamentos-obv>
+
+ <app-pop-up-programacion 
+    *ngIf="mostrarPopupP"
+    (cerrar)="cerrarPopupP()"
+    (programar)="programar($event)"
+></app-pop-up-programacion>
  

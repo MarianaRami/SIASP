@@ -42,5 +42,7 @@
   *ngIf="mostrarPopupMedicamentosDetalle"
   [infoCiclo]="infoCicloCompleta"
   (cerrar)="cerrarPopupMedicamentosDetalle()"
-  (siguiente)="abrirResumenFinal($event)">
+  (siguiente)="abrirResumenFinal($event)"
+  (pendiente)="guardarBorrador($event)"
+  >
 </app-pop-up-medicamentos-detalle>

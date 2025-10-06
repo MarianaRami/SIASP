@@ -45,7 +45,7 @@ h2 {
 
 .acciones button:hover {
   transform: scale(1.05);
-  background-color: #fcd5ba;
+  background-color: rgb(255, 135, 75);
 }
 
 .formulario {

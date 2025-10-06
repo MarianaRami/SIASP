@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, importProvidersFrom } from '@angular/core';
 import { RouterOutlet, Router, provideRouter, RouterModule } from '@angular/router';
 import { MenuSuperiorComponent } from './components/menu-superior/menu-superior.component';
 import { MenuIzquierdoComponent } from './components/menu-izquierdo/menu-izquierdo.component';
@@ -7,6 +7,11 @@ import { routes } from './app.routes';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { GeneralFooterComponent } from './components/general-footer/general-footer.component';
 
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { provideHttpClient } from '@angular/common/http';
+import { provideAnimations } from '@angular/platform-browser/animations';
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -14,7 +19,7 @@ import { GeneralFooterComponent } from './components/general-footer/general-foot
     RouterOutlet,  
     RouterModule,
     MenuIzquierdoComponent, MenuSuperiorComponent, 
-    GeneralFooterComponent
+    GeneralFooterComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
@@ -29,5 +34,17 @@ export class AppComponent {
 }
 
 bootstrapApplication(AppComponent, {
-  providers: [provideRouter(routes)]
+  providers: [
+    provideRouter(routes),
+    provideAnimations(),
+    provideHttpClient(),
+    importProvidersFrom(
+      CalendarModule.forRoot({
+        provide: DateAdapter,
+        useFactory: adapterFactory,
+      })
+    )
+  ],
 });
+
+

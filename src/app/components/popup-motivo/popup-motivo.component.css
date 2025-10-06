@@ -46,9 +46,14 @@ select, textarea {
 }
 
 .btn-confirmar, .btn-cancelar {
-  background-color: #ffe5d4;
+  margin-left: 10px;
+  margin-top: 20px;
+  background: rgb(255, 103, 29);
+  color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 20px;
+  padding: 12px 32px;
+  border-radius: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   cursor: pointer;
+  float: right;
 }

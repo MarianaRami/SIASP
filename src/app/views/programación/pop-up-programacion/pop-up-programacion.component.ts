@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class PopUpProgramacionComponent {
   @Output() cerrar = new EventEmitter<void>();
+  @Output() programar = new EventEmitter<{ aplicacion: string; examenes: string; laboratorios: string }>();
 
   aplicacion = '';
   examenes = '';
@@ -20,10 +21,15 @@ export class PopUpProgramacionComponent {
   }
 
   guardar() {
-    this.cerrar.emit();
+    this.programar.emit({
+      aplicacion: this.aplicacion,
+      examenes: this.examenes,
+      laboratorios: this.laboratorios
+    });
   }
 
   cancelar() {
     this.cerrar.emit();
   }
 }
+
