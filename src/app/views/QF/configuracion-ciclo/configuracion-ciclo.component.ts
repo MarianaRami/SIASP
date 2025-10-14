@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
 import { AuthService } from '../../../services/auth.service';
+import { ProtocoloActualDto } from '../../../models/paciente';
 
 @Component({
   selector: 'app-configuracion-ciclo',
@@ -47,6 +48,8 @@ export class ConfiguracionCicloComponent {
   mostrarPopupMedicamentosDetalle = false;
   medicamentos: any[] = [];
 
+  protocoActual!: ProtocoloActualDto | null;
+
   columnas = [
     { key: 'Aplicacion', label: 'No. Aplicación' },
     { key: 'Fecha', label: 'Fecha programada' },
@@ -68,39 +71,44 @@ export class ConfiguracionCicloComponent {
   ngOnInit() {
     this.cedula = this.route.snapshot.paramMap.get('cedula') || '';
 
-    this.miServicio.getProtocoloCompletoByPaciente(this.cedula)
+    this.miServicio.getPacienteCompletoByDocumento(this.cedula)
       .subscribe({
         next: (resp) => {
-          this.protocoloOriginal = resp;
-          console.log('Protocolo recibido:', resp);
-          
-          this.protocolo = resp.nombreProtocolo;
-          this.version = resp.version;
-          this.peso = resp.indicadores.peso;
-          this.superficie = resp.indicadores.sc;
-          this.talla = resp.indicadores.talla;
-          this.tfg = resp.indicadores.tfg;
-          this.medicamentos = resp.medicamentos || [];
+          console.log('Paciente desde backend:', resp);
 
-          if (resp.ciclos && resp.ciclos.length > 0) {
-            // Si hay ciclos, tomar el ciclo activo
-            const cicloActivo = resp.ciclos.find((c: any) => c.estado === 'activo') || resp.ciclos[0];
-            this.fecha_inicio_estimada = cicloActivo.fechaIniEstimada || '';
-          } else {
-            // Si no hay ciclos dejar vacío
-            this.fecha_inicio_estimada = '';
+          if ( resp.success && resp.data ) {
+            //this.pacienteData = resp.data.protocoloActual;
+            this.protocoActual = resp.data.protocoloActual;
+            this.protocoloOriginal = resp.data.protocoloActual;
+
+            this.protocolo = this.protocoActual?.nombreProtocolo || '';
+            this.version = this.protocoActual?.version.toString() || '';
+            this.peso = this.protocoActual?.indicadores.peso || '';
+            this.superficie = this.protocoActual?.indicadores.sc || '';
+            this.talla = this.protocoActual?.indicadores.talla || '';
+            this.tfg = this.protocoActual?.indicadores.tfg || '';
+            this.medicamentos = this.protocoActual?.medicamentos || [];
+
+            if (this.protocoActual?.ciclos && this.protocoActual.ciclos.length > 0) {
+              // Si hay ciclos, tomar el ciclo activo
+              const cicloActivo = this.protocoActual.ciclos.find((c: any) => c.estado === 'activo') || this.protocoActual.ciclos[0];
+              this.fecha_inicio_estimada = cicloActivo.fechaIniEstimada || '';
+            } else {
+              // Si no hay ciclos dejar vacío
+              this.fecha_inicio_estimada = '';
+            }
+
+            this.ciclo = this.protocoActual?.numeroCiclo || 0;
+            this.fecha_consulta = this.protocoActual?.fechaConsulta || '';
+            this.fecha_asignacion = this.protocoActual?.fechaCreacion || '';
+            
+            this.eventos = this.protocoActual?.eventos?.map((evento: any) => ({
+              dia: Number(evento.dia),
+              tipo: evento.tipo || '',
+              observacion: evento.observacion || '',
+              activo: evento.activo !== false
+            })) || [{ dia: 0, tipo: '', observacion: '', activo: true }];
           }
-
-          this.ciclo = resp.numeroCiclo;
-          this.fecha_consulta = resp.fechaConsulta;
-          this.fecha_asignacion = resp.fechaCreacion;
-
-          this.eventos = resp.eventos?.map((evento: any) => ({
-            dia: Number(evento.dia),
-            tipo: evento.tipo || '',
-            observacion: evento.observacion || '',
-            activo: evento.activo !== false
-          })) || [{ dia: 0, tipo: '', observacion: '', activo: true }];
         },
         error: (err) => {
           console.error('Error obteniendo protocolo:', err);

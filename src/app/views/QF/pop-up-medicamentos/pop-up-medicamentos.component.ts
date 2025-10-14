@@ -115,6 +115,7 @@ export class PopUpMedicamentosComponent {
 
     // Emitir siempre si llegó aquí (ya sea porque está en rango o eligió continuar)
     this.siguiente.emit(datosEnviar);
+    console.log('Datos enviados al componente padre:', datosEnviar);
   }
 
   esFilaValida(fila: any): boolean {

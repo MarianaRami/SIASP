@@ -6,7 +6,7 @@ import { PopupCambioProtocoloComponent } from '../popup-cambio-protocolo/popup-c
 import { PopupProtocoloComponent } from '../popup-protocolo/popup-protocolo.component';
 import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
 import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla-dinamica.component';
-import { PacienteResponseDto, CreateProtocoloPacienteCompletoDto } from '../../../models/paciente';
+import { ProtocoloActualDto, PacienteResponseDto, CicloDto, CreateProtocoloPacienteCompletoDto } from '../../../models/paciente';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
@@ -40,8 +40,10 @@ export class PacienteComponent {
   especialidad = '';
   version = '';
 
-  protocoloCompleto: any = null; 
+  protocoloCompleto!: CicloDto | null; 
   ciclos: any[] = [];
+
+  protocoloActual!: ProtocoloActualDto | null;
 
   ngOnInit() {
     this.cargaDatos()
@@ -98,32 +100,20 @@ export class PacienteComponent {
             this.protocolo = this.pacienteData.protocoloActual?.nombreProtocolo || '';
             this.eps = this.pacienteData.eps;
             this.especialidad = this.pacienteData.especialidad;
-            this.cie10 = this.pacienteData.CIE11Descripcion
-
+            this.cie10 = this.pacienteData.CIE11Descripcion;
             
+            this.protocoloActual = this.pacienteData.protocoloActual;
+
+            this.ciclos = this.pacienteData.protocoloActual?.ciclos || [];  
+
             if (this.protocolo) {
-              console.log('Paciente tiene protocolo, cargando protocolo completo...');
-              this.miServicio.getProtocoloCompletoByPaciente(this.cedula) 
-                .subscribe({
-                  next: (protocoloResp) => {
-                    console.log('Protocolo completo desde backend:', protocoloResp);
-                    this.protocoloCompleto = protocoloResp;
-                    this.version = protocoloResp.version;
-                    this.ciclos = protocoloResp.ciclos || [];
-
-                    // Aquí transformas los ciclos para la tabla
-                    this.datos = (this.ciclos || []).map((ciclo: any) => ({
-                      ciclo: ciclo.numCiclo,
-                      estado: ciclo.fechaFinReal ? 'Inactivo' : 'Activo',
-                      fechaFinEstimada: ciclo.fechaFinReal || '-'
-                    }));
-                  },
-                  error: (err) => {
-                    console.error('Error al obtener protocolo completo:', err);
-                  }
-                });
+              // Aquí transformas los ciclos para la tabla
+              this.datos = (this.ciclos || []).map((ciclo: any) => ({
+                ciclo: ciclo.numCiclo,
+                estado: ciclo.estado,
+                fechaFinEstimada: ciclo.fechaFinReal || '-'
+              }));
             }
-            
           }
         },
         error: (err) => {

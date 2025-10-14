@@ -56,6 +56,8 @@ export class PopupMedicamentosObvComponent {
     console.log('Observaciones:', this.observaciones);
     console.log('Medicamentos:', this.medicamentos);
     this.cerrar.emit(); // Cierra el popup
+
+    // Debería enviar idCiclo, idPaciente, observaciones , fecha y usuario modificador
   }
 
   cancelar() {

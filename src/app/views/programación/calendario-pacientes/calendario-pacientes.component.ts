@@ -34,7 +34,7 @@ export class CalendarioPacientesComponent {
     // Día de la semana del primer día (0 = domingo, 1 = lunes, ...)
     let startDay = firstDay.getDay();
     // Ajustamos para que la semana empiece en lunes
-    if (startDay === 0) startDay = 7;
+    //if (startDay === 0) startDay = 7;
 
     this.calendarDays = [];
 

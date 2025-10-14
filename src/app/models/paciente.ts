@@ -1,6 +1,12 @@
+export interface PacienteResponse {
+  protocoloActual: any;
+  success: boolean;
+  data: PacienteResponseDto; 
+}
+
 export interface PacienteResponseDto {
-  idServinte: string;
   idPaciente: string;
+  idServinte: string;
   nombre1: string;
   nombre2: string;
   apellido1: string;
@@ -10,45 +16,17 @@ export interface PacienteResponseDto {
   fechaNacimiento: string;
   nombreCompleto: string;
   identificacion: string;
-
-  protocoloActual: {
-    id: string;
-    nombreProtocolo: string;
-    version: number;
-    descripcion: string;
-    numeroCiclo: string;
-    duracionCiclo: string;
-    necesitaExamenes: boolean;
-    estado: string;
-    fechaCreacion: string;
-    medicamentos: {
-      id: string;
-      nombre: string;
-      dosis: string;
-      formula: string;
-      dosisCalculada: string;
-    }[];
-    eventos: {
-      dia: number;
-      tipo: string;
-      descripcion: string;
-    }[];
-    configuracionMedicamentos: {
-      [dia: string]: string[];
-    };
-  } | null;
-
-  tratamiento: string | null;
-  tratamientoCodigo: number;
-  tratamientoNombre: string | null;
+  protocoloActual: ProtocoloActualDto | null;
+  tratamiento: string;
   tratamientoTipo: string | null;
-
+  tratamientoNombre: string | null;
   medicoTratante: string;
+  CIE11Descripcion: string;
+  CIE11: string;
   codigoMedicoTratante: number;
   codigoEspecialidad: number;
   nombreEspecialidad: string;
   especialidad: string;
-
   peso: number;
   talla: number;
   tfg: number;
@@ -56,27 +34,73 @@ export interface PacienteResponseDto {
   imc: number;
   superficieCorporal: number;
   edad: number;
-
   estadoPaciente: string;
   fechaCreacion: string;
-
+  usuarioCreacion: string | null;
   telefono1: string;
   telefono2: string;
   email1: string;
   email2: string;
   nombreContacto: string;
   fuenteDatos: string;
-
   fechaConsulta: string;
-  protocoloPacienteId: string;
-  fechaRegistroProtocolo: string;
-  estadoProtocoloPaciente: string;
-  tipoProtocolo: string;
-  razonTratamiento: string;
-
-  CIE11: string;
-  CIE11Descripcion: string;
+  protocoloPacienteId: string | null;
+  fechaRegistroProtocolo: string | null;
+  estadoProtocoloPaciente: string | null;
+  tipoProtocolo: string | null;
+  razonTratamiento: string | null;
 }
+
+export interface ProtocoloActualDto {
+  nombreProtocolo: string;
+  version: number;
+  descripcion: string;
+  fechaCreacion: string;
+  numero_ciclos: number;
+  usuarioCreacion: {
+    id: string;
+    nombre: string;
+  };
+  eventos: any[];
+  idProtocoloPaciente: string;
+  idPaciente: string;
+  numeroCiclo: number;
+  ciclos: CicloDto[];
+  fechaConsulta: string;
+  configuracionMedicamentos: any[];
+  indicadores: IndicadoresDto;
+  medicamentos: any[];
+}
+
+export interface CicloDto {
+  id: string;
+  numCiclo: number;
+  fechaConsulta: string;
+  fechaIniReal: string | null;
+  fechaFinReal: string | null;
+  fechaIniEstimada: string | null;
+  fechaFinEstimada: string | null;
+  estado: string;
+  fechaAutorizacionTratamiento: string | null;
+  numeroAutorizacionTratamiento: string | null;
+  fechaRevisionExamen: string | null;
+  estadoExamen: string;
+  conciliacionMedicamentos: boolean;
+  observacion: string;
+  fechaCreacion: string;
+  fechaActualizacion: string;
+}
+
+export interface IndicadoresDto {
+  id_ind_ciclo_paciente: string;
+  idProtocoloPaciente: string;
+  peso: string;
+  talla: string;
+  sc: string;
+  tfg: string;
+  fecha: string;
+}
+
 
 
 // 📌 Esto es lo que ENVÍAS al backend al crear/guardar paciente
@@ -116,11 +140,6 @@ export interface PacienteNuevoDto {
   tipoTratamiento: string;
   codigoTratamiento: number;
   usuarioCreacion: string;
-}
-
-export interface PacienteResponse {
-  success: boolean;
-  data: PacienteResponseDto; 
 }
 
 export interface CreateProtocoloPacienteCompletoDto {
