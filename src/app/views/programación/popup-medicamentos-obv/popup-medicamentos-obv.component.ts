@@ -14,6 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PopupMedicamentosObvComponent {
  @Output() cerrar = new EventEmitter<void>();
+ @Output() guardarEvento = new EventEmitter<any>();
 
  constructor(
     private route: ActivatedRoute,
@@ -55,7 +56,7 @@ export class PopupMedicamentosObvComponent {
   guardar() {
     console.log('Observaciones:', this.observaciones);
     console.log('Medicamentos:', this.medicamentos);
-    this.cerrar.emit(); // Cierra el popup
+    this.guardarEvento.emit(this.observaciones);
 
     // Debería enviar idCiclo, idPaciente, observaciones , fecha y usuario modificador
   }

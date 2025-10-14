@@ -81,6 +81,7 @@
  <app-popup-medicamentos-obv 
     *ngIf="mostrarPopupM" 
     (cerrar)="cerrarPopupM()"
+    (guardarEvento)="GuardarObservacion($event)"
 ></app-popup-medicamentos-obv>
 
  <app-pop-up-programacion 

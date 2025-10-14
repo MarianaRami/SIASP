@@ -8,7 +8,7 @@ import { PopupMedicamentosObvComponent } from '../popup-medicamentos-obv/popup-m
 import { PopUpProgramacionComponent } from '../pop-up-programacion/pop-up-programacion.component';
 import { AuthService } from '../../../services/auth.service';
 import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
-import { PacienteResponseDto, CreateProtocoloPacienteCompletoDto } from '../../../models/paciente';
+import { PacienteResponseDto, CreateProtocoloPacienteCompletoDto, CicloDto } from '../../../models/paciente';
 
 @Component({
   selector: 'app-historial',
@@ -28,6 +28,7 @@ export class HistorialComponent {
   ) {}
   pacienteData!: PacienteResponseDto;
 
+  idpaciente = '';
   paciente = '';
   identificacion = '';
   medico = '';
@@ -40,6 +41,8 @@ export class HistorialComponent {
   nombreTrat!: string | null;
   tipoTrat!: string | null;
   cedula!: string;
+
+  ciclos!: CicloDto[];
 
   tratamientoOptions = [
     { value: 'poli', label: 'Politerapia' },
@@ -72,6 +75,8 @@ export class HistorialComponent {
 
             const p = resp.data;
 
+            this.idpaciente = resp.data.idPaciente;
+
             // ahora el backend ya trae nombre completo y identificacion
             this.paciente = this.pacienteData.nombreCompleto;
             this.identificacion = this.pacienteData.identificacion;
@@ -83,6 +88,8 @@ export class HistorialComponent {
             this.telefono2 = this.pacienteData.telefono2;
 
             this.datos = this.pacienteData.protocoloActual?.eventos || [];
+
+            this.ciclos = this.pacienteData.protocoloActual?.ciclos || [];
 
             this.nombreTrat = this.tratamientoOptions.find(t => t.value === this.pacienteData.tratamientoNombre)?.label || this.pacienteData.tratamientoNombre;
             this.tipoTrat = this.tipoTratamientoOptions.find(t => t.key === this.pacienteData.tratamientoTipo)?.label || this.pacienteData.tratamientoTipo;
@@ -133,6 +140,26 @@ export class HistorialComponent {
 
   cerrarPopupM() {
     this.mostrarPopupM = false;
+  }
+
+  GuardarObservacion(observacion: any) {
+    const fechaActual = new Date().toISOString();
+
+    const usuario = this.AuthService.getUser();
+
+    const cicloActivo = this.ciclos?.find(ciclo => ciclo.estado === 'activo');
+
+    const datosGuardar = {
+      idCiclo: cicloActivo?.id,
+      idPaciente: this.idpaciente,
+      observaciones: observacion,
+      fecha: fechaActual,
+      usuarioModificador: usuario
+    }
+
+    console.log('Datos para guardar observación:', datosGuardar);
+
+    this.cerrarPopupM();
   }
 
   // Pop up programación
