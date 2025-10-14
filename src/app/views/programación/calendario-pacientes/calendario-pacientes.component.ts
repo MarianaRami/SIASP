@@ -1,26 +1,21 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CalendarModule, CalendarView } from 'angular-calendar';
+import { CalendarModule } from 'angular-calendar';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-calendario-pacientes',
   standalone: true,
-  imports: [
-    CommonModule, 
-    FormsModule,
-    CalendarModule
-  ],
+  imports: [CommonModule, FormsModule, CalendarModule],
   templateUrl: './calendario-pacientes.component.html',
   styleUrls: ['./calendario-pacientes.component.css']
 })
 export class CalendarioPacientesComponent {
   currentDate = new Date();
-  montDays: Date[] = [];
   calendarDays: (Date | null)[] = [];
 
-  constructor( private router: Router) { 
+  constructor(private router: Router) {
     this.generateCalendar();
   }
 
@@ -31,26 +26,19 @@ export class CalendarioPacientesComponent {
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
 
-    // Día de la semana del primer día (0 = domingo, 1 = lunes, ...)
-    let startDay = firstDay.getDay();
-    // Ajustamos para que la semana empiece en lunes
-    //if (startDay === 0) startDay = 7;
+    let startDay = firstDay.getDay(); // 0 = domingo, 1 = lunes, ...
+    if (startDay === 0) startDay = 7; // hacemos que domingo sea el último día
 
     this.calendarDays = [];
 
-    // Añadimos los días vacíos antes del inicio real del mes
+    // Espacios vacíos antes del primer día real
     for (let i = 1; i < startDay; i++) {
       this.calendarDays.push(null);
     }
 
-    // Añadimos los días del mes
+    // Días del mes
     for (let i = 1; i <= lastDay.getDate(); i++) {
       this.calendarDays.push(new Date(year, month, i));
-    }
-
-    this.montDays = [];
-    for (let day = 1; day <= lastDay.getDate(); day++) {
-      this.montDays.push(new Date(year, month, day));
     }
   }
 
@@ -70,3 +58,4 @@ export class CalendarioPacientesComponent {
     this.router.navigate(['/tabla-dia', dateString]);
   }
 }
+

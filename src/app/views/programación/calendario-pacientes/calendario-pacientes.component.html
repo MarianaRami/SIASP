@@ -1,7 +1,7 @@
 <div class="calendario-container">
   <div class="header">
     <button (click)="previousMonth()">◀</button>
-    <h2>{{ currentDate | date:'MMMM yyyy' }}</h2>
+    <h2>{{ currentDate | date: 'MMMM yyyy' }}</h2>
     <button (click)="nextMonth()">▶</button>
   </div>
 
@@ -10,12 +10,14 @@
   </div>
 
   <div class="days">
-    <div 
-      *ngFor="let day of montDays" 
-      class="day" 
+    <div
+      *ngFor="let day of calendarDays"
+      class="day"
       [class.empty]="!day"
-      (click)="openDay(day)">
+      (click)="openDay(day)"
+    >
       {{ day ? day.getDate() : '' }}
     </div>
   </div>
 </div>
+
