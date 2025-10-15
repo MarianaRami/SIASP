@@ -38,6 +38,7 @@ export class PacienteComponent {
   eps = '';
   cie10 = '';
   especialidad = '';
+  nombreEspecialidad = '';
   version = '';
 
   protocoloCompleto!: CicloDto | null; 
@@ -100,6 +101,7 @@ export class PacienteComponent {
             this.protocolo = this.pacienteData.protocoloActual?.nombreProtocolo || '';
             this.eps = this.pacienteData.eps;
             this.especialidad = this.pacienteData.especialidad;
+            this.nombreEspecialidad = this.pacienteData.nombreEspecialidad;
             this.cie10 = this.pacienteData.CIE11Descripcion;
             
             this.protocoloActual = this.pacienteData.protocoloActual;
@@ -156,6 +158,7 @@ export class PacienteComponent {
       tipo: formData.tipoPaciente,
       razonTratamiento: formData.razon,
       especialidad: this.pacienteData.especialidad,
+      nombreEspecialidad: this.pacienteData.nombreEspecialidad,
       CIE11Descripcion: this.pacienteData.CIE11Descripcion,
       CIE11: this.pacienteData.CIE11,
       tratamientoNombre: formData.tratamiento , 
@@ -198,7 +201,7 @@ export class PacienteComponent {
         CIE11: this.pacienteData.CIE11,
         medicoTratante: this.pacienteData.medicoTratante,
         codigoMedicoTratante: this.pacienteData.codigoMedicoTratante,
-        especialidadNombre: this.pacienteData.especialidad,
+        nombreEspecialidad: this.pacienteData.nombreEspecialidad,
         codigoEspecialidad: this.pacienteData.codigoEspecialidad,
         tratamiento: formData.tratamiento , 
         tipoTratamiento: formData.tipoTratamiento 

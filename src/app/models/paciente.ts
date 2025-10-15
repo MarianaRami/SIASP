@@ -158,7 +158,7 @@ export interface CreateProtocoloPacienteCompletoDto {
   CIE11: string;
   medicoTratante: string;
   codigoMedicoTratante: number;
-  especialidadNombre: string;
+  nombreEspecialidad: string;
   codigoEspecialidad: number;
   tratamiento: string;
   tipoTratamiento: string;
