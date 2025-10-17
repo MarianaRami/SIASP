@@ -32,6 +32,7 @@ import { PendientesNotificacionComponent } from './views/programación/pendiente
 import { ReprogramacionComponent } from './views/programación/reprogramacion/reprogramacion.component';
 import { HistorialPacienteComponent } from './views/programación/historial-paciente/historial-paciente.component';
 import { CalendarioPacientesComponent } from './views/programación/calendario-pacientes/calendario-pacientes.component';
+import { ReporteCalendarioComponent } from './views/programación/reporte-calendario/reporte-calendario.component';
 
 import { MedFarmaciaComponent } from './views/farmacia/med-farmacia/med-farmacia.component';
 import { OPComponent } from './views/farmacia/op/op.component';
@@ -91,6 +92,7 @@ export const routes: Routes = [
   { path: 'programacion/reprogramacion', component: ReprogramacionComponent },
   { path: 'programacion/busquedaPro/historial/:cedula/historial', component: HistorialPacienteComponent },
   { path: 'programacion/calendario', component: CalendarioPacientesComponent },
+  { path: 'programacion/calendario/reporte/:date', component: ReporteCalendarioComponent },
 
   // Autorizaciones
   { path: 'autorizaciones', component: AutorizacionesComponent },

@@ -22,12 +22,19 @@
 
 .editar-btn,
 .desactivar-btn {
-  background-color: #ffe1d6;
+  background-color: rgb(255, 103, 29);
+  color: white;
   border: none;
-  padding: 6px 12px;
-  border-radius: 12px;
+  padding: 12px 32px;
+  border-radius: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   cursor: pointer;
   font-size: 14px;
+}
+
+.acciones button:hover {
+  transform: scale(1.05);
+  background-color: #fcd5ba;
 }
 
 .info {

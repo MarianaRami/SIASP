@@ -55,7 +55,7 @@ export class CalendarioPacientesComponent {
   openDay(day: Date | null) {
     if (!day) return;
     const dateString = day.toISOString().split('T')[0];
-    this.router.navigate(['/tabla-dia', dateString]);
+    this.router.navigate(['/programacion/calendario/reporte', dateString]);
   }
 }
 
