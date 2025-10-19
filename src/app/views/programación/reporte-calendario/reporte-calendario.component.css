@@ -38,20 +38,20 @@ th {
   font-size: 0.9rem;
 }
 
-.hora {
+.pos {
   background-color: #f5f5f5;
   font-weight: bold;
-  width: 70px;
+  width: 120px;
 }
 
 .ocupado {
   background-color: #ffb380;
   color: #000;
   border-radius: 6px;
-  padding: 4px;
+  padding: 6px;
+  text-align: center;
 }
 
 .libre {
-  color: #aaa;
-  font-style: italic;
+  background-color: #fff;
 }

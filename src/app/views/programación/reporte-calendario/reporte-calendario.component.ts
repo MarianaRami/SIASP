@@ -12,11 +12,10 @@ interface PacienteTurno {
 
 @Component({
   selector: 'app-reporte-calendario',
-  imports: [
-    CommonModule
-  ],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './reporte-calendario.component.html',
-  styleUrl: './reporte-calendario.component.css'
+  styleUrls: ['./reporte-calendario.component.css']
 })
 export class ReporteCalendarioComponent {
   fechaSeleccionada: string = '';
@@ -39,19 +38,19 @@ export class ReporteCalendarioComponent {
       this.horas.push(`${h}:00`);
     }
 
-    // Dos salas con 15 sillas y 2 camillas cada una
+    // Dos salas con distintas cantidades
     this.salas = [
-      { id: 1, posiciones: [...Array(15).keys()].map(i => `Silla ${i + 1}`).concat(['Camilla 1', 'Camilla 2']) },
-      { id: 2, posiciones: [...Array(15).keys()].map(i => `Silla ${i + 1}`).concat(['Camilla 1', 'Camilla 2']) },
+      { id: 1, posiciones: [...Array(80).keys()].map(i => `Silla ${i + 1}`).concat([...Array(10).keys()].map(i => `Camilla ${i + 1}`)) },
+      { id: 2, posiciones: [...Array(20).keys()].map(i => `Silla ${i + 1}`).concat([...Array(10).keys()].map(i => `Camilla ${i + 1}`)) },
     ];
 
-    // Datos dummy de pacientes
-    const nombres = ['María Pérez', 'Juan Gómez', 'Ana Torres', 'Carlos Ruiz', 'Laura Díaz', 'José Martínez', 'Elena Castro', 'Pedro López', 'Santiago Hernandez', 'Paula Marin'];
+    // Datos de ejemplo
+    const nombres = ['María Pérez', 'Juan Gómez', 'Ana Torres', 'Carlos Ruiz', 'Laura Díaz', 'José Martínez', 'Elena Castro', 'Pedro López', 'Santiago Hernández', 'Paula Marín'];
     const horasPosibles = ['7:00', '8:00', '9:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00'];
 
     for (let sala of this.salas) {
       for (let pos of sala.posiciones) {
-        if (Math.random() > 0.75) { // 25% de probabilidad de estar ocupada
+        if (Math.random() > 0.92) { // 8% probabilidad de estar ocupada
           const duracion = Math.floor(Math.random() * 3) + 1; // 1 a 3 horas
           const horaInicio = horasPosibles[Math.floor(Math.random() * horasPosibles.length)];
 
@@ -67,14 +66,23 @@ export class ReporteCalendarioComponent {
     }
   }
 
-  getPaciente(salaId: number, posicion: string, hora: string): PacienteTurno | undefined {
-    // Buscar si hay un paciente que esté ocupando esta posición en este rango horario
+  getPacienteBloque(salaId: number, posicion: string, hora: string): PacienteTurno | null {
     const horaNum = parseInt(hora.split(':')[0]);
-    return this.pacientes.find(p => {
-      const horaInicio = parseInt(p.horaInicio.split(':')[0]);
-      const horaFin = horaInicio + p.duracion;
-      return p.sala === salaId && p.posicion === posicion && horaNum >= horaInicio && horaNum < horaFin;
+    const paciente = this.pacientes.find(p => {
+      const inicio = parseInt(p.horaInicio.split(':')[0]);
+      const fin = inicio + p.duracion;
+      return p.sala === salaId && p.posicion === posicion && horaNum >= inicio && horaNum < fin;
     });
+
+    if (!paciente) return null;
+
+    // Mostrar solo en la hora de inicio
+    const horaInicioNum = parseInt(paciente.horaInicio.split(':')[0]);
+    return horaNum === horaInicioNum ? paciente : null;
+  }
+
+  calcularColspan(paciente: PacienteTurno): number {
+    return paciente.duracion;
   }
 
   calcularHoraFin(paciente: PacienteTurno): string {
@@ -83,4 +91,12 @@ export class ReporteCalendarioComponent {
     return `${fin}:00`;
   }
 
+  isHoraOcupada(salaId: number, posicion: string, hora: string): boolean {
+    const horaNum = parseInt(hora.split(':')[0]);
+    return this.pacientes.some(p => {
+      const inicio = parseInt(p.horaInicio.split(':')[0]);
+      const fin = inicio + p.duracion;
+      return p.sala === salaId && p.posicion === posicion && horaNum > inicio && horaNum < fin;
+    });
+  }
 }

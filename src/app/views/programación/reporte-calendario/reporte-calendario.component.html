@@ -7,27 +7,33 @@
       <table>
         <thead>
           <tr>
-            <th>Hora</th>
-            <th *ngFor="let pos of sala.posiciones">{{ pos }}</th>
+            <th>Posición</th>
+            <th *ngFor="let hora of horas">{{ hora }}</th>
           </tr>
         </thead>
-        <tbody>
-          <tr *ngFor="let hora of horas">
-            <td class="hora">{{ hora }}</td>
-            <td *ngFor="let pos of sala.posiciones" class="celda">
-              <ng-container *ngIf="getPaciente(sala.id, pos, hora) as paciente; else libre">
-                <div class="ocupado" [attr.rowspan]="paciente.duracion">
-                  <strong>{{ paciente.nombre }}</strong><br>
-                  <small>{{ paciente.horaInicio }} - {{ calcularHoraFin(paciente) }}</small>
-                </div>
+          <tbody>
+            <tr *ngFor="let pos of sala.posiciones">
+              <td class="pos">{{ pos }}</td>
+
+              <ng-container *ngFor="let hora of horas; let i = index">
+                <ng-container *ngIf="getPacienteBloque(sala.id, pos, hora) as paciente; else libre">
+                  <td class="ocupado" [attr.colspan]="calcularColspan(paciente)">
+                    <strong>{{ paciente.nombre }}</strong><br>
+                    <small>{{ paciente.horaInicio }} - {{ calcularHoraFin(paciente) }}</small>
+                  </td>
+                  <!-- Saltar las siguientes horas que están dentro del rango -->
+                  <ng-container *ngFor="let skip of [].constructor(calcularColspan(paciente) - 1)"></ng-container>
+                </ng-container>
+
+                <ng-template #libre>
+                  <!-- Mostrar una celda libre solo si no hay paciente activo -->
+                  <td class="libre" *ngIf="!isHoraOcupada(sala.id, pos, hora)"></td>
+                </ng-template>
               </ng-container>
-              <ng-template #libre>
-                <div class="libre">Libre</div>
-              </ng-template>
-            </td>
-          </tr>
-        </tbody>
+            </tr>
+          </tbody>
       </table>
     </div>
   </div>
 </div>
+
