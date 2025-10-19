@@ -51,7 +51,7 @@ export class ReporteCalendarioComponent {
     for (let sala of this.salas) {
       for (let pos of sala.posiciones) {
         if (Math.random() > 0.92) { // 8% probabilidad de estar ocupada
-          const duracion = Math.floor(Math.random() * 3) + 1; // 1 a 3 horas
+          const duracion = Math.floor(Math.random() * 5) + 1; // 1 a 5 horas
           const horaInicio = horasPosibles[Math.floor(Math.random() * horasPosibles.length)];
 
           this.pacientes.push({

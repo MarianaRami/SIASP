@@ -108,6 +108,9 @@ export class HistorialComponent {
     datos.cedula = this.cedula;
     datos.PacienteComponento = this.paciente;
 
+    const cicloActivo = this.ciclos?.find(ciclo => ciclo.estado === 'activo');
+    datos.idCiclo = cicloActivo?.id;
+
     console.log('Datos para programar:', datos);
     this.cerrarPopupP()
   }
