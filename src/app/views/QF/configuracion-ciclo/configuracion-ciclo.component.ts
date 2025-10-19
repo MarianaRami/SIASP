@@ -157,7 +157,6 @@ export class ConfiguracionCicloComponent {
     // Actualiza medicamentos
     protocoloFinal.medicamentos = this.infoCicloCompleta.medicamentos;
 
-
     // Actualiza eventos si el usuario los modificó
     protocoloFinal.eventos = this.eventos;
 
@@ -193,12 +192,13 @@ export class ConfiguracionCicloComponent {
     protocoloFinal.eventos = this.eventos;
 
     protocoloFinal.presentaciones = [];
-    this.infoCicloCompleta.estado = 'borrador';
+    
+    protocoloFinal.estado = 'borrador';
 
     const usuario = this.AuthService.getUser();
     protocoloFinal.usuarioCreacion = usuario;
 
-    console.log("esto mando: ", protocoloFinal)
+    console.log("esto mando para crear el ciclo: ", protocoloFinal)
 
     this.miServicio.createCicloPaciente(protocoloFinal).subscribe({
       next: (resp) => {
