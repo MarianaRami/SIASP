@@ -112,7 +112,7 @@ export class PacienteComponent {
               // Aquí transformas los ciclos para la tabla
               this.datos = (this.ciclos || []).map((ciclo: any) => ({
                 ciclo: ciclo.numCiclo,
-                estado: ciclo.estado,
+                estado: this.formatearEstado(ciclo.estado),
                 fechaFinEstimada: ciclo.fechaFinReal || '-'
               }));
             }
@@ -222,4 +222,17 @@ export class PacienteComponent {
       });
   }
 
+  formatearEstado(estado: string): string {
+    const estadosMap: Record<string, string> = {
+      borrador: 'Borrador',
+      nuevo: 'Nuevo',
+      pendiente_autorizacion: 'Pendiente de autorización',
+      activo: 'Activo',
+      suspendido: 'Suspendido',
+      finalizado: 'Finalizado',
+      revision: 'Revisión'
+    };
+
+    return estadosMap[estado] || estado;
+  }
 }

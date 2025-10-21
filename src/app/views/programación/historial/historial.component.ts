@@ -55,7 +55,8 @@ export class HistorialComponent {
   ];
 
   columnas = [
-    { key: 'dia', label: 'Aplicación' },
+    { key: 'dia', label: 'Día' },
+    { key: 'tipo' , label: 'Evento'},
     { key: 'fecha', label: 'Fecha' },
     { key: 'estado', label: 'Estado' },
     { key: 'boton', label: ' ', tipo: 'button' }
@@ -77,7 +78,6 @@ export class HistorialComponent {
 
             this.idpaciente = resp.data.idPaciente;
 
-            // ahora el backend ya trae nombre completo y identificacion
             this.paciente = this.pacienteData.nombreCompleto;
             this.identificacion = this.pacienteData.identificacion;
             this.medico = this.pacienteData.medicoTratante;
@@ -87,7 +87,10 @@ export class HistorialComponent {
             this.telefono1 = this.pacienteData.telefono1;
             this.telefono2 = this.pacienteData.telefono2;
 
-            this.datos = this.pacienteData.protocoloActual?.eventos || [];
+            this.datos = (this.pacienteData.protocoloActual?.eventos || []).map(evento => ({
+              ...evento,
+              tipo: this.formatearTipoEvento(evento.tipo)
+            }));
 
             this.ciclos = this.pacienteData.protocoloActual?.ciclos || [];
 
@@ -99,6 +102,17 @@ export class HistorialComponent {
           console.error('Error al obtener paciente:', err);
         }
       });
+  }
+
+  formatearTipoEvento(tipo: string): string {
+    const mapaTipos: Record<string, string> = {
+      examenes: 'Exámenes',
+      aplicacion: 'Aplicación',
+      retiro: 'Retiro de infusión',
+      otro: 'Otro'
+    };
+
+    return mapaTipos[tipo] || tipo;
   }
 
   programar(datos: any) {

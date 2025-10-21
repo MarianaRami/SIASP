@@ -36,6 +36,6 @@ export class ObservacionesComponent {
 
   handleBuscar(fila: any) {
     console.log('Cédula recibida:', fila.Cedula);  
-    this.router.navigate(['/qf/observaciones/medicamentos']);
+    this.router.navigate(['qf/busqueda/paciente', fila.Cedula , 'conf-ciclo']);
   }
 }

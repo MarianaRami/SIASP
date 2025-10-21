@@ -30,6 +30,29 @@ export class ReporteCalendarioComponent {
       this.fechaSeleccionada = params.get('date') || '';
       this.generarDatosDummy();
     });
+
+    /*
+    this.miServicio.getReporteCalendario(this.fechaSeleccionada).subscribe(resp => {
+      this.salas = resp.salas;
+      this.pacientes = [];
+
+      // Aplanar estructura para que el componente actual la use
+      for (let sala of resp.salas) {
+        for (let pos of sala.posiciones) {
+          if (pos.paciente) {
+            this.pacientes.push({
+              sala: sala.id,
+              posicion: pos.nombre,
+              horaInicio: pos.paciente.horaInicio,
+              duracion: pos.paciente.duracion,
+              nombre: pos.paciente.nombre
+            });
+          }
+        }
+      }
+    });
+
+    */
   }
 
   generarDatosDummy() {
