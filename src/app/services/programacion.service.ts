@@ -1,25 +1,35 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { AuthService } from './auth.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProgramacionService {
+  private apiUrl = 'http://localhost:3000/gestion-pacientes';
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
+  private readonly authService = inject(AuthService);
 
-  // Método que simula traer pacientes desde un backend
-  getPacientesPorFecha(fecha: Date) {
-    // Datos dummy
-    const pacientes = [
-      { fecha: new Date(2025, 8, 24), nombre: 'Juan Pérez', cita: '10:00 AM' },
-      { fecha: new Date(2025, 8, 24), nombre: 'Ana Gómez', cita: '11:30 AM' },
-      { fecha: new Date(2025, 8, 25), nombre: 'Carlos Ruiz', cita: '02:00 PM' },
-      { fecha: new Date(2025, 8, 26), nombre: 'María López', cita: '09:15 AM' }
-    ];
+  // ------------------- AUTH -------------------
 
-    // Filtrar solo los pacientes de la fecha seleccionada
-    return pacientes.filter(
-      p => p.fecha.toDateString() === fecha.toDateString()
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.authService.getToken();
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {})
+    });
+  }
+
+  // ------------------- PROGRAMACION -------------------
+
+  programacionPaciente(dto: any): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/pacientes/programacion-ciclo`,
+      dto,
+      { headers: this.getAuthHeaders() }
     );
   }
+
 }

@@ -27,7 +27,7 @@
 
         <div class="fila">
             <label>Protocolo:</label>
-            <div>{{ protocolo }}</div>
+            <div>{{ protocolo }} <span *ngIf="version">- versión {{ version }}</span> </div>
         </div>
 
         <div class="fila">

@@ -9,6 +9,7 @@ import { PopUpProgramacionComponent } from '../pop-up-programacion/pop-up-progra
 import { AuthService } from '../../../services/auth.service';
 import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
 import { PacienteResponseDto, CreateProtocoloPacienteCompletoDto, CicloDto } from '../../../models/paciente';
+import { ProgramacionService } from '../../../services/programacion.service';
 
 @Component({
   selector: 'app-historial',
@@ -25,11 +26,13 @@ export class HistorialComponent {
     private route: ActivatedRoute,
     private AuthService: AuthService,
     private miServicio: GestionPacientesService,
+    private programacionServicio: ProgramacionService
   ) {}
   pacienteData!: PacienteResponseDto;
 
   idpaciente = '';
   paciente = '';
+  version = '';
   identificacion = '';
   medico = '';
   protocolo = '';
@@ -58,6 +61,7 @@ export class HistorialComponent {
     { key: 'dia', label: 'Día' },
     { key: 'tipo' , label: 'Evento'},
     { key: 'fecha', label: 'Fecha' },
+    { key: 'puesto', label: 'Puesto' },
     { key: 'estado', label: 'Estado' },
     { key: 'boton', label: ' ', tipo: 'button' }
   ];
@@ -66,6 +70,10 @@ export class HistorialComponent {
   ngOnInit() {
     this.cedula = this.route.snapshot.paramMap.get('cedula') || '';
     
+    this.cargarDatos();
+  }
+
+  cargarDatos(){
     this.miServicio.getPacienteCompletoByDocumento(this.cedula)
       .subscribe({
         next: (resp) => {
@@ -89,8 +97,11 @@ export class HistorialComponent {
 
             this.datos = (this.pacienteData.protocoloActual?.eventos || []).map(evento => ({
               ...evento,
-              tipo: this.formatearTipoEvento(evento.tipo)
+              tipo: this.formatearTipoEvento(evento.tipo),
+              estado: this.formatearEstado(evento.estado)
             }));
+
+            this.version = this.pacienteData.protocoloActual?.version?.toString() ?? '';
 
             this.ciclos = this.pacienteData.protocoloActual?.ciclos || [];
 
@@ -115,6 +126,22 @@ export class HistorialComponent {
     return mapaTipos[tipo] || tipo;
   }
 
+  formatearEstado(estado: string): string {
+    const mapaEstados: Record<string, string> = {
+      tentativa: 'Tentativa', //Creación inicial de la aplicación, puede tener fecha, pero no se ha aplicado la anterior
+      pendiente: 'Pendiente', //El paciente tiene fecha, peor no hora de aplicacón. Realizado por programación.
+      programada: 'Programada', //El sistema ha asignado fecha y hora o el paciente fue reprogramado manualmente
+      notificada: 'Notificada', //Notificación realizada al paciente, sin cambios de fecha
+      revisada: 'Revisada', //Exámenes revisados y aprobados antes de la aplicación
+      confirmada: 'Confirmada', //El paciente ha confirmado la cita
+      aplicada: 'Aplicada', //Tratamiento aplicado
+      cancelada: 'Cancelada', //Cita cancelada por el paciente o el sistema
+      reprogramacion: 'Reprogramación' //Cita por reprogramar
+    };
+
+    return mapaEstados[estado] || estado;
+  }
+
   programar(datos: any) {
     const usuario = this.AuthService.getUser();
     datos.usuarioModificacion = usuario;
@@ -126,6 +153,14 @@ export class HistorialComponent {
     datos.idCiclo = cicloActivo?.id;
 
     console.log('Datos para programar:', datos);
+
+    this.programacionServicio.programacionPaciente(datos).subscribe({
+      next: (res) => {
+        console.log('✅ Programación creada:', res)
+        this.cargarDatos();
+      },
+      error: (err) => console.error('❌ Error:', err)
+    });
     this.cerrarPopupP()
   }
 
