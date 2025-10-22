@@ -47,6 +47,11 @@ export class HistorialComponent {
 
   ciclos!: CicloDto[];
 
+  modoPopup: 'programar' | 'editar' = 'programar';
+  eventoAEditar: any = null;
+
+  mostrarBotonProgramar = false;
+
   tratamientoOptions = [
     { value: 'poli', label: 'Politerapia' },
     { value: 'mono', label: 'Monoterapia' },
@@ -60,11 +65,10 @@ export class HistorialComponent {
   columnas = [
     { key: 'dia', label: 'Día' },
     { key: 'tipo' , label: 'Evento'},
-    { key: 'fecha', label: 'Fecha' },
+    { key: 'fecha', label: 'Fecha', tipo: 'date' },
     { key: 'horario', label: 'Horario' },
     { key: 'puesto', label: 'Puesto' },
     { key: 'estado', label: 'Estado' },
-    { key: 'boton', label: ' ', tipo: 'button' }
   ];
   datos: any[] = [];
 
@@ -109,6 +113,21 @@ export class HistorialComponent {
 
             this.nombreTrat = this.tratamientoOptions.find(t => t.value === this.pacienteData.tratamientoNombre)?.label || this.pacienteData.tratamientoNombre;
             this.tipoTrat = this.tipoTratamientoOptions.find(t => t.key === this.pacienteData.tratamientoTipo)?.label || this.pacienteData.tratamientoTipo;
+          
+            // lógica para determinar la visibilidad de los botones programar y editar
+            const primerEventoAplicacion = this.pacienteData.protocoloActual?.eventos?.find((e: any) => e.tipo === 'aplicacion');
+
+            if (primerEventoAplicacion) {
+              if (primerEventoAplicacion.estado === 'tentativa') {
+                this.mostrarBotonProgramar = true;
+              } else {
+                this.mostrarBotonProgramar = false;
+                this.columnas.push({ key: 'boton', label: ' ', tipo: 'button' })
+              }
+            } else {
+              // Si no hay aplicación, por defecto no mostramos ninguno
+              this.mostrarBotonProgramar = false;
+          }
           }
         },
         error: (err) => {
@@ -152,27 +171,58 @@ export class HistorialComponent {
     return `${dia}/${mes}/${anio}`;
   }
 
+  // Pop up programación
+  mostrarPopupP = false;
+
+  abrirPopupP() {
+    this.modoPopup = 'programar';
+    this.mostrarPopupP = true;
+  }
+
+  abrirPopupEditar(fila: any) {
+    this.modoPopup = 'editar';
+    this.eventoAEditar = fila;
+    this.mostrarPopupP = true;
+  }
+
+  cerrarPopupP() {
+    this.mostrarPopupP = false;
+  }
+
   programar(datos: any) {
     const usuario = this.AuthService.getUser();
-    datos.usuarioModificacion = usuario;
-
-    datos.cedula = this.cedula;
-    datos.PacienteComponento = this.paciente;
-
     const cicloActivo = this.ciclos?.find(ciclo => ciclo.estado === 'activo');
-    datos.idCiclo = cicloActivo?.id;
 
-    console.log('Datos para programar:', datos);
+    if (this.modoPopup === 'editar') {
+      const payload = {
+        cedula: this.cedula,
+        idCiclo: cicloActivo?.id,
+        fechaEvento: datos.fechaEvento,
+        usuarioModificacion: usuario,
+        dia: this.eventoAEditar.dia,
+        tipo: this.eventoAEditar.tipo
+      };
+      console.log('Datos para editar evento:', payload);
 
-    this.programacionServicio.programacionPaciente(datos).subscribe({
-      next: (res) => {
-        console.log('✅ Programación creada:', res)
-        this.cargarDatos();
-      },
-      error: (err) => console.error('❌ Error:', err)
-    });
-    this.cerrarPopupP()
+    } else {
+      datos.usuarioModificacion = usuario;
+      datos.cedula = this.cedula;
+      datos.PacienteComponento = this.paciente;
+      datos.idCiclo = cicloActivo?.id;
+
+      console.log('Datos para programar:', datos);
+      this.programacionServicio.programacionPaciente(datos).subscribe({
+        next: (res) => {
+          console.log('✅ Programación creada:', res);
+          this.cargarDatos();
+        },
+        error: (err) => console.error('❌ Error:', err)
+      });
+    }
+
+    this.cerrarPopupP();
   }
+
 
   volver() {
     this.router.navigate(['programacion/busquedaPro'])
@@ -222,16 +272,5 @@ export class HistorialComponent {
     console.log('Datos para guardar observación:', datosGuardar);
 
     this.cerrarPopupM();
-  }
-
-  // Pop up programación
-  mostrarPopupP = false;
-
-  abrirPopupP() {
-    this.mostrarPopupP = true;
-  }
-
-  cerrarPopupP() {
-    this.mostrarPopupP = false;
   }
 }

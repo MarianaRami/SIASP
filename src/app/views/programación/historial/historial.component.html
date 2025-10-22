@@ -8,7 +8,11 @@
     </div>
     <div class="acciones">
       <button class="btn-accion" (click)="historial()">Historial</button>
-      <button class="btn-accion" (click)="abrirPopupP()">Programar</button>
+      <button 
+        class="btn-accion" 
+        *ngIf="mostrarBotonProgramar" 
+        (click)="abrirPopupP()"
+        >Programar</button>
       <button class="btn-accion" (click)="abrirPopup()">Cancelar Ciclo</button>
     </div>
   </div>
@@ -63,7 +67,8 @@
     <div class="tabla">
         <app-tabla-dinamica
             [columnas]="columnas"
-            [datos]="datos">
+            [datos]="datos"
+            (buscar)="abrirPopupEditar($event)">
         </app-tabla-dinamica>
     </div>
 
@@ -84,9 +89,10 @@
     (guardarEvento)="GuardarObservacion($event)"
 ></app-popup-medicamentos-obv>
 
- <app-pop-up-programacion 
+<app-pop-up-programacion
     *ngIf="mostrarPopupP"
+    [modo]="modoPopup"
     (cerrar)="cerrarPopupP()"
-    (programar)="programar($event)"
-></app-pop-up-programacion>
+    (programar)="programar($event)">
+</app-pop-up-programacion>
  
