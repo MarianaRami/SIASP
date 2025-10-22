@@ -61,6 +61,7 @@ export class HistorialComponent {
     { key: 'dia', label: 'Día' },
     { key: 'tipo' , label: 'Evento'},
     { key: 'fecha', label: 'Fecha' },
+    { key: 'horario', label: 'Horario' },
     { key: 'puesto', label: 'Puesto' },
     { key: 'estado', label: 'Estado' },
     { key: 'boton', label: ' ', tipo: 'button' }
