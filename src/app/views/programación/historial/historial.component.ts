@@ -98,7 +98,8 @@ export class HistorialComponent {
             this.datos = (this.pacienteData.protocoloActual?.eventos || []).map(evento => ({
               ...evento,
               tipo: this.formatearTipoEvento(evento.tipo),
-              estado: this.formatearEstado(evento.estado)
+              estado: this.formatearEstado(evento.estado),
+              fecha: this.formatearFecha(evento.fecha)
             }));
 
             this.version = this.pacienteData.protocoloActual?.version?.toString() ?? '';
@@ -140,6 +141,14 @@ export class HistorialComponent {
     };
 
     return mapaEstados[estado] || estado;
+  }
+
+  formatearFecha(fechaIso: string): string {
+    const fecha = new Date(fechaIso);
+    const dia = fecha.getDate().toString().padStart(2, '0');
+    const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+    const anio = fecha.getFullYear();
+    return `${dia}/${mes}/${anio}`;
   }
 
   programar(datos: any) {
