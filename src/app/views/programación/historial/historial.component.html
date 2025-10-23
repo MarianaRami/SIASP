@@ -7,13 +7,18 @@
         <h2>Historial del paciente</h2>
     </div>
     <div class="acciones">
-      <button class="btn-accion" (click)="historial()">Historial</button>
-      <button 
-        class="btn-accion" 
-        *ngIf="mostrarBotonProgramar" 
-        (click)="abrirPopupP()"
-        >Programar</button>
-      <button class="btn-accion" (click)="abrirPopup()">Cancelar Ciclo</button>
+        <button class="btn-accion" (click)="historial()">Historial</button>
+
+        <ng-container *ngIf="tieneCicloActivo">
+            <button 
+            class="btn-accion" 
+            *ngIf="mostrarBotonProgramar" 
+            (click)="abrirPopupP()"
+            >
+            Programar
+            </button>
+            <button class="btn-accion" (click)="abrirPopup()">Cancelar Ciclo</button>
+        </ng-container>
     </div>
   </div>
 
@@ -63,7 +68,7 @@
     </div>
   </div>
 
-  <div class="inferior">
+  <div class="inferior" *ngIf="tieneCicloActivo">
     <div class="tabla">
         <app-tabla-dinamica
             [columnas]="columnas"

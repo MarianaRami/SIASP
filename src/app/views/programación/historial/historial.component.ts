@@ -47,6 +47,8 @@ export class HistorialComponent {
 
   ciclos!: CicloDto[];
 
+  tieneCicloActivo = false;
+
   modoPopup: 'programar' | 'editar' = 'programar';
   eventoAEditar: any = null;
 
@@ -114,6 +116,9 @@ export class HistorialComponent {
             this.nombreTrat = this.tratamientoOptions.find(t => t.value === this.pacienteData.tratamientoNombre)?.label || this.pacienteData.tratamientoNombre;
             this.tipoTrat = this.tipoTratamientoOptions.find(t => t.key === this.pacienteData.tratamientoTipo)?.label || this.pacienteData.tratamientoTipo;
           
+            //  Verificar si hay un ciclo activo
+            this.tieneCicloActivo = this.ciclos.some(ciclo => ciclo.estado === 'activo');
+
             // lógica para determinar la visibilidad de los botones programar y editar
             const primerEventoAplicacion = this.pacienteData.protocoloActual?.eventos?.find((e: any) => e.tipo === 'aplicacion');
 
