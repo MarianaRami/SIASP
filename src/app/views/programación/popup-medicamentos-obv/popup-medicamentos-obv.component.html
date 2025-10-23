@@ -10,14 +10,12 @@
       <thead>
         <tr>
           <th>Medicamento</th>
-          <th>Dosis</th>
           <th>Cantidad</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let m of medicamentos">
           <td>{{ m.nombreMedicamentoPresentacion }}</td>
-          <td>{{ m.dosis }}</td>
           <td>{{ m.cantidad }}</td>
         </tr>
       </tbody>

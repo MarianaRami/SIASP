@@ -199,8 +199,7 @@ export class HistorialComponent {
         idCiclo: cicloActivo?.id,
         fechaEvento: datos.fechaEvento,
         usuarioModificacion: usuario,
-        dia: this.eventoAEditar.dia,
-        tipo: this.eventoAEditar.tipo
+        idEvento: this.eventoAEditar.id
       };
       console.log('Datos para editar evento:', payload);
 
@@ -270,7 +269,13 @@ export class HistorialComponent {
     }
 
     console.log('Datos para guardar observación:', datosGuardar);
-
+    this.programacionServicio.pacienteObservacionMed(datosGuardar).subscribe({
+      next: (res) => {
+        console.log('✅ Observación guardada:', res);
+      },
+      error: (err) => console.error('❌ Error al guardar observación:', err)
+    });
     this.cerrarPopupM();
   }
+
 }

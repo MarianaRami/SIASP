@@ -22,11 +22,19 @@ export class ProgramacionService {
     });
   }
 
-  // ------------------- PROGRAMACION -------------------
+  // ------------------- PROGRAMACION (CONSULTAR PACIENTE) -------------------
 
   programacionPaciente(dto: any): Observable<any> {
     return this.http.post<any>(
       `${this.apiUrl}/pacientes/programacion-ciclo`,
+      dto,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  pacienteObservacionMed(dto: any): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/pacientes/observacion-ciclo`,
       dto,
       { headers: this.getAuthHeaders() }
     );
