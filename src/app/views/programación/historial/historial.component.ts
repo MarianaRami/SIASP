@@ -168,11 +168,18 @@ export class HistorialComponent {
     return mapaEstados[estado] || estado;
   }
 
-  formatearFecha(fechaIso: string): string {
+  formatearFecha(fechaIso: string | null): string {
+    if (!fechaIso) {
+      return ''; // No mostrar nada si no hay fecha
+    }
+
     const fecha = new Date(fechaIso);
-    const dia = fecha.getDate().toString().padStart(2, '0');
-    const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
-    const anio = fecha.getFullYear();
+
+    // Corregir el desfase de zona horaria (mantener fecha UTC "real")
+    const dia = fecha.getUTCDate().toString().padStart(2, '0');
+    const mes = (fecha.getUTCMonth() + 1).toString().padStart(2, '0');
+    const anio = fecha.getUTCFullYear();
+
     return `${dia}/${mes}/${anio}`;
   }
 
@@ -207,7 +214,13 @@ export class HistorialComponent {
         idEvento: this.eventoAEditar.id
       };
       console.log('Datos para editar evento:', payload);
-
+      this.programacionServicio.editarEventoAplicacionPaciente(payload).subscribe({
+        next: (res) => {
+          console.log('✅ Evento editado:', res);
+          this.cargarDatos();
+        },
+        error: (err) => console.error('❌ Error al editar evento:', err)
+      });
     } else {
       datos.usuarioModificacion = usuario;
       datos.cedula = this.cedula;

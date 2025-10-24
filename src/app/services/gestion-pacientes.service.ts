@@ -68,5 +68,13 @@ export class GestionPacientesService {
       { headers: this.getAuthHeaders() }
     );
   }
+
+  // ------------------- PACIENTES CON OBSERVACION -------------------
+  getPacientesConObservacion(): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}/pacientes-revision`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
 }
 

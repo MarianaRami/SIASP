@@ -3,6 +3,7 @@ import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
 
 
 @Component({
@@ -15,27 +16,33 @@ import { Router } from '@angular/router';
   ],
 })
 export class ObservacionesComponent {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private gestionPacientesService: GestionPacientesService
+  ) {}
+
   columnas = [
-    { key: 'Nombre', label: 'Nombre' },
-    { key: 'Cedula', label: 'Cedula' },
-    { key: 'Fecha', label: 'Fecha' },
-    { key: 'Observacion', label: 'Observación' },
+    { key: 'nombre', label: 'Nombre' },
+    { key: 'cedula', label: 'Cedula' },
+    { key: 'fecha', label: 'Fecha' },
+    { key: 'observacion', label: 'Observación' },
     { key: 'boton', label: '', tipo: 'button' },
   ];
-  datos = [
-    { 
-      Nombre: 'Ana Ruiz', 
-      Cedula: '12345678', 
-      Observacion: '' 
-    },
-    { Nombre: 'Carlos Soto', 
-      Cedula: '87654321', 
-      Observacion: '' }
-  ];
+  datos = [];
+
+  // getPacientesConObservacion()
+  ngOnInit() {
+    this.gestionPacientesService.getPacientesConObservacion().subscribe({
+      next: (res) => {
+        console.log('✅ Pacientes con observación:', res);
+        this.datos = res.pacientesObs;
+      },
+      error: (err) => console.error('❌ Error al obtener pacientes con observación:', err)
+    });
+  }
 
   handleBuscar(fila: any) {
-    console.log('Cédula recibida:', fila.Cedula);  
-    this.router.navigate(['qf/busqueda/paciente', fila.Cedula , 'conf-ciclo']);
+    console.log('Cédula recibida:', fila.cedula);  
+    this.router.navigate(['qf/busqueda/paciente', fila.cedula , 'conf-ciclo']);
   }
 }

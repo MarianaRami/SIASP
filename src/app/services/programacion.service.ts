@@ -40,4 +40,12 @@ export class ProgramacionService {
     );
   }
 
+  editarEventoAplicacionPaciente(dto: any): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/editar-evento-aplicacion-paciente`,
+      dto,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
 }
