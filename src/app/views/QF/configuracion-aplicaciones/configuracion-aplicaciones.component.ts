@@ -117,6 +117,7 @@ export class ConfiguracionAplicacionesComponent implements OnInit {
       next: (resp) => {
         console.log('✅ Ciclo creado:', resp);
         this.router.navigate(['qf/busqueda']);
+        alert('Configuración guardada y ciclo activado exitosamente.');
       },
       error: (err) => {
         console.error('❌ Error creando ciclo:', err);
@@ -140,6 +141,7 @@ export class ConfiguracionAplicacionesComponent implements OnInit {
       next: (resp) => {
         console.log('✅ Ciclo creado:', resp);
         this.router.navigate(['qf/busqueda']);
+        alert('Configuración guardada como borrador exitosamente.');
       },
       error: (err) => {
         console.error('❌ Error creando ciclo:', err);

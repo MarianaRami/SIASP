@@ -277,6 +277,7 @@ export class HistorialComponent {
     this.programacionServicio.pacienteObservacionMed(datosGuardar).subscribe({
       next: (res) => {
         console.log('✅ Observación guardada:', res);
+        this.cargarDatos();
       },
       error: (err) => console.error('❌ Error al guardar observación:', err)
     });

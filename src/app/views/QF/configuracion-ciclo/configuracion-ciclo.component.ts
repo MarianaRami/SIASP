@@ -203,6 +203,7 @@ export class ConfiguracionCicloComponent {
     this.miServicio.createCicloPaciente(protocoloFinal).subscribe({
       next: (resp) => {
         console.log('✅ Ciclo creado:', resp);
+        alert('Configuración guardada como borrador exitosamente.');
         this.router.navigate(['qf/busqueda']);
       },
       error: (err) => {
