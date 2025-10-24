@@ -1,4 +1,9 @@
 <div class="reporte-container">
+  <div class="header">
+    <button class="btn-volver" (click)="volver()">
+      <img src="assets/images/volver.png" width="18" />
+    </button>
+  </div>
   <h2>Pacientes del {{ fechaSeleccionada }}</h2>
 
   <div *ngFor="let sala of salas" class="sala-container">

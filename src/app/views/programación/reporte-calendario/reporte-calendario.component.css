@@ -7,6 +7,18 @@
   margin-top: 2rem;
 }
 
+.btn-volver {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
 h3 {
   background-color: rgb(255, 103, 29);
   color: white;

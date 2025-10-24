@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 interface PacienteTurno {
   sala: number;
@@ -23,7 +23,10 @@ export class ReporteCalendarioComponent {
   salas: { id: number; posiciones: string[] }[] = [];
   pacientes: PacienteTurno[] = [];
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -53,6 +56,10 @@ export class ReporteCalendarioComponent {
     });
 
     */
+  }
+
+  volver() {
+    this.router.navigate(['programacion/calendario']);
   }
 
   generarDatosDummy() {
