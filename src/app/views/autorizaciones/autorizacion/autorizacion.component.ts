@@ -45,7 +45,7 @@ export class AutorizacionComponent {
   columnasIndividual = [
     { key: 'nombreMedicamentoPresentacion', label: 'Medicamento' },
     { key: 'cantidad', label: 'Cantidad' },
-    { key: 'unidad', label: 'Unidad', tipo: 'number' },
+    { key: 'unidad', label: 'Cantidad solicitada', tipo: 'number' },
     { key: 'numeroAutorizacion', label: 'No. Autorización', tipo: 'text' },
     { key: 'fechaAutorizacion', label: 'Fecha', tipo: 'fecha' },
     { key: 'fechaVencimiento', label: 'Fecha vencimiento', tipo: 'fecha' }
@@ -99,6 +99,29 @@ export class AutorizacionComponent {
 
   eliminarLaboratorio(index: number) {
     this.laboratorios.splice(index, 1);
+  }
+
+  copiarAutorizaciones() {
+    if (!this.datos.length) return;
+
+    const primeraFila = this.datos[0];
+
+    const { numeroAutorizacion, fechaAutorizacion, fechaVencimiento } = primeraFila;
+
+    // Validación para evitar copiar campos vacíos
+    if (!numeroAutorizacion && !fechaAutorizacion && !fechaVencimiento) {
+      alert('Por favor completa la primera fila antes de copiar.');
+      return;
+    }
+
+    // Recorre todas las filas (menos la primera) y copia los datos
+    for (let i = 1; i < this.datos.length; i++) {
+      this.datos[i].numeroAutorizacion = numeroAutorizacion;
+      this.datos[i].fechaAutorizacion = fechaAutorizacion;
+      this.datos[i].fechaVencimiento = fechaVencimiento;
+    }
+
+    console.log('Datos actualizados:', this.datos);
   }
 
   volver() {

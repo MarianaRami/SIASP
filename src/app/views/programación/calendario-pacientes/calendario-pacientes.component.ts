@@ -19,6 +19,10 @@ export class CalendarioPacientesComponent {
     this.generateCalendar();
   }
 
+  volver() {
+      this.router.navigate(['programacion/calendario']);
+    }
+
   generateCalendar() {
     const year = this.currentDate.getFullYear();
     const month = this.currentDate.getMonth();

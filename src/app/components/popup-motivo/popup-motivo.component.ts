@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class PopupMotivoComponent {
   @Output() cerrar = new EventEmitter<void>();
+  @Output() enviar = new EventEmitter<{motivo?:string; observaciones?: string}>();
 
   motivoSeleccionado: string = '';
   observaciones: string = '';
@@ -21,11 +22,14 @@ export class PopupMotivoComponent {
   confirmar() {
     console.log('Motivo:', this.motivoSeleccionado);
     console.log('Observaciones:', this.observaciones);
-    this.cerrar.emit(); // Cierra el popup
+    this.enviar.emit({
+      motivo: this.motivoSeleccionado,
+      observaciones: this.observaciones
+    });
   }
 
   cancelar() {
-    this.cerrar.emit(); // También cierra sin guardar
+    this.cerrar.emit(); 
   }
 }
 

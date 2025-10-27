@@ -1,4 +1,9 @@
 <div class="calendario-container">
+  <div class="h">
+    <button class="btn-volver" (click)="volver()">
+      <img src="assets/images/volver.png" width="18" />
+    </button>
+  </div>
   <div class="header">
     <button (click)="previousMonth()">◀</button>
     <h2>{{ currentDate | date: 'MMMM yyyy' }}</h2>

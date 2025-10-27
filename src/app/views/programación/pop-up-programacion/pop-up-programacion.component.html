@@ -32,6 +32,15 @@
       </div>
     </ng-container>
 
+    <div class="fila">
+      <label>¿Necesita camilla?</label>
+      <input 
+          type="checkbox" 
+          [(ngModel)]="camilla" 
+          id="camilla"
+      />
+      </div>
+
     <div class="button-group">
       <button class="guardar-btn" (click)="guardar()">Guardar</button>
       <button class="cancelar-btn" (click)="cancelar()">Cancelar</button>

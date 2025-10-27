@@ -35,7 +35,7 @@
 
   <h3>Autorización de medicamentos</h3>
 
-  <!-- Si es Individual -->
+
   <div class="layout-universal">
     <div class="fila-individual">
       <label>No. Autorización:</label>
@@ -43,13 +43,22 @@
       <label>Fecha:</label>
       <input type="date" [(ngModel)]="autorizacion.fecha" />
     </div>
+
+    <!-- Botón para copiar datos -->
+    <div class="fila-individual">
+      <button class="btn-accion" (click)="copiarAutorizaciones()">
+        Copiar a todas las filas
+      </button>
+    </div>
+
     <div class="tabla-individual">
-        <app-tabla-dinamica 
-          [columnas]="columnasIndividual" 
-          [datos]="datos"
-        ></app-tabla-dinamica>
+      <app-tabla-dinamica 
+        [columnas]="columnasIndividual" 
+        [datos]="datos"
+      ></app-tabla-dinamica>
     </div>
   </div>
+
 
   <h3>Autorización de procedimientos</h3>
   <div class="laboratorios">

@@ -17,7 +17,7 @@
         <ng-container *ngFor="let med of resultados">
           <!-- segundo *ngFor: recorre presentaciones de cada medicamento -->
           <tr *ngFor="let pres of med.presentaciones">
-            <td>{{ med.nombre }}</td>
+            <td>{{ med.nombre}} - {{ med.dosisTeorica }} </td>
             <td>{{ pres.nombrePresentacion }}</td>
             <td>
               <input 

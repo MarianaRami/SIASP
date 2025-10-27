@@ -11,13 +11,15 @@ import { FormsModule } from '@angular/forms';
 export class PopUpProgramacionComponent {
   @Input() modo: 'programar' | 'editar' = 'programar';
   @Output() cerrar = new EventEmitter<void>();
-  @Output() programar = new EventEmitter<{ aplicacion?: string; examenes?: string; laboratorios?: string; fechaEvento?: string }>();
+  @Output() programar = new EventEmitter<{ aplicacion?: string; examenes?: string; laboratorios?: string; fechaEvento?: string; camilla?: boolean }>();
 
   aplicacion = '';
   examenes = '';
   laboratorios = '';
 
   fechaEvento = '';
+
+  camilla: boolean = false;
 
   volver() {
     this.cerrar.emit();
@@ -26,13 +28,15 @@ export class PopUpProgramacionComponent {
   guardar() {
     if (this.modo === 'editar') {
       this.programar.emit({
-        fechaEvento: this.fechaEvento
+        fechaEvento: this.fechaEvento,
+        camilla: this.camilla
       });
     } else {
       this.programar.emit({
         aplicacion: this.aplicacion,
         examenes: this.examenes,
-        laboratorios: this.laboratorios
+        laboratorios: this.laboratorios,
+        camilla: this.camilla
       });
     }
   }

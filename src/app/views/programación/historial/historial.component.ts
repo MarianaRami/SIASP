@@ -127,7 +127,12 @@ export class HistorialComponent {
                 this.mostrarBotonProgramar = true;
               } else {
                 this.mostrarBotonProgramar = false;
-                this.columnas.push({ key: 'boton', label: ' ', tipo: 'button' })
+
+                // Agregar columna solo si no existe
+                const existeColumnaBoton = this.columnas.some(c => c.key === 'boton');
+                if (!existeColumnaBoton) {
+                  this.columnas.push({ key: 'boton', label: ' ', tipo: 'button' });
+                }
               }
             } else {
               // Si no hay aplicación, por defecto no mostramos ninguno
@@ -258,6 +263,18 @@ export class HistorialComponent {
 
   cerrarPopup() {
     this.mostrarPopup = false;
+  }
+
+  cancelarCiclo(datos: any){
+    const usuario = this.AuthService.getUser();
+    const cicloActivo = this.ciclos?.find(ciclo => ciclo.estado === 'activo');
+
+    const payload = {
+      idCiclo: cicloActivo?.id,
+      motivo: datos.motivo,
+      observaciones: datos.observaciones,
+      usuarioModificador: usuario
+    }
   }
 
   // Pop up medicamentos
