@@ -8,7 +8,7 @@
       <label for="motivo">Motivo: </label>
       <select id="motivo" [(ngModel)]="motivoSeleccionado">
         <option value="" disabled selected>Seleccionar</option>
-        <option *ngFor="let m of motivos" [value]="m">{{ m }}</option>
+        <option *ngFor="let m of motivos" [value]="m.value">{{ m.label }}</option>
       </select>
 
       <label for="observaciones">Observaciones:</label>

@@ -6,7 +6,7 @@
       </button>
     </div>
 
-    <!-- MODO PROGRAMAR -->
+    <!-- 🧩 MODO PROGRAMAR -->
     <ng-container *ngIf="modo === 'programar'">
       <div class="fila">
         <label>Fecha primera aplicación:</label>
@@ -22,9 +22,14 @@
         <label>Fecha programación laboratorios:</label>
         <input type="date" [(ngModel)]="laboratorios" />
       </div>
+
+      <div class="fila">
+        <label>¿Necesita camilla?</label>
+        <input type="checkbox" [(ngModel)]="camilla" id="camilla" />
+      </div>
     </ng-container>
 
-    <!-- MODO EDITAR -->
+    <!-- 🧩 MODO EDITAR -->
     <ng-container *ngIf="modo === 'editar'">
       <div class="fila">
         <label>Fecha del evento:</label>
@@ -33,19 +38,25 @@
 
       <div class="fila">
         <label>Silla:</label>
-        <select [(ngModel)]="idSilla">
-          <option *ngFor="let silla of sillasDisponibles" [value]="silla.id">{{ silla.nombre }}</option>
+        <select [(ngModel)]="sillaSeleccionada">
+          <option [ngValue]="null">Seleccione una silla</option>
+          <option 
+            *ngFor="let silla of sillasDisponibles" 
+            [ngValue]="silla"
+          >
+            {{ silla.nombre }}
+          </option>
         </select>
       </div>
 
       <div class="fila">
         <label>Hora de inicio:</label>
-        <input type="hour" [(ngModel)]="horaInicio" />
+        <input type="time" [(ngModel)]="horaInicio" />
       </div>
 
       <div class="fila">
         <label>Hora de fin:</label>
-        <input type="hour" [(ngModel)]="horaFin" />
+        <input type="time" [(ngModel)]="horaFin" />
       </div>
 
       <div class="fila">
@@ -54,18 +65,10 @@
       </div>
     </ng-container>
 
-    <div class="fila">
-      <label>¿Necesita camilla?</label>
-      <input 
-          type="checkbox" 
-          [(ngModel)]="camilla" 
-          id="camilla"
-      />
-      </div>
-
     <div class="button-group">
       <button class="guardar-btn" (click)="guardar()">Guardar</button>
       <button class="cancelar-btn" (click)="cancelar()">Cancelar</button>
     </div>
   </div>
 </div>
+

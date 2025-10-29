@@ -13,24 +13,29 @@ export class PopUpProgramacionComponent {
   @Input() modo: 'programar' | 'editar' = 'programar';
   @Output() cerrar = new EventEmitter<void>();
   @Output() programar = new EventEmitter<{ 
-    aplicacion?: string; examenes?: string; laboratorios?: string; fechaEvento?: string; camilla?: boolean; idSilla?: string; horaInicio?: string; horaFin?: string; duracion?: number; 
+    aplicacion?: string;
+    examenes?: string;
+    laboratorios?: string;
+    fechaEvento?: string;
+    camilla?: boolean;
+    idSilla?: string;
+    horaInicio?: string;
+    horaFin?: string;
+    duracion?: number;
   }>();
 
-  constructor(
-    private programacionServicio: ProgramacionService
-  ) {}
+  constructor(private programacionServicio: ProgramacionService) {}
 
   aplicacion = '';
   examenes = '';
   laboratorios = '';
-
   fechaEvento = '';
 
-  idSilla: string | undefined;
+  // 🪑 Guardamos la silla seleccionada completa
+  sillaSeleccionada: any = null;
   horaInicio: string | undefined;
   horaFin: string | undefined;
   duracion: number | undefined;
-
   camilla: boolean = false;
 
   sillasDisponibles: any[] = [];
@@ -51,10 +56,10 @@ export class PopUpProgramacionComponent {
 
   guardar() {
     if (this.modo === 'editar') {
+      console.log('🪑 Silla seleccionada para programación:', this.sillaSeleccionada);
       this.programar.emit({
         fechaEvento: this.fechaEvento,
-        camilla: this.camilla,
-        idSilla: this.idSilla,
+        idSilla: this.sillaSeleccionada?.id,
         horaInicio: this.horaInicio,
         horaFin: this.horaFin,
         duracion: this.duracion,
@@ -64,7 +69,7 @@ export class PopUpProgramacionComponent {
         aplicacion: this.aplicacion,
         examenes: this.examenes,
         laboratorios: this.laboratorios,
-        camilla: this.camilla
+        camilla: this.camilla,
       });
     }
   }

@@ -50,7 +50,7 @@ export class ProgramacionService {
 
   cancelarCiclo(dto: any): Observable<any> { 
     return this.http.post<any>(
-      `${this.apiUrl}/pacientes/cancelar-ciclo`,  
+      `${this.apiUrl}/cancelar-ciclo`,  
       dto,
       { headers: this.getAuthHeaders() }
     );
@@ -58,7 +58,7 @@ export class ProgramacionService {
 
   programarSilla(dto: any): Observable<any> {
     return this.http.post<any>(
-      `${this.apiUrl}/pacientes/programar-silla`,
+      `${this.apiUrl}/programar-silla`,
       dto,
       { headers: this.getAuthHeaders() }
     );

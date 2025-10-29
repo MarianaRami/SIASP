@@ -78,9 +78,9 @@ export class GestionPacientesService {
   }
 
   // ------------------- EXAMENES -------------------
-  getlistadoExamenesPaciente(): Observable<any> {
+  getlistadoExamenesPaciente(fecha: Date): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}/pacientes-revision-examenes/:fecha`,
+      `${this.apiUrl}/pacientes-revision-examenes/${fecha.toISOString()}`,
       { headers: this.getAuthHeaders() }
     );
   }

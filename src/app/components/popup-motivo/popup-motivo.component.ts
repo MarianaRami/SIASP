@@ -17,11 +17,14 @@ export class PopupMotivoComponent {
   motivoSeleccionado: string = '';
   observaciones: string = '';
 
-  motivos = ['Error de carga', 'Cambio de paciente', 'Otro']; // Puedes cambiar estos motivos
-
+  motivos = [
+    { value: 'no_finalizado', label: 'No finalizado'}, 
+    { value: 'finalizado', label: 'Finalizado'}, 
+    { value: 'cancelado', label: 'Cancelado'}, 
+    { value: 'cambio_protocolo', label: 'Cambio de protocolo'}
+  ]; 
+  
   confirmar() {
-    console.log('Motivo:', this.motivoSeleccionado);
-    console.log('Observaciones:', this.observaciones);
     this.enviar.emit({
       motivo: this.motivoSeleccionado,
       observaciones: this.observaciones

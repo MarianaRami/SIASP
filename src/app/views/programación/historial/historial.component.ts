@@ -230,7 +230,7 @@ export class HistorialComponent {
       // Cambio de silla
       const programaSillaDto = {
         idEvento: this.eventoAEditar.id,
-        idSilla: datos.silla,
+        idSilla: datos.idSilla,
         fecha: datos.fechaEvento,
         horaInicio: datos.horaInicio,
         horaFin: datos.horaFin,
@@ -291,9 +291,11 @@ export class HistorialComponent {
 
     const payload = {
       idCiclo: cicloActivo?.id,
-      motivo: datos.motivo,
-      observaciones: datos.observaciones,
-      usuarioModificador: usuario
+      fecha: new Date().toISOString(),
+      usuarioModificacion: usuario,
+      causaFinalizacion: datos.motivo,
+      observacion: datos.observaciones,
+
     }
 
     console.log('Datos para cancelar ciclo:', payload);
@@ -304,6 +306,8 @@ export class HistorialComponent {
       },
       error: (err) => console.error('❌ Error al cancelar ciclo:', err)
     });
+
+    this.cerrarPopup();
   }
 
   // Pop up medicamentos
