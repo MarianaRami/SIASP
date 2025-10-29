@@ -226,6 +226,26 @@ export class HistorialComponent {
         },
         error: (err) => console.error('❌ Error al editar evento:', err)
       });
+
+      // Cambio de silla
+      const programaSillaDto = {
+        idEvento: this.eventoAEditar.id,
+        idSilla: datos.silla,
+        fecha: datos.fechaEvento,
+        horaInicio: datos.horaInicio,
+        horaFin: datos.horaFin,
+        duracion: datos.duracion,
+        usuarioModificacion: usuario
+      };
+      console.log('Datos para programar silla:', programaSillaDto);
+      this.programacionServicio.programarSilla(programaSillaDto).subscribe({
+        next: (res) => {
+          console.log('✅ Silla programada:', res);
+          this.cargarDatos();
+        },
+        error: (err) => console.error('❌ Error al programar silla:', err)
+      });
+
     } else {
       datos.usuarioModificacion = usuario;
       datos.cedula = this.cedula;
@@ -275,6 +295,15 @@ export class HistorialComponent {
       observaciones: datos.observaciones,
       usuarioModificador: usuario
     }
+
+    console.log('Datos para cancelar ciclo:', payload);
+    this.programacionServicio.cancelarCiclo(payload).subscribe({
+      next: (res) => {
+        console.log('✅ Ciclo cancelado:', res);
+        this.cargarDatos();
+      },
+      error: (err) => console.error('❌ Error al cancelar ciclo:', err)
+    });
   }
 
   // Pop up medicamentos

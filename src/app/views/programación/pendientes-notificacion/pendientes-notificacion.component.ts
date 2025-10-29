@@ -3,6 +3,7 @@ import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ProgramacionService } from '../../../services/programacion.service';
 
 @Component({
   selector: 'app-pendientes-notificacion',
@@ -14,45 +15,41 @@ import { Router } from '@angular/router';
   ]
 })
 export class PendientesNotificacionComponent {
-  constructor(private router: Router) {}
+  constructor( 
+    private router: Router,
+    private programacionServicio: ProgramacionService
+  ) {}
 
   columnas = [
-    { key: 'Nombre', label: 'Nombre' },
-    { key: 'Cedula', label: 'Cedula' },
-    { key: 'Teléfono', label: 'Teléfono' },
-    { key: 'Fecha Aplicación', label: 'Fecha Aplicación' },
-    { key: 'Fecha Examenes', label: 'Fecha Examenes' },
+    { key: 'nombre', label: 'Nombre' },
+    { key: 'cedula', label: 'Cedula' },
+    { key: 'telefonos', label: 'Teléfono' },
+    { key: 'fecha', label: 'Fecha Aplicación' },
     { key: 'Boton', label: ' ', tipo: 'checkbox'}
   ];
-  datos = [
-    {
-      Nombre: 'Juan Pérez',
-      Cedula: '123456789',
-      Protocolo: '',
-      Fecha: '2025-05-20'
-    },
-    {
-      Nombre: 'María Gómez',
-      Cedula: '987654321',
-      Protocolo: '',
-      Fecha: '2025-05-22'
-    },
-    {
-      Nombre: 'Carlos Ruiz',
-      Cedula: '456789123',
-      Protocolo: '',
-      Fecha: '2025-05-24'
-    }
-  ];
+  datos = [ ];
 
   filtro: string = '';
   datosFiltrados = [...this.datos];
 
+  ngOnInit() {
+    this.programacionServicio.getlistadoPacientesNotificacion().subscribe({
+      next: (res) => {
+        console.log('✅ Pacientes pendientes de notificación:', res);
+        this.datos = res;
+        this.datosFiltrados = [...this.datos];
+      },
+      error: (err) => console.error('❌ Error al obtener pacientes pendientes de notificación:', err)
+    });
+  }
+
   filtrarDatos() {
+    /*
     const f = this.filtro.toLowerCase().trim();
     this.datosFiltrados = this.datos.filter(d =>
       d.Cedula.includes(f) || d.Nombre.toLowerCase().includes(f)
     );
+    */
   }
 
   handleBuscar(fila: any) {

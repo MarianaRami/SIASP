@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla-dinamica.component';
 import { Router } from '@angular/router';
+import { ProgramacionService } from '../../../services/programacion.service';
 
 
 @Component({
@@ -15,38 +16,41 @@ import { Router } from '@angular/router';
     ]
 })
 export class ConfirmacionComponent {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private programacionServicio: ProgramacionService
+  ) {}
 
   columnas = [
-    { key: 'Nombre', label: 'Nombre' },
-    { key: 'Cedula', label: 'Cedula' },
-    { key: 'Telefono', label: 'Telefono' },
+    { key: 'nombre', label: 'Nombre' },
+    { key: 'cedula', label: 'Cedula' },
+    { key: 'telefonos', label: 'Telefono' },
     { key: 'Estado', label: 'Estado', tipo: 'select', opciones: ['Confirmado', 'Reprogramar'] },
     { key: 'Observaciones', label: 'Observaciones', tipo: 'text' },
   ];
-  datos = [
-    {
-      Nombre: 'Juan Pérez',
-      Cedula: '123456789',
-    },
-    {
-      Nombre: 'María Gómez',
-      Cedula: '987654321',
-    },
-    {
-      Nombre: 'Carlos Ruiz',
-      Cedula: '456789123',
-    }
-  ];
+  datos = [];
+
+  ngOnInit() {
+    this.programacionServicio.getlistadoPacientesConfirmacion().subscribe({
+      next: (res) => {
+        console.log('✅ Pacientes para confirmación:', res);
+        this.datos = res;
+        this.datosFiltrados = [...this.datos];
+      },
+      error: (err) => console.error('❌ Error al obtener pacientes para confirmación:', err)
+    });
+  }
 
   filtro: string = '';
   datosFiltrados = [...this.datos];
 
   filtrarDatos() {
+    /*
     const f = this.filtro.toLowerCase().trim();
     this.datosFiltrados = this.datos.filter(d =>
       d.Cedula.includes(f) || d.Nombre.toLowerCase().includes(f)
     );
+    */
   }
 
   volver() {

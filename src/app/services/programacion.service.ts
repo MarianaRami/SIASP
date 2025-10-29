@@ -48,4 +48,44 @@ export class ProgramacionService {
     );
   }
 
+  cancelarCiclo(dto: any): Observable<any> { 
+    return this.http.post<any>(
+      `${this.apiUrl}/pacientes/cancelar-ciclo`,  
+      dto,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  programarSilla(dto: any): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/pacientes/programar-silla`,
+      dto,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  // ------------------- PROGRAMACION (NOTIFICACIÓN) -------------------
+  getlistadoPacientesNotificacion(): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}/pacientes-notificacion`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  // ------------------- PROGRAMACION (CONFIRMACIÓN) -------------------
+  getlistadoPacientesConfirmacion(): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}/pacientes-confirmacion`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  // ------------------- PROGRAMACION (DISPONIBILIDAD DE SALA) -------------------
+  getlistadoSillasDisponibles(): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}/lista-sillas`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
 }

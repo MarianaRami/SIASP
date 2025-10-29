@@ -30,6 +30,28 @@
         <label>Fecha del evento:</label>
         <input type="date" [(ngModel)]="fechaEvento" />
       </div>
+
+      <div class="fila">
+        <label>Silla:</label>
+        <select [(ngModel)]="idSilla">
+          <option *ngFor="let silla of sillasDisponibles" [value]="silla.id">{{ silla.nombre }}</option>
+        </select>
+      </div>
+
+      <div class="fila">
+        <label>Hora de inicio:</label>
+        <input type="hour" [(ngModel)]="horaInicio" />
+      </div>
+
+      <div class="fila">
+        <label>Hora de fin:</label>
+        <input type="hour" [(ngModel)]="horaFin" />
+      </div>
+
+      <div class="fila">
+        <label>Duración (horas):</label>
+        <input type="number" [(ngModel)]="duracion" />
+      </div>
     </ng-container>
 
     <div class="fila">

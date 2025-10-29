@@ -2,7 +2,7 @@ import { CommonModule, NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 import { TablaDinamicaComponent } from '../../components/tabla-dinamica/tabla-dinamica.component.spec';
 import { FormsModule } from '@angular/forms';
-
+import { GestionPacientesService } from '../../services/gestion-pacientes.service';
 
 @Component({
   selector: 'app-examenes',
@@ -15,6 +15,10 @@ import { FormsModule } from '@angular/forms';
   ]
 })
 export class ExamenesComponent {
+  constructor(
+    private miServicio: GestionPacientesService
+  ) {} 
+
   columnas = [
     { key: 'Nombre', label: 'Nombre' },
     { key: 'Cedula', label: 'Cedula' },
@@ -23,34 +27,28 @@ export class ExamenesComponent {
     { key: 'Estado', label: 'Estado', tipo: 'select', opciones: ['Confirmado', 'Reprogramar', 'Precancelado'] },
     { key: 'Observación', label: 'Observación' }
   ];
-  datos = [
-    {
-      Nombre: 'Juan Pérez',
-      Cedula: '123456789',
-      Protocolo: '',
-      Fecha: '2025-05-20'
-    },
-    {
-      Nombre: 'María Gómez',
-      Cedula: '987654321',
-      Protocolo: '',
-      Fecha: '2025-05-22'
-    },
-    {
-      Nombre: 'Carlos Ruiz',
-      Cedula: '456789123',
-      Protocolo: '',
-      Fecha: '2025-05-24'
-    }
-  ];
+  datos = [];
 
   filtro: string = '';
   datosFiltrados = [...this.datos];
 
+  ngOnInit() {
+    this.miServicio.getlistadoExamenesPaciente().subscribe({
+      next: (res) => {
+        console.log('✅ Listado de exámenes del paciente:', res);
+        this.datos = res;
+        this.datosFiltrados = [...this.datos];
+      },
+      error: (err) => console.error('❌ Error al obtener listado de exámenes del paciente:', err)
+    });
+  }
+
   filtrarDatos() {
+    /*
     const f = this.filtro.toLowerCase().trim();
     this.datosFiltrados = this.datos.filter(d =>
       d.Cedula.includes(f) || d.Nombre.toLowerCase().includes(f)
     );
+    */
   }
 }

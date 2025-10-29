@@ -76,5 +76,14 @@ export class GestionPacientesService {
       { headers: this.getAuthHeaders() }
     );
   }
+
+  // ------------------- EXAMENES -------------------
+  getlistadoExamenesPaciente(): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}/pacientes-revision-examenes/:fecha`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
 }
 

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ProgramacionService } from '../../../services/programacion.service';
 
 @Component({
   selector: 'app-pop-up-programacion',
@@ -11,7 +12,13 @@ import { FormsModule } from '@angular/forms';
 export class PopUpProgramacionComponent {
   @Input() modo: 'programar' | 'editar' = 'programar';
   @Output() cerrar = new EventEmitter<void>();
-  @Output() programar = new EventEmitter<{ aplicacion?: string; examenes?: string; laboratorios?: string; fechaEvento?: string; camilla?: boolean }>();
+  @Output() programar = new EventEmitter<{ 
+    aplicacion?: string; examenes?: string; laboratorios?: string; fechaEvento?: string; camilla?: boolean; idSilla?: string; horaInicio?: string; horaFin?: string; duracion?: number; 
+  }>();
+
+  constructor(
+    private programacionServicio: ProgramacionService
+  ) {}
 
   aplicacion = '';
   examenes = '';
@@ -19,7 +26,24 @@ export class PopUpProgramacionComponent {
 
   fechaEvento = '';
 
+  idSilla: string | undefined;
+  horaInicio: string | undefined;
+  horaFin: string | undefined;
+  duracion: number | undefined;
+
   camilla: boolean = false;
+
+  sillasDisponibles: any[] = [];
+
+  ngOnInit() {
+    this.programacionServicio.getlistadoSillasDisponibles().subscribe({
+      next: (res) => {
+        console.log('✅ Listado de sillas:', res);
+        this.sillasDisponibles = res;
+      },
+      error: (err) => console.error('❌ Error al obtener listado de sillas:', err)
+    });
+  }
 
   volver() {
     this.cerrar.emit();
@@ -29,7 +53,11 @@ export class PopUpProgramacionComponent {
     if (this.modo === 'editar') {
       this.programar.emit({
         fechaEvento: this.fechaEvento,
-        camilla: this.camilla
+        camilla: this.camilla,
+        idSilla: this.idSilla,
+        horaInicio: this.horaInicio,
+        horaFin: this.horaFin,
+        duracion: this.duracion,
       });
     } else {
       this.programar.emit({
