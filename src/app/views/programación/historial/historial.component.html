@@ -16,6 +16,14 @@
             (click)="abrirPopupP()">
             Programar
             </button>
+
+            <button 
+                class="btn-accion" 
+                *ngIf="mostrarBotonNotificar" 
+                (click)="notificarPaciente()">
+                Paciente Notificado
+            </button>
+
             <button class="btn-accion" (click)="abrirPopup()">Cancelar Ciclo</button>
         </ng-container>
     </div>

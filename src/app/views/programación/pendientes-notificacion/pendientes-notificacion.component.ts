@@ -25,7 +25,7 @@ export class PendientesNotificacionComponent {
     { key: 'cedula', label: 'Cedula' },
     { key: 'telefonos', label: 'Teléfono' },
     { key: 'fecha', label: 'Fecha Aplicación' },
-    { key: 'Boton', label: ' ', tipo: 'checkbox'}
+    { key: 'Boton', label: ' ', tipo: 'button'}
   ];
   datos = [ ];
 
@@ -36,7 +36,7 @@ export class PendientesNotificacionComponent {
     this.programacionServicio.getlistadoPacientesNotificacion().subscribe({
       next: (res) => {
         console.log('✅ Pacientes pendientes de notificación:', res);
-        this.datos = res;
+        this.datos = res.pacientesNotif;
         this.datosFiltrados = [...this.datos];
       },
       error: (err) => console.error('❌ Error al obtener pacientes pendientes de notificación:', err)
@@ -53,8 +53,8 @@ export class PendientesNotificacionComponent {
   }
 
   handleBuscar(fila: any) {
-    console.log('Cédula recibida:', fila.Cedula);  
-    this.router.navigate(['/programacion/busquedaPro/historial']);
+    console.log('Cédula recibida:', fila.cedula);  
+    this.router.navigate(['/programacion/busquedaPro/historial', fila.Cedula ]);
   }
 
   volver() {

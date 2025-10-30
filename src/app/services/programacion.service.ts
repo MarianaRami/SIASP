@@ -88,4 +88,13 @@ export class ProgramacionService {
     );
   }
 
+  // ------------------- PROGRAMACION (NOTIFICACIÓN AL PACIENTE) -------------------
+  notificacionPaciente(dto: any): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/pacientes/notificacion-ciclo`,
+      dto,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
 }

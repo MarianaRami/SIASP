@@ -34,7 +34,7 @@ export class ConfirmacionComponent {
     this.programacionServicio.getlistadoPacientesConfirmacion().subscribe({
       next: (res) => {
         console.log('✅ Pacientes para confirmación:', res);
-        this.datos = res;
+        this.datos = res.pacientesConf;
         this.datosFiltrados = [...this.datos];
       },
       error: (err) => console.error('❌ Error al obtener pacientes para confirmación:', err)

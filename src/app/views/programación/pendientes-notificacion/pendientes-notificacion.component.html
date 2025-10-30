@@ -17,6 +17,7 @@
   <app-tabla-dinamica
         [columnas]="columnas"
         [datos]="datosFiltrados"
+        (buscar)="handleBuscar($event)"
         >
     </app-tabla-dinamica>
 

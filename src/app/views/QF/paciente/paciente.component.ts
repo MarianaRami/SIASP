@@ -8,6 +8,7 @@ import { GestionPacientesService } from '../../../services/gestion-pacientes.ser
 import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla-dinamica.component';
 import { ProtocoloActualDto, PacienteResponseDto, CicloDto, CreateProtocoloPacienteCompletoDto } from '../../../models/paciente';
 import { AuthService } from '../../../services/auth.service';
+import { act } from 'react';
 
 @Component({
   selector: 'app-paciente',
@@ -225,12 +226,14 @@ export class PacienteComponent {
   formatearEstado(estado: string): string {
     const estadosMap: Record<string, string> = {
       borrador: 'Borrador',
-      nuevo: 'Nuevo',
-      pendiente_autorizacion: 'Pendiente de autorización',
+      autorizado: 'Autorizado',
       activo: 'Activo',
       suspendido: 'Suspendido',
       finalizado: 'Finalizado',
-      revision: 'Revisión'
+      revision: 'Revisión',
+      notificado: 'Notificado',
+      programado: 'Programado',
+      revisado_examenes: 'Revisado Exámenes'
     };
 
     return estadosMap[estado] || estado;

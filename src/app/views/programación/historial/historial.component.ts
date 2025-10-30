@@ -53,6 +53,7 @@ export class HistorialComponent {
   eventoAEditar: any = null;
 
   mostrarBotonProgramar = false;
+  mostrarBotonNotificar = false;
 
   tratamientoOptions = [
     { value: 'poli', label: 'Politerapia' },
@@ -137,7 +138,18 @@ export class HistorialComponent {
             } else {
               // Si no hay aplicación, por defecto no mostramos ninguno
               this.mostrarBotonProgramar = false;
-          }
+            }
+
+            // Lógica para mostrar el botón de notificar
+            const eventosAplicacion = this.pacienteData.protocoloActual?.eventos?.filter((e: any) => e.tipo === 'aplicacion') || [];
+
+            const tieneProgramada = eventosAplicacion.some((e: any) => e.estado === 'programada');
+            if(tieneProgramada){
+              this.mostrarBotonNotificar = true;
+            } else {
+              this.mostrarBotonNotificar = false;
+            }
+
           }
         },
         error: (err) => {
@@ -160,7 +172,7 @@ export class HistorialComponent {
   formatearEstado(estado: string): string {
     const mapaEstados: Record<string, string> = {
       tentativa: 'Tentativa', //Creación inicial de la aplicación, puede tener fecha, pero no se ha aplicado la anterior
-      pendiente: 'Pendiente', //El paciente tiene fecha, peor no hora de aplicacón. Realizado por programación.
+      pendiente: 'Pendiente', //El paciente tiene fecha, pero no hora de aplicacón. Realizado por programación.
       programada: 'Programada', //El sistema ha asignado fecha y hora o el paciente fue reprogramado manualmente
       notificada: 'Notificada', //Notificación realizada al paciente, sin cambios de fecha
       revisada: 'Revisada', //Exámenes revisados y aprobados antes de la aplicación
@@ -187,6 +199,31 @@ export class HistorialComponent {
 
     return `${dia}/${mes}/${anio}`;
   }
+
+  notificarPaciente() {
+    const usuario = this.AuthService.getUser();
+    const cicloActivo = this.ciclos?.find(ciclo => ciclo.estado === 'activo');
+
+    const dto = {
+      idCiclo: cicloActivo?.id,
+      fecha: new Date(),
+      usuarioModificacion: usuario,
+      estado: 'notificado' 
+    };
+
+    console.log('Datos para notificar paciente:', dto);
+
+    this.programacionServicio.notificacionPaciente(dto).subscribe({
+      next: (res) => {
+        console.log('✅ Paciente notificado correctamente:', res);
+        this.cargarDatos();
+      },
+      error: (err) => {
+        console.error('❌ Error al notificar paciente:', err);
+      }
+    });
+  }
+
 
   // Pop up programación
   mostrarPopupP = false;
