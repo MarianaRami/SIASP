@@ -8,7 +8,6 @@ import { GestionPacientesService } from '../../../services/gestion-pacientes.ser
 import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla-dinamica.component';
 import { ProtocoloActualDto, PacienteResponseDto, CicloDto, CreateProtocoloPacienteCompletoDto } from '../../../models/paciente';
 import { AuthService } from '../../../services/auth.service';
-import { act } from 'react';
 
 @Component({
   selector: 'app-paciente',

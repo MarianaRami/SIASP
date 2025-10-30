@@ -91,7 +91,7 @@ export class ConfiguracionCicloComponent {
 
             if (this.protocoActual?.ciclos && this.protocoActual.ciclos.length > 0) {
               // Si hay ciclos, tomar el ciclo activo
-              const cicloActivo = this.protocoActual.ciclos.find((c: any) => c.estado === 'activo') || this.protocoActual.ciclos[0];
+              const cicloActivo = this.protocoActual.ciclos.find((c: any) => c.estado == 'borrador') || this.protocoActual.ciclos[0];
               this.fecha_inicio_estimada = cicloActivo.fechaIniEstimada || '';
             } else {
               // Si no hay ciclos dejar vacío
