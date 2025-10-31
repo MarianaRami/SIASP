@@ -73,6 +73,7 @@ export class PopUpMedicamentosDetalleComponent {
     const transformados = this.resultados.map((med: any) => ({
       nombre: med.nombre,
       dosisTotal: med.dosisTotal,
+      dosisTeorica: med.dosisTeorica,
       presentaciones: med.presentaciones.map((pres: any) => ({
         nombrePresentacion: pres.nombrePresentacion,
         cantidadPorAplicacion: pres.cantidadPorAplicacion,
