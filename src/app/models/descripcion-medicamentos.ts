@@ -1,4 +1,5 @@
 export interface MedicamentoParaPresentacionDto {
+  idCiclo: string;
   medicamentos: MedicamentoDto[];
   diaConfiguracionMedicamentos: DiaConfiguracionDto[];
 }

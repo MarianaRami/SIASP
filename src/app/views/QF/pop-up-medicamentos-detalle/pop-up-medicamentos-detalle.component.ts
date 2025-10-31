@@ -28,8 +28,15 @@ export class PopUpMedicamentosDetalleComponent {
 
     console.log("Info recibida en el popup:", this.infoCiclo);
 
+    //Ordena de manera descendente y toma el primer ciclo no finalizado
+    let idCicloActivo = "";
+    idCicloActivo = this.infoCiclo.ciclos?.sort((a: any, b: any) => b.numCiclo - a.numCiclo)
+               .find((ciclo: any) => ciclo.estado !== 'finalizado')?.id || ""; 
+               
+
     // Construimos el payload en la forma de MedicamentoParaPresentacionDto
     const payload: MedicamentoParaPresentacionDto = {
+      idCiclo: idCicloActivo,
       medicamentos: this.infoCiclo.medicamentos.map((m: any) => ({
         nombre: m.nombre,
         dosisFormulada: m.dosisFormulada,
