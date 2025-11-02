@@ -44,7 +44,7 @@ export class AutorizacionComponent {
 
   columnasIndividual = [
     { key: 'nombreMedicamentoPresentacion', label: 'Medicamento' },
-    { key: 'cantidad', label: 'Cantidad' },
+    { key: 'cantidadPorCiclo', label: 'Cantidad' },
     { key: 'unidad', label: 'Cantidad solicitada', tipo: 'number' },
     { key: 'numeroAutorizacion', label: 'No. Autorización', tipo: 'text' },
     { key: 'fechaAutorizacion', label: 'Fecha', tipo: 'fecha' },
