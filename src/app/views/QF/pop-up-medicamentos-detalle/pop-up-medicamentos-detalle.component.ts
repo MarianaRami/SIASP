@@ -29,28 +29,48 @@ export class PopUpMedicamentosDetalleComponent {
     console.log("Info recibida en el popup:", this.infoCiclo);
 
     //Ordena de manera descendente y toma el primer ciclo no finalizado
-    let idCicloActivo = "";
-    idCicloActivo = this.infoCiclo.ciclos?.sort((a: any, b: any) => b.numCiclo - a.numCiclo)
-               .find((ciclo: any) => ciclo.estado !== 'finalizado')?.id || ""; 
+    
+    //idCicloActivo = this.infoCiclo.ciclos?.sort((a: any, b: any) => b.numCiclo - a.numCiclo)
+      //         .find((ciclo: any) => ciclo.estado !== 'finalizado')?.id || ""; 
                
-
-    // Construimos el payload en la forma de MedicamentoParaPresentacionDto
-    const payload: MedicamentoParaPresentacionDto = {
-      idCiclo: idCicloActivo,
-      medicamentos: this.infoCiclo.medicamentos.map((m: any) => ({
-        nombre: m.nombre,
-        dosisFormulada: m.dosisFormulada,
-        formula: m.formula,
-        dosisTeorica: m.dosisTeorica
-      })),
-      diaConfiguracionMedicamentos: this.infoCiclo.configuracionMedicamentos.map((conf: any) => ({
-        dia: conf.dia,
-        medicamentos: conf.medicamentos.map((med: any) => ({
-          nombre: med.nombre,
-          dosisTeorica: med.dosis
+    let payload: MedicamentoParaPresentacionDto;
+    if(this.infoCiclo.ciclos.length === 0){
+      // Construimos el payload en la forma de MedicamentoParaPresentacionDto sin idCiclo{
+        payload = {
+        medicamentos: this.infoCiclo.medicamentos.map((m: any) => ({
+          nombre: m.nombre,
+          dosisFormulada: m.dosisFormulada,
+          formula: m.formula,
+          dosisTeorica: m.dosisTeorica
+        })),
+        diaConfiguracionMedicamentos: this.infoCiclo.configuracionMedicamentos.map((conf: any) => ({
+          dia: conf.dia,
+          medicamentos: conf.medicamentos.map((med: any) => ({
+            nombre: med.nombre,
+            dosisTeorica: med.dosis
+          }))
         }))
-      }))
-    };
+      };
+    }else{
+    // Construimos el payload en la forma de MedicamentoParaPresentacionDto
+      let idCicloActivo = this.infoCiclo.ciclos[0]?.id || "";
+      payload = {
+        idCiclo: idCicloActivo,
+        medicamentos: this.infoCiclo.medicamentos.map((m: any) => ({
+          nombre: m.nombre,
+          dosisFormulada: m.dosisFormulada,
+          formula: m.formula,
+          dosisTeorica: m.dosisTeorica
+        })),
+        diaConfiguracionMedicamentos: this.infoCiclo.configuracionMedicamentos.map((conf: any) => ({
+          dia: conf.dia,
+          medicamentos: conf.medicamentos.map((med: any) => ({
+            nombre: med.nombre,
+            dosisTeorica: med.dosis
+          }))
+        }))
+      };
+    }
 
     console.log("Payload enviado al servicio:", payload);
 
@@ -97,6 +117,7 @@ export class PopUpMedicamentosDetalleComponent {
     const transformados = this.resultados.map((med: any) => ({
       nombre: med.nombre,
       dosisTotal: med.dosisTotal,
+      dosisTeorica: med.dosisTeorica,
       presentaciones: med.presentaciones.map((pres: any) => ({
         nombrePresentacion: pres.nombrePresentacion,
         cantidadPorAplicacion: pres.cantidadPorAplicacion,
