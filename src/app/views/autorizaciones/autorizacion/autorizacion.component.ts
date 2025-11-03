@@ -28,6 +28,7 @@ export class AutorizacionComponent {
   identificacion = '';
   protocolo = '';
   eps = '';
+  idCicloPaciente = '';
   tratamientoOptions = [
     { value: 'poli', label: 'Politerapia' },
     { value: 'mono', label: 'Monoterapia' },
@@ -90,7 +91,7 @@ export class AutorizacionComponent {
 
           if (resp && resp.paciente) {
             this.pacienteData = resp.paciente;
-
+            this.idCicloPaciente = resp.idCicloPaciente;
             this.paciente = `${resp.paciente.nombre1} ${resp.paciente.nombre2 || ''} ${resp.paciente.apellido1} ${resp.paciente.apellido2 || ''}`.trim();
             this.identificacion = resp.paciente.documento;
             this.protocolo = resp.nombreProtocolo || '';
@@ -168,8 +169,8 @@ export class AutorizacionComponent {
 
 
     const payload = {
-      idPaciente: this.pacienteData?.idPaciente,
-      idCicloPaciente: this.pacienteData?.idCicloPaciente,
+      idPaciente: this.pacienteData?.id,
+      idCicloPaciente: this.idCicloPaciente,
       documento: this.pacienteData?.documento,
       autorizacion: this.autorizacion,
       medicamentos: medicamentosFinal,
