@@ -101,7 +101,7 @@ export class AutorizacionComponent {
             this.tratamientoFinal = `${resp.tratamientoNombre || 'N/A'} - ${resp.tratamientoTipo || 'N/A'}`;
             this.idUsuario = this.AuthService.getUser() || '';
             // Cargar medicamentos en la tabla
-            this.datos = resp.autorizaciones || [];
+            this.datos = resp.medicamentos || [];
           }
         },
         error: (err) => {
