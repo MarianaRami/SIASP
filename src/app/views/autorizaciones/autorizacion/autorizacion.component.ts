@@ -21,7 +21,8 @@ export class AutorizacionComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute, 
-    private autorizacionesService: AutorizacionesService
+    private autorizacionesService: AutorizacionesService,
+    private AuthService: AuthService,
   ) {}
 
   paciente = '';
@@ -29,6 +30,7 @@ export class AutorizacionComponent {
   protocolo = '';
   eps = '';
   idCicloPaciente = '';
+  idUsuario = '';
   tratamientoOptions = [
     { value: 'poli', label: 'Politerapia' },
     { value: 'mono', label: 'Monoterapia' },
@@ -61,19 +63,19 @@ export class AutorizacionComponent {
   datos: any[] = [];
 
   laboratorios: any[] = [
-    { autorizacion: '', fecha: '', fecha_vencimiento: '', descripcion: '' }
+    { autorizacion: '', fecha: '', fechaVencimiento: '', descripcion: '' }
   ];
 
   autorizacion = {
     numero: '',
     fecha: '',
-    fecha_vencimiento: ''
+    fechaVencimiento: ''
   };
 
   laboratoriosAut: any[] = [{ 
     autorizacion: '', 
     fecha: '', 
-    fecha_vencimiento: '', 
+    fechaVencimiento: '', 
     laboratorio: '' }
   ];
 
@@ -97,7 +99,7 @@ export class AutorizacionComponent {
             this.protocolo = resp.nombreProtocolo || '';
             this.eps = resp.paciente.eps;
             this.tratamientoFinal = `${resp.tratamientoNombre || 'N/A'} - ${resp.tratamientoTipo || 'N/A'}`;
-
+            this.idUsuario = this.AuthService.getUser() || '';
             // Cargar medicamentos en la tabla
             this.datos = resp.autorizaciones || [];
           }
@@ -120,7 +122,7 @@ export class AutorizacionComponent {
     this.laboratoriosAut.push({
       autorizacion: '',
       fecha: '',
-      fecha_vencimiento: '',
+      fechaVencimiento: '',
       laboratorio: ''
     });
   }
@@ -159,7 +161,7 @@ export class AutorizacionComponent {
 
   Cancelar() {
     this.laboratorios = [{ autorizacion: '', fecha: '', descripcion: '' }];
-    this.autorizacion = { numero: '', fecha: '', fecha_vencimiento: '' };
+    this.autorizacion = { numero: '', fecha: '', fechaVencimiento: '' };
   }
 
   Guardar() {
@@ -171,6 +173,7 @@ export class AutorizacionComponent {
     const payload = {
       idPaciente: this.pacienteData?.id,
       idCicloPaciente: this.idCicloPaciente,
+      idUsuario: this.idUsuario,
       documento: this.pacienteData?.documento,
       autorizacion: this.autorizacion,
       medicamentos: medicamentosFinal,
