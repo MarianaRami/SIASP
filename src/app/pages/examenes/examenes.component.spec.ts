@@ -15,6 +15,17 @@ import { FormsModule } from '@angular/forms';
   ]
 })
 export class ExamenesComponent {
+guardarCambios() {
+throw new Error('Method not implemented.');
+}
+cambiarFecha() {
+throw new Error('Method not implemented.');
+}
+fechaActual: any;
+fechaSeleccionada: any;
+actualizarExamenesPorFecha() {
+throw new Error('Method not implemented.');
+}
   columnas = [
     { key: 'Nombre', label: 'Nombre' },
     { key: 'Cedula', label: 'Cedula' },

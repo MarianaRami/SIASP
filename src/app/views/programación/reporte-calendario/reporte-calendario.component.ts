@@ -56,6 +56,8 @@ export class ReporteCalendarioComponent {
     });
 
     */
+
+    console.log('pacientes cargados:', this.pacientes);
   }
 
   volver() {
@@ -70,8 +72,8 @@ export class ReporteCalendarioComponent {
 
     // Dos salas con distintas cantidades
     this.salas = [
-      { id: 1, posiciones: [...Array(80).keys()].map(i => `Silla ${i + 1}`).concat([...Array(10).keys()].map(i => `Camilla ${i + 1}`)) },
-      { id: 2, posiciones: [...Array(20).keys()].map(i => `Silla ${i + 1}`).concat([...Array(10).keys()].map(i => `Camilla ${i + 1}`)) },
+      { id: 1, posiciones: [...Array(24).keys()].map(i => `Silla ${i + 1}`).concat([...Array(2).keys()].map(i => `Camilla ${i + 1}`)) },
+      { id: 2, posiciones: [...Array(11).keys()].map(i => `Silla ${i + 1}`).concat([...Array(1).keys()].map(i => `Camilla ${i + 1}`)) },
     ];
 
     // Datos de ejemplo

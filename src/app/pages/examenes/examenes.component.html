@@ -1,22 +1,33 @@
 <div class="contenedor">
 
-    <div class="header-con-buscador">
-        <h2>Pacientes</h2>
-        <input
-            type="text"
-            placeholder="Buscar por cédula o nombre"
-            [(ngModel)]="filtro"
-            (input)="filtrarDatos()"
-        />
-    </div>
-  
+  <div class="header-con-buscador">
+    <h2>Pacientes</h2>
+    <input
+      type="text"
+      placeholder="Buscar por cédula o nombre"
+      [(ngModel)]="filtro"
+      (input)="filtrarDatos()"
+    />
+  </div>
+
+  <!-- 📅 Selector de fecha -->
+  <div class="selector-fecha">
+    <label for="fecha">Seleccionar fecha:</label>
+    <input
+      id="fecha"
+      type="date"
+      [(ngModel)]="fechaSeleccionada"
+      (change)="cambiarFecha()"
+    />
+  </div>
+
   <app-tabla-dinamica
-        [columnas]="columnas"
-        [datos]="datosFiltrados">
-    </app-tabla-dinamica>
+    [columnas]="columnas"
+    [datos]="datosFiltrados">
+  </app-tabla-dinamica>
 
   <div class="guardar-fijo">
-    <button>Guardar</button>
+    <button (click)="guardarCambios()">Guardar</button>
   </div>
 </div>
 

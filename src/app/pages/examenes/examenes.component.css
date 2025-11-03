@@ -26,6 +26,37 @@ h2 {
   width: 200px;
 }
 
+.filtros-fecha {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 16px;
+}
+
+.filtros-fecha input[type='date'] {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.selector-fecha {
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.selector-fecha label {
+  font-weight: 600;
+  color: #333;
+}
+
+.selector-fecha input[type="date"] {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
 
 .guardar-fijo {
   position: fixed;

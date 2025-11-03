@@ -38,6 +38,12 @@ export class AutorizacionComponent {
     { key: 'baja', label: 'Baja toxicidad' },
   ];
 
+  laboratoriosOptions = [
+    { value: 'laboratorio1', label: 'Laboratorio Clínico ABC' },
+    { value: 'laboratorio2', label: 'Laboratorio Central' },
+    { value: 'laboratorio3', label: 'Laboratorio Diagnóstico XYZ' },
+  ];
+
   tratamientoFinal = '';
 
   pacienteData: any;
@@ -59,8 +65,16 @@ export class AutorizacionComponent {
 
   autorizacion = {
     numero: '',
-    fecha: ''
+    fecha: '',
+    fecha_vencimiento: ''
   };
+
+  laboratoriosAut: any[] = [{ 
+    autorizacion: '', 
+    fecha: '', 
+    fecha_vencimiento: '', 
+    laboratorio: '' }
+  ];
 
   ngOnInit() {
     this.cargaDatos()
@@ -101,6 +115,20 @@ export class AutorizacionComponent {
     this.laboratorios.splice(index, 1);
   }
 
+  agregarLaboratorioAut() {
+    this.laboratoriosAut.push({
+      autorizacion: '',
+      fecha: '',
+      fecha_vencimiento: '',
+      laboratorio: ''
+    });
+  }
+
+  eliminarLaboratorioAut(index: number) {
+    this.laboratoriosAut.splice(index, 1);
+  }
+
+
   copiarAutorizaciones() {
     if (!this.datos.length) return;
 
@@ -130,7 +158,7 @@ export class AutorizacionComponent {
 
   Cancelar() {
     this.laboratorios = [{ autorizacion: '', fecha: '', descripcion: '' }];
-    this.autorizacion = { numero: '', fecha: '' };
+    this.autorizacion = { numero: '', fecha: '', fecha_vencimiento: '' };
   }
 
   Guardar() {

@@ -33,17 +33,20 @@
     </div>
   </div>
 
+  <h3>Autorización de Tratamiento</h3>
+
+  <div class="fila-individual">
+    <label>No. Autorización:</label>
+    <input type="number" [(ngModel)]="autorizacion.numero" />
+    <label>Fecha:</label>
+    <input type="date" [(ngModel)]="autorizacion.fecha" />
+    <label>Fecha vencimiento:</label>
+    <input type="date" [(ngModel)]="autorizacion.fecha_vencimiento" />
+  </div>
+
   <h3>Autorización de medicamentos</h3>
 
-
   <div class="layout-universal">
-    <div class="fila-individual">
-      <label>No. Autorización:</label>
-      <input type="number" [(ngModel)]="autorizacion.numero" />
-      <label>Fecha:</label>
-      <input type="date" [(ngModel)]="autorizacion.fecha" />
-    </div>
-
     <!-- Botón para copiar datos -->
     <div class="fila-individual">
       <button class="btn-accion" (click)="copiarAutorizaciones()">
@@ -58,6 +61,35 @@
       ></app-tabla-dinamica>
     </div>
   </div>
+
+  <h3>Autorización de laboratorios</h3>
+  <div class="laboratorios">
+    <div *ngFor="let lab of laboratoriosAut; let i = index" class="fila">
+      <label>No. Autorización:</label>
+      <input type="number" [(ngModel)]="lab.autorizacion" class="input-small" />
+
+      <label>Fecha:</label>
+      <input type="date" [(ngModel)]="lab.fecha" class="input-small" />
+
+      <label>Fecha vencimiento:</label>
+      <input type="date" [(ngModel)]="lab.fecha_vencimiento" class="input-small" />
+
+      <label>Laboratorio:</label>
+      <select [(ngModel)]="lab.laboratorio" class="input-small">
+        <option value="">Seleccione...</option>
+        <option *ngFor="let option of laboratoriosOptions" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+
+      <button class="btn-icono" (click)="eliminarLaboratorioAut(i)" class="btn-trash">
+        <img src="assets/images/eliminar.png" width="18" />
+      </button>
+    </div>
+
+    <button class="btn-agregar" (click)="agregarLaboratorioAut()">+</button>
+  </div>
+
 
 
   <h3>Autorización de procedimientos</h3>
