@@ -169,7 +169,7 @@ export class AutorizacionComponent {
 
     const payload = {
       idPaciente: this.pacienteData?.idPaciente,
-      idServinte: this.pacienteData?.idServinte,
+      idCicloPaciente: this.pacienteData?.idCicloPaciente,
       documento: this.pacienteData?.documento,
       autorizacion: this.autorizacion,
       medicamentos: medicamentosFinal,
