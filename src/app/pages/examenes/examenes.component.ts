@@ -113,6 +113,18 @@ export class ExamenesComponent {
 
     console.log('📤 Payload a enviar:', payload);
     alert('Cambios guardados correctamente ✅');
+
+    this.miServicio.asignarRevisionExamenesCiclo(payload).subscribe({
+      next: (res) => {
+        console.log('✅ Cambios guardados en el servidor:', res);
+        // Actualizar la copia original con los nuevos valores
+        cambios.forEach((p) => {
+          this.datosOriginales[p.cedula] = { ...p };
+        });
+      },
+      error: (err) =>
+        console.error('❌ Error al guardar los cambios en el servidor:', err)
+    });
   }
 }
 

@@ -86,5 +86,13 @@ export class GestionPacientesService {
     );
   }
 
+  asignarRevisionExamenesCiclo(dto: any): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/revision-examenes-ciclo`,
+      dto,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
 }
 
