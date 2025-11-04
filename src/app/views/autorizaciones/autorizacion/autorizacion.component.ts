@@ -177,10 +177,22 @@ export class AutorizacionComponent {
       documento: this.pacienteData?.documento,
       autorizacion: this.autorizacion,
       medicamentos: medicamentosFinal,
-      laboratorios: this.laboratorios,
+      procedimientos: this.laboratorios,
+      laboratorios: this.laboratoriosAut
     };
-
     console.log('Payload a guardar:', payload);
+
+    this.autorizacionesService.createAutorizacionNueva(payload).subscribe({
+      next: (resp) => {
+        console.log('Respuesta al guardar autorización:', resp);
+        alert('Autorización guardada exitosamente.');
+        this.router.navigate(['autorizaciones/busquedaAU']);
+      },
+      error: (err) => {
+        console.error('Error al guardar autorización:', err);
+        alert('Error al guardar la autorización. Por favor, intenta de nuevo.');
+      }
+    });
   }
 
 }

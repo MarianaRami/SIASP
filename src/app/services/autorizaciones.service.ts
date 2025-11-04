@@ -33,4 +33,11 @@ export class AutorizacionesService {
       }
     );
   }
+
+  createAutorizacionNueva(dto: any) {
+    return this.http.post<any>(
+      `${this.apiUrl}/autorizar-ciclo`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
 }
