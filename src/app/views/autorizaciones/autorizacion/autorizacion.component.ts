@@ -76,7 +76,7 @@ export class AutorizacionComponent {
     autorizacion: '', 
     fecha: '', 
     fechaVencimiento: '', 
-    laboratorio: '' }
+    descripcion: '' }
   ];
 
   ngOnInit() {
@@ -123,9 +123,16 @@ export class AutorizacionComponent {
       autorizacion: '',
       fecha: '',
       fechaVencimiento: '',
-      laboratorio: ''
+      descripcion: ''
     });
   }
+
+  /*
+  autorizacion: number;
+        fecha: Date;
+        fechaVencimiento?: Date | undefined;
+        descripcion?: string | undefined;
+  */
 
   eliminarLaboratorioAut(index: number) {
     this.laboratoriosAut.splice(index, 1);

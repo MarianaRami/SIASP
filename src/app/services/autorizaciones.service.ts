@@ -37,6 +37,7 @@ export class AutorizacionesService {
   createAutorizacionNueva(dto: any) {
     return this.http.post<any>(
       `${this.apiUrl}/autorizar-ciclo`,
+      dto,
       { headers: this.getAuthHeaders() }
     );
   }
