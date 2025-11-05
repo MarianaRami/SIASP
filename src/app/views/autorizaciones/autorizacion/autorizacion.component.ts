@@ -83,7 +83,7 @@ export class AutorizacionComponent {
     this.cargaDatos()
   }
 
-  cargaDatos(){
+  cargaDatos() {
     this.identificacion = this.route.snapshot.paramMap.get('cedula') || '';
 
     this.autorizacionesService.getPacienteByDocumento(this.identificacion)
@@ -100,8 +100,39 @@ export class AutorizacionComponent {
             this.eps = resp.paciente.eps;
             this.tratamientoFinal = `${resp.tratamientoNombre || 'N/A'} - ${resp.tratamientoTipo || 'N/A'}`;
             this.idUsuario = this.AuthService.getUser() || '';
-            // Cargar medicamentos en la tabla
+
+            // 🔹 Cargar medicamentos
             this.datos = resp.medicamentos || [];
+
+            // 🔹 Cargar laboratorios
+            if (resp.laboratorios && resp.laboratorios.length > 0) {
+              this.laboratoriosAut = resp.laboratorios.map((lab: any) => ({
+                autorizacion: lab.numeroAutorizacion || '',
+                fecha: lab.fechaAutorizacion || '',
+                fechaVencimiento: lab.fechaVencimiento || '',
+                descripcion: lab.nombreMedicamentoPresentacion || ''
+              }));
+            } else {
+              this.laboratoriosAut = [{ autorizacion: '', fecha: '', fechaVencimiento: '', descripcion: '' }];
+            }
+
+            // 🔹 Cargar procedimientos
+            if (resp.procedimientos && resp.procedimientos.length > 0) {
+              this.laboratorios = resp.procedimientos.map((proc: any) => ({
+                autorizacion: proc.numeroAutorizacion || '',
+                fecha: proc.fechaAutorizacion || '',
+                fechaVencimiento: proc.fechaVencimiento || '',
+                descripcion: proc.nombreMedicamentoPresentacion || ''
+              }));
+            } else {
+              this.laboratorios = [{ autorizacion: '', fecha: '', fechaVencimiento: '', descripcion: '' }];
+            }
+
+            // 🔹 Si hay autorización general
+            if (resp.autorizacion) {
+              this.autorizacion.numero = resp.autorizacion || '';
+              // Si hay fechas generales de autorización puedes asignarlas aquí
+            }
           }
         },
         error: (err) => {
@@ -126,13 +157,6 @@ export class AutorizacionComponent {
       descripcion: ''
     });
   }
-
-  /*
-  autorizacion: number;
-        fecha: Date;
-        fechaVencimiento?: Date | undefined;
-        descripcion?: string | undefined;
-  */
 
   eliminarLaboratorioAut(index: number) {
     this.laboratoriosAut.splice(index, 1);
@@ -172,10 +196,24 @@ export class AutorizacionComponent {
   }
 
   Guardar() {
-    let medicamentosFinal = [];
-      // Cada fila ya trae sus propios No. Autorización y Fecha desde la tabla
-      medicamentosFinal = this.datos;
+    // Validación de medicamentos antes de guardar
+    const medicamentosInvalidos = this.datos.filter(
+      (m) => m.cantidadPorCiclo !== m.unidad
+    );
 
+    if (medicamentosInvalidos.length > 0) {
+      const listaErrores = medicamentosInvalidos
+        .map((m) => `- ${m.nombreMedicamentoPresentacion}`)
+        .join('\n');
+
+      alert(
+        `⚠️ Las siguientes filas tienen cantidades diferentes entre la cantidad por ciclo y la cantidad solicitada:\n\n${listaErrores}\n\nPor favor revisa antes de guardar.`
+      );
+      return; // Detiene el guardado
+    }
+
+    // Si pasa la validación, continúa normalmente
+    let medicamentosFinal = this.datos;
 
     const payload = {
       idPaciente: this.pacienteData?.id,
@@ -185,20 +223,21 @@ export class AutorizacionComponent {
       autorizacion: this.autorizacion,
       medicamentos: medicamentosFinal,
       procedimientos: this.laboratorios,
-      laboratorios: this.laboratoriosAut
+      laboratorios: this.laboratoriosAut,
     };
-    console.log('Payload a guardar:', payload);
+
+    console.log('✅ Payload a guardar:', payload);
 
     this.autorizacionesService.createAutorizacionNueva(payload).subscribe({
       next: (resp) => {
         console.log('Respuesta al guardar autorización:', resp);
-        alert('Autorización guardada exitosamente.');
+        alert('✅ Autorización guardada exitosamente.');
         this.router.navigate(['autorizaciones/busquedaAU']);
       },
       error: (err) => {
-        console.error('Error al guardar autorización:', err);
+        console.error('❌ Error al guardar autorización:', err);
         alert('Error al guardar la autorización. Por favor, intenta de nuevo.');
-      }
+      },
     });
   }
 
