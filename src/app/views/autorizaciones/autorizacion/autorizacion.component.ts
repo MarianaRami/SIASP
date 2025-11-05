@@ -110,7 +110,7 @@ export class AutorizacionComponent {
                 autorizacion: lab.numeroAutorizacion || '',
                 fecha: lab.fechaAutorizacion || '',
                 fechaVencimiento: lab.fechaVencimiento || '',
-                descripcion: lab.nombreMedicamentoPresentacion || ''
+                descripcion: lab.descripcion || ''
               }));
             } else {
               this.laboratoriosAut = [{ autorizacion: '', fecha: '', fechaVencimiento: '', descripcion: '' }];
