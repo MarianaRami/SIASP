@@ -122,7 +122,7 @@ export class AutorizacionComponent {
                 autorizacion: proc.numeroAutorizacion || '',
                 fecha: proc.fechaAutorizacion || '',
                 fechaVencimiento: proc.fechaVencimiento || '',
-                descripcion: proc.nombreMedicamentoPresentacion || ''
+                descripcion: proc.descripcion || ''
               }));
             } else {
               this.laboratorios = [{ autorizacion: '', fecha: '', fechaVencimiento: '', descripcion: '' }];
