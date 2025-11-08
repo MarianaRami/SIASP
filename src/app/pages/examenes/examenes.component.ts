@@ -5,15 +5,30 @@ import { FormsModule } from '@angular/forms';
 import { GestionPacientesService } from '../../services/gestion-pacientes.service';
 import { AuthService } from '../../services/auth.service';
 
+interface ExamenesPendientes {
+  success: boolean;
+  autorizaciones: {
+    id: string;
+    cantidadPorCiclo: number;
+    fechaAutorizacion: string;
+    fechaVencimiento: string;
+    numeroAutorizacion: string;
+    tipoEvento: string;
+    descripcion: string;
+  }[];
+}
+
 interface ExamenPaciente {
   nombre: string;
   cedula: string;
   nombreProtocolo: string;
   idCicloPaciente: string;
-  examenesPendientes: [];
+  examenesPendientes: ExamenesPendientes;
   estado: string;
   observación: string;
+  examenesPendientesTexto?: string; 
 }
+
 
 @Component({
   selector: 'app-examenes',
@@ -31,7 +46,7 @@ export class ExamenesComponent {
   columnas = [
     { key: 'nombre', label: 'Nombre' },
     { key: 'cedula', label: 'Cédula' },
-    { key: 'examenesPendientes', label: 'Examenes' },
+    { key: 'examenesPendientesTexto', label: 'Exámenes' },
     {
       key: 'estado',
       label: 'Estado',
@@ -55,24 +70,37 @@ export class ExamenesComponent {
   }
 
   cargarExamenes(fecha: Date) {
-    // ✅ Convertir fecha a AAAA-MM-DD
-    const fechaFormateada = fecha.toISOString().split('T')[0];
-
-    console.log('📅 Fecha enviada al servicio:', fechaFormateada);
-
-    // El servicio espera un objeto Date, por lo que pasamos `fecha` en lugar de la cadena formateada
     this.miServicio.getlistadoExamenesPaciente(fecha).subscribe({
-      next: (res: ExamenPaciente[]) => {
-        console.log('✅ Listado de exámenes del paciente obtenido:', res);
-        this.datos = res;
+      next: (res: { pacientesRevision: ExamenPaciente[] }) => {
+
+        console.log('✅ Respuesta completa del back:', res);
+
+        const lista = res.pacientesRevision || [];
+
+        console.log('📌 Lista de pacientes:', lista);
+
+        this.datos = lista.map((p) => {
+          const autorizaciones = p.examenesPendientes?.autorizaciones || [];
+
+          const texto = autorizaciones
+            .map(a => `${a.tipoEvento} - ${a.descripcion}`)
+            .join('\n');
+
+          return {
+            ...p,
+            examenesPendientesTexto: texto
+          };
+        });
+
         this.datosFiltrados = [...this.datos];
 
-        // Guardamos copia original para detectar cambios
+        // ✅ Guardamos copia original
         this.datosOriginales = {};
         this.datos.forEach((d) => {
           this.datosOriginales[d.cedula] = { ...d };
         });
       },
+
       error: (err) =>
         console.error('❌ Error al obtener listado de exámenes del paciente:', err)
     });
