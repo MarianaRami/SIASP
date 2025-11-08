@@ -55,8 +55,15 @@ export class ExamenesComponent {
   }
 
   cargarExamenes(fecha: Date) {
+    // ✅ Convertir fecha a AAAA-MM-DD
+    const fechaFormateada = fecha.toISOString().split('T')[0];
+
+    console.log('📅 Fecha enviada al servicio:', fechaFormateada);
+
+    // El servicio espera un objeto Date, por lo que pasamos `fecha` en lugar de la cadena formateada
     this.miServicio.getlistadoExamenesPaciente(fecha).subscribe({
       next: (res: ExamenPaciente[]) => {
+        console.log('✅ Listado de exámenes del paciente obtenido:', res);
         this.datos = res;
         this.datosFiltrados = [...this.datos];
 
