@@ -40,7 +40,7 @@ export class PopupMedicamentosObvComponent {
 
           if (resp && resp.paciente) {
             // Cargar medicamentos en la tabla
-            this.medicamentos = resp.autorizaciones || [];
+            this.medicamentos = resp.medicamentos || [];
           }
         },
         error: (err) => {
