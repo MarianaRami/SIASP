@@ -54,7 +54,7 @@ export class ConfirmacionComponent {
   }
 
   volver() {
-    this.router.navigate(['programacion/menuConfirmacion'])
+    this.router.navigate(['programacion'])
   }
 
 }

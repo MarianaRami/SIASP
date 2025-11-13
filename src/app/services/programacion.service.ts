@@ -88,6 +88,13 @@ export class ProgramacionService {
     );
   }
 
+  getasignacionSillaPaciente(fecha: string): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}/asignacion-sillas/${fecha}`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
   // ------------------- PROGRAMACION (NOTIFICACIÓN AL PACIENTE) -------------------
   notificacionPaciente(dto: any): Observable<any> {
     return this.http.post<any>(
@@ -96,5 +103,6 @@ export class ProgramacionService {
       { headers: this.getAuthHeaders() }
     );
   }
+  
 
 }

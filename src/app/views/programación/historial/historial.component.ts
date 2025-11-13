@@ -10,6 +10,7 @@ import { AuthService } from '../../../services/auth.service';
 import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
 import { PacienteResponseDto, CreateProtocoloPacienteCompletoDto, CicloDto } from '../../../models/paciente';
 import { ProgramacionService } from '../../../services/programacion.service';
+import { PdfService } from '../../../services/pdf.service';
 
 @Component({
   selector: 'app-historial',
@@ -26,7 +27,8 @@ export class HistorialComponent {
     private route: ActivatedRoute,
     private AuthService: AuthService,
     private miServicio: GestionPacientesService,
-    private programacionServicio: ProgramacionService
+    private programacionServicio: ProgramacionService,
+    private pdfService: PdfService
   ) {}
   pacienteData!: PacienteResponseDto;
 
@@ -384,4 +386,7 @@ export class HistorialComponent {
     this.cerrarPopupM();
   }
 
+  descargarPDF() {
+    this.pdfService.generarPDF(this.columnas, this.datos, 'Historial del paciente');
+  }
 }

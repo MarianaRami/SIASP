@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ProgramacionService } from '../../../services/programacion.service';
 
 interface PacienteTurno {
   sala: number;
@@ -26,16 +27,18 @@ export class ReporteCalendarioComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private miServicio: ProgramacionService,
   ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.fechaSeleccionada = params.get('date') || '';
-      this.generarDatosDummy();
+      //this.generarDatosDummy();
     });
 
-    /*
-    this.miServicio.getReporteCalendario(this.fechaSeleccionada).subscribe(resp => {
+    
+    this.miServicio.getasignacionSillaPaciente(this.fechaSeleccionada).subscribe(resp => {
+      console.log('respuesta asignacion sillas:', resp);
       this.salas = resp.salas;
       this.pacientes = [];
 
@@ -54,8 +57,6 @@ export class ReporteCalendarioComponent {
         }
       }
     });
-
-    */
 
     console.log('pacientes cargados:', this.pacientes);
   }

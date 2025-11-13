@@ -13,7 +13,7 @@ export class EnfermeriaComponent {
     { key: 'Cedula', label: 'Cedula' },
     { key: 'Teléfono', label: 'Teléfono' },
     { key: 'Estado', label: 'Estado', tipo: 'select', opciones: ['Asistió', 'Suspendida', 'Reprogramar'] },
-    { key: 'Observaciones', label: 'Observaciones' }
+    { key: 'Observaciones', label: 'Observaciones', tipo: 'text' }
   ];
   datos = [
     { Nombre: 'Ana Ruiz', Cedula: '12345678', Teléfono: '3216549870', Estado: '', Observaciones: '' },
