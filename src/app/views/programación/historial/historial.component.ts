@@ -120,7 +120,7 @@ export class HistorialComponent {
             this.tipoTrat = this.tipoTratamientoOptions.find(t => t.key === this.pacienteData.tratamientoTipo)?.label || this.pacienteData.tratamientoTipo;
           
             //  Verificar si hay un ciclo activo
-            this.tieneCicloActivo = this.ciclos.some(ciclo => ciclo.estado === 'activo');
+            this.tieneCicloActivo = this.ciclos.some(ciclo => ciclo.estado === 'activo' || ciclo.estado === 'revisado_examenes' || ciclo.estado === 'notificado');
 
             // lógica para determinar la visibilidad de los botones programar y editar
             const primerEventoAplicacion = this.pacienteData.protocoloActual?.eventos?.find((e: any) => e.tipo === 'aplicacion');
