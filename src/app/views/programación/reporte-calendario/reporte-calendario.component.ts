@@ -28,74 +28,69 @@ export class ReporteCalendarioComponent {
     private route: ActivatedRoute,
     private router: Router,
     private miServicio: ProgramacionService,
-  ) {}
+  ) { this.generarHoras(); }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.fechaSeleccionada = params.get('date') || '';
-      //this.generarDatosDummy();
     });
 
-    
     this.miServicio.getasignacionSillaPaciente(this.fechaSeleccionada).subscribe(resp => {
       console.log('respuesta asignacion sillas:', resp);
-      this.salas = resp.salas;
+
+      const disponibilidad = resp.disponibilidadSalasObj || {};
+
+      this.salas = [];
       this.pacientes = [];
 
-      // Aplanar estructura para que el componente actual la use
-      for (let sala of resp.salas) {
-        for (let pos of sala.posiciones) {
-          if (pos.paciente) {
+      // Convertir las claves de salas en un arreglo
+      for (let salaId of Object.keys(disponibilidad)) {
+
+        const salaObj = disponibilidad[salaId];
+        const posiciones = Object.keys(salaObj);
+
+        // Guardar sala para la tabla
+        this.salas.push({
+          id: Number(salaId),
+          posiciones: posiciones
+        });
+
+        // Procesar cada posición
+        for (let pos of posiciones) {
+          const eventos = salaObj[pos].eventosSilla || [];
+
+          for (let evento of eventos) {
+
+            // Convertir horaInicio → HH:mm
+            const horaInicioHM = evento.horaInicio.substring(0, 5);
+
+            // convertir duración en minutos a duración en horas (redondear hacia arriba)
+            const duracionHoras = Math.ceil(evento.duracion / 60);
+
             this.pacientes.push({
-              sala: sala.id,
-              posicion: pos.nombre,
-              horaInicio: pos.paciente.horaInicio,
-              duracion: pos.paciente.duracion,
-              nombre: pos.paciente.nombre
+              sala: Number(salaId),
+              posicion: pos,
+              horaInicio: horaInicioHM,
+              duracion: duracionHoras,
+              nombre: evento.nombre
             });
           }
         }
       }
-    });
 
-    console.log('pacientes cargados:', this.pacientes);
+      console.log("Pacientes transformados:", this.pacientes);
+      console.log("Salas transformadas:", this.salas);
+    });
   }
 
   volver() {
     this.router.navigate(['programacion/calendario']);
   }
 
-  generarDatosDummy() {
-    // Horas desde 7:00 hasta 19:00
+  generarHoras() {
+    this.horas = [];
     for (let h = 7; h <= 19; h++) {
       this.horas.push(`${h}:00`);
-    }
-
-    // Dos salas con distintas cantidades
-    this.salas = [
-      { id: 1, posiciones: [...Array(24).keys()].map(i => `Silla ${i + 1}`).concat([...Array(2).keys()].map(i => `Camilla ${i + 1}`)) },
-      { id: 2, posiciones: [...Array(11).keys()].map(i => `Silla ${i + 1}`).concat([...Array(1).keys()].map(i => `Camilla ${i + 1}`)) },
-    ];
-
-    // Datos de ejemplo
-    const nombres = ['María Pérez', 'Juan Gómez', 'Ana Torres', 'Carlos Ruiz', 'Laura Díaz', 'José Martínez', 'Elena Castro', 'Pedro López', 'Santiago Hernández', 'Paula Marín'];
-    const horasPosibles = ['7:00', '8:00', '9:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00'];
-
-    for (let sala of this.salas) {
-      for (let pos of sala.posiciones) {
-        if (Math.random() > 0.92) { // 8% probabilidad de estar ocupada
-          const duracion = Math.floor(Math.random() * 5) + 1; // 1 a 5 horas
-          const horaInicio = horasPosibles[Math.floor(Math.random() * horasPosibles.length)];
-
-          this.pacientes.push({
-            sala: sala.id,
-            posicion: pos,
-            horaInicio,
-            duracion,
-            nombre: nombres[Math.floor(Math.random() * nombres.length)]
-          });
-        }
-      }
     }
   }
 

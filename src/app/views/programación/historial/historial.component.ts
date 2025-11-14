@@ -204,7 +204,7 @@ export class HistorialComponent {
 
   notificarPaciente() {
     const usuario = this.AuthService.getUser();
-    const cicloActivo = this.ciclos?.find(ciclo => ciclo.estado === 'activo');
+    const cicloActivo = this.ciclos?.find(ciclo => ciclo.estado === 'notificado');
 
     const dto = {
       idCiclo: cicloActivo?.id,
@@ -387,6 +387,15 @@ export class HistorialComponent {
   }
 
   descargarPDF() {
-    this.pdfService.generarPDF(this.columnas, this.datos, 'Historial del paciente');
+    const pacienteInfo = {
+      nombre: this.paciente,
+      identificacion: this.identificacion,
+      protocolo: this.protocolo,
+      medico: this.medico,
+      telefono1: this.telefono1,
+      telefono2: this.telefono2,
+    };
+
+    this.pdfService.generarPDF(this.columnas, this.datos, 'Historial del paciente', pacienteInfo);
   }
 }

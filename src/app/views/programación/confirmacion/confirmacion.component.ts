@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla-dinamica.component';
 import { Router } from '@angular/router';
 import { ProgramacionService } from '../../../services/programacion.service';
-
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-confirmacion',
@@ -16,45 +16,108 @@ import { ProgramacionService } from '../../../services/programacion.service';
     ]
 })
 export class ConfirmacionComponent {
+
   constructor(
     private router: Router,
-    private programacionServicio: ProgramacionService
+    private programacionServicio: ProgramacionService,
+    private authService: AuthService
   ) {}
 
   columnas = [
     { key: 'nombre', label: 'Nombre' },
     { key: 'cedula', label: 'Cedula' },
     { key: 'telefonos', label: 'Telefono' },
-    { key: 'Estado', label: 'Estado', tipo: 'select', opciones: ['Confirmado', 'Reprogramar'] },
-    { key: 'Observaciones', label: 'Observaciones', tipo: 'text' },
+    { key: 'estado', label: 'Estado', tipo: 'select', opciones: ['Confirmado', 'Reprogramar'] },
+    { key: 'observacion', label: 'Observaciones', tipo: 'text' },
   ];
-  datos = [];
+
+  datos: any[] = [];
+  datosFiltrados: any[] = [];
+  datosOriginales: { [cedula: string]: any } = {};
+
+  filtro: string = '';
+  fechaActual = new Date();
 
   ngOnInit() {
     this.programacionServicio.getlistadoPacientesConfirmacion().subscribe({
       next: (res) => {
         console.log('✅ Pacientes para confirmación:', res);
-        this.datos = res.pacientesConf;
+
+        this.datos = res.pacientesConf || [];
         this.datosFiltrados = [...this.datos];
+
+        // Guardar copia original
+        this.datosOriginales = {};
+        this.datos.forEach(d => {
+          this.datosOriginales[d.cedula] = { ...d };
+        });
       },
       error: (err) => console.error('❌ Error al obtener pacientes para confirmación:', err)
     });
   }
 
-  filtro: string = '';
-  datosFiltrados = [...this.datos];
-
+  // -------------------------------
+  // 🔍 FILTRO ARREGLADO
+  // -------------------------------
   filtrarDatos() {
-    /*
     const f = this.filtro.toLowerCase().trim();
     this.datosFiltrados = this.datos.filter(d =>
-      d.Cedula.includes(f) || d.Nombre.toLowerCase().includes(f)
+         d.cedula?.toLowerCase().includes(f)
+      || d.nombre?.toLowerCase().includes(f)
     );
-    */
+  }
+
+  // -------------------------------
+  // 💾 GUARDAR CAMBIOS
+  // -------------------------------
+  guardar() {
+    const usuario = this.authService.getUser();
+
+    const cambios = this.datos.filter((pac) => {
+      const original = this.datosOriginales[pac.cedula];
+      return (
+        original &&
+        (original.estado !== pac.estado ||
+         original.observacion !== pac.observacion)
+      );
+    });
+
+    if (cambios.length === 0) {
+      alert('No hay cambios para guardar');
+      return;
+    }
+
+    // Crear payload según lo que necesita el back
+    const payload = cambios.map((p) => ({
+      idCiclo: this.datosOriginales[p.cedula]?.idCicloPaciente || null,
+      idEvento: this.datosOriginales[p.cedula]?.idEventoPaciente || null,
+      fecha: this.fechaActual,
+      usuarioModificador: usuario,
+      estado: p.estado,
+      observacion: p.observacion
+    }));
+
+    console.log("📤 Enviando payload:", payload);
+
+    this.programacionServicio.confirmacionPaciente(payload).subscribe({
+      next: (res) => {
+        alert("Cambios guardados correctamente");
+        console.log("✅ Respuesta:", res);
+
+        // Actualizar copia original
+        cambios.forEach(c => {
+          this.datosOriginales[c.cedula] = { ...c };
+        });
+      },
+      error: (err) => {
+        console.error("❌ Error al guardar confirmación:", err);
+        alert("Error al guardar");
+      }
+    });
   }
 
   volver() {
-    this.router.navigate(['programacion'])
+    this.router.navigate(['programacion']);
   }
-
 }
+
