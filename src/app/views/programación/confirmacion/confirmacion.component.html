@@ -1,26 +1,28 @@
 <div class="contenedor">
-    <div class="header-con-buscador">
-        <div class="header_izq">
-            <button class="btn-volver" (click)="volver()" >
-                <img src="assets/images/volver.png" width="18" style="cursor:pointer;" />
-            </button>
-            <h2>Confirmación</h2>
-        </div>
-        <input
-            type="text"
-            placeholder="Buscar por cédula o nombre"
-            [(ngModel)]="filtro"
-            (input)="filtrarDatos()"
-        />
-    </div>
-  
+  <div class="header-con-buscador">
+      <div class="header_izq">
+          <button class="btn-volver" (click)="volver()">
+              <img src="assets/images/volver.png" width="18" style="cursor:pointer;" />
+          </button>
+          <h2>Confirmación</h2>
+      </div>
+
+      <input
+          type="text"
+          placeholder="Buscar por cédula o nombre"
+          [(ngModel)]="filtro"
+          (input)="filtrarDatos()"
+      />
+  </div>
+
   <app-tabla-dinamica
         [columnas]="columnas"
         [datos]="datosFiltrados">
-    </app-tabla-dinamica>
+  </app-tabla-dinamica>
 
   <div class="guardar-fijo">
-    <button (click)="guardar()">Guardar</button>
+      <button (click)="guardar()">Guardar</button>
   </div>
 </div>
+
 
