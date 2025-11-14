@@ -107,7 +107,7 @@ export class ProgramacionService {
   // ------------------- PROGRAMACION (CONFIRMACIÓN AL PACIENTE) -------------------
   confirmacionPaciente(dto: any): Observable<any> {
     return this.http.post<any>(
-      `${this.apiUrl}/confirmacion-aplicacion`,
+      `${this.apiUrl}/pacientes/confirmacion-evento`,
       dto,
       { headers: this.getAuthHeaders() }
     );
