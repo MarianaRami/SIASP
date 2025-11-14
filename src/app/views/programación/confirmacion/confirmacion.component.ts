@@ -88,14 +88,14 @@ export class ConfirmacionComponent {
     }
 
     // Crear payload según lo que necesita el back
-    const payload = cambios.map((p) => ({
+    const payload = {confirmaciones: cambios.map((p) => ({
       idCiclo: this.datosOriginales[p.cedula]?.idCicloPaciente || null,
       idEvento: this.datosOriginales[p.cedula]?.idEventoPaciente || null,
       fecha: this.fechaActual,
-      usuarioModificador: usuario,
-      estado: p.estado,
+      usuarioModificacion: usuario,
+      estado: p.estado === 'Confirmado' ? 'confirmada' : 'reprogramacion',
       observacion: p.observacion
-    }));
+    }))};
 
     console.log("📤 Enviando payload:", payload);
 

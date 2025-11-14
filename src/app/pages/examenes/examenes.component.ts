@@ -51,7 +51,7 @@ export class ExamenesComponent {
       key: 'estado',
       label: 'Estado',
       tipo: 'select',
-      opciones: ['Confirmado', 'Reprogramar']
+      opciones: ['Aprobado', 'Reprogramar']
     },
     { key: 'observación', label: 'Observación', tipo: 'text' }
   ];
@@ -133,15 +133,17 @@ export class ExamenesComponent {
       );
     });
 
-    const payload = cambios.map((p) => ({
-      idCiclo: this.datosOriginales[p.cedula]?.idCicloPaciente || null,
-      fecha: this.fechaActual,
-      usuarioModificacion: usuario,
-      estado: p.estado,
-      observacion: p.observación
-    }));
+    const payload = {
+          revisiones: cambios.map((p) => ({
+            idCiclo: this.datosOriginales[p.cedula]?.idCicloPaciente || null,
+            fecha: this.fechaActual,
+            usuarioModificacion: usuario,
+            estado: p.estado === 'Aprobado' ? 'revisado_examenes' : 'reprogramacion',
+            observacion: p.observación
+          }))
+        };
 
-    if (payload.length === 0) {
+    if (payload.revisiones.length === 0) {
       alert('No hay cambios para guardar.');
       return;
     }
@@ -152,9 +154,15 @@ export class ExamenesComponent {
       next: (res) => {
         console.log('✅ Cambios guardados en el servidor:', res);
         // Actualizar la copia original con los nuevos valores
-        cambios.forEach((p) => {
-          this.datosOriginales[p.cedula] = { ...p };
-        });
+        /*const payload = {
+          revisiones: cambios.map((p) => ({
+            idCiclo: this.datosOriginales[p.cedula]?.idCicloPaciente || null,
+            fecha: this.fechaActual,
+            usuarioModificacion: usuario,
+            estado: p.estado,
+            observacion: p.observación
+          }))
+        };*/
         alert('Cambios guardados correctamente ✅');
       },
       error: (err) =>{
