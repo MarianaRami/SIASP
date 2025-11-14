@@ -204,7 +204,7 @@ export class HistorialComponent {
 
   notificarPaciente() {
     const usuario = this.AuthService.getUser();
-    const cicloActivo = this.ciclos?.find(ciclo => ciclo.estado === 'notificado');
+    const cicloActivo = this.ciclos?.find(ciclo => ciclo.estado === 'activo');
 
     const dto = {
       idCiclo: cicloActivo?.id,
