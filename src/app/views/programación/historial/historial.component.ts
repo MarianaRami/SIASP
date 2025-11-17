@@ -396,6 +396,6 @@ export class HistorialComponent {
       telefono2: this.telefono2,
     };
 
-    this.pdfService.generarPDF(this.columnas, this.datos, 'Historial del paciente', pacienteInfo);
+    this.pdfService.generarPDF(this.columnas, this.datos, 'Progrmación del paciente', pacienteInfo);
   }
 }

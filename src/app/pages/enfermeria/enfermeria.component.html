@@ -1,12 +1,22 @@
 <div class="contenedor-enfermeria">
-    <h2>Programación del día</h2>
+
+    <div class="header-con-buscador">
+        <h2>Programación del día</h2>
+
+        <input
+          type="text"
+          placeholder="Buscar por nombre o cédula"
+          [(ngModel)]="filtro"
+          (input)="filtrarDatos()"
+        />
+    </div>
 
     <app-tabla-dinamica
         [columnas]="columnas"
-        [datos]="datos">
+        [datos]="datosFiltrados">
     </app-tabla-dinamica>
     
     <div class="guardar-fijo">
-        <button>Guardar</button>
+        <button (click)="guardar()">Guardar</button>
     </div>
 </div>

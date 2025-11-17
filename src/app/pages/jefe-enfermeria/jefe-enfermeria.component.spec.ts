@@ -1,21 +1,30 @@
-import { Component } from '@angular/core';
-import { TablaDinamicaComponent } from '../../components/tabla-dinamica/tabla-dinamica.component.spec';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { JefeEnfermeriaComponent } from './jefe-enfermeria.component';
+import { TablaDinamicaComponent } from '../../components/tabla-dinamica/tabla-dinamica.component';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
-@Component({
-  selector: 'app-jefe-enfermeria',
-  templateUrl: './jefe-enfermeria.component.html',
-  styleUrl: './jefe-enfermeria.component.css',
-  imports: [TablaDinamicaComponent]
-})
-export class JefeEnfermeriaComponent {
-  columnas = [
-    { key: 'Nombre', label: 'Nombre' },
-    { key: 'Cedula', label: 'Cedula' },
-    { key: 'Teléfono', label: 'Teléfono' },
-    { key: 'Estado', label: 'Estado', tipo: 'select', opciones: ['Reprogramación', 'Cancelar protocolo'] }
-  ];
-  datos = [
-    { Nombre: 'Ana Ruiz', Cedula: '12345678', Teléfono: '3216549870', Estado: '' },
-    { Nombre: 'Carlos Soto', Cedula: '87654321', Teléfono: '3123456789', Estado: ''}
-  ];
-}
+describe('JefeEnfermeriaComponent', () => {
+  let component: JefeEnfermeriaComponent;
+  let fixture: ComponentFixture<JefeEnfermeriaComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [
+        JefeEnfermeriaComponent,   // 👉 standalone component
+        TablaDinamicaComponent,    // 👉 tabla dinámica
+        FormsModule,               // 👉 para ngModel
+        CommonModule               // 👉 utilidades comunes
+      ]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(JefeEnfermeriaComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges(); // 🔥 necesario para que corra el ciclo de Angular
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

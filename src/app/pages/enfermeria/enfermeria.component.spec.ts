@@ -1,22 +1,29 @@
-import { Component } from '@angular/core';
-import { TablaDinamicaComponent } from '../../components/tabla-dinamica/tabla-dinamica.component.spec';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { EnfermeriaComponent } from './enfermeria.component';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { TablaDinamicaComponent } from '../../components/tabla-dinamica/tabla-dinamica.component';
 
-@Component({
-  selector: 'app-enfermeria',
-  templateUrl: './enfermeria.component.html',
-  styleUrls: ['./enfermeria.component.css'],
-  imports: [TablaDinamicaComponent]
-})
-export class EnfermeriaComponent {
-  columnas = [
-    { key: 'Nombre', label: 'Nombre' },
-    { key: 'Cedula', label: 'Cedula' },
-    { key: 'Teléfono', label: 'Teléfono' },
-    { key: 'Estado', label: 'Estado', tipo: 'select', opciones: ['Asistió', 'Suspendida', 'Reprogramar'] },
-    { key: 'Observaciones', label: 'Observaciones' }
-  ];
-  datos = [
-    { Nombre: 'Ana Ruiz', Cedula: '12345678', Teléfono: '3216549870', Estado: '', Observaciones: '' },
-    { Nombre: 'Carlos Soto', Cedula: '87654321', Teléfono: '3123456789', Estado: '', Observaciones: '' }
-  ];
-}
+describe('EnfermeriaComponent', () => {
+  let component: EnfermeriaComponent;
+  let fixture: ComponentFixture<EnfermeriaComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [
+        EnfermeriaComponent,   // tu componente standalone
+        FormsModule,           // necesario para [(ngModel)]
+        CommonModule,          // necesario para *ngFor, *ngIf, etc.
+        TablaDinamicaComponent // si el componente usa la tabla
+      ]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(EnfermeriaComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

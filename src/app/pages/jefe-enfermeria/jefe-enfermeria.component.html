@@ -1,12 +1,22 @@
 <div class="contenedor-jefe-enfermeria">
-    <h2>Pacientes</h2>
+
+    <div class="header-con-buscador">
+        <h2>Pacientes</h2>
+
+        <input
+          type="text"
+          placeholder="Buscar por nombre o cédula"
+          [(ngModel)]="filtro"
+          (input)="filtrarDatos()"
+        />
+    </div>
 
     <app-tabla-dinamica
         [columnas]="columnas"
-        [datos]="datos">
+        [datos]="datosFiltrados">
     </app-tabla-dinamica>
 
     <div class="boton-derecha">
-        <button>Guardar</button>
+        <button (click)="guardar()">Guardar</button>
     </div>
 </div>
