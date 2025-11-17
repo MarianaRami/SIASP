@@ -100,7 +100,7 @@ export class AutorizacionComponent {
             this.eps = resp.paciente.eps;
             this.tratamientoFinal = `${resp.tratamientoNombre || 'N/A'} - ${resp.tratamientoTipo || 'N/A'}`;
             this.idUsuario = this.AuthService.getUser() || '';
-
+            
             // 🔹 Cargar medicamentos
             this.datos = resp.medicamentos || [];
 
@@ -131,6 +131,8 @@ export class AutorizacionComponent {
             // 🔹 Si hay autorización general
             if (resp.autorizacion) {
               this.autorizacion.numero = resp.autorizacion || '';
+              this.autorizacion.fecha = resp.fechaAutorizacion;
+              this.autorizacion.fechaVencimiento = resp.fechaVencimientoAutorizacion;
               // Si hay fechas generales de autorización puedes asignarlas aquí
             }
           }
