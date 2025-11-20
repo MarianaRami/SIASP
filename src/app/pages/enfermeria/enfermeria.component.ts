@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { GestionPacientesService } from '../../services/gestion-pacientes.service';
 
+
 @Component({
   selector: 'app-enfermeria',
   standalone: true,
@@ -12,6 +13,7 @@ import { GestionPacientesService } from '../../services/gestion-pacientes.servic
   styleUrls: ['./enfermeria.component.css'],
   imports: [TablaDinamicaComponent, CommonModule, FormsModule]
 })
+
 export class EnfermeriaComponent {
 
   constructor(
@@ -23,7 +25,7 @@ export class EnfermeriaComponent {
     { key: 'nombre', label: 'Nombre' },
     { key: 'cedula', label: 'Cedula' },
     { key: 'telefonos', label: 'Teléfono' },
-    { key: 'estado', label: 'Estado', tipo: 'select', opciones: ['Asistió', 'Suspendida', 'Reprogramar', 'Inasistencia'] },
+    { key: 'estado', label: 'Estado', tipo: 'select', opciones: ['Aplicada', 'Suspendida', 'Reprogramar', 'Inasistencia'] },
     { key: 'observacion', label: 'Observaciones', tipo: 'text' }
   ];
 
@@ -98,10 +100,14 @@ export class EnfermeriaComponent {
       return;
     }
 
+
+    
+
+    // Crear el payload
     const payload = {
       asistencias: cambios.map((p) => ({
         cedula: p.cedula,
-        estado: p.estado,
+        estado: p.estado === 'Aplicada' ? 'aplicada' :  'reprogramacion',
         observacion: p.observacion,
         fecha: this.fechaActual,
         usuarioModificacion: usuario
@@ -109,8 +115,8 @@ export class EnfermeriaComponent {
     };
 
     console.log("📤 Enviando payload enfermería:", payload);
-/*
-    this.programacionService.registrarAsistencias(payload).subscribe({
+
+    /*this.programacionService.registrarAsistencias(payload).subscribe({
       next: (res) => {
         alert("Cambios guardados correctamente");
         console.log("Respuesta backend:", res);
@@ -124,7 +130,7 @@ export class EnfermeriaComponent {
         console.error("❌ Error al guardar:", err);
         alert("Error al guardar la información");
       }
-    });
-    */
+    });*/
+    
   }
 }
