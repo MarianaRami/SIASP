@@ -95,9 +95,9 @@ export class GestionPacientesService {
   }
 
   // ------------------- ENFERMERIA -------------------
-  getlistadoEnfermeriaPaciente(fecha: Date): Observable<any> {
+  getlistadoEnfermeriaPaciente(fecha: string): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}/pacientes-aplicacion/${fecha.toISOString()}`,
+      `${this.apiUrl}/pacientes-aplicacion/${fecha}`,
       { headers: this.getAuthHeaders() }
     );
   }
