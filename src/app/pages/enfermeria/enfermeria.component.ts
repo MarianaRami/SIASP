@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { TablaDinamicaComponent } from '../../components/tabla-dinamica/tabla-dinamica.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ProgramacionService } from '../../services/programacion.service';
 import { AuthService } from '../../services/auth.service';
+import { GestionPacientesService } from '../../services/gestion-pacientes.service';
 
 @Component({
   selector: 'app-enfermeria',
@@ -15,7 +15,7 @@ import { AuthService } from '../../services/auth.service';
 export class EnfermeriaComponent {
 
   constructor(
-    private programacionService: ProgramacionService,
+    private service: GestionPacientesService,
     private authService: AuthService
   ) {}
 
@@ -39,12 +39,11 @@ export class EnfermeriaComponent {
   }
 
   cargarPacientes() {
-    /*
-    this.programacionService.getListadoPacientesEnfermeria().subscribe({
+    this.service.getlistadoEnfermeriaPaciente(this.fechaActual).subscribe({
       next: (res) => {
         console.log("Pacientes enfermería:", res);
 
-        this.datos = res.pacientes || [];
+        this.datos = res.pacientesConf || [];
         this.datosFiltrados = [...this.datos];
 
         // Guardar copia original
@@ -57,7 +56,6 @@ export class EnfermeriaComponent {
         console.error("Error al cargar pacientes:", err);
       }
     });
-    */
    this.datos = [ { Nombre: 'Ana Ruiz', Cedula: '12345678', Teléfono: '3216549870', Estado: '', Observaciones: '' }, { Nombre: 'Carlos Soto', Cedula: '87654321', Teléfono: '3123456789', Estado: '', Observaciones: '' } ];
   }
 

@@ -94,5 +94,12 @@ export class GestionPacientesService {
     );
   }
 
+  // ------------------- ENFERMERIA -------------------
+  getlistadoEnfermeriaPaciente(fecha: Date): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}/pacientes-aplicacion/${fecha.toISOString()}`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
 }
 
