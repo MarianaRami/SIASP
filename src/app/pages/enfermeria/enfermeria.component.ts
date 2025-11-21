@@ -100,12 +100,11 @@ export class EnfermeriaComponent {
       return;
     }
 
-
-    
-
     // Crear el payload
     const payload = {
       asistencias: cambios.map((p) => ({
+        idCiclo: this.datosOriginales[p.cedula]?.idCiclo || null,
+        idEvento: this.datosOriginales[p.cedula]?.idEvento || null,
         cedula: p.cedula,
         estado: p.estado === 'Aplicada' ? 'aplicada' :  'reprogramacion',
         observacion: p.observacion,
@@ -116,7 +115,7 @@ export class EnfermeriaComponent {
 
     console.log("📤 Enviando payload enfermería:", payload);
 
-    /*this.programacionService.registrarAsistencias(payload).subscribe({
+    this.service.postregistrarAsistencias(payload).subscribe({
       next: (res) => {
         alert("Cambios guardados correctamente");
         console.log("Respuesta backend:", res);
@@ -130,7 +129,7 @@ export class EnfermeriaComponent {
         console.error("❌ Error al guardar:", err);
         alert("Error al guardar la información");
       }
-    });*/
+    });
     
   }
 }
