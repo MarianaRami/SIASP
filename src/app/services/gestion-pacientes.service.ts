@@ -104,7 +104,7 @@ export class GestionPacientesService {
 
   postregistrarAsistencias(dto: any): Observable<any> {
     return this.http.post<any>(
-      `${this.apiUrl}/pacientes/confirmacion-evento`,
+      `${this.apiUrl}/confirmacion-aplicacion`,
       dto,
       { headers: this.getAuthHeaders() }
     );

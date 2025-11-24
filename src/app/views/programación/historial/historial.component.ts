@@ -204,7 +204,8 @@ export class HistorialComponent {
 
   notificarPaciente() {
     const usuario = this.AuthService.getUser();
-    const cicloActivo = this.ciclos?.find(ciclo => ciclo.estado === 'activo');
+    const cicloActivo = this.ciclos.find(ciclo => ciclo.estado === 'activo' || ciclo.estado === 'revisado_examenes' || ciclo.estado === 'notificado');
+
 
     const dto = {
       idCiclo: cicloActivo?.id,
@@ -247,7 +248,7 @@ export class HistorialComponent {
 
   programar(datos: any) {
     const usuario = this.AuthService.getUser();
-    const cicloActivo = this.ciclos?.find(ciclo => ciclo.estado === 'activo');
+    const cicloActivo = this.ciclos?.find(ciclo => ciclo.estado === 'activo' || ciclo.estado === 'notificado' || ciclo.estado === 'revisado_examenes');
 
     if (this.modoPopup === 'editar') {
       const payload = {

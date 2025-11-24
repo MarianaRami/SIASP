@@ -102,10 +102,10 @@ export class EnfermeriaComponent {
 
     // Crear el payload
     const payload = {
-      asistencias: cambios.map((p) => ({
-        idCiclo: this.datosOriginales[p.cedula]?.idCiclo || null,
-        idEvento: this.datosOriginales[p.cedula]?.idEvento || null,
-        cedula: p.cedula,
+      confirmaciones: cambios.map((p) => ({
+        idCiclo: this.datosOriginales[p.cedula]?.idCicloPaciente || null,
+        idEvento: this.datosOriginales[p.cedula]?.idEventoPaciente || null,
+        //cedula: p.cedula,
         estado: p.estado === 'Aplicada' ? 'aplicada' :  'reprogramacion',
         observacion: p.observacion,
         fecha: this.fechaActual,
