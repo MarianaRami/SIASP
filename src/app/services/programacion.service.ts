@@ -113,5 +113,12 @@ export class ProgramacionService {
     );
   }
   
+  // ------------------- PROGRAMACION (JEFE ENFERMERIA) -------------------
+  getListadoPacientesJefeEnfermeria(): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}/pacientes-jefe-enfermeria`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
 
 }

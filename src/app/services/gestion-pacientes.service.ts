@@ -109,5 +109,20 @@ export class GestionPacientesService {
       { headers: this.getAuthHeaders() }
     );
   }
+
+  // ------------------- JEFE DE ENFERMERIA -------------------
+  getDatosOP(): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}/datos-op`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  getDatosFarmacia(): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}/datos-farmacia`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
 }
 
