@@ -18,9 +18,9 @@ export class PopupMotivoComponent {
   observaciones: string = '';
 
   motivos = [
-    { value: 'no_finalizado', label: 'No finalizado'}, 
-    { value: 'finalizado', label: 'Finalizado'}, 
-    { value: 'cancelado', label: 'Cancelado'}, 
+    { value: 'finalizado_medico', label: 'Finalizado por médico'},
+    { value: 'fallecido', label: 'Fallecimiento'},  
+    { value: 'precancelado', label: 'Paciente desiste'}, 
     { value: 'cambio_protocolo', label: 'Cambio de protocolo'}
   ]; 
   
