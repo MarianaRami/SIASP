@@ -23,6 +23,7 @@ export class JefeEnfermeriaComponent {
     { key: 'nombre', label: 'Nombre' },
     { key: 'cedula', label: 'Cedula' },
     { key: 'telefonos', label: 'Teléfono' },
+    { key: 'observaciones', label: 'Observaciones' },
     { key: 'estado', label: 'Estado', tipo: 'select', opciones: ['Reprogramación', 'Cancelar protocolo'] }
   ];
 
@@ -56,12 +57,14 @@ export class JefeEnfermeriaComponent {
     });
     */
 
-    // 👉 Datos dummy mientras el backend está listo
+    // -------------------------------------------------
+    // Datos dummy mientras el backend está listo
     this.datos = [
       { nombre: 'Ana Ruiz', cedula: '12345678', telefonos: '3216549870', estado: '' },
       { nombre: 'Carlos Soto', cedula: '87654321', telefonos: '3123456789', estado: '' }
     ];
     this.datosFiltrados = [...this.datos];
+    // -------------------------------------------------
 
     // Guardar copia original
     this.datosOriginales = {};
