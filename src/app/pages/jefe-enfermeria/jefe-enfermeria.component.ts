@@ -24,7 +24,9 @@ export class JefeEnfermeriaComponent {
     { key: 'cedula', label: 'Cedula' },
     { key: 'telefonos', label: 'Teléfono' },
     { key: 'observaciones', label: 'Observaciones' },
-    { key: 'estado', label: 'Estado', tipo: 'select', opciones: ['Reprogramación', 'Cancelar protocolo'] }
+    { key: 'estado', label: 'Estado', tipo: 'select', opciones: [
+      'No finalizado', 'Fallecido', 'Cancelado', 'Cambio protocolo'
+    ] }
   ];
 
   datos: any[] = [];
@@ -42,7 +44,6 @@ export class JefeEnfermeriaComponent {
   // 🔹 Cargar pacientes (con servicio o dummy)
   // -------------------------------------------------
   cargarPacientes() {
-    /*
     this.programacionService.getListadoPacientesJefeEnfermeria().subscribe({
       next: (res) => {
         this.datos = res.pacientes || [];
@@ -55,17 +56,18 @@ export class JefeEnfermeriaComponent {
       },
       error: (err) => console.error('Error cargando pacientes jefe:', err)
     });
+
+    /*
+    pacientes: {
+        idPaciente: string;
+        idCiclo: string;
+        nombre: string;
+        documento: string;
+        telefonos: string;
+        observacionFinalizacion: string;
+    }[];
     */
-
-    // -------------------------------------------------
-    // Datos dummy mientras el backend está listo
-    this.datos = [
-      { nombre: 'Ana Ruiz', cedula: '12345678', telefonos: '3216549870', estado: '' },
-      { nombre: 'Carlos Soto', cedula: '87654321', telefonos: '3123456789', estado: '' }
-    ];
-    this.datosFiltrados = [...this.datos];
-    // -------------------------------------------------
-
+    
     // Guardar copia original
     this.datosOriginales = {};
     this.datos.forEach(d => {
@@ -87,6 +89,16 @@ export class JefeEnfermeriaComponent {
   // -------------------------------------------------
   // 💾 GUARDAR CAMBIOS
   // -------------------------------------------------
+  causaMap: Record<string, string> = {
+    no_finalizado: 'reprogramacion',
+    finalizado_medico: 'finalizado_medico',
+    finalizado: 'finalizado',
+    fallecido: 'fallecido',
+    precancelado: 'precancelado',
+    cancelado: 'cancelado',
+    cambio_protocolo: 'cambio_protocolo'
+  };
+
   guardar() {
     const usuario = this.authService.getUser();
 
@@ -102,8 +114,8 @@ export class JefeEnfermeriaComponent {
 
     const payload = {
       decisiones: cambios.map((p) => ({
-        cedula: p.cedula,
-        estado: p.estado === 'Reprogramación' ? 'reprogramacion' : 'cancelar_protocolo',
+        idCiclo: this.datosOriginales[p.cedula]?.idCiclo || null,
+        causaFinalizacion: this.causaMap[p.estado] || null,
         fecha: this.fechaActual,
         usuarioModificacion: usuario
       }))
@@ -111,7 +123,6 @@ export class JefeEnfermeriaComponent {
 
     console.log('📤 Payload Jefe Enfermería:', payload);
 
-    /*
     this.programacionService.registrarDecisionesJefe(payload).subscribe({
       next: (res) => {
         alert('Cambios guardados correctamente');
@@ -124,7 +135,6 @@ export class JefeEnfermeriaComponent {
         alert('Error al guardar');
       }
     });
-    */
   }
 
 }

@@ -116,7 +116,15 @@ export class ProgramacionService {
   // ------------------- PROGRAMACION (JEFE ENFERMERIA) -------------------
   getListadoPacientesJefeEnfermeria(): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}/pacientes-jefe-enfermeria`,
+      `${this.apiUrl}/pacientes_precancelados`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  registrarDecisionesJefe(dto: any): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/confirmacion-cancelacion`,
+      dto,
       { headers: this.getAuthHeaders() }
     );
   }
