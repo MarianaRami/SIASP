@@ -16,31 +16,45 @@ export class AuthService {
   // ------------------- AUTH -------------------
 
   login(nombreUsuario: string): Observable<any> {
-    const body = { nombreUsuario };
-    return this.http.post(`${this.baseUrl}/auth/login`, body);
+    return this.http.post(`${this.baseUrl}/auth/login`, { nombreUsuario })
+      .pipe(
+        tap((res: any) => {
+          if (res?.token) {
+            this.setToken(res.token);
+            this.setUser(nombreUsuario);
+          }
+        })
+      );
   }
 
+  // ---------------- TOKEN (COOKIES) ----------------
+
   setToken(token: string) {
-    this.token = token;
-    localStorage.setItem('jwtToken', token);
+    document.cookie = `jwtToken=${token}; path=/; SameSite=Lax`;
   }
 
   getToken(): string | null {
-    if (!this.token) {
-      this.token = localStorage.getItem('jwtToken');
-    }
-    return this.token;
+    const match = document.cookie.match(new RegExp('(^| )jwtToken=([^;]+)'));
+    return match ? match[2] : null;
   }
 
+  removeToken() {
+    document.cookie = 'jwtToken=; Max-Age=0; path=/';
+  }
+
+  // ---------------- USER ----------------
+
   setUser(user: string) {
-    this.user = user;
     localStorage.setItem('jwtUser', user);
   }
 
   getUser(): string | null {
-    if (!this.user) {
-      this.user = localStorage.getItem('jwtUser');
-    }
-    return this.user;
+    return localStorage.getItem('jwtUser');
+  }
+
+  logout() {
+    this.removeToken();
+    localStorage.removeItem('jwtUser');
+    window.location.href = '/login';
   }
 }

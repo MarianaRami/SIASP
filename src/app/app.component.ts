@@ -11,6 +11,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { provideHttpClient } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { TokenWatcherService } from './services/token-watcher.service';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +26,14 @@ import { provideAnimations } from '@angular/platform-browser/animations';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private tokenWatcher: TokenWatcherService
+  ) {}
+
+  ngOnInit() {
+  this.tokenWatcher.startWatching();
+}
 
   get isLoginRoute(): boolean {
     return this.router.url === '/' || this.router.url === '/login';
