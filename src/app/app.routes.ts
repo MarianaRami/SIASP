@@ -46,74 +46,71 @@ import { InfCicloComponent } from './views/admin-sistema/inf-ciclo/inf-ciclo.com
 import { InfMedicamentosComponent } from './views/admin-sistema/inf-medicamentos/inf-medicamentos.component';
 import { ProtocolosComponent } from './views/admin-sistema/protocolos/protocolos.component';
 import { InfProtocoloComponent } from './views/admin-sistema/inf-protocolo/inf-protocolo.component';
-import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
+  { path: 'examenes', component: ExamenesComponent },
 
-  // 🔓 LOGIN
-  { path: '', component: LoginComponent },
+  { path: 'enfermeria', component: EnfermeriaComponent },
 
-  // 🔒 RUTAS PROTEGIDAS
-  {
-    path: '',
-    canActivate: [AuthGuard],
-    children: [
+  { path: 'jefe-enfermeria', component: JefeEnfermeriaComponent},
+  
+  { path: 'admin-usuarios', component: AdministradorUsuariosComponent },
+  
+  { path: 'indicadores', component: IndicadoresComponent },
 
-      { path: 'examenes', component: ExamenesComponent },
-      { path: 'enfermeria', component: EnfermeriaComponent },
-      { path: 'jefe-enfermeria', component: JefeEnfermeriaComponent },
-      { path: 'admin-usuarios', component: AdministradorUsuariosComponent },
-      { path: 'indicadores', component: IndicadoresComponent },
-      { path:'jefe-piso', component: JefePisoComponent },
+  { path:'jefe-piso', component: JefePisoComponent },
 
-      // Administrador Sistema
-      { path: 'admin-sistema', component: AdministradorSistemaComponent },
-      { path: 'admin-sistema/Nuevo-protocolo', component: DatosNvProtocoloComponent },
-      { path: 'admin-sistema/Nuevo-protocolo/Conf-Ciclo', component: ConfCicloComponent },
-      { path: 'admin-sistema/Nuevo-protocolo/Conf-Ciclo/Conf-Medicamento', component: ConfMedicamentosComponent },
+  //Administrador Sistema
+  { path: 'admin-sistema', component: AdministradorSistemaComponent },
+  
+  { path: 'admin-sistema/Nuevo-protocolo/Conf-Ciclo', component: ConfCicloComponent },
+  { path: 'admin-sistema/Nuevo-protocolo/Conf-Ciclo/Conf-Medicamento', component: ConfMedicamentosComponent },
+  { path: 'admin-sistema/Nuevo-protocolo', component: DatosNvProtocoloComponent },
+  { path: 'admin-sistema/Protocolo/Info-Protocolo/Info-Ciclo', component: InfCicloComponent },
+  { path: 'admin-sistema/Protocolo/Info-Protocolo/Info-Ciclo/Info-Medicamentos', component: InfMedicamentosComponent },
+  { path:  'admin-sistema/Protocolo/Info-Protocolo', component: InfProtocoloComponent},
+  { path: 'admin-sistema/Protocolo/:id', component: ProtocolosComponent },
 
-      { path: 'admin-sistema/Protocolo/:id', component: ProtocolosComponent },
-      { path: 'admin-sistema/Protocolo/Info-Protocolo', component: InfProtocoloComponent },
-      { path: 'admin-sistema/Protocolo/Info-Protocolo/Info-Ciclo', component: InfCicloComponent },
-      { path: 'admin-sistema/Protocolo/Info-Protocolo/Info-Ciclo/Info-Medicamentos', component: InfMedicamentosComponent },
+  //Director Famacia
+  { path: 'director-farmacia', component: DirectorFarmaciaComponent },
 
-      // Director Farmacia
-      { path: 'director-farmacia', component: DirectorFarmaciaComponent },
-      { path: 'director-farmacia/lista', component: ListaMedicamentosComponent },
+  { path: 'director-farmacia/lista', component: ListaMedicamentosComponent},
+  
+  // Farmacia
+  { path: 'farmacia', component: FarmaciaComponent },
 
-      // Farmacia
-      { path: 'farmacia', component: FarmaciaComponent },
-      { path: 'farmacia/farmacia', component: MedFarmaciaComponent },
-      { path: 'farmacia/OP', component: OPComponent },
+  { path: 'farmacia/farmacia', component: MedFarmaciaComponent },
+  { path: 'farmacia/OP', component: OPComponent },
 
-      // Programación
-      { path: 'programacion', component: ProgramacionComponent },
-      { path: 'programacion/busquedaPro', component: BusquedaProComponent },
-      { path: 'programacion/confirmación', component: ConfirmacionComponent },
-      { path: 'programacion/busquedaPro/historial/:cedula', component: HistorialComponent },
-      { path: 'programacion/pendientesNotificacion', component: PendientesNotificacionComponent },
-      { path: 'programacion/reprogramacion', component: ReprogramacionComponent },
-      { path: 'programacion/busquedaPro/historial/:cedula/historial', component: HistorialPacienteComponent },
-      { path: 'programacion/calendario', component: CalendarioPacientesComponent },
-      { path: 'programacion/calendario/reporte/:date', component: ReporteCalendarioComponent },
+  // Programación
+  { path: 'programacion', component: ProgramacionComponent },
 
-      // Autorizaciones
-      { path: 'autorizaciones', component: AutorizacionesComponent },
-      { path: 'autorizaciones/busquedaAU', component: BusquedaAUComponent },
-      { path: 'autorizaciones/busquedaAU/Autorizacion/:cedula', component: AutorizacionComponent },
-      { path: 'autorizaciones/Pacientes', component: PacientesComponent },
+  { path: 'programacion/busquedaPro', component: BusquedaProComponent },
+  { path: 'programacion/confirmación', component: ConfirmacionComponent },
+  { path: 'programacion/busquedaPro/historial/:cedula', component: HistorialComponent },
+  { path: 'programacion/pendientesNotificacion', component: PendientesNotificacionComponent },
+  { path: 'programacion/reprogramacion', component: ReprogramacionComponent },
+  { path: 'programacion/busquedaPro/historial/:cedula/historial', component: HistorialPacienteComponent },
+  { path: 'programacion/calendario', component: CalendarioPacientesComponent },
+  { path: 'programacion/calendario/reporte/:date', component: ReporteCalendarioComponent },
 
-      // QF
-      { path: 'qf', component: QfComponent },
-      { path: 'qf/busqueda', component: BusquedaComponent },
-      { path: 'qf/observaciones', component: ObservacionesComponent },
-      { path: 'qf/observaciones/medicamentos', component: PopUpObvMedicamentosComponent },
-      { path: 'qf/busqueda/paciente/:cedula', component: PacienteComponent },
-      { path: 'qf/busqueda/paciente/:cedula/conf-ciclo', component: ConfiguracionCicloComponent },
-      { path: 'qf/busqueda/paciente/:cedula/conf-ciclo/conf-aplicaciones', component: ConfiguracionAplicacionesComponent }
+  // Autorizaciones
+  { path: 'autorizaciones', component: AutorizacionesComponent },
 
-    ]
-  }
+  { path: 'autorizaciones/busquedaAU', component: BusquedaAUComponent },
+  { path: 'autorizaciones/busquedaAU/Autorizacion/:cedula', component: AutorizacionComponent },
+  { path: 'autorizaciones/Pacientes', component: PacientesComponent },
+
+  // QF
+  { path: 'qf', component: QfComponent },
+
+  { path: 'qf/busqueda', component: BusquedaComponent },
+  { path: 'qf/observaciones', component: ObservacionesComponent },
+  { path: 'qf/observaciones/medicamentos', component: PopUpObvMedicamentosComponent },
+  { path: 'qf/busqueda/paciente/:cedula', component: PacienteComponent },
+  { path: 'qf/busqueda/paciente/:cedula/conf-ciclo' , component: ConfiguracionCicloComponent },
+  { path: 'qf/busqueda/paciente/:cedula/conf-ciclo/conf-aplicaciones', component: ConfiguracionAplicacionesComponent },
+
+  { path: '', component: LoginComponent }, 
 ];
-
 
