@@ -51,7 +51,7 @@ export class ExamenesComponent {
       key: 'estado',
       label: 'Estado',
       tipo: 'select',
-      opciones: ['Aprobado', 'Reprogramar']
+      opciones: ['Aprobado', 'Reprobado', 'No Presentado']
     },
     { key: 'observación', label: 'Observación', tipo: 'text' }
   ];
@@ -138,7 +138,7 @@ export class ExamenesComponent {
             idCiclo: this.datosOriginales[p.cedula]?.idCicloPaciente || null,
             fecha: this.fechaActual,
             usuarioModificacion: usuario,
-            estado: p.estado === 'Aprobado' ? 'revisado_examenes' : 'reprogramacion',
+            estado: p.estado === 'Aprobado' ? 'aprobado' : p.estado === 'Reprobado' ? 'reprobado' : 'no_presentado',
             observacion: p.observación
           }))
         };
