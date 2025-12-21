@@ -129,4 +129,12 @@ export class ProgramacionService {
     );
   }
 
+  // ------------------- PROGRAMACION (REPROGRAMACIÓN) -------------------
+  getListadoPacientesReprogramacion(): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}/pacientes-reprogramacion`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
 }
