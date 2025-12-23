@@ -38,7 +38,8 @@ export class PopupMedicamentosObvComponent {
         next: (resp) => {
           console.log('Respuesta autorizaciones:', resp);
 
-          if (resp && resp.paciente) {
+          //if (resp && resp.paciente) {
+          if (resp) {
             // Cargar medicamentos en la tabla
             this.medicamentos = resp.medicamentos || [];
           }
