@@ -109,7 +109,9 @@ export class HistorialComponent {
               ...evento,
               tipo: this.formatearTipoEvento(evento.tipo),
               estado: this.formatearEstado(evento.estado),
-              fecha: this.formatearFecha(evento.fecha)
+              fecha: this.formatearFecha(evento.fecha),
+              horario: evento.horaInicio && evento.horaFin ? `${evento.horaInicio} - ${evento.horaFin}` : '',
+              puesto: evento.silla ? evento.silla.nombre : ''
             }));
 
             this.version = this.pacienteData.protocoloActual?.version?.toString() ?? '';
@@ -251,22 +253,7 @@ export class HistorialComponent {
     const cicloActivo = this.ciclos?.find(ciclo => ciclo.estado === 'activo' || ciclo.estado === 'notificado' || ciclo.estado === 'revisado_examenes');
 
     if (this.modoPopup === 'editar') {
-      const payload = {
-        cedula: this.cedula,
-        idCiclo: cicloActivo?.id,
-        fechaEvento: datos.fechaEvento,
-        usuarioModificacion: usuario,
-        idEvento: this.eventoAEditar.id
-      };
-      console.log('Datos para editar evento:', payload);
-      this.programacionServicio.editarEventoAplicacionPaciente(payload).subscribe({
-        next: (res) => {
-          console.log('✅ Evento editado:', res);
-          this.cargarDatos();
-        },
-        error: (err) => console.error('❌ Error al editar evento:', err)
-      });
-
+      let sillaProgramada = false;
       // Cambio de silla
       const programaSillaDto = {
         idEvento: this.eventoAEditar.id,
@@ -282,9 +269,49 @@ export class HistorialComponent {
         next: (res) => {
           console.log('✅ Silla programada:', res);
           this.cargarDatos();
+          //sillaProgramada = true;
+          const payload = {
+            cedula: this.cedula,
+            idCiclo: cicloActivo?.id,
+            fechaEvento: datos.fechaEvento,
+            usuarioModificacion: usuario,
+            idEvento: this.eventoAEditar.id
+          };
+          console.log('Datos para editar evento:', payload);
+          this.programacionServicio.editarEventoAplicacionPaciente(payload).subscribe({
+            next: (res) => {
+              console.log('✅ Evento editado:', res);
+              this.cargarDatos();
+            },
+            error: (err) => console.error('❌ Error al editar evento:', err)
+          });
+          
         },
         error: (err) => console.error('❌ Error al programar silla:', err)
       });
+
+      
+
+/*
+      //Se verifica si la silla pudo ser programada antes de editar la fecha del evento
+      if(sillaProgramada){
+        const payload = {
+          cedula: this.cedula,
+          idCiclo: cicloActivo?.id,
+          fechaEvento: datos.fechaEvento,
+          usuarioModificacion: usuario,
+          idEvento: this.eventoAEditar.id
+        };
+        console.log('Datos para editar evento:', payload);
+        this.programacionServicio.editarEventoAplicacionPaciente(payload).subscribe({
+          next: (res) => {
+            console.log('✅ Evento editado:', res);
+            this.cargarDatos();
+          },
+          error: (err) => console.error('❌ Error al editar evento:', err)
+        });
+      }
+  */    
 
     } else {
       datos.usuarioModificacion = usuario;
