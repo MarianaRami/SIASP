@@ -265,30 +265,44 @@ export class HistorialComponent {
         usuarioModificacion: usuario
       };
       console.log('Datos para programar silla:', programaSillaDto);
+
       this.programacionServicio.programarSilla(programaSillaDto).subscribe({
-        next: (res) => {
-          console.log('✅ Silla programada:', res);
-          this.cargarDatos();
-          //sillaProgramada = true;
-          const payload = {
-            cedula: this.cedula,
-            idCiclo: cicloActivo?.id,
-            fechaEvento: datos.fechaEvento,
-            usuarioModificacion: usuario,
-            idEvento: this.eventoAEditar.id
-          };
-          console.log('Datos para editar evento:', payload);
-          this.programacionServicio.editarEventoAplicacionPaciente(payload).subscribe({
-            next: (res) => {
-              console.log('✅ Evento editado:', res);
-              this.cargarDatos();
-            },
-            error: (err) => console.error('❌ Error al editar evento:', err)
-          });
-          
-        },
-        error: (err) => console.error('❌ Error al programar silla:', err)
-      });
+      next: (res) => {
+        console.log('✅ Silla programada:', res);
+        this.cargarDatos();
+
+        const payload = {
+          cedula: this.cedula,
+          idCiclo: cicloActivo?.id,
+          fechaEvento: datos.fechaEvento,
+          usuarioModificacion: usuario,
+          idEvento: this.eventoAEditar.id
+        };
+
+        this.programacionServicio.editarEventoAplicacionPaciente(payload).subscribe({
+          next: (res) => {
+            console.log('✅ Evento editado:', res);
+            this.cargarDatos();
+          },
+          error: (err) => {
+            console.error('❌ Error al editar evento:', err);
+            alert('Ocurrió un error al editar el evento');
+          }
+        });
+      },
+
+      error: (err) => {
+        console.error('❌ Error al programar silla:', err);
+
+        if (err.status === 400) {
+          alert(
+            'No es posible programar al paciente en ese horario porque la silla ya se encuentra ocupada. Por favor selecciona otro horario o silla.'
+          );
+        } else {
+          alert('Ocurrió un error inesperado al programar la silla');
+        }
+      }
+    });
 
       
 
