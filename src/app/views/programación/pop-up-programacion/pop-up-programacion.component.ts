@@ -40,11 +40,14 @@ export class PopUpProgramacionComponent {
 
   sillasDisponibles: any[] = [];
 
+  tipo = 'silla';
+
   ngOnInit() {
-    this.programacionServicio.getlistadoSillasDisponibles().subscribe({
+    //Hay que cambiar el servicio para traer las sillas, camillas o habitaciones disponibles
+    this.programacionServicio.getlistadoSillasDisponibles(this.tipo).subscribe({
       next: (res) => {
         console.log('✅ Listado de sillas:', res);
-        this.sillasDisponibles = res;
+        this.sillasDisponibles = res;  
       },
       error: (err) => console.error('❌ Error al obtener listado de sillas:', err)
     });

@@ -49,7 +49,7 @@ export class ReprogramacionComponent {
         this.datos = (res.pacientes || []).map((p: any) => ({
           nombre: p.nombre,
           cedula: p.documento,
-          protocolo: p.idPaciente, // ajusta si luego viene el nombre real
+          protocolo: p.nombreProtocolo, // ajusta si luego viene el nombre real
           fecha: new Date().toISOString().split('T')[0],
           observacion: p.observacion || '',
           idEvento: p.idEvento,

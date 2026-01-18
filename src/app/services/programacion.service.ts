@@ -81,13 +81,13 @@ export class ProgramacionService {
   }
 
   // ------------------- PROGRAMACION (DISPONIBILIDAD DE SALA) -------------------
-  getlistadoSillasDisponibles(): Observable<any> {
+  getlistadoSillasDisponibles(tipo: string): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}/lista-sillas`,
+      `${this.apiUrl}/lista-sillas/${tipo}`,
       { headers: this.getAuthHeaders() }
     );
   }
-
+  
   getasignacionSillaPaciente(fecha: string): Observable<any> {
     return this.http.get<any>(
       `${this.apiUrl}/asignacion-sillas/${fecha}`,
