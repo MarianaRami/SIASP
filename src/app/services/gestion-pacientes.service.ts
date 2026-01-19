@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
 import { PacienteResponse, DescripcionCicloPacienteCompleto, DescripcionCicloPacienteCompletoResponse } from '../models/paciente';
 import { MedicamentoParaPresentacionDto } from '../models/descripcion-medicamentos';
 
@@ -12,40 +11,26 @@ export class GestionPacientesService {
   private apiUrl = 'http://localhost:3000/gestion-pacientes'; // ajusta a tu URL real
 
   constructor(private http: HttpClient) {}
-  private readonly authService = inject(AuthService);
 
-  // ------------------- AUTH -------------------
-
-  private getAuthHeaders(): HttpHeaders {
-    const token = this.authService.getToken();
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {})
-    });
-  }
 
   // ------------------- PACIENTES -------------------
 
   getPacienteCompletoByDocumento(documento: string): Observable<PacienteResponse> {
     return this.http.get<any>(
-      `${this.apiUrl}/pacientes/documento/${documento}`,{
-        headers: this.getAuthHeaders()
-      }
+      `${this.apiUrl}/pacientes/documento/${documento}`
     );
   }
 
   createPacienteNuevoCompleto(dto: any) {
     return this.http.post<any>(
-      `${this.apiUrl}/pacientes/nuevo-paciente/`, dto,
-      { headers: this.getAuthHeaders() }
+      `${this.apiUrl}/pacientes/nuevo-paciente/`, dto
     );
   }
 
   asignarNuevoProtocoloPaciente(dto: any) {
     return this.http.post<any>(
       `${this.apiUrl}/pacientes/asignar-protocolo/`,
-      dto,
-      { headers: this.getAuthHeaders() }
+      dto
     );
   }
 
@@ -55,8 +40,7 @@ export class GestionPacientesService {
   ): Observable<any> {
     return this.http.post<any>(
       `${this.apiUrl}/pacientes/medicamentos-presentacion`,
-      dto,
-      { headers: this.getAuthHeaders() }
+      dto
     );
   }
 
@@ -65,63 +49,55 @@ export class GestionPacientesService {
   createCicloPaciente(dto: DescripcionCicloPacienteCompleto): Observable<DescripcionCicloPacienteCompletoResponse> {
     return this.http.post<DescripcionCicloPacienteCompletoResponse>(
       `${this.apiUrl}/pacientes/ciclo-paciente`,
-      dto,
-      { headers: this.getAuthHeaders() }
+      dto
     );
   }
 
   // ------------------- PACIENTES CON OBSERVACION -------------------
   getPacientesConObservacion(): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}/pacientes-revision`,
-      { headers: this.getAuthHeaders() }
+      `${this.apiUrl}/pacientes-revision`
     );
   }
 
   // ------------------- EXAMENES -------------------
   getlistadoExamenesPaciente(fecha: Date): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}/pacientes-revision-examenes/${fecha.toISOString()}`,
-      { headers: this.getAuthHeaders() }
+      `${this.apiUrl}/pacientes-revision-examenes/${fecha.toISOString()}`
     );
   }
 
   asignarRevisionExamenesCiclo(dto: any): Observable<any> {
     return this.http.post<any>(
       `${this.apiUrl}/revision-examenes-ciclo`,
-      dto,
-      { headers: this.getAuthHeaders() }
+      dto
     );
   }
 
   // ------------------- ENFERMERIA -------------------
   getlistadoEnfermeriaPaciente(fecha: string, tipoPaciente?: string): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}/pacientes-aplicacion/${fecha}/${tipoPaciente || 'ambulatorio'}`,
-      { headers: this.getAuthHeaders() }
+      `${this.apiUrl}/pacientes-aplicacion/${fecha}/${tipoPaciente || 'ambulatorio'}`
     );
   }
 
   postregistrarAsistencias(dto: any): Observable<any> {
     return this.http.post<any>(
       `${this.apiUrl}/confirmacion-aplicacion`,
-      dto,
-      { headers: this.getAuthHeaders() }
+      dto
     );
   }
 
   // ------------------- JEFE DE ENFERMERIA -------------------
   getDatosOP(): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}/datos-op`,
-      { headers: this.getAuthHeaders() }
+      `${this.apiUrl}/datos-op`
     );
   }
 
   getDatosFarmacia(): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}/datos-farmacia`,
-      { headers: this.getAuthHeaders() }
+      `${this.apiUrl}/datos-farmacia`
     );
   }
 }

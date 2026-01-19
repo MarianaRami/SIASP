@@ -1,5 +1,4 @@
 import { Injectable, inject } from '@angular/core';
-import { AuthService } from './auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -10,88 +9,68 @@ export class ProgramacionService {
   private apiUrl = 'http://localhost:3000/gestion-pacientes';
 
   constructor(private http: HttpClient) { }
-  private readonly authService = inject(AuthService);
-
-  // ------------------- AUTH -------------------
-
-  private getAuthHeaders(): HttpHeaders {
-    const token = this.authService.getToken();
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {})
-    });
-  }
 
   // ------------------- PROGRAMACION (CONSULTAR PACIENTE) -------------------
 
   programacionPaciente(dto: any): Observable<any> {
     return this.http.post<any>(
       `${this.apiUrl}/pacientes/programacion-ciclo`,
-      dto,
-      { headers: this.getAuthHeaders() }
+      dto
     );
   }
 
   pacienteObservacionMed(dto: any): Observable<any> {
     return this.http.post<any>(
       `${this.apiUrl}/pacientes/observacion-ciclo`,
-      dto,
-      { headers: this.getAuthHeaders() }
+      dto
     );
   }
 
   editarEventoAplicacionPaciente(dto: any): Observable<any> {
     return this.http.post<any>(
       `${this.apiUrl}/editar-evento-aplicacion-paciente`,
-      dto,
-      { headers: this.getAuthHeaders() }
+      dto
     );
   }
 
   cancelarCiclo(dto: any): Observable<any> { 
     return this.http.post<any>(
       `${this.apiUrl}/cancelar-ciclo`,  
-      dto,
-      { headers: this.getAuthHeaders() }
+      dto
     );
   }
 
   programarSilla(dto: any): Observable<any> {
     return this.http.post<any>(
       `${this.apiUrl}/programar-silla`,
-      dto,
-      { headers: this.getAuthHeaders() }
+      dto
     );
   }
 
   // ------------------- PROGRAMACION (NOTIFICACIÓN) -------------------
   getlistadoPacientesNotificacion(): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}/pacientes-notificacion`,
-      { headers: this.getAuthHeaders() }
+      `${this.apiUrl}/pacientes-notificacion`
     );
   }
 
   // ------------------- PROGRAMACION (CONFIRMACIÓN) -------------------
   getlistadoPacientesConfirmacion(): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}/pacientes-confirmacion`,
-      { headers: this.getAuthHeaders() }
+      `${this.apiUrl}/pacientes-confirmacion`
     );
   }
 
   // ------------------- PROGRAMACION (DISPONIBILIDAD DE SALA) -------------------
   getlistadoSillasDisponibles(tipo: string): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}/lista-sillas/${tipo}`,
-      { headers: this.getAuthHeaders() }
+      `${this.apiUrl}/lista-sillas/${tipo}`
     );
   }
   
   getasignacionSillaPaciente(fecha: string): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}/asignacion-sillas/${fecha}`,
-      { headers: this.getAuthHeaders() }
+      `${this.apiUrl}/asignacion-sillas/${fecha}`
     );
   }
 
@@ -99,8 +78,7 @@ export class ProgramacionService {
   notificacionPaciente(dto: any): Observable<any> {
     return this.http.post<any>(
       `${this.apiUrl}/pacientes/notificacion-ciclo`,
-      dto,
-      { headers: this.getAuthHeaders() }
+      dto
     );
   }
 
@@ -108,32 +86,28 @@ export class ProgramacionService {
   confirmacionPaciente(dto: any): Observable<any> {
     return this.http.post<any>(
       `${this.apiUrl}/pacientes/confirmacion-evento`,
-      dto,
-      { headers: this.getAuthHeaders() }
+      dto
     );
   }
   
   // ------------------- PROGRAMACION (JEFE ENFERMERIA) -------------------
   getListadoPacientesJefeEnfermeria(): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}/pacientes_precancelados`,
-      { headers: this.getAuthHeaders() }
+      `${this.apiUrl}/pacientes_precancelados`
     );
   }
 
   registrarDecisionesJefe(dto: any): Observable<any> {
     return this.http.post<any>(
       `${this.apiUrl}/confirmacion-cancelacion`,
-      dto,
-      { headers: this.getAuthHeaders() }
+      dto
     );
   }
 
   // ------------------- PROGRAMACION (REPROGRAMACIÓN) -------------------
   getListadoPacientesReprogramacion(): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}/pacientes-reprogramacion`,
-      { headers: this.getAuthHeaders() }
+      `${this.apiUrl}/pacientes-reprogramacion`
     );
   }
 

@@ -1,6 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { tap } from 'rxjs/operators';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -8,39 +7,30 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   private baseUrl = 'http://localhost:3000';
-  private token: string | null = null;
-  private user: string | null = null;
-
   private readonly http = inject(HttpClient);
 
   // ------------------- AUTH -------------------
 
   login(nombreUsuario: string): Observable<any> {
     const body = { nombreUsuario };
-    return this.http.post(`${this.baseUrl}/auth/login`, body);
+    // La cookie se establecerá automáticamente desde el backend
+    return this.http.post(`${this.baseUrl}/auth/login`, body, {
+      withCredentials: true
+    });
   }
 
-  setToken(token: string) {
-    this.token = token;
-    localStorage.setItem('jwtToken', token);
+  logout(): Observable<any> {
+    // Endpoint para limpiar la cookie del lado del servidor
+    return this.http.post(`${this.baseUrl}/auth/logout`, {}, {
+      withCredentials: true
+    });
   }
 
-  getToken(): string | null {
-    if (!this.token) {
-      this.token = localStorage.getItem('jwtToken');
-    }
-    return this.token;
-  }
-
-  setUser(user: string) {
-    this.user = user;
-    localStorage.setItem('jwtUser', user);
-  }
-
-  getUser(): string | null {
-    if (!this.user) {
-      this.user = localStorage.getItem('jwtUser');
-    }
-    return this.user;
+  // Método para verificar si el usuario está autenticado
+  checkAuth(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/auth/check`, {
+      withCredentials: true
+    });
   }
 }
+

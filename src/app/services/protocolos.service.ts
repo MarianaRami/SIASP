@@ -13,53 +13,31 @@ export class ProtocolosService {
   private user: string | null = null;
 
   private readonly http = inject(HttpClient);
-  private readonly authService = inject(AuthService);
-
-  // ------------------- AUTH -------------------
-
-  private getAuthHeaders(): HttpHeaders {
-    const token = this.authService.getToken();
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {})
-    });
-  }
 
   // ------------------- PROTOCOLOS -------------------
 
   getProtocolos(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/gestion-protocolos/protocolos-recientes`, {
-      headers: this.getAuthHeaders()
-    });
+    return this.http.get<any[]>(`${this.baseUrl}/gestion-protocolos/protocolos-recientes`);
   }
 
   saveProtocolo(data: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/gestion-protocolos/protocolos/completo`, data, {
-      headers: this.getAuthHeaders()
-    });
+    return this.http.post(`${this.baseUrl}/gestion-protocolos/protocolos/completo`, data);
   }
 
   getProtocoloCompletoById(id: string): Observable<Protocolo> {
-    return this.http.get<any>(`${this.baseUrl}/gestion-protocolos/protocolos/${id}/completo`, {
-      headers: this.getAuthHeaders()
-    });
+    return this.http.get<any>(`${this.baseUrl}/gestion-protocolos/protocolos/${id}/completo`);
   }
 
   existeProtocoloPorNombre(nombre: string): Observable<{ nombre: string; existe: boolean }> {
     return this.http.get<{ nombre: string; existe: boolean }>(
-      `${this.baseUrl}/gestion-protocolos/protocolos/existe/${encodeURIComponent(nombre)}`,
-      {
-        headers: this.getAuthHeaders()
-      }
+      `${this.baseUrl}/gestion-protocolos/protocolos/existe/${encodeURIComponent(nombre)}`
     );
   }
 
   crearNuevaVersionProtocoloCompleto(dto: any) {
   return this.http.post<any>(
     `${this.baseUrl}/gestion-protocolos/protocolos/completo/nueva-version`,
-    dto,
-    { headers: this.getAuthHeaders() }
-  );
+    dto);
 }
 
 
@@ -83,40 +61,32 @@ export class ProtocolosService {
   desactivarProtocolo(id: string): Observable<any> {
     return this.http.patch(
       `${this.baseUrl}/gestion-protocolos/protocolos/${id}/desactivar`,
-      {}, 
-      { headers: this.getAuthHeaders() }
+      {}
     );
   }
 
   activarProtocolo(id: string): Observable<any> {
     return this.http.patch(
       `${this.baseUrl}/gestion-protocolos/protocolos/${id}/activar`,
-      {}, 
-      {headers: this.getAuthHeaders()}
+      {}
     );
   }
 
   // ----------------- VEHICULOS -----------------
 
   getVehiculos(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/gestion-protocolos/vehiculos`, {
-      headers: this.getAuthHeaders()
-    });
+    return this.http.get<any[]>(`${this.baseUrl}/gestion-protocolos/vehiculos`);
   }
 
   // ----------------- CATEGORIA MEDICAMENTO -----------------
 
   getCategoriasMedicamento(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/categoria-medicamento`, {
-      headers: this.getAuthHeaders()
-    });
+    return this.http.get<any[]>(`${this.baseUrl}/categoria-medicamento`);
   }
 
   // ----------------- MEDICAMENTOS -----------------
 
   getMedicamentos(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/gestion-protocolos/medicamentos`, {
-      headers: this.getAuthHeaders()
-    });
+    return this.http.get<any[]>(`${this.baseUrl}/gestion-protocolos/medicamentos`);
   }
 }
