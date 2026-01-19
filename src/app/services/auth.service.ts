@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,17 +16,30 @@ export class AuthService {
 
   login(nombreUsuario: string): Observable<any> {
     const body = { nombreUsuario };
-    // La cookie se establecerá automáticamente desde el backend
+    console.log('📝 Intentando login con usuario:', nombreUsuario);
+    
     return this.http.post(`${this.baseUrl}/auth/login`, body, {
       withCredentials: true
-    });
+    }).pipe(
+      tap(response => {
+        console.log('✅ Login exitoso, cookie debería estar guardada');
+        if (this.user) {
+          this.setUser(this.user);
+        }
+      })
+    );
   }
 
   logout(): Observable<any> {
-    // Endpoint para limpiar la cookie del lado del servidor
     return this.http.post(`${this.baseUrl}/auth/logout`, {}, {
       withCredentials: true
-    });
+    }).pipe(
+      tap(() => {
+        this.user = null;
+        localStorage.removeItem('jwtUser');
+        console.log('✅ Logout exitoso, cookie debería estar limpiada');
+      })
+    );
   }
 
   setUser(user: string) {
@@ -40,7 +54,6 @@ export class AuthService {
     return this.user;
   }
 
-  // Método para verificar si el usuario está autenticado
   checkAuth(): Observable<any> {
     return this.http.get(`${this.baseUrl}/auth/check`, {
       withCredentials: true
