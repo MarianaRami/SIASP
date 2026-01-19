@@ -31,7 +31,6 @@ export class LoginComponent {
         this.loginResponse = res;
         this.loginError = false;
         console.log('Login exitoso:', res);
-        this.authService.setToken(res.access_token); //Guarda el token
         this.authService.setUser(this.username); //Guarda el usuario
         // Puedes redirigir aquí si quieres
         this.router.navigate(['admin-sistema']); 

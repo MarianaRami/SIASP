@@ -9,6 +9,8 @@ export class AuthService {
   private baseUrl = 'http://localhost:3000';
   private readonly http = inject(HttpClient);
 
+  private user: string | null = null;
+
   // ------------------- AUTH -------------------
 
   login(nombreUsuario: string): Observable<any> {
@@ -26,6 +28,18 @@ export class AuthService {
     });
   }
 
+  setUser(user: string) {
+    this.user = user;
+    localStorage.setItem('jwtUser', user);
+  }
+  
+  getUser(): string | null {
+    if (!this.user) {
+      this.user = localStorage.getItem('jwtUser');
+    }
+    return this.user;
+  }
+
   // Método para verificar si el usuario está autenticado
   checkAuth(): Observable<any> {
     return this.http.get(`${this.baseUrl}/auth/check`, {
@@ -33,4 +47,3 @@ export class AuthService {
     });
   }
 }
-
