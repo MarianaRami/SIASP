@@ -17,7 +17,7 @@ export class PopupProtocoloComponent {
   private protocolosService = inject(ProtocolosService);
 
   protocolos: any[] = [];
-  tiposPaciente = ['Ambulatorio', 'Hospitalizado'];
+  tiposPaciente = [{ label: 'Ambulatorio', value: 'ambulatorio' },{ label: 'Hospitalizado', value: 'hospitalizado' }];
   razones = [
     { label: 'Nuevo', value: 'nuevo' },
     { label: 'Cambio de tratamiento', value: 'cambio_protocolo' },

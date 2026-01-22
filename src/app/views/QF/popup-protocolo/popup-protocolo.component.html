@@ -29,7 +29,7 @@
         <label>Tipo de paciente <span class="required">*</span></label>
         <select [(ngModel)]="formData.tipoPaciente" name="tipoPaciente" required>
           <option value="" disabled selected>-- Seleccione un tipo de paciente --</option>
-          <option *ngFor="let tipo of tiposPaciente" [value]="tipo">{{ tipo }}</option>
+          <option *ngFor="let tipo of tiposPaciente" [value]="tipo.value">{{ tipo.label }}</option>
         </select>
       </div>
 
