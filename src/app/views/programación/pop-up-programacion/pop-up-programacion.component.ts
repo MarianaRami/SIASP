@@ -11,6 +11,8 @@ import { ProgramacionService } from '../../../services/programacion.service';
 })
 export class PopUpProgramacionComponent {
   @Input() modo: 'programar' | 'editar' = 'programar';
+  @Input() tipoSilla: 'silla' | 'camilla' | 'habitacion' = 'silla';
+  @Input() duracion: number = 0;
   @Output() cerrar = new EventEmitter<void>();
   @Output() programar = new EventEmitter<{ 
     aplicacion?: string;
@@ -26,6 +28,7 @@ export class PopUpProgramacionComponent {
 
   constructor(private programacionServicio: ProgramacionService) {}
 
+  duracionStr = '';
   aplicacion = '';
   examenes = '';
   laboratorios = '';
@@ -35,14 +38,21 @@ export class PopUpProgramacionComponent {
   sillaSeleccionada: any = null;
   horaInicio: string | undefined;
   horaFin: string | undefined;
-  duracion: number | undefined;
   camilla: boolean = false;
 
   sillasDisponibles: any[] = [];
 
-  tipo = 'silla';
+  tipo = this.tipoSilla;
+
+  crearTiempoDesdeMinutos(minutos: number): string {
+      const horas = Math.floor(minutos / 60);
+      const mins = minutos % 60;
+      return `${String(horas).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
+    }
 
   ngOnInit() {
+    this.duracionStr = this.crearTiempoDesdeMinutos(this.duracion);
+    this.tipo = this.tipoSilla;
     //Hay que cambiar el servicio para traer las sillas, camillas o habitaciones disponibles
     this.programacionServicio.getlistadoSillasDisponibles(this.tipo).subscribe({
       next: (res) => {

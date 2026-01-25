@@ -105,6 +105,8 @@
 <app-pop-up-programacion
     *ngIf="mostrarPopupP"
     [modo]="modoPopup"
+    [tipoSilla]="tipoSillaPopUp"
+    [duracion]="duracionPopup"
     (cerrar)="cerrarPopupP()"
     (programar)="programar($event)">
 </app-pop-up-programacion>

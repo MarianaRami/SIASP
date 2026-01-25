@@ -49,9 +49,13 @@ export class HistorialComponent {
 
   ciclos!: CicloDto[];
 
+  cicloActivo!: CicloDto | undefined;
+
   tieneCicloActivo = false;
 
   modoPopup: 'programar' | 'editar' = 'programar';
+  tipoSillaPopUp: 'silla' | 'camilla' | 'habitacion' = 'silla';
+  duracionPopup: number = 0;
   eventoAEditar: any = null;
 
   mostrarBotonProgramar = false;
@@ -111,7 +115,7 @@ export class HistorialComponent {
               estado: this.formatearEstado(evento.estado),
               fecha: this.formatearFecha(evento.fecha),
               horario: evento.horaInicio && evento.horaFin ? `${evento.horaInicio} - ${evento.horaFin}` : '',
-              puesto: evento.silla ? evento.silla.nombre : ''
+              puesto: evento.puesto || 'N/A'
             }));
 
             this.version = this.pacienteData.protocoloActual?.version?.toString() ?? '';
@@ -123,6 +127,11 @@ export class HistorialComponent {
           
             //  Verificar si hay un ciclo activo
             this.tieneCicloActivo = this.ciclos.some(ciclo => ciclo.estado === 'activo' || ciclo.estado === 'revisado_examenes' || ciclo.estado === 'notificado');
+            
+            this.cicloActivo = this.ciclos.find(ciclo => ciclo.estado === 'activo' || ciclo.estado === 'revisado_examenes' || ciclo.estado === 'notificado') || undefined;
+
+            this.tipoSillaPopUp = this.pacienteData.tipoProtocolo==='hospitalizado' ? 'habitacion' : this.cicloActivo?.necesitaCamilla ? 'camilla' : 'silla';
+
 
             // lógica para determinar la visibilidad de los botones programar y editar
             const primerEventoAplicacion = this.pacienteData.protocoloActual?.eventos?.find((e: any) => e.tipo === 'aplicacion');
@@ -242,6 +251,7 @@ export class HistorialComponent {
     this.modoPopup = 'editar';
     this.eventoAEditar = fila;
     this.mostrarPopupP = true;
+    this.duracionPopup = Number(fila.duracion) || 0;
   }
 
   cerrarPopupP() {
@@ -250,7 +260,8 @@ export class HistorialComponent {
 
   programar(datos: any) {
     const usuario = this.AuthService.getUser();
-    const cicloActivo = this.ciclos?.find(ciclo => ciclo.estado === 'activo' || ciclo.estado === 'notificado' || ciclo.estado === 'revisado_examenes');
+    
+    const cicloActivo = this.cicloActivo;
 
     if (this.modoPopup === 'editar') {
       let sillaProgramada = false;

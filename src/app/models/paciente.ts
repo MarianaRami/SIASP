@@ -89,6 +89,8 @@ export interface CicloDto {
   observacion: string;
   fechaCreacion: string;
   fechaActualizacion: string;
+  necesitaCamilla: boolean;
+  tipoPaciente: string;
 }
 
 export interface IndicadoresDto {
