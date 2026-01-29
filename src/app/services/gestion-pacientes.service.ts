@@ -100,5 +100,17 @@ export class GestionPacientesService {
       `${this.apiUrl}/datos-farmacia`
     );
   }
+
+  // ------------------- FARMACIA -------------------
+  getOrdenesFarmacia(
+  fecha: string,
+  tipoPaciente: string,
+  tipoOrden: string
+) {
+  return this.http.get<any>(
+    `${this.apiUrl}/ordenes-farmacia/${fecha}/${tipoPaciente}/${tipoOrden}`
+  );
+}
+
 }
 

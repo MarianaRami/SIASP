@@ -42,32 +42,42 @@ export class MedFarmaciaComponent {
   }
 
   cargarDatos() {
-    /*
-    this.gestionService.getDatosFarmacia().subscribe({
-      next: (res) => {  
-        this.datos = res.datos || [];
-        this.datosFiltrados = [...this.datos];
-      },
-      error: (err) => console.error('Error cargando datos OP:', err)
-    });
-    */
+    const tipoPacienteLower = this.tipoPaciente.toLowerCase();
 
-    // -------------------------------------------------
-    // Datos dummy mientras el backend está listo
-    this.datos = [
-      { nombre: 'Juan Pérez', cedula: '123456789' },
-      { nombre: 'María Gómez', cedula: '987654321' },
-      { nombre: 'Carlos Ruiz', cedula: '456789123' }
-    ];
-    this.datosFiltrados = [...this.datos];
-    // -------------------------------------------------
+    this.gestionService
+      .getOrdenesFarmacia(
+        this.fecha,
+        tipoPacienteLower,
+        this.tipoOrden
+      )
+      .subscribe({
+        next: (res) => {
+          const filas: any[] = [];
 
-    // Guardar copia original
-    this.datosOriginales = {};
-    this.datos.forEach(d => {
-      this.datosOriginales[d.cedula] = { ...d };
-    });
+          res.ordenes.forEach((orden: any) => {
+            orden.medicamentos.forEach((med: any) => {
+              filas.push({
+                nombre: orden.nombrePaciente,
+                cedula: orden.documento,
+                ubicación: orden.ubicacion,
+                medicamento: med.nombrePresentacionMedicamento,
+                dosis: med.viaPresentacion,
+                cantidad: med.cantidad,
+                ciclo: orden.nombreProtocolo,
+                dia: this.fecha
+              });
+            });
+          });
+
+          this.datos = filas;
+          this.datosFiltrados = [...filas];
+        },
+        error: (err) =>
+          console.error('Error cargando órdenes de farmacia:', err)
+      });
   }
+
+
 
   filtrarDatos() {
     const f = this.filtro.toLowerCase().trim();
@@ -76,6 +86,11 @@ export class MedFarmaciaComponent {
       d['nombre']?.toLowerCase().includes(f)
     );
   }
+
+  tipoPaciente: 'AMBULATORIO' | 'HOSPITALARIO' = 'AMBULATORIO';
+  tipoOrden: string = 'FARMACIA';
+  fecha: string = new Date().toISOString().split('T')[0]; // yyyy-mm-dd
+
 
   volver() {
     this.router.navigate(['programacion/menuConfirmacion']);

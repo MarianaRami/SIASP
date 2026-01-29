@@ -40,46 +40,44 @@ export class OPComponent {
     this.cargarDatos();
    }
 
-   cargarDatos() {
-    /*
-    this.gestionService.getDatosOP().subscribe({
-      next: (res) => {
-        this.datos = res.datos || [];
-        this.datosFiltrados = [...this.datos];
+   tipoPaciente: 'AMBULATORIO' | 'HOSPITALARIO' = 'AMBULATORIO';
+  tipoOrden: string = 'OP';
+  fecha: string = new Date().toISOString().split('T')[0];
 
-        this.datosOriginales = {};
-        this.datos.forEach(d => {
-          this.datosOriginales[d.cedula] = { ...d };
-        });
-      },
-      error: (err) => console.error('Error cargando datos OP:', err)
-    });
-    */
 
-    // -------------------------------------------------
-    // Datos dummy mientras el backend está listo
-    this.datos = [
-      {
-        nombre: 'Juan Pérez',
-        cedula: '123456789',
-      },
-      {
-        nombre: 'María Gómez',
-        cedula: '987654321',
-      },
-      {
-        nombre: 'Carlos Ruiz',
-        cedula: '456789123',
-      }
-    ];
-    this.datosFiltrados = [...this.datos];
-    // -------------------------------------------------
-    
-    // Guardar copia original
-    this.datosOriginales = {};
-    this.datos.forEach(d => {
-      this.datosOriginales[d.cedula] = { ...d };
-    });
+  cargarDatos() {
+    const tipoPacienteLower = this.tipoPaciente.toLowerCase();
+
+    this.gestionService
+      .getOrdenesFarmacia(
+          this.fecha,
+          tipoPacienteLower,
+          this.tipoOrden
+      )
+      .subscribe({
+        next: (res) => {
+          const filas: any[] = [];
+
+          res.ordenes.forEach((orden: any) => {
+            orden.procedimientos.forEach((op: any) => {
+              filas.push({
+                nombre: orden.nombrePaciente,
+                cedula: orden.documento,
+                ubicación: orden.ubicacion,
+                procedimiento: op.nombreProcedimiento,
+                cantidad: op.cantidad,
+                ciclo: orden.nombreProtocolo,
+                dia: this.fecha
+              });
+            });
+          });
+
+          this.datos = filas;
+          this.datosFiltrados = [...filas];
+        },
+        error: (err) =>
+          console.error('Error cargando órdenes OP:', err)
+      });
   }
 
   filtrarDatos() {

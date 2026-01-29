@@ -9,7 +9,6 @@ import { Protocolo, ProtocoloCreate } from '../models/protocolo.model';
 })
 export class ProtocolosService {
   private baseUrl = 'http://localhost:3000';
-  private token: string | null = null;
   private user: string | null = null;
 
   private readonly http = inject(HttpClient);

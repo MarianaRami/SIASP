@@ -32,7 +32,7 @@ export class LoginComponent {
         this.loginError = false;
         console.log('Login exitoso:', res);
         this.authService.setUser(this.username); //Guarda el usuario
-        // Puedes redirigir aquí si quieres
+
         this.router.navigate(['admin-sistema']); 
       },
       error: (err) => {

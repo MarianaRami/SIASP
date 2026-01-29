@@ -6,6 +6,12 @@
             </button>
             <h2>Medicamentos </h2>
         </div>
+        
+        <select [(ngModel)]="tipoPaciente" (change)="cargarDatos()">
+            <option value="AMBULATORIO">Ambulatorio</option>
+            <option value="HOSPITALARIO">Hospitalario</option>
+        </select>
+
         <input
             type="text"
             placeholder="Buscar por cédula o nombre"
