@@ -39,13 +39,46 @@ h2 {
   width: 200px;
 }
 
-.select {
+.filtros {
+  display: flex;
+  gap: 10px;
+}
+
+.filtro-input {
   padding: 6px 10px;
   font-size: 14px;
   border-radius: 15px;
   border: 1px solid #818181;
   width: 200px;
+  height: 32px;
+  font-family: inherit;
+  outline: none;
+  background-color: white;
 }
+
+/* Quitar estilos feos por defecto del select */
+.filtro-input select,
+select.filtro-input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg fill='gray' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+  cursor: pointer;
+}
+
+/* Hover y focus igual al input */
+.filtro-input:focus {
+  border-color: #ff8c42;
+  box-shadow: 0 0 0 1px rgba(255, 140, 66, 0.4);
+}
+
+.filtro-input:hover {
+  border-color: #555;
+}
+
 
 .guardar-fijo {
   position: fixed;
