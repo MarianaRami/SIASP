@@ -44,6 +44,11 @@ export class MedFarmaciaComponent {
 
   fechaSeleccionada: string = this.obtenerFechaHoy();
 
+  changeDateToGMTMinus5(date: Date): Date {
+    const utcMillis = date.getTime() + date.getTimezoneOffset() * 60000;
+    const gmtMinus5Millis = utcMillis + (6 * 60) * 60000;
+    return new Date(gmtMinus5Millis);
+  }
 
   ngOnInit() {
    this.cargarDatos();
@@ -72,7 +77,7 @@ export class MedFarmaciaComponent {
                 dosis: med.viaPresentacion,
                 cantidad: med.cantidad,
                 ciclo: orden.nombreProtocolo,
-                dia: this.fecha
+                dia: this.fechaSeleccionada
               });
             });
           });
@@ -97,7 +102,6 @@ export class MedFarmaciaComponent {
 
   tipoPaciente: 'AMBULATORIO' | 'HOSPITALARIO' = 'AMBULATORIO';
   tipoOrden: string = 'NO_OP';
-  fecha: string = new Date().toISOString().split('T')[0]; // yyyy-mm-dd
 
 
   volver() {
