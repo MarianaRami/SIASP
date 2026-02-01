@@ -37,6 +37,14 @@ export class MedFarmaciaComponent {
 
   filtro: string = '';
 
+  obtenerFechaHoy(): string {
+  const hoy = new Date();
+  return hoy.toISOString().split('T')[0]; // yyyy-mm-dd
+}
+
+  fechaSeleccionada: string = this.obtenerFechaHoy();
+
+
   ngOnInit() {
    this.cargarDatos();
   }
@@ -46,7 +54,7 @@ export class MedFarmaciaComponent {
 
     this.gestionService
       .getOrdenesFarmacia(
-        this.fecha,
+        this.fechaSeleccionada,
         tipoPacienteLower,
         this.tipoOrden
       )
@@ -88,7 +96,7 @@ export class MedFarmaciaComponent {
   }
 
   tipoPaciente: 'AMBULATORIO' | 'HOSPITALARIO' = 'AMBULATORIO';
-  tipoOrden: string = 'FARMACIA';
+  tipoOrden: string = 'NO_OP';
   fecha: string = new Date().toISOString().split('T')[0]; // yyyy-mm-dd
 
 

@@ -7,14 +7,23 @@
             <h2>Medicamentos </h2>
         </div>
 
-       <select
-            class="filtro-input"
-            [(ngModel)]="tipoPaciente"
-            (change)="cargarDatos()"
-        >
-            <option value="AMBULATORIO">Ambulatorio</option>
-            <option value="HOSPITALARIO">Hospitalizado</option>
-        </select>
+       <div class="filtros">
+            <select
+                class="filtro-input"
+                [(ngModel)]="tipoPaciente"
+                (change)="cargarDatos()"
+            >
+                <option value="AMBULATORIO">Ambulatorio</option>
+                <option value="HOSPITALARIO">Hospitalizado</option>
+            </select>
+
+            <input
+                class="filtro-input"
+                type="date"
+                [(ngModel)]="fechaSeleccionada"
+                (change)="cargarDatos()"
+            />
+        </div>
 
         <input
             type="text"

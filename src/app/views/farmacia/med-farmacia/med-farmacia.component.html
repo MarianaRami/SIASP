@@ -8,6 +8,7 @@
             <h2>Medicamentos</h2>
         </div>
 
+       <div class="filtros">
         <select
             class="filtro-input"
             [(ngModel)]="tipoPaciente"
@@ -16,6 +17,14 @@
             <option value="AMBULATORIO">Ambulatorio</option>
             <option value="HOSPITALARIO">Hospitalizado</option>
         </select>
+
+        <input
+            class="filtro-input"
+            type="date"
+            [(ngModel)]="fechaSeleccionada"
+            (change)="cargarDatos()"
+        />
+        </div>
 
         <input
             type="text"

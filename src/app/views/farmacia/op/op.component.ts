@@ -35,6 +35,12 @@ export class OPComponent {
 
    filtro: string = '';
 
+    obtenerFechaHoy(): string {
+      const hoy = new Date();
+      return hoy.toISOString().split('T')[0]; // yyyy-mm-dd
+    }
+
+  fechaSeleccionada: string = this.obtenerFechaHoy();
 
    ngOnInit() {
     this.cargarDatos();
@@ -50,7 +56,7 @@ export class OPComponent {
 
     this.gestionService
       .getOrdenesFarmacia(
-          this.fecha,
+          this.fechaSeleccionada,
           tipoPacienteLower,
           this.tipoOrden
       )

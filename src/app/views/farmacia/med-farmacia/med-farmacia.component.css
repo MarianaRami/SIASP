@@ -56,7 +56,6 @@ h2 {
   background-color: white;
 }
 
-/* Quitar estilos feos por defecto del select */
 .filtro-input select,
 select.filtro-input {
   appearance: none;
@@ -77,6 +76,13 @@ select.filtro-input {
 
 .filtro-input:hover {
   border-color: #555;
+}
+
+input[type="date"].filtro-input {
+  height: 32px;              /* misma altura */
+  padding: 6px 10px;         /* mismo padding */
+  line-height: 20px;         /* CLAVE */
+  box-sizing: border-box;    /* CLAVE */
 }
 
 
