@@ -37,6 +37,12 @@ export class MedFarmaciaComponent {
 
   filtro: string = '';
 
+  changeDateToGMTMinus5(date: Date): Date {
+    const utcMillis = date.getTime() + date.getTimezoneOffset() * 60000;
+    const gmtMinus5Millis = utcMillis + (6 * 60) * 60000;
+    return new Date(gmtMinus5Millis);
+  }
+
   ngOnInit() {
    this.cargarDatos();
   }
@@ -46,7 +52,7 @@ export class MedFarmaciaComponent {
 
     this.gestionService
       .getOrdenesFarmacia(
-        this.fecha,
+        this.changeDateToGMTMinus5(new Date(this.fecha)).toISOString().split('T')[0],
         tipoPacienteLower,
         this.tipoOrden
       )
@@ -89,7 +95,7 @@ export class MedFarmaciaComponent {
 
   tipoPaciente: 'AMBULATORIO' | 'HOSPITALARIO' = 'AMBULATORIO';
   tipoOrden: string = 'FARMACIA';
-  fecha: string = new Date().toISOString().split('T')[0]; // yyyy-mm-dd
+  fecha: string = String(new Date());
 
 
   volver() {

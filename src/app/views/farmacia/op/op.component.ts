@@ -24,7 +24,7 @@ export class OPComponent {
     { key: 'cedula', label: 'Cedula' },
     { key: 'ubicación', label: 'Ubicación'},
     { key: 'medicamento', label: 'Medicamento' },
-    { key: 'dosis', label: 'Dosis' },   // ← corregido
+    { key: 'cantidad', label: 'Cantidad' },
     { key: 'via', label: 'Via' },
     { key: 'vehiculo', label: 'Vehiculo' }
   ];
@@ -35,6 +35,11 @@ export class OPComponent {
 
    filtro: string = '';
 
+   changeDateToGMTMinus5(date: Date): Date {
+    const utcMillis = date.getTime() + date.getTimezoneOffset() * 60000;
+    const gmtMinus5Millis = utcMillis + (5 * 60) * 60000;
+    return new Date(gmtMinus5Millis);
+  }
 
    ngOnInit() {
     this.cargarDatos();
@@ -42,7 +47,7 @@ export class OPComponent {
 
    tipoPaciente: 'AMBULATORIO' | 'HOSPITALARIO' = 'AMBULATORIO';
   tipoOrden: string = 'OP';
-  fecha: string = new Date().toISOString().split('T')[0];
+  fecha: string = String(new Date());
 
 
   cargarDatos() {
@@ -50,7 +55,7 @@ export class OPComponent {
 
     this.gestionService
       .getOrdenesFarmacia(
-          this.fecha,
+          this.changeDateToGMTMinus5(new Date(this.fecha)).toISOString().split('T')[0],
           tipoPacienteLower,
           this.tipoOrden
       )
@@ -59,15 +64,15 @@ export class OPComponent {
           const filas: any[] = [];
 
           res.ordenes.forEach((orden: any) => {
-            orden.procedimientos.forEach((op: any) => {
+            orden.medicamentos.forEach((op: any) => {
               filas.push({
                 nombre: orden.nombrePaciente,
                 cedula: orden.documento,
                 ubicación: orden.ubicacion,
-                procedimiento: op.nombreProcedimiento,
+                medicamento: op.nombrePresentacionMedicamento,
                 cantidad: op.cantidad,
-                ciclo: orden.nombreProtocolo,
-                dia: this.fecha
+                via: op.viaPresentacion,
+                vehiculo: op.nombreVehiculo
               });
             });
           });
