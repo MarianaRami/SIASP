@@ -51,9 +51,8 @@ export class OPComponent {
     this.cargarDatos();
    }
 
-   tipoPaciente: 'AMBULATORIO' | 'HOSPITALARIO' = 'AMBULATORIO';
+  tipoPaciente: 'AMBULATORIO' | 'HOSPITALARIO' = 'AMBULATORIO';
   tipoOrden: string = 'OP';
-  fecha: string = String(new Date());
 
 
   cargarDatos() {
