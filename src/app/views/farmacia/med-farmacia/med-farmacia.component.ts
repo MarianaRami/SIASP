@@ -100,7 +100,7 @@ export class MedFarmaciaComponent {
     );
   }
 
-  tipoPaciente: 'AMBULATORIO' | 'HOSPITALARIO' = 'AMBULATORIO';
+  tipoPaciente: 'AMBULATORIO' | 'HOSPITALIZADO' = 'AMBULATORIO';
   tipoOrden: string = 'NO_OP';
 
 

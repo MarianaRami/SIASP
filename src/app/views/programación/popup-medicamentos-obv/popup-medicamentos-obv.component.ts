@@ -33,7 +33,7 @@ export class PopupMedicamentosObvComponent {
   cargaDatos(){
     this.identificacion = this.route.snapshot.paramMap.get('cedula') || '';
 
-    this.autorizacionesService.getPacienteByDocumento(this.identificacion)
+    this.autorizacionesService.getPacienteByDocumentoMeds(this.identificacion)
       .subscribe({
         next: (resp) => {
           console.log('Respuesta autorizaciones:', resp);

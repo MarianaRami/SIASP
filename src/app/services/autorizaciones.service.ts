@@ -20,6 +20,12 @@ export class AutorizacionesService {
     );
   }
 
+  getPacienteByDocumentoMeds(pacienteId: string): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}/medicamentos/datos/${pacienteId}`
+    );
+  }
+
   createAutorizacionNueva(dto: any) {
     return this.http.post<any>(
       `${this.apiUrl}/autorizar-ciclo`,
