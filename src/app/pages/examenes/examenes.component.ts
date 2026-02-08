@@ -133,6 +133,16 @@ export class ExamenesComponent {
       );
     });
 
+    // 🚨 Validar que todos los cambios tengan observación
+    const sinObservacion = cambios.filter(
+      (p) => !p.observación || p.observación.trim() === ''
+    );
+
+    if (sinObservacion.length > 0) {
+      alert('⚠️ Debes agregar una observación para todos los pacientes modificados.');
+      return;
+    }
+
     const payload = {
           revisiones: cambios.map((p) => ({
             idCiclo: this.datosOriginales[p.cedula]?.idCicloPaciente || null,

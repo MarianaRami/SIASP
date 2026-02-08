@@ -94,11 +94,15 @@ input[type="date"].filtro-input {
 }
 
 .guardar-fijo button {
-  background: none;
+  padding: 12px 32px;
+  background-color: rgb(255, 103, 29);
+  color: rgb(255, 255, 255);
   border: none;
-  font-size: 24px;
+  border-radius: 15px;
+  font-size: 16px;
+  min-width: 200px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   cursor: pointer;
-  margin-right: 15px;
 }
 
 .guardar-fijo button:hover {
