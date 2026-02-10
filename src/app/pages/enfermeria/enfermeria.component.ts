@@ -47,7 +47,7 @@ export class EnfermeriaComponent {
     return `${year}-${month}-${day}`;
   }
 
-  tipoPaciente = 'ambulatorio'
+  tipoPaciente = 'hospitalizado'
 
   cargarPacientes() {
     this.service.getlistadoEnfermeriaPaciente(this.formatearFecha(this.fechaActual), this.tipoPaciente).subscribe({
