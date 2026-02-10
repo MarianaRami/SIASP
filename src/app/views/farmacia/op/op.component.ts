@@ -26,7 +26,8 @@ export class OPComponent {
     { key: 'medicamento', label: 'Medicamento' },
     { key: 'cantidad', label: 'Cantidad' },
     { key: 'via', label: 'Via' },
-    { key: 'vehiculo', label: 'Vehiculo' }
+    { key: 'vehiculo', label: 'Vehiculo' },
+    { key: 'notificado', label: 'Notificado' }
   ];
 
    datos: any[] = [];

@@ -63,6 +63,30 @@ export class PopUpProgramacionComponent {
     });
   }
 
+  calcularDuracion(): void {
+  if (!this.horaInicio || !this.horaFin) {
+    this.duracion = 0;
+    this.duracionStr = '';
+    return;
+  }
+
+  const [hIni, mIni] = this.horaInicio.split(':').map(Number);
+  const [hFin, mFin] = this.horaFin.split(':').map(Number);
+
+  const inicioMin = hIni * 60 + mIni;
+  const finMin = hFin * 60 + mFin;
+
+  if (finMin <= inicioMin) {
+    this.duracion = 0;
+    this.duracionStr = '';
+    return;
+  }
+
+  this.duracion = finMin - inicioMin;
+  this.duracionStr = this.crearTiempoDesdeMinutos(this.duracion);
+}
+
+
   volver() {
     this.cerrar.emit();
   }
