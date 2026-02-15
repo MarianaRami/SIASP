@@ -7,16 +7,14 @@ export interface PacienteResponse {
 export interface PacienteResponseDto {
   idPaciente: string;
   idServinte: string;
-  nombre1: string;
-  nombre2: string;
-  apellido1: string;
-  apellido2: string;
+  nombres: string;
+  apellidos: string;
   tipoDocumento: string;
   documento: string;
   fechaNacimiento: string;
   nombreCompleto: string;
   identificacion: string;
-  protocoloActual: ProtocoloActualDto | null;
+  protocolosActuales: ProtocoloActualDto[] | null;
   tratamiento: string;
   tratamientoTipo: string | null;
   tratamientoNombre: string | null;
@@ -49,7 +47,6 @@ export interface PacienteResponseDto {
   estadoProtocoloPaciente: string | null;
   tipoProtocolo: string | null;
   razonTratamiento: string | null;
-
   diagnosticos: DiagnosticoDto[];
 }
 
@@ -79,9 +76,14 @@ export interface ProtocoloActualDto {
   configuracionMedicamentos: any[];
   indicadores: IndicadoresDto;
   medicamentos: any[];
-  diagnosticos: [
-    
-  ]
+  CIE11Descripcion: string;
+  CIE11: string;
+  medicoTratante: string;
+  codigoMedicoTratante: number;
+  nombreEspecialidad: string;
+  codigoEspecialidad: number;
+  tratamiento: string;
+  tipoTratamiento: string;
 
 }
 
@@ -121,10 +123,8 @@ export interface IndicadoresDto {
 // 📌 Esto es lo que ENVÍAS al backend al crear/guardar paciente
 export interface PacienteNuevoDto {
   idServinte: string;
-  nombre1: string;
-  nombre2: string;
-  apellido1: string;
-  apellido2: string;
+  nombres: string;
+  apellidos: string;
   tipoDocumento: string;
   documento: string;
   fechaNacimiento: string;

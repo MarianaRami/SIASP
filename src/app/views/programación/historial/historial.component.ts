@@ -100,16 +100,18 @@ export class HistorialComponent {
 
             this.idpaciente = resp.data.idPaciente;
 
+            let protocoloActual = p.protocolosActuales && p.protocolosActuales.length > 0 ? p.protocolosActuales[0] : null;
+
             this.paciente = this.pacienteData.nombreCompleto;
             this.identificacion = this.pacienteData.identificacion;
             this.medico = this.pacienteData.medicoTratante;
-            this.protocolo = this.pacienteData.protocoloActual?.nombreProtocolo || '';
+            this.protocolo = protocoloActual?.nombreProtocolo || '';
             this.especialidad = this.pacienteData.especialidad;
 
             this.telefono1 = this.pacienteData.telefono1;
             this.telefono2 = this.pacienteData.telefono2;
 
-            this.datos = (this.pacienteData.protocoloActual?.eventos || []).map(evento => ({
+            this.datos = (protocoloActual?.eventos || []).map(evento => ({
               ...evento,
               tipo: this.formatearTipoEvento(evento.tipo),
               estado: this.formatearEstado(evento.estado),
@@ -118,9 +120,9 @@ export class HistorialComponent {
               puesto: evento.puesto || 'N/A'
             }));
 
-            this.version = this.pacienteData.protocoloActual?.version?.toString() ?? '';
+            this.version = protocoloActual?.version?.toString() ?? '';
 
-            this.ciclos = this.pacienteData.protocoloActual?.ciclos || [];
+            this.ciclos = protocoloActual?.ciclos || [];
 
             this.nombreTrat = this.tratamientoOptions.find(t => t.value === this.pacienteData.tratamientoNombre)?.label || this.pacienteData.tratamientoNombre;
             this.tipoTrat = this.tipoTratamientoOptions.find(t => t.key === this.pacienteData.tratamientoTipo)?.label || this.pacienteData.tratamientoTipo;
@@ -134,7 +136,7 @@ export class HistorialComponent {
 
 
             // lógica para determinar la visibilidad de los botones programar y editar
-            const primerEventoAplicacion = this.pacienteData.protocoloActual?.eventos?.find((e: any) => e.tipo === 'aplicacion');
+            const primerEventoAplicacion =  protocoloActual?.eventos?.find((e: any) => e.tipo === 'aplicacion');
 
             if (primerEventoAplicacion) {
               if (primerEventoAplicacion.estado === 'tentativa') {
@@ -154,7 +156,7 @@ export class HistorialComponent {
             }
 
             // Lógica para mostrar el botón de notificar
-            const eventosAplicacion = this.pacienteData.protocoloActual?.eventos?.filter((e: any) => e.tipo === 'aplicacion') || [];
+            const eventosAplicacion = this.pacienteData.protocolosActuales?.flatMap(p => p.eventos || []).filter((e: any) => e.tipo === 'aplicacion') || [];
 
             const tieneProgramada = eventosAplicacion.some((e: any) => e.estado === 'programada');
             if(tieneProgramada){

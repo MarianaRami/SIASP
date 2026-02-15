@@ -86,6 +86,42 @@ export class PacienteComponent {
     this.router.navigate(['qf/busqueda'])
   }
 
+  construirNombreCompleto(registro: any): string {
+    const partes = [
+      registro.nombres,
+      registro.apellidos,
+    ].filter(parte => parte && parte.trim() !== '');
+    
+    return partes.join(' ');
+  }
+
+  construirIdentificacionCompleta(registro: any): string {
+    const partes = [
+      registro.tipoDocumento,
+      registro.documento,
+    ].filter(parte => parte && parte.trim() !== '');
+    
+    return partes.join('-');
+  }
+
+  construirEspecialidadCompleta(diagnostico: any): string {
+    const partes = [
+      String(diagnostico.codigoEspecialidad),
+      diagnostico.nombreEspecialidad,
+    ].filter(parte => parte && parte.trim() !== '');
+    
+    return partes.join('-');
+  }
+
+  construirCIE11Completa(diagnostico: any): string {
+    const partes = [
+      diagnostico.codigo,
+      diagnostico.descripcion,
+    ].filter(parte => parte && parte.trim() !== '');
+    
+    return partes.join('-');
+  }
+
   cargaDatos(){
     this.cedula = this.route.snapshot.paramMap.get('cedula') || '';
     
@@ -99,25 +135,33 @@ export class PacienteComponent {
 
             const p = resp.data;
 
-            // ahora el backend ya trae nombre completo y identificacion
-            this.paciente = this.pacienteData.nombreCompleto;
-            this.identificacion = this.pacienteData.identificacion;
-            this.medico = this.pacienteData.medicoTratante;
-            this.protocolo = this.pacienteData.protocoloActual?.nombreProtocolo || '';
-            this.eps = this.pacienteData.eps;
-            this.especialidad = this.pacienteData.especialidad;
-            this.nombreEspecialidad = this.pacienteData.nombreEspecialidad;
-            this.diagnosticos = this.pacienteData.diagnosticos || [];
-
-            if (this.diagnosticos.length === 1) {
-              this.cieSeleccionado = this.diagnosticos[0].descripcion;
-            } else if (this.diagnosticos.length > 1) {
-              this.cieSeleccionado = this.diagnosticos[0].descripcion; // default
+            if (p.protocolosActuales && p.protocolosActuales.length > 0) {
+              this.protocoloActual = p.protocolosActuales[0];
+            } else {
+              this.protocoloActual = null;
             }
-            
-            this.protocoloActual = this.pacienteData.protocoloActual;
 
-            this.ciclos = this.pacienteData.protocoloActual?.ciclos || [];  
+            // ahora el backend ya trae nombre completo y identificacion
+            this.paciente = this.construirNombreCompleto(this.pacienteData);
+            this.identificacion = this.construirIdentificacionCompleta(this.pacienteData);
+            this.medico = this.protocoloActual?.medicoTratante || '';
+            this.protocolo = this.protocoloActual?.nombreProtocolo || '';
+            this.eps = this.pacienteData.eps;
+            this.diagnosticos = this.pacienteData.diagnosticos && this.pacienteData.diagnosticos.length > 0 ? this.pacienteData.diagnosticos : [];
+
+            if (this.diagnosticos.length > 0) {
+              this.cie10=this.construirCIE11Completa(this.diagnosticos[0])
+              this.cieSeleccionado = this.diagnosticos[0].descripcion;
+              this.especialidad = this.construirEspecialidadCompleta(this.diagnosticos[0]);
+              this.nombreEspecialidad = this.diagnosticos[0].nombreEspecialidad;
+            }else{
+              if(this.protocoloActual){
+                this.especialidad = this.protocoloActual.nombreEspecialidad || '';
+                this.nombreEspecialidad = this.protocoloActual.nombreEspecialidad || '';
+              }
+            }
+          
+            this.ciclos = this.protocoloActual?.ciclos || [];  
 
             if (this.protocolo) {
               // Aquí transformas los ciclos para la tabla
@@ -146,13 +190,24 @@ export class PacienteComponent {
   onGuardarPaciente(formData: any) {
     const usuario = this.AuthService.getUser();
 
+    let CIE11Descripcion = '';
+    let CIE11 = '';
+    let codigoEspecialidad = '';
+    let nombreEspecialidad = '';
+
+    if (this.diagnosticos.length > 0) {
+      CIE11=this.diagnosticos[0].codigo;
+      CIE11Descripcion = this.diagnosticos[0].descripcion;
+      codigoEspecialidad = this.diagnosticos[0].codigoEspecialidad;
+      nombreEspecialidad = this.diagnosticos[0].nombreEspecialidad;
+    }
+
+
     // Mapea lo que recibes del servicio al DTO que espera el backend
     const nuevoPacienteDto = {
-      idServinte: this.pacienteData.idServinte, 
-      nombre1: this.pacienteData.nombre1,
-      nombre2: this.pacienteData.nombre2,
-      apellido1: this.pacienteData.apellido1,
-      apellido2: this.pacienteData.apellido2,
+      idServinte: this.pacienteData.idServinte,
+      nombres: this.pacienteData.nombres,
+      apellidos: this.pacienteData.apellidos, 
       tipoDocumento: this.pacienteData.tipoDocumento,
       documento: this.pacienteData.documento,
       fechaNacimiento: this.pacienteData.fechaNacimiento, 
@@ -169,17 +224,23 @@ export class PacienteComponent {
         tfg: Number(this.pacienteData.tfg),
         fecha: formData.fechaInicio
       },
+      diagnosticos: this.diagnosticos.map(d => ({
+        codigo: d.codigo,
+        descripcion: d.descripcion,
+        codigoEspecialidad: d.codigoEspecialidad,
+        nombreEspecialidad: d.nombreEspecialidad
+      })),
       idProtocolo: formData.idProtocolo, 
       medicoTratante: this.pacienteData.medicoTratante,
       codigoMedicoTratante: Number(this.pacienteData.codigoMedicoTratante),
-      codigoEspecialidad: this.pacienteData.codigoEspecialidad,
+      codigoEspecialidad: codigoEspecialidad,
       fechaConsulta: formData.fechaConsulta,
       tipo: formData.tipoPaciente,
       razonTratamiento: formData.razon,
       especialidad: this.pacienteData.especialidad,
-      nombreEspecialidad: this.pacienteData.nombreEspecialidad,
-      CIE11Descripcion: this.pacienteData.CIE11Descripcion,
-      CIE11: this.pacienteData.CIE11,
+      nombreEspecialidad: nombreEspecialidad,
+      CIE11Descripcion: CIE11Descripcion,
+      CIE11: CIE11,
       tratamientoNombre: formData.tratamiento , 
       tratamientoTipo: formData.tipoTratamiento ,
       usuarioCreacion: usuario

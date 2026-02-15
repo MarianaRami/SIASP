@@ -44,7 +44,7 @@
 
             <!-- Si solo hay uno -->
             <div *ngIf="diagnosticos.length === 1">
-                {{ diagnosticos[0].descripcion }}
+                {{ diagnosticos[0].codigo+"-"+diagnosticos[0].descripcion }}
             </div>
 
             <!-- Si hay varios -->

@@ -78,8 +78,13 @@ export class ConfiguracionCicloComponent {
 
           if ( resp.success && resp.data ) {
             //this.pacienteData = resp.data.protocoloActual;
-            this.protocoActual = resp.data.protocoloActual;
-            this.protocoloOriginal = resp.data.protocoloActual;
+
+            if (resp.data.protocolosActuales && resp.data.protocolosActuales.length > 0) {
+              this.protocoActual = resp.data.protocolosActuales[0];
+            } else {
+              this.protocoActual = null;
+            }
+            this.protocoloOriginal = this.protocoActual;
 
             this.protocolo = this.protocoActual?.nombreProtocolo || '';
             this.version = this.protocoActual?.version.toString() || '';
