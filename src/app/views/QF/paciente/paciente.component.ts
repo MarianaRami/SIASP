@@ -46,6 +46,8 @@ export class PacienteComponent {
 
   protocoloActual!: ProtocoloActualDto | null;
 
+  mensajeError: string = '';
+
   ngOnInit() {
     this.cargaDatos()
   }
@@ -120,6 +122,14 @@ export class PacienteComponent {
         },
         error: (err) => {
           console.error('Error al obtener paciente:', err);
+
+          if (err.status === 404) {
+            this.mensajeError = err.error?.message || 'Paciente no encontrado';
+            alert(this.mensajeError);
+            this.router.navigate(['qf/busqueda']);
+          } else {
+            this.mensajeError = 'Ocurrió un error inesperado al buscar el paciente.';
+          }
         }
       });
   }
