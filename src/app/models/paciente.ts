@@ -49,6 +49,15 @@ export interface PacienteResponseDto {
   estadoProtocoloPaciente: string | null;
   tipoProtocolo: string | null;
   razonTratamiento: string | null;
+
+  diagnosticos: DiagnosticoDto[];
+}
+
+export interface DiagnosticoDto {
+  codigo: string;
+  descripcion: string;
+  codigoEspecialidad: number;
+  nombreEspecialidad: string;
 }
 
 export interface ProtocoloActualDto {
@@ -70,6 +79,10 @@ export interface ProtocoloActualDto {
   configuracionMedicamentos: any[];
   indicadores: IndicadoresDto;
   medicamentos: any[];
+  diagnosticos: [
+    
+  ]
+
 }
 
 export interface CicloDto {

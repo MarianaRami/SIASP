@@ -16,6 +16,8 @@ import { CommonModule } from '@angular/common';
 export class PacienteComponent {
 version: any;
 mensajeError: any;
+diagnosticos: any;
+cieSeleccionado: any;
 guardarCambio($event: any) {
 throw new Error('Method not implemented.');
 }

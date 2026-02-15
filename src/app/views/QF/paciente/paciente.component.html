@@ -41,8 +41,28 @@
 
         <div class="fila">
             <label>CIE10:</label>
-            <div>{{ cie10 }}</div>
+
+            <!-- Si solo hay uno -->
+            <div *ngIf="diagnosticos.length === 1">
+                {{ diagnosticos[0].descripcion }}
+            </div>
+
+            <!-- Si hay varios -->
+            <select 
+                *ngIf="diagnosticos.length > 1"
+                [(ngModel)]="cieSeleccionado"
+            >
+                <option *ngFor="let d of diagnosticos" [value]="d.descripcion">
+                {{ d.codigo }} — {{ d.descripcion }}
+                </option>
+            </select>
+
+            <!-- Si no hay -->
+            <div *ngIf="diagnosticos.length === 0">
+                Sin diagnóstico
+            </div>
         </div>
+
     </div>
 
     <div class="columna-derecha">

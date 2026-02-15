@@ -48,6 +48,9 @@ export class PacienteComponent {
 
   mensajeError: string = '';
 
+  diagnosticos: any[] = [];
+  cieSeleccionado: string = '';
+
   ngOnInit() {
     this.cargaDatos()
   }
@@ -104,7 +107,13 @@ export class PacienteComponent {
             this.eps = this.pacienteData.eps;
             this.especialidad = this.pacienteData.especialidad;
             this.nombreEspecialidad = this.pacienteData.nombreEspecialidad;
-            this.cie10 = this.pacienteData.CIE11Descripcion;
+            this.diagnosticos = this.pacienteData.diagnosticos || [];
+
+            if (this.diagnosticos.length === 1) {
+              this.cieSeleccionado = this.diagnosticos[0].descripcion;
+            } else if (this.diagnosticos.length > 1) {
+              this.cieSeleccionado = this.diagnosticos[0].descripcion; // default
+            }
             
             this.protocoloActual = this.pacienteData.protocoloActual;
 
@@ -162,7 +171,7 @@ export class PacienteComponent {
       },
       idProtocolo: formData.idProtocolo, 
       medicoTratante: this.pacienteData.medicoTratante,
-      codigoMedicoTratante: this.pacienteData.codigoMedicoTratante,
+      codigoMedicoTratante: Number(this.pacienteData.codigoMedicoTratante),
       codigoEspecialidad: this.pacienteData.codigoEspecialidad,
       fechaConsulta: formData.fechaConsulta,
       tipo: formData.tipoPaciente,
