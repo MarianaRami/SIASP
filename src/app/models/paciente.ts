@@ -70,6 +70,7 @@ export interface ProtocoloActualDto {
   eventos: any[];
   idProtocoloPaciente: string;
   idPaciente: string;
+  idServinte: string;
   numeroCiclo: number;
   ciclos: CicloDto[];
   fechaConsulta: string;
@@ -84,6 +85,8 @@ export interface ProtocoloActualDto {
   codigoEspecialidad: number;
   tratamiento: string;
   tipoTratamiento: string;
+  fecha_inicio_estimada: string | null;
+  conciliacionMedicamentos: boolean;
 
 }
 

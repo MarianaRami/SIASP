@@ -48,7 +48,7 @@ export class ConfiguracionCicloComponent {
   mostrarPopupMedicamentosDetalle = false;
   medicamentos: any[] = [];
 
-  protocoActual!: ProtocoloActualDto | null;
+  protocoloActual!: ProtocoloActualDto | null;
 
   columnas = [
     { key: 'Aplicacion', label: 'No. Aplicación' },
@@ -80,34 +80,34 @@ export class ConfiguracionCicloComponent {
             //this.pacienteData = resp.data.protocoloActual;
 
             if (resp.data.protocolosActuales && resp.data.protocolosActuales.length > 0) {
-              this.protocoActual = resp.data.protocolosActuales[0];
+              this.protocoloActual = resp.data.protocolosActuales[0];
             } else {
-              this.protocoActual = null;
+              this.protocoloActual = null;
             }
-            this.protocoloOriginal = this.protocoActual;
+            //this.protocoloOriginal = this.protocoloActual;
 
-            this.protocolo = this.protocoActual?.nombreProtocolo || '';
-            this.version = this.protocoActual?.version.toString() || '';
-            this.peso = this.protocoActual?.indicadores.peso || '';
-            this.superficie = this.protocoActual?.indicadores.sc || '';
-            this.talla = this.protocoActual?.indicadores.talla || '';
-            this.tfg = this.protocoActual?.indicadores.tfg || '';
-            this.medicamentos = this.protocoActual?.medicamentos || [];
+            this.protocolo = this.protocoloActual?.nombreProtocolo || '';
+            this.version = this.protocoloActual?.version.toString() || '';
+            this.peso = this.protocoloActual?.indicadores.peso || '';
+            this.superficie = this.protocoloActual?.indicadores.sc || '';
+            this.talla = this.protocoloActual?.indicadores.talla || '';
+            this.tfg = this.protocoloActual?.indicadores.tfg || '';
+            this.medicamentos = this.protocoloActual?.medicamentos || [];
 
-            if (this.protocoActual?.ciclos && this.protocoActual.ciclos.length > 0) {
+            if (this.protocoloActual?.ciclos && this.protocoloActual.ciclos.length > 0) {
               // Si hay ciclos, tomar el ciclo activo
-              const cicloActivo = this.protocoActual.ciclos.find((c: any) => c.estado == 'borrador') || this.protocoActual.ciclos[0];
+              const cicloActivo = this.protocoloActual.ciclos.find((c: any) => c.estado == 'borrador') || this.protocoloActual.ciclos[0];
               this.fecha_inicio_estimada = (cicloActivo.estado !== 'finalizado' && cicloActivo.estado !== 'suspendido')? cicloActivo.fechaIniEstimada || '' : '';
             } else {
               // Si no hay ciclos dejar vacío
               this.fecha_inicio_estimada = '';
             }
 
-            this.ciclo = this.protocoActual?.numeroCiclo || 0;
-            this.fecha_consulta = this.protocoActual?.fechaConsulta || '';
-            this.fecha_asignacion = this.protocoActual?.fechaCreacion || '';
+            this.ciclo = this.protocoloActual?.numeroCiclo || 0;
+            this.fecha_consulta = this.protocoloActual?.fechaConsulta || '';
+            this.fecha_asignacion = this.protocoloActual?.fechaCreacion || '';
             
-            this.eventos = this.protocoActual?.eventos?.map((evento: any) => ({
+            this.eventos = this.protocoloActual?.eventos?.map((evento: any) => ({
               dia: Number(evento.dia),
               tipo: evento.tipo || '',
               observacion: evento.observacion || '',
@@ -147,13 +147,25 @@ export class ConfiguracionCicloComponent {
     this.infoCicloCompleta.medicamentos = datos;
 
     // Clona el protocolo original para no modificar el objeto original
-    const protocoloFinal = { ...this.protocoloOriginal };
+    const protocoloFinal = { ...this.protocoloActual };
 
+
+    protocoloFinal.idProtocoloPaciente = this.protocoloActual?.idProtocoloPaciente || '';
+    protocoloFinal.idPaciente = this.protocoloActual?.idPaciente || '';
+    protocoloFinal.idServinte = this.protocoloActual?.idServinte || '';
     // Actualiza los campos con lo que el usuario llenó
-    protocoloFinal.indicadores.peso = parseInt(this.peso);
-    protocoloFinal.indicadores.sc = parseInt(this.superficie);
-    protocoloFinal.indicadores.tfg = parseInt(this.tfg);
-    protocoloFinal.indicadores.talla = parseInt(this.talla);
+    if (protocoloFinal.indicadores?.peso !== undefined && protocoloFinal.indicadores?.peso !== null) {
+      protocoloFinal.indicadores.peso = this.peso || "0";
+    }
+    if (protocoloFinal.indicadores?.sc !== undefined && protocoloFinal.indicadores?.sc !== null) {
+      protocoloFinal.indicadores.sc = this.superficie || "0";
+    }
+    if (protocoloFinal.indicadores?.tfg !== undefined && protocoloFinal.indicadores?.tfg !== null) {
+      protocoloFinal.indicadores.tfg = this.tfg || "0";
+    }
+    if (protocoloFinal.indicadores?.talla !== undefined && protocoloFinal.indicadores?.talla !== null) {
+      protocoloFinal.indicadores.talla = this.talla || "0";
+    }
     protocoloFinal.fechaConsulta = this.fecha_consulta;
     protocoloFinal.fecha_inicio_estimada = this.fecha_inicio_estimada;
 
