@@ -231,18 +231,15 @@ export class PacienteComponent {
         nombreEspecialidad: d.nombreEspecialidad
       })),
       idProtocolo: formData.idProtocolo, 
-      medicoTratante: this.pacienteData.medicoTratante,
-      codigoMedicoTratante: Number(this.pacienteData.codigoMedicoTratante),
       codigoEspecialidad: codigoEspecialidad,
       fechaConsulta: formData.fechaConsulta,
       tipo: formData.tipoPaciente,
       razonTratamiento: formData.razon,
-      especialidad: this.pacienteData.especialidad,
       nombreEspecialidad: nombreEspecialidad,
-      CIE11Descripcion: CIE11Descripcion,
-      CIE11: CIE11,
-      tratamientoNombre: formData.tratamiento , 
-      tratamientoTipo: formData.tipoTratamiento ,
+      // CIE11Descripcion: CIE11Descripcion,
+      // CIE11: CIE11,
+      // tratamientoNombre: formData.tratamiento , 
+      // tratamientoTipo: formData.tipoTratamiento ,
       usuarioCreacion: usuario
     };
 
@@ -277,12 +274,6 @@ export class PacienteComponent {
         tipo: formData.tipoPaciente,
         razonTratamiento: formData.razon,
         fechaConsulta: formData.fechaConsulta,
-        CIE11Descripcion: this.pacienteData.CIE11Descripcion,
-        CIE11: this.pacienteData.CIE11,
-        medicoTratante: this.pacienteData.medicoTratante,
-        codigoMedicoTratante: this.pacienteData.codigoMedicoTratante,
-        nombreEspecialidad: this.pacienteData.nombreEspecialidad,
-        codigoEspecialidad: this.pacienteData.codigoEspecialidad,
         tratamiento: formData.tratamiento , 
         tipoTratamiento: formData.tipoTratamiento 
       };

@@ -12,24 +12,10 @@ export interface PacienteResponseDto {
   tipoDocumento: string;
   documento: string;
   fechaNacimiento: string;
-  nombreCompleto: string;
-  identificacion: string;
-  protocolosActuales: ProtocoloActualDto[] | null;
-  tratamiento: string;
-  tratamientoTipo: string | null;
-  tratamientoNombre: string | null;
-  medicoTratante: string;
-  CIE11Descripcion: string;
-  CIE11: string;
-  codigoMedicoTratante: number;
-  codigoEspecialidad: number;
-  nombreEspecialidad: string;
-  especialidad: string;
   peso: number;
   talla: number;
   tfg: number;
   eps: string;
-  imc: number;
   superficieCorporal: number;
   edad: number;
   estadoPaciente: string;
@@ -41,12 +27,7 @@ export interface PacienteResponseDto {
   email2: string;
   nombreContacto: string;
   fuenteDatos: string;
-  fechaConsulta: string;
-  protocoloPacienteId: string | null;
-  fechaRegistroProtocolo: string | null;
-  estadoProtocoloPaciente: string | null;
-  tipoProtocolo: string | null;
-  razonTratamiento: string | null;
+  protocolosActuales: ProtocoloActualDto[] | null;
   diagnosticos: DiagnosticoDto[];
 }
 
@@ -77,14 +58,19 @@ export interface ProtocoloActualDto {
   configuracionMedicamentos: any[];
   indicadores: IndicadoresDto;
   medicamentos: any[];
+  tratamientoTipo: string;
+  tratamientoNombre: string;
+  medicoTratante: string;
   CIE11Descripcion: string;
   CIE11: string;
-  medicoTratante: string;
   codigoMedicoTratante: number;
-  nombreEspecialidad: string;
   codigoEspecialidad: number;
-  tratamiento: string;
-  tipoTratamiento: string;
+  nombreEspecialidad: string;
+  fechaRegistroProtocolo: string;
+  estadoProtocoloPaciente: string;
+  tipoProtocolo: string;
+  razonTratamiento: string;
+
   fecha_inicio_estimada: string | null;
   conciliacionMedicamentos: boolean;
 
@@ -172,12 +158,6 @@ export interface CreateProtocoloPacienteCompletoDto {
   tipo: "ambulatorio" | "hospitalizado";
   razonTratamiento: "cambio_protocolo" | "nuevo" | "recaida" | "transferencia";
   fechaConsulta: string;
-  CIE11Descripcion: string;
-  CIE11: string;
-  medicoTratante: string;
-  codigoMedicoTratante: number;
-  nombreEspecialidad: string;
-  codigoEspecialidad: number;
   tratamiento: string;
   tipoTratamiento: string;
   fechaFinProtocolo?: string;

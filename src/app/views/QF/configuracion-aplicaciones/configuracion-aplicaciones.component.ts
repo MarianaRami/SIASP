@@ -113,7 +113,38 @@ export class ConfiguracionAplicacionesComponent implements OnInit {
 
     console.log("✅ Configuración actualizada:", this.infoCicloCompleta);
 
-    this.cicloPacienteService.createCicloPaciente(this.infoCicloCompleta).subscribe({
+    const payload = {
+      nombreProtocolo: this.infoCicloCompleta.nombreProtocolo,
+      version: this.infoCicloCompleta.version,
+      descripcion: this.infoCicloCompleta.descripcion,
+      observacion: this.infoCicloCompleta.observacion || undefined,
+      fechaCreacion: this.infoCicloCompleta.fechaCreacion,
+      numero_ciclos: this.infoCicloCompleta.numero_ciclos,
+      usuarioCreacion: usuario,
+      eventos: this.infoCicloCompleta.eventos,
+      numeroCiclo: this.infoCicloCompleta.numeroCiclo,
+      ciclos: this.infoCicloCompleta.ciclos,
+      configuracionMedicamentos: this.infoCicloCompleta.configuracionMedicamentos,
+      indicadores: {
+          id_ind_ciclo_paciente: this.infoCicloCompleta.indicadores.id_ind_ciclo_paciente,
+          //idProtocoloPaciente: this.infoCicloCompleta.indicadores,
+          peso: Number(this.infoCicloCompleta.indicadores.peso),
+          talla: Number(this.infoCicloCompleta.indicadores.talla),
+          sc: Number(this.infoCicloCompleta.indicadores.sc),
+          tfg: Number(this.infoCicloCompleta.indicadores.tfg),
+          fecha: this.infoCicloCompleta.indicadores.fecha
+      },
+      medicamentos: this.infoCicloCompleta.medicamentos,
+      fechaConsulta: this.infoCicloCompleta.fechaConsulta,
+      fecha_inicio_estimada: this.infoCicloCompleta.fecha_inicio_estimada ? new Date(this.infoCicloCompleta.fecha_inicio_estimada) : null,
+      conciliacionMedicamentos: this.infoCicloCompleta.conciliacionMedicamentos,
+      presentaciones: this.infoCicloCompleta.presentaciones,
+      idPaciente: this.infoCicloCompleta.idPaciente,
+      idProtocoloPaciente: this.infoCicloCompleta.idProtocoloPaciente,
+      estado: this.infoCicloCompleta.estado
+    }
+
+    this.cicloPacienteService.createCicloPaciente(payload).subscribe({
       next: (resp) => {
         console.log('✅ Ciclo creado:', resp);
         this.router.navigate(['qf/busqueda']);

@@ -46,7 +46,7 @@ export class GestionPacientesService {
 
   // ------------------- CREACIÓN DE CICLO -------------------
   // crea tanto el ciclo en estado activo como borrador
-  createCicloPaciente(dto: DescripcionCicloPacienteCompleto): Observable<DescripcionCicloPacienteCompletoResponse> {
+  createCicloPaciente(dto: any): Observable<DescripcionCicloPacienteCompletoResponse> {
     return this.http.post<DescripcionCicloPacienteCompletoResponse>(
       `${this.apiUrl}/pacientes/ciclo-paciente`,
       dto

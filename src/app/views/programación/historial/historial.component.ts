@@ -102,11 +102,11 @@ export class HistorialComponent {
 
             let protocoloActual = p.protocolosActuales && p.protocolosActuales.length > 0 ? p.protocolosActuales[0] : null;
 
-            this.paciente = this.pacienteData.nombreCompleto;
-            this.identificacion = this.pacienteData.identificacion;
-            this.medico = this.pacienteData.medicoTratante;
+            this.paciente = this.construirNombreCompleto(this.pacienteData);
+            this.identificacion =  this.construirIdentificacionCompleta(this.pacienteData);
+            this.medico = protocoloActual?.medicoTratante || '';
             this.protocolo = protocoloActual?.nombreProtocolo || '';
-            this.especialidad = this.pacienteData.especialidad;
+            // this.especialidad = this.pacienteData.especialidad;
 
             this.telefono1 = this.pacienteData.telefono1;
             this.telefono2 = this.pacienteData.telefono2;
@@ -124,15 +124,15 @@ export class HistorialComponent {
 
             this.ciclos = protocoloActual?.ciclos || [];
 
-            this.nombreTrat = this.tratamientoOptions.find(t => t.value === this.pacienteData.tratamientoNombre)?.label || this.pacienteData.tratamientoNombre;
-            this.tipoTrat = this.tipoTratamientoOptions.find(t => t.key === this.pacienteData.tratamientoTipo)?.label || this.pacienteData.tratamientoTipo;
+            // this.nombreTrat = this.tratamientoOptions.find(t => t.value === this.pacienteData.protocolosActuales?.tratamiento)?.label || this.pacienteData.protocolosActuales?.tratamientoNombre;
+            // this.tipoTrat = this.tipoTratamientoOptions.find(t => t.key === this.pacienteData.protocolosActuales?.tipoTratamiento)?.label || this.pacienteData.protocolosActuales?.tratamientoTipo;
           
             //  Verificar si hay un ciclo activo
             this.tieneCicloActivo = this.ciclos.some(ciclo => ciclo.estado === 'activo' || ciclo.estado === 'revisado_examenes' || ciclo.estado === 'notificado');
             
             this.cicloActivo = this.ciclos.find(ciclo => ciclo.estado === 'activo' || ciclo.estado === 'revisado_examenes' || ciclo.estado === 'notificado') || undefined;
 
-            this.tipoSillaPopUp = this.pacienteData.tipoProtocolo==='hospitalizado' ? 'habitacion' : this.cicloActivo?.necesitaCamilla ? 'camilla' : 'silla';
+           //  this.tipoSillaPopUp = this.pacienteData.protocolosActuales?.tipoProtocolo==='hospitalizado' ? 'habitacion' : this.cicloActivo?.necesitaCamilla ? 'camilla' : 'silla';
 
 
             // lógica para determinar la visibilidad de los botones programar y editar
@@ -171,6 +171,24 @@ export class HistorialComponent {
           console.error('Error al obtener paciente:', err);
         }
       });
+  }
+
+  construirNombreCompleto(registro: any): string {
+    const partes = [
+      registro.nombres,
+      registro.apellidos,
+    ].filter(parte => parte && parte.trim() !== '');
+    
+    return partes.join(' ');
+  }
+
+  construirIdentificacionCompleta(registro: any): string {
+    const partes = [
+      registro.tipoDocumento,
+      registro.documento,
+    ].filter(parte => parte && parte.trim() !== '');
+    
+    return partes.join('-');
   }
 
   formatearTipoEvento(tipo: string): string {
