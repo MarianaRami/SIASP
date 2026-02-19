@@ -40,7 +40,9 @@ export class ConfiguracionCicloComponent {
   superficie = '';
   tfg = '';
   talla = '';
-  conf_medicamentos: boolean = false;
+  conc_medicamentos: boolean = false;
+
+  config_medicamentos: any[] = [];
 
   infoCicloCompleta: any = {};
 
@@ -86,6 +88,7 @@ export class ConfiguracionCicloComponent {
             }
             //this.protocoloOriginal = this.protocoloActual;
 
+            this.conc_medicamentos = this.protocoloActual?.conciliacionMedicamentos || false;
             this.protocolo = this.protocoloActual?.nombreProtocolo || '';
             this.version = this.protocoloActual?.version.toString() || '';
             this.peso = this.protocoloActual?.indicadores.peso || '';
@@ -169,7 +172,7 @@ export class ConfiguracionCicloComponent {
     protocoloFinal.fechaConsulta = this.fecha_consulta;
     protocoloFinal.fecha_inicio_estimada = this.fecha_inicio_estimada;
 
-    protocoloFinal.conciliacionMedicamentos = this.conf_medicamentos
+    protocoloFinal.conciliacionMedicamentos = this.conc_medicamentos
 
     // Actualiza medicamentos
     protocoloFinal.medicamentos = this.infoCicloCompleta.medicamentos;
@@ -189,17 +192,59 @@ export class ConfiguracionCicloComponent {
     this.infoCicloCompleta.medicamentos = datos;
 
     // Clona el protocolo original para no modificar el objeto original
-    const protocoloFinal = { ...this.protocoloOriginal };
+    let protocoloFinal : any = {};
 
+    //console.log("protocolo original: ", protocoloFinal);
+
+    if(this.protocoloActual?.idProtocoloPaciente){
+      protocoloFinal.idProtocoloPaciente = this.protocoloActual.idProtocoloPaciente;
+    }else{
+      protocoloFinal.idProtocoloPaciente = '';
+    }
+    protocoloFinal.idPaciente = this.protocoloActual?.idPaciente || '';
+
+    let config_meds : {dia: number, medicamentos: {nombre: string, dosis: number}[]}[] = [];
+    let meds :{nombre: string, dosis: number}[] = [];
+
+    if(this.protocoloActual?.configuracionMedicamentos){
+      for(const confmed of this.protocoloActual.configuracionMedicamentos){
+        let medsConf = confmed.medicamentos || [];
+        meds = [];
+        for(const med of medsConf){
+          meds.push({
+            nombre: med.nombre || '',
+            dosis: Number(med.dosis) || 0
+          });
+        }
+
+        config_meds.push({
+          dia: Number(confmed.dia) || 0,
+          medicamentos: meds
+        });
+      
+      }
+    }
+
+    protocoloFinal.configuracionMedicamentos = config_meds;
+
+    protocoloFinal.descripcion = this.protocoloActual?.descripcion || '';
+    protocoloFinal.numeroCiclo = this.protocoloActual?.numeroCiclo || 1; 
+    protocoloFinal.numero_ciclos = (this.protocoloActual?.numero_ciclos || 0) ;
+    protocoloFinal.nombreProtocolo = this.protocoloActual?.nombreProtocolo || '';
+    protocoloFinal.version = this.protocoloActual?.version || 1;
+    protocoloFinal.fechaCreacion = this.protocoloActual?.fechaCreacion || new Date().toISOString();
+    protocoloFinal.ciclos = this.protocoloActual?.ciclos || [];
     // Actualiza los campos con lo que el usuario llenó
-    protocoloFinal.indicadores.peso = parseInt(this.peso);
-    protocoloFinal.indicadores.sc = parseInt(this.superficie);
-    protocoloFinal.indicadores.tfg = parseInt(this.tfg);
-    protocoloFinal.indicadores.talla = parseInt(this.talla);
+    if(protocoloFinal.indicadores){
+      protocoloFinal.indicadores.peso = this.peso || "0";
+      protocoloFinal.indicadores.sc = this.superficie || "0";
+      protocoloFinal.indicadores.tfg = this.tfg || "0";
+      protocoloFinal.indicadores.talla = this.talla || "0";
+    }
     protocoloFinal.fechaConsulta = this.fecha_consulta;
     protocoloFinal.fecha_inicio_estimada = this.fecha_inicio_estimada;
 
-    protocoloFinal.conciliacionMedicamentos = this.conf_medicamentos
+    protocoloFinal.conciliacionMedicamentos = this.conc_medicamentos;
 
     // Actualiza medicamentos
     protocoloFinal.medicamentos = this.infoCicloCompleta.medicamentos;
@@ -213,7 +258,7 @@ export class ConfiguracionCicloComponent {
     protocoloFinal.estado = 'borrador';
 
     const usuario = this.AuthService.getUser();
-    protocoloFinal.usuarioCreacion = usuario;
+    protocoloFinal.usuarioCreacion = usuario? usuario : 'desconocido';
 
     console.log("esto mando para crear el ciclo: ", protocoloFinal)
 

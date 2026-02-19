@@ -16,6 +16,7 @@ export interface PacienteResponseDto {
   talla: number;
   tfg: number;
   eps: string;
+  fechaIndicadores: string;
   superficieCorporal: number;
   edad: number;
   estadoPaciente: string;
@@ -29,6 +30,8 @@ export interface PacienteResponseDto {
   fuenteDatos: string;
   protocolosActuales: ProtocoloActualDto[] | null;
   diagnosticos: DiagnosticoDto[];
+  medicoTratante: string;
+  codigoMedicoTratante: string;
 }
 
 export interface DiagnosticoDto {
@@ -44,10 +47,7 @@ export interface ProtocoloActualDto {
   descripcion: string;
   fechaCreacion: string;
   numero_ciclos: number;
-  usuarioCreacion: {
-    id: string;
-    nombre: string;
-  };
+  usuarioCreacion: string;
   eventos: any[];
   idProtocoloPaciente: string;
   idPaciente: string;
@@ -70,10 +70,10 @@ export interface ProtocoloActualDto {
   estadoProtocoloPaciente: string;
   tipoProtocolo: string;
   razonTratamiento: string;
-
+  presentaciones?: any[]; // PresentacionDto
   fecha_inicio_estimada: string | null;
   conciliacionMedicamentos: boolean;
-
+  estado: string
 }
 
 export interface CicloDto {

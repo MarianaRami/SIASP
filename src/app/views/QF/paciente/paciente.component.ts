@@ -40,6 +40,8 @@ export class PacienteComponent {
   especialidad = '';
   nombreEspecialidad = '';
   version = '';
+  medicoTratante = '';
+  codigoMedicoTratante = 0;
 
   protocoloCompleto!: CicloDto | null; 
   ciclos: any[] = [];
@@ -50,6 +52,12 @@ export class PacienteComponent {
 
   diagnosticos: any[] = [];
   cieSeleccionado: string = '';
+  indicadores: any = {
+    peso: 0, 
+    talla: 0,
+    tfg: 0,
+    fecha: ''
+  };
 
   ngOnInit() {
     this.cargaDatos()
@@ -148,7 +156,7 @@ export class PacienteComponent {
             this.protocolo = this.protocoloActual?.nombreProtocolo || '';
             this.eps = this.pacienteData.eps;
             this.diagnosticos = this.pacienteData.diagnosticos && this.pacienteData.diagnosticos.length > 0 ? this.pacienteData.diagnosticos : [];
-
+            
             if (this.diagnosticos.length > 0) {
               this.cie10=this.construirCIE11Completa(this.diagnosticos[0])
               this.cieSeleccionado = this.diagnosticos[0].descripcion;
@@ -159,6 +167,15 @@ export class PacienteComponent {
                 this.especialidad = this.protocoloActual.nombreEspecialidad || '';
                 this.nombreEspecialidad = this.protocoloActual.nombreEspecialidad || '';
               }
+            }
+            this.medicoTratante = this.pacienteData?.medicoTratante || '';
+            this.codigoMedicoTratante = this.pacienteData ? Number(this.pacienteData.codigoMedicoTratante) : 0;
+
+            this.indicadores = {
+              peso: Number(this.pacienteData.peso), 
+              talla: Number(this.pacienteData.talla),
+              tfg: Number(this.pacienteData.tfg),
+              fecha: this.pacienteData.fechaIndicadores ? new Date(this.pacienteData.fechaIndicadores) : new Date()
             }
           
             this.ciclos = this.protocoloActual?.ciclos || [];  
@@ -196,10 +213,20 @@ export class PacienteComponent {
     let nombreEspecialidad = '';
 
     if (this.diagnosticos.length > 0) {
-      CIE11=this.diagnosticos[0].codigo;
-      CIE11Descripcion = this.diagnosticos[0].descripcion;
-      codigoEspecialidad = this.diagnosticos[0].codigoEspecialidad;
-      nombreEspecialidad = this.diagnosticos[0].nombreEspecialidad;
+
+      let diag = this.diagnosticos.find(d => d.descripcion === this.cieSeleccionado);
+
+      if (diag) {
+        CIE11 = diag.codigo;
+        CIE11Descripcion = diag.descripcion;
+        codigoEspecialidad = diag.codigoEspecialidad;
+        nombreEspecialidad = diag.nombreEspecialidad;
+      }else{
+        CIE11=this.diagnosticos[0].codigo;
+        CIE11Descripcion = this.diagnosticos[0].descripcion;
+        codigoEspecialidad = this.diagnosticos[0].codigoEspecialidad;
+        nombreEspecialidad = this.diagnosticos[0].nombreEspecialidad;
+      }
     }
 
 
@@ -218,12 +245,7 @@ export class PacienteComponent {
       email2: this.pacienteData.email2,
       eps: this.pacienteData.eps,
       estado: "activo",
-      indicadores: {
-        peso: Number(this.pacienteData.peso), 
-        talla: Number(this.pacienteData.talla),
-        tfg: Number(this.pacienteData.tfg),
-        fecha: formData.fechaInicio
-      },
+      indicadores:this.indicadores,
       diagnosticos: this.diagnosticos.map(d => ({
         codigo: d.codigo,
         descripcion: d.descripcion,
@@ -236,10 +258,12 @@ export class PacienteComponent {
       tipo: formData.tipoPaciente,
       razonTratamiento: formData.razon,
       nombreEspecialidad: nombreEspecialidad,
-      // CIE11Descripcion: CIE11Descripcion,
-      // CIE11: CIE11,
-      // tratamientoNombre: formData.tratamiento , 
-      // tratamientoTipo: formData.tipoTratamiento ,
+      CIE11Descripcion: CIE11Descripcion,
+      CIE11: CIE11,
+      tratamientoNombre: formData.tratamiento , 
+      tratamientoTipo: formData.tipoTratamiento ,
+      medicoTratante: this.medicoTratante,
+      codigoMedicoTratante: this.codigoMedicoTratante,
       usuarioCreacion: usuario
     };
 
