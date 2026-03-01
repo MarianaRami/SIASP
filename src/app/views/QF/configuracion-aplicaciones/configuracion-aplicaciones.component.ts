@@ -291,6 +291,7 @@ export class ConfiguracionAplicacionesComponent implements OnInit {
     });
 
     this.infoCicloCompleta.configuracionMedicamentos = nuevaConfiguracion;
+    this.infoCicloCompleta.ciclos = [];
 
     this.abrirPopupMedicamentosDetalle(this.infoCicloCompleta); 
   }
