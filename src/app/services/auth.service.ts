@@ -14,9 +14,9 @@ export class AuthService {
 
   // ------------------- AUTH -------------------
 
-  login(nombreUsuario: string): Observable<any> {
-    const body = { nombreUsuario };
-    console.log('📝 Intentando login con usuario:', nombreUsuario);
+  login(userName: string, password: string): Observable<any> {
+    const body = { userName, password };
+    console.log('📝 Intentando login con usuario:', userName);
     
     return this.http.post(`${this.baseUrl}/auth/login`, body, {
       withCredentials: true

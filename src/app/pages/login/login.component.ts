@@ -26,7 +26,7 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   onLogin() {
-    this.authService.login(this.username).subscribe({
+    this.authService.login(this.username, this.password).subscribe({
       next: (res) => {
         this.loginResponse = res;
         this.loginError = false;
