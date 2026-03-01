@@ -40,6 +40,13 @@
             <div>{{ identificacion }}</div>
         </div>
 
+        <div class="fila" *ngIf="diagnosticos.length > 0">
+            <label>Diagnóstico:</label>
+            <select [(ngModel)]="cieSeleccionado" (change)="actualizarProtocoloCie()">
+                <option *ngFor="let diag of diagnosticos" [value]="diag">{{ diag }}</option>
+            </select>
+        </div>
+
         <div class="fila">
             <label>Protocolo:</label>
             <div>{{ protocolo }} <span *ngIf="version">- versión {{ version }}</span> </div>

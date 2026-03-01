@@ -32,6 +32,10 @@ export class HistorialComponent {
   ) {}
   pacienteData!: PacienteResponseDto;
 
+  diagnosticos: any[] = [];
+  protocolos: any[] = [];
+  cieSeleccionado: string = '';
+
   idpaciente = '';
   paciente = '';
   version = '';
@@ -48,9 +52,7 @@ export class HistorialComponent {
   cedula!: string;
 
   ciclos!: CicloDto[];
-
   cicloActivo!: CicloDto | undefined;
-
   tieneCicloActivo = false;
 
   modoPopup: 'programar' | 'editar' = 'programar';
@@ -100,70 +102,20 @@ export class HistorialComponent {
 
             this.idpaciente = resp.data.idPaciente;
 
-            let protocoloActual = p.protocolosActuales && p.protocolosActuales.length > 0 ? p.protocolosActuales[0] : null;
+            this. diagnosticos = p.diagnosticos || [];
+            this.protocolos = p.protocolosActuales || [];
+
+            if(this.diagnosticos.length > 0){
+              this.cieSeleccionado = this.diagnosticos[0].cie10 || '';
+            }
 
             this.paciente = this.construirNombreCompleto(this.pacienteData);
             this.identificacion =  this.construirIdentificacionCompleta(this.pacienteData);
-            this.medico = protocoloActual?.medicoTratante || '';
-            this.protocolo = protocoloActual?.nombreProtocolo || '';
             // this.especialidad = this.pacienteData.especialidad;
-
             this.telefono1 = this.pacienteData.telefono1;
             this.telefono2 = this.pacienteData.telefono2;
 
-            this.datos = (protocoloActual?.eventos || []).map(evento => ({
-              ...evento,
-              tipo: this.formatearTipoEvento(evento.tipo),
-              estado: this.formatearEstado(evento.estado),
-              fecha: this.formatearFecha(evento.fecha),
-              horario: evento.horaInicio && evento.horaFin ? `${evento.horaInicio} - ${evento.horaFin}` : '',
-              puesto: evento.puesto || 'N/A'
-            }));
-
-            this.version = protocoloActual?.version?.toString() ?? '';
-
-            this.ciclos = protocoloActual?.ciclos || [];
-
-            // this.nombreTrat = this.tratamientoOptions.find(t => t.value === this.pacienteData.protocolosActuales?.tratamiento)?.label || this.pacienteData.protocolosActuales?.tratamientoNombre;
-            // this.tipoTrat = this.tipoTratamientoOptions.find(t => t.key === this.pacienteData.protocolosActuales?.tipoTratamiento)?.label || this.pacienteData.protocolosActuales?.tratamientoTipo;
-          
-            //  Verificar si hay un ciclo activo
-            this.tieneCicloActivo = this.ciclos.some(ciclo => ciclo.estado === 'activo' || ciclo.estado === 'revisado_examenes' || ciclo.estado === 'notificado');
-            
-            this.cicloActivo = this.ciclos.find(ciclo => ciclo.estado === 'activo' || ciclo.estado === 'revisado_examenes' || ciclo.estado === 'notificado') || undefined;
-
-           //  this.tipoSillaPopUp = this.pacienteData.protocolosActuales?.tipoProtocolo==='hospitalizado' ? 'habitacion' : this.cicloActivo?.necesitaCamilla ? 'camilla' : 'silla';
-
-
-            // lógica para determinar la visibilidad de los botones programar y editar
-            const primerEventoAplicacion =  protocoloActual?.eventos?.find((e: any) => e.tipo === 'aplicacion');
-
-            if (primerEventoAplicacion) {
-              if (primerEventoAplicacion.estado === 'tentativa') {
-                this.mostrarBotonProgramar = true;
-              } else {
-                this.mostrarBotonProgramar = false;
-
-                // Agregar columna solo si no existe
-                const existeColumnaBoton = this.columnas.some(c => c.key === 'boton');
-                if (!existeColumnaBoton) {
-                  this.columnas.push({ key: 'boton', label: ' ', tipo: 'button' });
-                }
-              }
-            } else {
-              // Si no hay aplicación, por defecto no mostramos ninguno
-              this.mostrarBotonProgramar = false;
-            }
-
-            // Lógica para mostrar el botón de notificar
-            const eventosAplicacion = this.pacienteData.protocolosActuales?.flatMap(p => p.eventos || []).filter((e: any) => e.tipo === 'aplicacion') || [];
-
-            const tieneProgramada = eventosAplicacion.some((e: any) => e.estado === 'programada');
-            if(tieneProgramada){
-              this.mostrarBotonNotificar = true;
-            } else {
-              this.mostrarBotonNotificar = false;
-            }
+            this.actualizarProtocoloCie();            
 
           }
         },
@@ -171,6 +123,63 @@ export class HistorialComponent {
           console.error('Error al obtener paciente:', err);
         }
       });
+  }
+
+  actualizarProtocoloCie(){
+    const protocoloActual = this.protocolos.find(
+      p => p.CIE10 === this.cieSeleccionado
+    );
+    if (!protocoloActual) return;
+
+    this.medico = protocoloActual.medicoTratante || 'N/A';
+    this.protocolo = protocoloActual.nombreProtocolo || 'N/A';
+    this.version = protocoloActual?.version?.toString() ?? '';
+    this.ciclos = protocoloActual?.ciclos || [];
+
+    this.datos = (protocoloActual?.eventos || []).map((evento: any) => ({
+      ...evento,
+      tipo: this.formatearTipoEvento(evento.tipo),
+      estado: this.formatearEstado(evento.estado),
+      fecha: this.formatearFecha(evento.fecha),
+      horario: evento.horaInicio && evento.horaFin ? `${evento.horaInicio} - ${evento.horaFin}` : '',
+      puesto: evento.puesto || 'N/A'
+    }));
+
+
+
+    //  Verificar si hay un ciclo activo
+    this.tieneCicloActivo = this.ciclos.some(ciclo => ciclo.estado === 'activo' || ciclo.estado === 'revisado_examenes' || ciclo.estado === 'notificado');    
+    this.cicloActivo = this.ciclos.find(ciclo => ciclo.estado === 'activo' || ciclo.estado === 'revisado_examenes' || ciclo.estado === 'notificado') || undefined;
+
+    // lógica para determinar la visibilidad de los botones programar y editar
+    const primerEventoAplicacion =  protocoloActual?.eventos?.find((e: any) => e.tipo === 'aplicacion');
+           
+    if (primerEventoAplicacion) {
+      if (primerEventoAplicacion.estado === 'tentativa') {
+        this.mostrarBotonProgramar = true;
+      } else {
+        this.mostrarBotonProgramar = false;
+
+        // Agregar columna solo si no existe
+        const existeColumnaBoton = this.columnas.some(c => c.key === 'boton');
+        if (!existeColumnaBoton) {
+          this.columnas.push({ key: 'boton', label: ' ', tipo: 'button' });
+        }
+      }
+    } else {
+      // Si no hay aplicación, por defecto no mostramos ninguno
+      this.mostrarBotonProgramar = false;
+    }
+
+    // Lógica para mostrar el botón de notificar
+    const eventosAplicacion = this.pacienteData.protocolosActuales?.flatMap(p => p.eventos || []).filter((e: any) => e.tipo === 'aplicacion') || [];
+
+    const tieneProgramada = eventosAplicacion.some((e: any) => e.estado === 'programada');
+    if(tieneProgramada){
+      this.mostrarBotonNotificar = true;
+    } else {
+      this.mostrarBotonNotificar = false;
+    }
   }
 
   construirNombreCompleto(registro: any): string {
@@ -257,7 +266,6 @@ export class HistorialComponent {
       }
     });
   }
-
 
   // Pop up programación
   mostrarPopupP = false;
