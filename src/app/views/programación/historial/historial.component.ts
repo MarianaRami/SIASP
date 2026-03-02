@@ -106,7 +106,7 @@ export class HistorialComponent {
             this.protocolos = p.protocolosActuales || [];
 
             if(this.diagnosticos.length > 0){
-              this.cieSeleccionado = this.diagnosticos[0].cie10 || '';
+              this.cieSeleccionado = this.diagnosticos[0].codigo || '';
             }
 
             this.paciente = this.construirNombreCompleto(this.pacienteData);
@@ -127,7 +127,7 @@ export class HistorialComponent {
 
   actualizarProtocoloCie(){
     const protocoloActual = this.protocolos.find(
-      p => p.CIE10 === this.cieSeleccionado
+      p => p.CIE11 === this.cieSeleccionado
     );
     if (!protocoloActual) return;
 
