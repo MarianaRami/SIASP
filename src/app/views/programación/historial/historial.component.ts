@@ -107,7 +107,9 @@ export class HistorialComponent {
 
             if(this.diagnosticos.length > 0){
               this.cieSeleccionado = this.diagnosticos[0].codigo || '';
+              console.log('CIE seleccionado:', this.cieSeleccionado);
             }
+
 
             this.paciente = this.construirNombreCompleto(this.pacienteData);
             this.identificacion =  this.construirIdentificacionCompleta(this.pacienteData);
@@ -132,6 +134,7 @@ export class HistorialComponent {
     if (!protocoloActual) return;
 
     this.medico = protocoloActual.medicoTratante || 'N/A';
+    this.especialidad = protocoloActual.nombreEspecialidad || 'N/A';
     this.protocolo = protocoloActual.nombreProtocolo || 'N/A';
     this.version = protocoloActual?.version?.toString() ?? '';
     this.ciclos = protocoloActual?.ciclos || [];
@@ -180,6 +183,9 @@ export class HistorialComponent {
     } else {
       this.mostrarBotonNotificar = false;
     }
+
+    this.nombreTrat = protocoloActual.tratamientoNombre;
+    this.tipoTrat = protocoloActual.tratamientoTipo;
   }
 
   construirNombreCompleto(registro: any): string {

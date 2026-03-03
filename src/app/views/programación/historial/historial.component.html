@@ -40,11 +40,28 @@
             <div>{{ identificacion }}</div>
         </div>
 
-        <div class="fila" *ngIf="diagnosticos.length > 0">
-            <label>Diagnóstico:</label>
-            <select [(ngModel)]="cieSeleccionado" (change)="actualizarProtocoloCie()">
-                <option *ngFor="let diag of diagnosticos" [value]="diag">{{ diag }}</option>
+        <div class="fila">
+            <label>CIE10:</label>
+
+            <!-- Si solo hay uno -->
+            <div *ngIf="diagnosticos.length === 1">
+                {{ diagnosticos[0].codigo+"-"+diagnosticos[0].descripcion }}
+            </div>
+
+            <!-- Si hay varios -->
+            <select 
+                *ngIf="diagnosticos.length > 1"
+                [(ngModel)]="cieSeleccionado"
+            >
+                <option *ngFor="let d of diagnosticos" [value]="d.descripcion">
+                {{ d.codigo }} — {{ d.descripcion }}
+                </option>
             </select>
+
+            <!-- Si no hay -->
+            <div *ngIf="diagnosticos.length === 0">
+                Sin diagnóstico
+            </div>
         </div>
 
         <div class="fila">
@@ -64,12 +81,13 @@
 
         <div class="fila">
             <label>Tipo de tratamiento:</label>
-            <div>{{ nombreTrat }}</div>
+            <div>{{ tipoTrat }}</div>
         </div>
 
         <div class="fila">
             <label>Tratamiento:</label>
-            <div>{{ tipoTrat }}</div>
+            <div>{{ nombreTrat }}</div>
+            
         </div>
     </div>
 
