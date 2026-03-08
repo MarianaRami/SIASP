@@ -1,21 +1,24 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { SidebarService } from '../../services/sidebar.service';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MenuIzquierdoComponent } from './menu-izquierdo.component';
 
-@Component({
-  selector: 'app-menu-izquierdo',
-  imports: [RouterModule, CommonModule, FormsModule],
-  templateUrl: './menu-izquierdo.component.html',
-  styleUrl: './menu-izquierdo.component.css'
-})
-export class MenuIzquierdoComponent {
-openSidebar() {
-throw new Error('Method not implemented.');
-}
-isOpen: any;
-menuItems: any;
-private sidebarService = inject(SidebarService);
+describe('MenuIzquierdoComponent', () => {
 
-}
+  let component: MenuIzquierdoComponent;
+  let fixture: ComponentFixture<MenuIzquierdoComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [MenuIzquierdoComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(MenuIzquierdoComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+});

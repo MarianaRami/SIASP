@@ -1,7 +1,7 @@
 <app-menu-superior></app-menu-superior>
 
 <div style="display: flex;">
-  <app-menu-izquierdo></app-menu-izquierdo>
+  <app-menu-izquierdo *ngIf="authService.isLoggedIn() && router.url !== '/'"></app-menu-izquierdo>
   <div style="flex-grow: 1; padding: 20px;">
     <router-outlet></router-outlet>
   </div>

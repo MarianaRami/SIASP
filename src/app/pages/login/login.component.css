@@ -30,3 +30,13 @@ button {
   display: block;           
   padding: 5px 0;           /* Espaciado opcional */
 }
+
+.error-message{
+  color: #e74c3c;
+  margin-top: 10px;
+}
+
+.success-message{
+  color: #2ecc71;
+  margin-top: 10px;
+}

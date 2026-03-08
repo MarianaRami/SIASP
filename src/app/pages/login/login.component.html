@@ -1,8 +1,31 @@
 <div class="login-container">
-  <input type="text" placeholder="Nombre del usuario" [(ngModel)]="username" />
-  <input type="password" placeholder="Contraseña" [(ngModel)]="password" />
-  <button (click)="onLogin()">Acceder</button>
+
+  <input
+    type="text"
+    placeholder="Nombre del usuario"
+    [(ngModel)]="username"
+  />
+
+  <input
+    type="password"
+    placeholder="Contraseña"
+    [(ngModel)]="password"
+  />
+
+  <button (click)="onLogin()" [disabled]="loading">
+    {{ loading ? 'Ingresando...' : 'Acceder' }}
+  </button>
+
+  <!-- MENSAJE DE ERROR -->
+  <p *ngIf="loginError" class="error-message">
+    {{ errorMessage }}
+  </p>
+
+  <!-- MENSAJE DE ÉXITO -->
+  <p *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
+  </p>
+
   <a href="#">¿Ha olvidado su contraseña?</a>
+
 </div>
-
-

@@ -1,20 +1,36 @@
 <div class="sidebar">
   <ul>
-    <li><a routerLink="/qf" routerLinkActive="active">QF</a></li>
-    <li><a routerLink="/autorizaciones" routerLinkActive="active">Autorizaciones</a></li>
-    <li><a routerLink="/programacion" routerLinkActive="active">Programación</a></li>
-    <li><a routerLink="/examenes" routerLinkActive="active">Exámenes</a></li>
-    <li><a routerLink="/enfermeria" routerLinkActive="active">Enfermería</a></li>
-    <li><a routerLink="/jefe-enfermeria" routerLinkActive="active">Jefe enfermería</a></li>
-    <li><a routerLink="/farmacia" routerLinkActive="active">Farmacia</a></li>
-    <li><a routerLink="/director-farmacia" routerLinkActive="active">Director farmacia</a></li>
-    <li><a routerLink="/admin-sistema" routerLinkActive="active">Administrador sistema</a></li>
-    <li><a routerLink="/admin-usuarios" routerLinkActive="active">Administrador usuarios</a></li>
-    <li><a routerLink="/jefe-piso" routerLinkActive="active">Jefe de piso</a></li>
-    <li><a routerLink="/indicadores" routerLinkActive="active">Indicadores</a></li>
+
+    <li>
+      <a routerLink="/qf" routerLinkActive="active"
+      *ngIf="authService.hasRole(['admin','QF'])">
+      QF
+      </a>
+    </li>
+
+    <li>
+      <a routerLink="/autorizaciones" routerLinkActive="active"
+      *ngIf="authService.hasRole(['admin','Autorizaciones'])">
+      Autorizaciones
+      </a>
+    </li>
+
+    <li>
+      <a routerLink="/programacion" routerLinkActive="active"
+      *ngIf="authService.hasRole(['admin','Programacion'])">
+      Programación
+      </a>
+    </li>
+
+    <li>
+      <a routerLink="/admin-sistema" routerLinkActive="active"
+      *ngIf="authService.hasRole(['admin'])">
+      Administrador sistema
+      </a>
+    </li>
+
   </ul>
 </div>
-
 
 
 

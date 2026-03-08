@@ -11,23 +11,44 @@ export class AuthService {
   private readonly http = inject(HttpClient);
 
   private user: string | null = null;
+  private role: string | null = null;
 
   // ------------------- AUTH -------------------
 
   login(userName: string, password: string): Observable<any> {
     const body = { userName, password };
-    console.log('📝 Intentando login con usuario:', userName);
-    
-    return this.http.post(`${this.baseUrl}/auth/login`, body, {
+
+    return this.http.post<any>(`${this.baseUrl}/auth/login`, body, {
       withCredentials: true
     }).pipe(
       tap(response => {
-        console.log('✅ Login exitoso, cookie debería estar guardada');
-        if (this.user) {
-          this.setUser(this.user);
-        }
+
+        this.setUser(response.user);
+        this.setRole(response.role);
+
+        const expiresAt = Date.now() + (response.expires_in * 60 * 1000);
+
+        localStorage.setItem('sessionExpires', expiresAt.toString());
+
       })
     );
+  }
+
+  isSessionExpired(): boolean {
+    const expires = localStorage.getItem('sessionExpires');
+
+    if (!expires) return true;
+
+    return Date.now() > Number(expires);
+  }
+
+  clearSession() {
+    this.user = null;
+    this.role = null;
+
+    localStorage.removeItem('jwtUser');
+    localStorage.removeItem('jwtRole');
+    localStorage.removeItem('sessionExpires');
   }
 
   logout(): Observable<any> {
@@ -36,10 +57,28 @@ export class AuthService {
     }).pipe(
       tap(() => {
         this.user = null;
+        this.clearSession();
         localStorage.removeItem('jwtUser');
         console.log('✅ Logout exitoso, cookie debería estar limpiada');
       })
     );
+  }
+
+  setRole(role: string) {
+    this.role = role;
+    localStorage.setItem('jwtRole', role);
+  }
+
+  getRole(): string | null {
+    if (!this.role) {
+      this.role = localStorage.getItem('jwtRole');
+    }
+    return this.role;
+  }
+
+  hasRole(roles: string[]): boolean {
+    const userRole = this.getRole();
+    return !!userRole && roles.includes(userRole);
   }
 
   setUser(user: string) {
@@ -58,5 +97,19 @@ export class AuthService {
     return this.http.get(`${this.baseUrl}/auth/check`, {
       withCredentials: true
     });
+  }
+
+  isLoggedIn(): boolean {
+    const user = this.getUser();
+    const role = this.getRole();
+
+    if (!user || !role) return false;
+
+    if (this.isSessionExpired()) {
+      this.clearSession();
+      return false;
+    }
+
+    return true;
   }
 }
