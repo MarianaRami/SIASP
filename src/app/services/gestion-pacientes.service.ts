@@ -112,5 +112,11 @@ export class GestionPacientesService {
   );
 }
 
+// ------------------- DIRECTOR FARMACIA -------------------
+getProyeccionMedicamentos(desde: string, hasta: string): Observable<any> {
+  return this.http.get<any>(
+    `${this.apiUrl}/proyeccion-medicamentos/${desde}/${hasta}`
+  );
+}
 }
 

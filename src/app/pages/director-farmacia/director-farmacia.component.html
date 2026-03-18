@@ -2,13 +2,59 @@
   <h2>Proyección de Fórmulas</h2>
 
   <div class="contenedor-principal">
+
     <p class="subtitulo">Seleccionar un rango de fechas</p>
 
     <div class="campos-fechas">
-        <input type="date" [(ngModel)]="fechaInicio" />
-        <input type="date" [(ngModel)]="fechaFin" />
+      <input type="date" [(ngModel)]="fechaInicio" />
+      <input type="date" [(ngModel)]="fechaFin" />
     </div>
 
-    <button (click)="buscar()" class="btn-confirmar">Confirmar</button>
-   </div>
+    <button (click)="buscar()" class="btn-confirmar">
+      Confirmar
+    </button>
+
+  </div>
+
+  <!-- REPORTE TABLA -->
+  <div *ngIf="medicamentos.length > 0" class="tabla-reporte">
+
+    <h3>Reporte de Medicamentos</h3>
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Medicamento</th>
+          <th>Presentación</th>
+          <th>Cantidad</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <ng-container *ngFor="let med of medicamentos">
+
+          <tr *ngFor="let pres of med.presentaciones">
+
+            <td>{{ med.medicamento }}</td>
+            <td>{{ pres.presentacion }}</td>
+            <td>{{ pres.cantidad }}</td>
+
+          </tr>
+
+        </ng-container>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <!-- GRÁFICA -->
+  <div *ngIf="medicamentos.length > 0" class="grafica-container">
+    <h3>Visualización de Medicamentos</h3>
+    <canvas id="miGrafica"></canvas>
+  </div>
+
 </div>

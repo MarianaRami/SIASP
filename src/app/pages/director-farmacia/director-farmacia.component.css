@@ -47,3 +47,18 @@ input[type="date"] {
 .btn-confirmar:hover {
   background-color: #fcd5ba;
 }
+
+.grafica-container {
+  margin-top: 30px;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+}
+
+canvas {
+  max-width: 100%;
+}
+
+.tabla-reporte {
+  margin-top: 30px;
+}
