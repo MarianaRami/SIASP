@@ -115,7 +115,9 @@ export class GestionPacientesService {
 // ------------------- DIRECTOR FARMACIA -------------------
 getProyeccionMedicamentos(desde: string, hasta: string): Observable<any> {
   return this.http.get<any>(
-    `${this.apiUrl}/proyeccion-medicamentos/${desde}/${hasta}`
+    `${this.apiUrl}/reporte-farmacia/${desde}/${hasta}/OP`
+    //`${this.apiUrl}/reporte-farmacia-por-dia/${desde}/${hasta}/OP`
+    //Hay que preguntar si quiere los de OP o no, y si quiere el reporte por día
   );
 }
 }
