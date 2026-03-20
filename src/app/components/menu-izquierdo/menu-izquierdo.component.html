@@ -66,7 +66,11 @@
 
     <li>
       <a routerLink="/admin-usuarios" routerLinkActive="active" 
-      *ngIf="authService.hasRole(['admin'])">Administrador usuarios</a></li>
+      *ngIf="authService.hasRole(['admin'])">
+      Administrador usuarios
+      </a>
+    </li>
+    
     <li>
       <a routerLink="/jefe-piso" routerLinkActive="active" 
       *ngIf="authService.hasRole(['admin','Jefe_Piso'])" >
