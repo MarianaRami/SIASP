@@ -23,9 +23,61 @@
     </li>
 
     <li>
+      <a routerLink="/examenes" routerLinkActive="active" 
+      *ngIf="authService.hasRole(['admin','Doctora'])">
+      Exámenes
+      </a>
+    </li>
+
+    <li>
+      <a routerLink="/enfermeria" routerLinkActive="active" 
+      *ngIf="authService.hasRole(['admin','Enfermeria'])">
+      Enfermería
+      </a>
+    </li>
+
+    <li>
+      <a routerLink="/jefe-enfermeria" routerLinkActive="active" 
+      *ngIf="authService.hasRole(['admin','Jefe_Enfermeria'])">
+      Jefe enfermería
+      </a>
+    </li>
+
+    <li>
+      <a routerLink="/farmacia" routerLinkActive="active" 
+      *ngIf="authService.hasRole(['admin','Farmacia'])">
+      Farmacia
+    </a>
+    </li>
+
+    <li>
+      <a routerLink="/director-farmacia" routerLinkActive="active" 
+      *ngIf="authService.hasRole(['admin','Director_Farmacia'])">
+      Director farmacia
+      </a>
+    </li>
+
+    <li>
       <a routerLink="/admin-sistema" routerLinkActive="active"
       *ngIf="authService.hasRole(['admin'])">
       Administrador sistema
+      </a>
+    </li>
+
+    <li>
+      <a routerLink="/admin-usuarios" routerLinkActive="active" 
+      *ngIf="authService.hasRole(['admin'])">Administrador usuarios</a></li>
+    <li>
+      <a routerLink="/jefe-piso" routerLinkActive="active" 
+      *ngIf="authService.hasRole(['admin','Jefe_Piso'])" >
+      Jefe de piso
+      </a>
+    </li>
+
+    <li>
+      <a routerLink="/indicadores" routerLinkActive="active" 
+      *ngIf="authService.hasRole(['admin'])">
+      Indicadores
       </a>
     </li>
 
