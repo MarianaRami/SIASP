@@ -2,7 +2,6 @@
   <h2>Proyección de Fórmulas</h2>
 
   <div class="contenedor-principal">
-
     <p class="subtitulo">Seleccionar un rango de fechas</p>
 
     <div class="campos-fechas">
@@ -13,48 +12,44 @@
     <button (click)="buscar()" class="btn-confirmar">
       Confirmar
     </button>
+  </div>
+
+  <!-- ================= CONSOLIDADO ================= -->
+  <div *ngIf="datosTablaConsolidado.length > 0" class="seccion">
+
+    <h3>Reporte Consolidado</h3>
+
+    <!-- TABLA -->
+    <app-tabla-dinamica
+      [columnas]="columnasConsolidado"
+      [datos]="datosTablaConsolidado">
+    </app-tabla-dinamica>
+
+    <!-- GRÁFICA -->
+    <div class="grafica-container">
+      <h4>Visualización Consolidada</h4>
+      <canvas id="miGrafica"></canvas>
+    </div>
 
   </div>
 
-  <!-- REPORTE TABLA -->
-  <div *ngIf="medicamentos.length > 0" class="tabla-reporte">
+  <!-- ================= POR DÍA ================= -->
+  <div *ngIf="datosTablaPorDia.length > 0" class="seccion">
 
-    <h3>Reporte de Medicamentos</h3>
+    <h3>Reporte por Día</h3>
 
-    <table>
+    <!-- TABLA -->
+    <app-tabla-dinamica
+      [columnas]="columnasPorDia"
+      [datos]="datosTablaPorDia">
+    </app-tabla-dinamica>
 
-      <thead>
-        <tr>
-          <th>Medicamento</th>
-          <th>Presentación</th>
-          <th>Cantidad</th>
-        </tr>
-      </thead>
+    <!-- GRÁFICA -->
+    <div class="grafica-container">
+      <h4>Visualización por Día</h4>
+      <canvas id="miGraficaPorDia"></canvas>
+    </div>
 
-      <tbody>
-
-        <ng-container *ngFor="let med of medicamentos">
-
-          <tr *ngFor="let pres of med.presentaciones">
-
-            <td>{{ med.medicamento }}</td>
-            <td>{{ pres.presentacion }}</td>
-            <td>{{ pres.cantidad }}</td>
-
-          </tr>
-
-        </ng-container>
-
-      </tbody>
-
-    </table>
-
-  </div>
-
-  <!-- GRÁFICA -->
-  <div *ngIf="medicamentos.length > 0" class="grafica-container">
-    <h3>Visualización de Medicamentos</h3>
-    <canvas id="miGrafica"></canvas>
   </div>
 
 </div>

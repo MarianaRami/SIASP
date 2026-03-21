@@ -103,22 +103,28 @@ export class GestionPacientesService {
 
   // ------------------- FARMACIA -------------------
   getOrdenesFarmacia(
-  fecha: string,
-  tipoPaciente: string,
-  tipoOrden: string
-) {
-  return this.http.get<any>(
-    `${this.apiUrl}/ordenes-farmacia/${fecha}/${tipoPaciente}/${tipoOrden}`
-  );
-}
+    fecha: string,
+    tipoPaciente: string,
+    tipoOrden: string
+  ) {
+    return this.http.get<any>(
+      `${this.apiUrl}/ordenes-farmacia/${fecha}/${tipoPaciente}/${tipoOrden}`
+    );
+  }
 
-// ------------------- DIRECTOR FARMACIA -------------------
-getProyeccionMedicamentos(desde: string, hasta: string): Observable<any> {
-  return this.http.get<any>(
-    `${this.apiUrl}/reporte-farmacia/${desde}/${hasta}/OP`
-    //`${this.apiUrl}/reporte-farmacia-por-dia/${desde}/${hasta}/OP`
-    //Hay que preguntar si quiere los de OP o no, y si quiere el reporte por día
-  );
-}
+  // ------------------- DIRECTOR FARMACIA -------------------
+  // CONSOLIDADO
+  getProyeccionMedicamentos(desde: string, hasta: string): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}/reporte-farmacia/${desde}/${hasta}/OP`
+    );
+  }
+
+  // POR DÍA
+  getProyeccionMedicamentosPorDia(desde: string, hasta: string): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}/reporte-farmacia-por-dia/${desde}/${hasta}/OP`
+    );
+  }
 }
 
