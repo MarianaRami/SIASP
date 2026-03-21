@@ -54,9 +54,8 @@ export class AuthService {
     this.user = null;
     this.roles = [];
 
-    localStorage.removeItem('jwtUser');
-    localStorage.removeItem('jwtRoles');
-    localStorage.removeItem('sessionExpires');
+    localStorage.clear();
+    sessionStorage.clear();
   }
 
   logout(): Observable<any> {
@@ -64,10 +63,9 @@ export class AuthService {
       withCredentials: true
     }).pipe(
       tap(() => {
-        this.user = null;
+        console.log('✅ Logout backend OK');
+
         this.clearSession();
-        localStorage.removeItem('jwtUser');
-        console.log('✅ Logout exitoso, cookie debería estar limpiada');
       })
     );
   }
