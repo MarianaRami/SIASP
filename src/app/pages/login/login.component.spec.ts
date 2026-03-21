@@ -38,7 +38,9 @@ describe('LoginComponent', () => {
 
     const mockResponse = {
       user: 'yankvale',
-      role: 'admin',
+      roles: ['admin', 'Enfermeria'],
+      id: '123e4567-e89b-12d3-a456-426614174000',
+      expires_in: 15,
       message: 'Login exitoso'
     };
 

@@ -3,6 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
+interface AuthResponse {
+  user: string;
+  roles: string[];
+  id: string;
+  expires_in: number;
+  message?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,20 +19,20 @@ export class AuthService {
   private readonly http = inject(HttpClient);
 
   private user: string | null = null;
-  private role: string | null = null;
+  private roles: string[] = [];
 
   // ------------------- AUTH -------------------
 
-  login(userName: string, password: string): Observable<any> {
+  login(userName: string, password: string): Observable<AuthResponse> {
     const body = { userName, password };
 
-    return this.http.post<any>(`${this.baseUrl}/auth/login`, body, {
+    return this.http.post<AuthResponse>(`${this.baseUrl}/auth/login`, body, {
       withCredentials: true
     }).pipe(
       tap(response => {
 
         this.setUser(response.user);
-        this.setRole(response.role);
+        this.setRoles(response.roles);
 
         const expiresAt = Date.now() + (response.expires_in * 60 * 1000);
 
@@ -44,10 +52,10 @@ export class AuthService {
 
   clearSession() {
     this.user = null;
-    this.role = null;
+    this.roles = [];
 
     localStorage.removeItem('jwtUser');
-    localStorage.removeItem('jwtRole');
+    localStorage.removeItem('jwtRoles');
     localStorage.removeItem('sessionExpires');
   }
 
@@ -64,21 +72,38 @@ export class AuthService {
     );
   }
 
-  setRole(role: string) {
-    this.role = role;
-    localStorage.setItem('jwtRole', role);
+  setRoles(roles: string[]) {
+    this.roles = [...roles];
+    localStorage.setItem('jwtRoles', JSON.stringify(this.roles));
   }
 
-  getRole(): string | null {
-    if (!this.role) {
-      this.role = localStorage.getItem('jwtRole');
+  getRoles(): string[] {
+    if (this.roles.length === 0) {
+      const rawRoles = localStorage.getItem('jwtRoles');
+      if (!rawRoles) {
+        return [];
+      }
+
+      try {
+        const parsedRoles = JSON.parse(rawRoles);
+        this.roles = Array.isArray(parsedRoles)
+          ? parsedRoles.filter((role): role is string => typeof role === 'string')
+          : [];
+      } catch {
+        this.roles = [];
+      }
     }
-    return this.role;
+
+    return [...this.roles];
   }
 
-  hasRole(roles: string[]): boolean {
-    const userRole = this.getRole();
-    return !!userRole && roles.includes(userRole);
+  hasRole(role: string): boolean {
+    return this.getRoles().includes(role);
+  }
+
+  hasAnyRole(roles: string[]): boolean {
+    const userRoles = this.getRoles();
+    return userRoles.some((role) => roles.includes(role));
   }
 
   setUser(user: string) {
@@ -93,17 +118,17 @@ export class AuthService {
     return this.user;
   }
 
-  checkAuth(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/auth/check`, {
+  checkAuth(): Observable<AuthResponse> {
+    return this.http.get<AuthResponse>(`${this.baseUrl}/auth/check`, {
       withCredentials: true
     });
   }
 
   isLoggedIn(): boolean {
     const user = this.getUser();
-    const role = this.getRole();
+    const roles = this.getRoles();
 
-    if (!user || !role) return false;
+    if (!user || roles.length === 0) return false;
 
     if (this.isSessionExpired()) {
       this.clearSession();
