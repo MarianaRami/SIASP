@@ -12,14 +12,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './menu-izquierdo.component.css'
 })
 export class MenuIzquierdoComponent {
-  role: string | null = '';
-  
   constructor(public authService: AuthService) {}
-  
-  ngOnInit() {
-    this.role = this.authService.getRole();
-    console.log('Role en MenuIzquierdoComponent:', this.role);
-  }
 
   //public sidebarService = inject(SidebarService);
 
