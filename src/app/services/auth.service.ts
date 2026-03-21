@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 
 interface AuthResponse {
   user: string;
@@ -26,18 +26,26 @@ export class AuthService {
   login(userName: string, password: string): Observable<AuthResponse> {
     const body = { userName, password };
 
-    return this.http.post<AuthResponse>(`${this.baseUrl}/auth/login`, body, {
-      withCredentials: true
-    }).pipe(
-      tap(response => {
+    this.clearSession();
 
+    return this.revokeAll().pipe(   // 👈 primero invalida sesiones
+      tap(() => console.log('🧹 Sesiones previas eliminadas')),
+      
+      // luego login
+      switchMap(() =>
+        this.http.post<any>(`${this.baseUrl}/auth/login`, body, {
+          withCredentials: true
+        })
+      ),
+
+      tap(response => {
         this.setUser(response.user);
         this.setRoles(response.roles);
 
         const expiresAt = Date.now() + (response.expires_in * 60 * 1000);
-
         localStorage.setItem('sessionExpires', expiresAt.toString());
 
+        console.log('✅ Login limpio y seguro');
       })
     );
   }
@@ -50,6 +58,18 @@ export class AuthService {
     return Date.now() > Number(expires);
   }
 
+  revoke(): Observable<any> {
+    return this.http.post(`${this.baseUrl}/auth/revoke`, {}, {
+      withCredentials: true
+    });
+  }
+
+  revokeAll(): Observable<any> {
+    return this.http.post(`${this.baseUrl}/auth/revoke-all`, {}, {
+      withCredentials: true
+    });
+  }
+
   clearSession() {
     this.user = null;
     this.roles = [];
@@ -59,12 +79,9 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
-    return this.http.post(`${this.baseUrl}/auth/logout`, {}, {
-      withCredentials: true
-    }).pipe(
+    return this.revoke().pipe(  // 👈 invalida sesión actual
       tap(() => {
-        console.log('✅ Logout backend OK');
-
+        console.log('🚪 Sesión revocada en backend');
         this.clearSession();
       })
     );
