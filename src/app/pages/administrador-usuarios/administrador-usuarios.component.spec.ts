@@ -1,55 +1,55 @@
-import { Component } from '@angular/core';
-import { TablaDinamicaComponent } from '../../components/tabla-dinamica/tabla-dinamica.component.spec';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AdministradorUsuariosComponent } from './administrador-usuarios.component';
+import { GestionUsuariosService } from '../../services/gestion-usuarios';
+import { of } from 'rxjs';
 
-@Component({
-  selector: 'app-administrador-usuarios',
-  templateUrl: './administrador-usuarios.component.html',
-  styleUrl: './administrador-usuarios.component.css',
-  imports: [
-    TablaDinamicaComponent,
-    CommonModule, FormsModule
-  ]
-})
-export class AdministradorUsuariosComponent {
-Agregar() {
-throw new Error('Method not implemented.');
-}
-Roles() {
-throw new Error('Method not implemented.');
-}
-  columnas = [
-    { key: 'Nombre', label: 'Nombre' },
-    { key: 'Cedula', label: 'Cedula' },
-    { key: 'Rol', label: 'Rol' },
-    { key: 'Estado', label: 'Estado', tipo: 'select', opciones: ['Activo', 'Bloqueado', 'Inactivo'] }
-  ];
-  datos = [
-    {
-      Nombre: 'Juan Pérez',
-      Cedula: '123456789',
-      Rol: 'Progrmador',
-    },
-    {
-      Nombre: 'María Gómez',
-      Cedula: '987654321',
-      Rol: ''
-    },
-    {
-      Nombre: 'Carlos Ruiz',
-      Cedula: '456789123',
-      Rol: ''
-    }
-  ];
+describe('AdministradorUsuariosComponent', () => {
+  let component: AdministradorUsuariosComponent;
+  let fixture: ComponentFixture<AdministradorUsuariosComponent>;
+  let mockUsuariosService: any;
 
-  filtro: string = '';
-  datosFiltrados = [...this.datos];
+  beforeEach(async () => {
 
-  filtrarDatos() {
-    const f = this.filtro.toLowerCase().trim();
-    this.datosFiltrados = this.datos.filter(d =>
-      d.Cedula.includes(f) || d.Nombre.toLowerCase().includes(f)
-    );
-  }
-}
+    // 🔥 mock del servicio
+    mockUsuariosService = {
+      getUsuarios: jasmine.createSpy().and.returnValue(of([])),
+      cambiarEstadoUsuario: jasmine.createSpy().and.returnValue(of({}))
+    };
+
+    await TestBed.configureTestingModule({
+      imports: [AdministradorUsuariosComponent],
+      providers: [
+        { provide: GestionUsuariosService, useValue: mockUsuariosService }
+      ]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(AdministradorUsuariosComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should filter users by name', () => {
+    component.datos = [
+      { Nombre: 'Juan', Cedula: '123' },
+      { Nombre: 'Maria', Cedula: '456' }
+    ];
+
+    component.filtro = 'juan';
+    component.filtrarDatos();
+
+    expect(component.datosFiltrados.length).toBe(1);
+  });
+
+  it('should call cambiarEstadoUsuario on state change', () => {
+    const fila = { id: '1', estado: 'activo' };
+
+    component.onCambioEstado(fila);
+
+    expect(mockUsuariosService.cambiarEstadoUsuario).toHaveBeenCalledWith('1', 'activo');
+  });
+
+});

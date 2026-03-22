@@ -37,8 +37,6 @@ import { ReporteCalendarioComponent } from './views/programación/reporte-calend
 import { MedFarmaciaComponent } from './views/farmacia/med-farmacia/med-farmacia.component';
 import { OPComponent } from './views/farmacia/op/op.component';
 
-import { ListaMedicamentosComponent } from './views/director-farmacia/lista-medicamentos/lista-medicamentos.component';
-
 import { ConfCicloComponent } from './views/admin-sistema/conf-ciclo/conf-ciclo.component';
 import { ConfMedicamentosComponent } from './views/admin-sistema/conf-medicamentos/conf-medicamentos.component';
 import { DatosNvProtocoloComponent } from './views/admin-sistema/datos-nv-protocolo/datos-nv-protocolo.component';
@@ -75,8 +73,6 @@ export const routes: Routes = [
 
   //Director Famacia
   { path: 'director-farmacia', component: DirectorFarmaciaComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Director_Farmacia'] } },
-
-  { path: 'director-farmacia/lista', component: ListaMedicamentosComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Director_Farmacia'] } },
   
   // Farmacia
   { path: 'farmacia', component: FarmaciaComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Farmacia'] } },

@@ -8,7 +8,7 @@
       
       <!-- Selector -->
       <ng-container *ngIf="col.tipo === 'select'; else siguienteTipo1">
-        <select [(ngModel)]="fila[col.key]">
+        <select [(ngModel)]="fila[col.key]" (change)="onCambio(fila)">
           <option *ngFor="let op of col.opciones" [value]="op">
             {{ op }}
           </option>

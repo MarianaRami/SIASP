@@ -1,0 +1,36 @@
+<div class="modal-backdrop">
+
+  <div class="modal">
+
+    <h3>Asignar Roles</h3>
+
+    <!-- ID USUARIO -->
+    <input 
+      type="text" 
+      placeholder="ID Usuario"
+      [(ngModel)]="idUsuario"
+    />
+
+    <!-- ROLES -->
+    <div class="roles">
+
+      <label *ngFor="let rol of roles">
+        <input
+          type="checkbox"
+          [value]="rol.id"
+          (change)="toggleRol(rol.id)"
+        />
+        {{ rol.nombreRol }}
+      </label>
+
+    </div>
+
+    <!-- BOTONES -->
+    <div class="acciones">
+      <button (click)="guardar()">Guardar</button>
+      <button (click)="cerrarModal()">Cancelar</button>
+    </div>
+
+  </div>
+
+</div>

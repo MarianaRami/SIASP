@@ -10,13 +10,19 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./tabla-dinamica.component.css']
 })
 export class TablaDinamicaComponent {
+ 
   @Input() columnas: any[] = [];
   @Input() datos: any[] = [];
   @Output() buscar = new EventEmitter<string>();
+  @Output() cambio = new EventEmitter<any>();
 
   onEditar(fila: any) {
     console.log('Editar fila:', fila);
     this.buscar.emit(fila); 
+  }
+
+  onCambio(fila: any) {
+    this.cambio.emit(fila);
   }
 }
 
