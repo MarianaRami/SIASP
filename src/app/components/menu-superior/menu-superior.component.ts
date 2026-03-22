@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
@@ -12,13 +12,12 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './menu-superior.component.html',
   styleUrl: './menu-superior.component.css'
 })
-export class MenuSuperiorComponent implements OnInit {
-  user: string | null = '';
+export class MenuSuperiorComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit() {
-    this.user = this.authService.getUser();
+  get user(): string | null {
+    return this.authService.getUser();
   }
 
   showLogoutMenu = false;
@@ -29,9 +28,17 @@ export class MenuSuperiorComponent implements OnInit {
 
   logout(event: MouseEvent) {
     event.stopPropagation(); // evita que se cierre de inmediato
-    // Aquí haces la navegación al login
-    this.router.navigate(['/']);
     this.showLogoutMenu = false;
+    this.authService.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/']);
+      },
+      error: () => {
+        // aunque falle el revoke en backend, limpiar sesión local y redirigir
+        this.authService.clearSession();
+        this.router.navigate(['/']);
+      }
+    });
   }
 
   @HostListener('document:click', ['$event'])
