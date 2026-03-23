@@ -73,7 +73,13 @@ export class PopupCambioProtocoloComponent {
         : null,
       fechaInicio: this.formData.fechaInicio
         ? new Date(this.formData.fechaInicio).toISOString()
-        : null
+        : null,
+      CIE11: this.formData.idProtocolo ? this.protocolos.find(p => p.id === this.formData.idProtocolo)?.cie11 : null,
+      CIE11Descripcion: this.formData.idProtocolo ? this.protocolos.find(p => p.id === this.formData.idProtocolo)?.cie11Descripcion : null,
+      medicoTratante: this.protocolos.find(p => p.id === this.formData.idProtocolo)?.medicoTratante || null,
+      codigoMedicoTratante: this.protocolos.find(p => p.id === this.formData.idProtocolo)?.codigoMedicoTratante || null,
+      nombreEspecialidad: this.protocolos.find(p => p.id === this.formData.idProtocolo)?.nombreEspecialidad || null,
+      codigoEspecialidad: this.protocolos.find(p => p.id === this.formData.idProtocolo)?.codigoEspecialidad || null
     };
 
     console.log('Datos guardados:', payload);

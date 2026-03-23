@@ -107,7 +107,7 @@ export class EnfermeriaComponent {
         idCiclo: this.datosOriginales[p.cedula]?.idCicloPaciente || null,
         idEvento: this.datosOriginales[p.cedula]?.idEventoPaciente || null,
         //cedula: p.cedula,
-        estado: p.estado === 'Aplicada' ? 'aplicada' :  'reprogramacion',
+        estado: p.estado === 'Aplicada' ? 'aplicada' :  p.estado === 'Inasistencia' ? 'inasistencia' :  p.estado === 'Suspendida' ? 'suspendida' :  'reprogramacion',
         observacion: p.observacion,
         fecha: this.fechaActual,
         usuarioModificacion: usuario
