@@ -152,7 +152,7 @@ export class PacienteComponent {
             // ahora el backend ya trae nombre completo y identificacion
             this.paciente = this.construirNombreCompleto(this.pacienteData);
             this.identificacion = this.construirIdentificacionCompleta(this.pacienteData);
-            this.medico = this.protocoloActual?.medicoTratante || '';
+            this.medico = this.protocoloActual?.medicoTratante || this.pacienteData.medicoTratante || '';
             this.protocolo = this.protocoloActual?.nombreProtocolo || '';
             this.eps = this.pacienteData.eps;
             this.diagnosticos = this.pacienteData.diagnosticos && this.pacienteData.diagnosticos.length > 0 ? this.pacienteData.diagnosticos : [];
