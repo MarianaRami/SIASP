@@ -3,12 +3,20 @@
     <div class="header-con-buscador">
         <h2>Programación del día</h2>
 
-        <input
-          type="text"
-          placeholder="Buscar por nombre o cédula"
-          [(ngModel)]="filtro"
-          (input)="filtrarDatos()"
-        />
+        <div class="acciones-header">
+            <select [(ngModel)]="tipoPaciente" (change)="onTipoPacienteChange()">
+                <option *ngFor="let opcion of opcionesTipoPaciente" [value]="opcion.value">
+                    {{ opcion.label }}
+                </option>
+            </select>
+            <input
+            type="text"
+            placeholder="Buscar por nombre o cédula"
+            [(ngModel)]="filtro"
+            (input)="filtrarDatos()"
+            />
+        </div>
+        
     </div>
 
     <app-tabla-dinamica

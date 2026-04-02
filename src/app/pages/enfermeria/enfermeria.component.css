@@ -26,6 +26,26 @@ h2 {
   width: 200px;
 }
 
+.acciones-header select,
+.header-con-buscador input {
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 15px;
+  border: 1px solid #818181;
+  height: 36px;
+  transition: all 0.3s ease;
+}
+
+.acciones-header select {
+  min-width: 160px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.header-con-buscador input {
+  width: 200px;
+}
+
 .guardar-fijo {
   position: fixed;
   bottom: 20px;

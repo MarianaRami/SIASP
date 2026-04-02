@@ -33,6 +33,13 @@ export class EnfermeriaComponent {
   datosFiltrados: any[] = [];
   datosOriginales: { [cedula: string]: any } = {};
 
+  tipoPaciente = 'ambulatorio'
+
+  opcionesTipoPaciente = [
+    { value: 'ambulatorio', label: 'Ambulatorio' },
+    { value: 'hospitalizado', label: 'Hospitalizado' }
+  ];
+
   filtro: string = '';
   fechaActual = new Date();
 
@@ -47,8 +54,10 @@ export class EnfermeriaComponent {
     return `${year}-${month}-${day}`;
   }
 
-  //ESTO DEBE SER UN MENÚ DESPLEGABLE!!!!!
-  tipoPaciente = 'ambulatorio'
+  onTipoPacienteChange() {
+    this.filtro = '';
+    this.cargarPacientes();
+  }
 
   cargarPacientes() {
     this.service.getlistadoEnfermeriaPaciente(this.formatearFecha(this.fechaActual), this.tipoPaciente).subscribe({
