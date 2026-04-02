@@ -47,7 +47,8 @@ export class EnfermeriaComponent {
     return `${year}-${month}-${day}`;
   }
 
-  tipoPaciente = 'hospitalizado'
+  //ESTO DEBE SER UN MENÚ DESPLEGABLE!!!!!
+  tipoPaciente = 'ambulatorio'
 
   cargarPacientes() {
     this.service.getlistadoEnfermeriaPaciente(this.formatearFecha(this.fechaActual), this.tipoPaciente).subscribe({
