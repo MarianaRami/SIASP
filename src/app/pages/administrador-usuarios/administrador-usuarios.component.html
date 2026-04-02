@@ -13,18 +13,25 @@
   <app-tabla-dinamica
         [columnas]="columnas"
         [datos]="datosFiltrados"
-        (cambio)="onCambioEstado($event)">
+        (cambio)="onCambioEstado($event)"
+        (buscar)="abrirModalRoles($event)">
     </app-tabla-dinamica>
 
     <div class="acciones">
         <button class="btn-accion" (click)="Agregar()">Agregar</button>
-        <button class="btn-accion" (click)="Roles()">Roles</button>
   </div>
   <app-modal-crear-usuarios
-  *ngIf="mostrarModal"
+    *ngIf="mostrarModal"
     (cerrar)="cerrarModal()"
     (guardado)="recargarUsuarios()"
   >
   </app-modal-crear-usuarios>
+
+  <app-modal-roles-usuarios
+    *ngIf="mostrarModalRoles"
+    [usuario]="usuarioSeleccionado"
+    (cerrar)="cerrarModalRoles()"
+    (guardado)="recargarUsuarios()">  
+  </app-modal-roles-usuarios>
 
 </div>

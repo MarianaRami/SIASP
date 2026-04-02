@@ -1,0 +1,29 @@
+<div class="overlay">
+    <div class="modal">
+        <div class="header-modal">
+             <h3>Administrar Roles</h3>
+             <button class="cerrar" (click)="cerrarModal()">x</button>
+        </div>
+
+        <div class="info-usuario">
+            <p><strong>Nombre:</strong> {{ usuario?.nombre }}</p>
+            <p><strong>Cedula:</strong> {{ usuario?.cedula }}</p>
+        </div>
+
+        <div class="contenedor-roles">
+            <label class="rol-item" *ngFor="let rol of rolesDisponibles">
+                <input
+                    type="checkbox"
+                    [checked]="estaSeleccionado(rol.id)"
+                    (change)="toggleRol(rol.id, $event)"
+                />
+                {{ rol.nombreRol }}
+            </label>
+        </div>
+
+        <div class="acciones-modal">
+            <button (click)="cerrarModal()">Cancelar</button>
+            <button (click)="guardarCambios()" [disabled]="cargando">
+                {{ cargando ? 'Guardando...' : 'Guardar' }}
+            </button>
+        </div>

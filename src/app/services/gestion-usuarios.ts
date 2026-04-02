@@ -44,6 +44,10 @@ export class GestionUsuariosService {
     return this.http.get<any[]>(`${this.baseUrl}/roles`);
   }
 
+  getAsignacionesRol(dto: any) {
+    return this.http.get<any[]>(`${this.baseUrl}/rol-usuarios`);
+  }
+
   // asignar rol a usuario
   asignarRolUsuario(dto: any) {
     return this.http.post(`${this.baseUrl}/rol-usuarios`, dto);

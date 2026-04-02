@@ -4,13 +4,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GestionUsuariosService } from '../../services/gestion-usuarios';
 import { ModalCrearUsuarios } from '../../views/admin-usuarios/modal-crear-usuarios/modal-crear-usuarios';
+import { ModalRolesUsuarios } from '../../views/admin-usuarios/modal-roles-usuarios/modal-roles-usuarios';
 
 @Component({
   selector: 'app-administrador-usuarios',
   templateUrl: './administrador-usuarios.component.html',
   styleUrl: './administrador-usuarios.component.css',
   imports: [
-    TablaDinamicaComponent, ModalCrearUsuarios,
+    TablaDinamicaComponent, ModalCrearUsuarios, ModalRolesUsuarios,
     CommonModule, FormsModule
   ]
 })
@@ -21,12 +22,18 @@ export class AdministradorUsuariosComponent {
     { key: 'nombre', label: 'Nombre' },
     { key: 'cedula', label: 'Cedula' },
     { key: 'rol', label: 'Roles' },
-    { key: 'estado', label: 'Estado', tipo: 'select', opciones: ['activo', 'bloqueado', 'inactivo'] }
+    { key: 'estado', label: 'Estado', tipo: 'select', opciones: ['activo', 'bloqueado', 'inactivo'] },
+    { key: 'editarRoles', label: 'Permisos', tipo: 'button' }
   ];
   datos: any[] = [];
 
   filtro: string = '';
   datosFiltrados = [...this.datos];
+
+  mostrarModal = false;
+  mostrarModalRoles = false;
+  usuarioSeleccionado: any = null;
+
 
   ngOnInit() {
     this.cargarUsuarios();
@@ -41,6 +48,7 @@ export class AdministradorUsuariosComponent {
         nombre: u.nombre,
         cedula: u.nombreUsuario,
         rol: u.roles?.map((r: any) => r.rol.nombreRol).join(', ') || '',
+        rolesDetalle: u.roles || [],
         estado: u.estado
       }));
 
@@ -73,8 +81,6 @@ export class AdministradorUsuariosComponent {
       });
   }
 
-  mostrarModal = false;
-
   Agregar() {
     this.mostrarModal = true;
   }
@@ -85,6 +91,21 @@ export class AdministradorUsuariosComponent {
 
   recargarUsuarios() {
     this.cargarUsuarios();
+  }
+
+  abrirModalRoles(usuario: any) {
+    this.usuarioSeleccionado = usuario;
+    this.mostrarModalRoles = true;
+  }
+
+  cerrarModalRoles() {
+    this.mostrarModalRoles = false;
+    this.usuarioSeleccionado = null;
+  }
+
+  onRolesActualizados() {
+    this.cargarUsuarios();
+    this.cerrarModalRoles();
   }
 
   Roles() {
