@@ -287,6 +287,15 @@ export class PacienteComponent {
     const usuario = this.AuthService.getUser();
 
       const dto: CreateProtocoloPacienteCompletoDto = {
+        fechaConsulta: formData.fechaConsulta,
+        // fechaInicio: formData.fechaInicio,
+        CIE11: this.cieSeleccionado,
+        CIE11Descripcion: this.cieSeleccionado,
+        medicoTratante: this.medicoTratante,
+        codigoMedicoTratante: this.codigoMedicoTratante,
+        nombreEspecialidad: this.nombreEspecialidad,
+        codigoEspecialidad: this.especialidad,
+
         idProtocolo: formData.idProtocolo,
         idPaciente: this.pacienteData.idPaciente,
         idServinte: this.pacienteData.idServinte,
@@ -297,7 +306,6 @@ export class PacienteComponent {
         estado: "activo",
         tipo: formData.tipoPaciente,
         razonTratamiento: formData.razon,
-        fechaConsulta: formData.fechaConsulta,
         tratamiento: formData.tratamiento , 
         tipoTratamiento: formData.tipoTratamiento 
       };

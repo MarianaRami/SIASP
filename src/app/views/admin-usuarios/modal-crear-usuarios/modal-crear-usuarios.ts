@@ -17,7 +17,8 @@ export class ModalCrearUsuarios implements OnInit {
   roles: any[] = [];
   rolesSeleccionados: string[] = [];
 
-  idUsuario: string = ''; // 🔥 esto lo puedes cambiar luego por input real
+  usuario: string = ''; 
+  nombre: string = '';
 
   constructor(private usuariosService: GestionUsuariosService) {}
 
@@ -40,11 +41,15 @@ export class ModalCrearUsuarios implements OnInit {
     const fecha = new Date().toISOString().split('T')[0];
 
     const requests = this.rolesSeleccionados.map(idRol => {
-      return this.usuariosService.asignarRolUsuario({
-        id_usuario: this.idUsuario,
+      return this.usuariosService.crearUsuario({
+        nombreUsuario: this.usuario,
+        nombre: this.nombre,
         id_rol: idRol,
-        fechaAsignacion: fecha,
-        estado: 'Activo'
+
+        
+        //id_usuario: this.idUsuario,
+        //fechaAsignacion: fecha,
+        //estado: 'Activo'
       });
     });
 

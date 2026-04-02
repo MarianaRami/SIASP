@@ -21,7 +21,7 @@ export class GestionUsuariosService {
   }
 
   crearUsuario(dto: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/usuarios`, dto);
+    return this.http.post<any>(`${this.baseUrl}/usuarios/usuarios`, dto);
   }
 
   actualizarUsuario(id: string, dto: any): Observable<any> {

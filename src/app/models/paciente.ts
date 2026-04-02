@@ -162,6 +162,14 @@ export interface CreateProtocoloPacienteCompletoDto {
   tipoTratamiento: string;
   fechaFinProtocolo?: string;
   tipoFin?: "cancelado" | "cambio_protocolo" | "concluido" | "desistido";
+
+  fechaInicio?: string;
+  CIE11: string;
+  CIE11Descripcion: string;
+  medicoTratante: string;
+  codigoMedicoTratante: number;
+  nombreEspecialidad: string;
+  codigoEspecialidad: string;
 }
 
 export interface DescripcionCicloPacienteCompleto {
