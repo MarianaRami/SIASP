@@ -102,7 +102,7 @@ export class MedFarmaciaComponent {
   }
 
   tipoPaciente: 'AMBULATORIO' | 'HOSPITALIZADO' = 'AMBULATORIO';
-  tipoOrden: string = 'NO_OP';
+  tipoOrden: string = 'ALL';
 
 
   volver() {

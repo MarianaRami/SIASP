@@ -80,7 +80,8 @@ export class PopupCambioProtocoloComponent {
       codigoMedicoTratante: this.protocolos.find(p => p.id === this.formData.idProtocolo)?.codigoMedicoTratante || null,
       nombreEspecialidad: this.protocolos.find(p => p.id === this.formData.idProtocolo)?.nombreEspecialidad || null,
       codigoEspecialidad: this.protocolos.find(p => p.id === this.formData.idProtocolo)?.codigoEspecialidad || null
-    };
+      
+      };
 
     console.log('Datos guardados:', payload);
     this.guardarPaciente.emit(payload);
