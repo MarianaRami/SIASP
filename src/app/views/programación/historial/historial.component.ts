@@ -34,6 +34,7 @@ export class HistorialComponent {
 
   diagnosticos: any[] = [];
   protocolos: any[] = [];
+  ciesConProtocolo: { codigo: string; descripcion: string }[] = [];
   cieSeleccionado: string = '';
 
   idpaciente = '';
@@ -102,12 +103,16 @@ export class HistorialComponent {
 
             this.idpaciente = resp.data.idPaciente;
 
-            this. diagnosticos = p.diagnosticos || [];
+            this.diagnosticos = p.diagnosticos || [];
             this.protocolos = p.protocolosActuales || [];
 
-            if(this.diagnosticos.length > 0){
-              this.cieSeleccionado = this.diagnosticos[0].codigo || '';
-              console.log('CIE seleccionado:', this.cieSeleccionado);
+            this.ciesConProtocolo = this.protocolos.map((pr: any) => ({
+              codigo: pr.CIE11,
+              descripcion: pr.CIE11Descripcion
+            }));
+
+            if (this.ciesConProtocolo.length > 0) {
+              this.cieSeleccionado = this.ciesConProtocolo[0].codigo;
             }
 
 

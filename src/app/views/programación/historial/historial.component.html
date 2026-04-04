@@ -43,24 +43,25 @@
         <div class="fila">
             <label>CIE10:</label>
 
-            <!-- Si solo hay uno -->
-            <div *ngIf="diagnosticos.length === 1">
-                {{ diagnosticos[0].codigo+"-"+diagnosticos[0].descripcion }}
+            <!-- Si solo hay uno con protocolo -->
+            <div *ngIf="ciesConProtocolo.length === 1">
+                {{ ciesConProtocolo[0].codigo }}-{{ ciesConProtocolo[0].descripcion }}
             </div>
 
-            <!-- Si hay varios -->
+            <!-- Si hay varios con protocolo -->
             <select 
-                *ngIf="diagnosticos.length > 1"
+                *ngIf="ciesConProtocolo.length > 1"
                 [(ngModel)]="cieSeleccionado"
+                (ngModelChange)="actualizarProtocoloCie()"
             >
-                <option *ngFor="let d of diagnosticos" [value]="d.descripcion">
-                {{ d.codigo }} — {{ d.descripcion }}
+                <option *ngFor="let c of ciesConProtocolo" [value]="c.codigo">
+                {{ c.codigo }} — {{ c.descripcion }}
                 </option>
             </select>
 
-            <!-- Si no hay -->
-            <div *ngIf="diagnosticos.length === 0">
-                Sin diagnóstico
+            <!-- Si ningún diagnóstico tiene protocolo -->
+            <div *ngIf="ciesConProtocolo.length === 0">
+                Sin protocolo asignado
             </div>
         </div>
 
