@@ -81,8 +81,11 @@ export class ConfiguracionCicloComponent {
           if ( resp.success && resp.data ) {
             //this.pacienteData = resp.data.protocoloActual;
 
+            const idProtocoloPaciente = this.route.snapshot.queryParamMap.get('idProtocoloPaciente');
             if (resp.data.protocolosActuales && resp.data.protocolosActuales.length > 0) {
-              this.protocoloActual = resp.data.protocolosActuales[0];
+              this.protocoloActual = (idProtocoloPaciente
+                ? resp.data.protocolosActuales.find((p: any) => p.idProtocoloPaciente === idProtocoloPaciente)
+                : null) || resp.data.protocolosActuales[0];
             } else {
               this.protocoloActual = null;
             }

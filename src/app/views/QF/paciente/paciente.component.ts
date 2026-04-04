@@ -88,7 +88,10 @@ export class PacienteComponent {
   }
 
   configurarCiclo() {
-    this.router.navigate(['qf/busqueda/paciente',this.cedula, 'conf-ciclo'])
+    this.router.navigate(
+      ['qf/busqueda/paciente', this.cedula, 'conf-ciclo'],
+      { queryParams: { idProtocoloPaciente: this.protocoloActual?.idProtocoloPaciente } }
+    )
   }
 
   volver() {
