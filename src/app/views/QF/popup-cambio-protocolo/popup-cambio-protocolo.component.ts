@@ -20,11 +20,17 @@ export class PopupCambioProtocoloComponent {
     { label: 'Ambulatorio', value: 'ambulatorio' },
     { label: 'Hospitalizado', value: 'hospitalizado' }
   ];
+
   razones = [
     { label: 'Cambio de tratamiento', value: 'cambio_protocolo' },
     { label: 'Recaida', value: 'recaida' },
-    { label: 'Transferencia', value: 'transferencia' }
+    { label: 'Transferencia', value: 'transferencia' },
+    { label: 'Metástasis', value: 'metastasis' },
+    { label: 'Control de enfermedad', value: 'control_enfermedad' },
+    { label: 'Progresión de enfermedad', value: 'progresion_enfermedad' },
+    { label: 'Toxicidad', value: 'toxicidad' }
   ];
+
 
   tratamientos = [
     { label: 'Monoterapia', value: 'mono' },

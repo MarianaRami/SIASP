@@ -32,6 +32,12 @@ export interface PacienteResponseDto {
   diagnosticos: DiagnosticoDto[];
   medicoTratante: string;
   codigoMedicoTratante: string;
+  indicadores?: {
+    peso: number | null;
+    talla: number | null;
+    tfg: number | null;
+    fecha: string | null;
+  };
 }
 
 export interface DiagnosticoDto {
@@ -39,6 +45,8 @@ export interface DiagnosticoDto {
   descripcion: string;
   codigoEspecialidad: number;
   nombreEspecialidad: string;
+  medicoTratante: string;
+  codigoMedicoTratante: number;
 }
 
 export interface ProtocoloActualDto {

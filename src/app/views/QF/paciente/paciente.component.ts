@@ -150,14 +150,12 @@ export class PacienteComponent {
             this.eps = this.pacienteData.eps;
             this.diagnosticos = this.pacienteData.diagnosticos && this.pacienteData.diagnosticos.length > 0 ? this.pacienteData.diagnosticos : [];
 
-            this.medicoTratante = this.pacienteData?.medicoTratante || '';
-            this.codigoMedicoTratante = this.pacienteData ? Number(this.pacienteData.codigoMedicoTratante) : 0;
-
+            const ind = this.pacienteData.indicadores;
             this.indicadores = {
-              peso: Number(this.pacienteData.peso),
-              talla: Number(this.pacienteData.talla),
-              tfg: Number(this.pacienteData.tfg),
-              fecha: this.pacienteData.fechaIndicadores ? new Date(this.pacienteData.fechaIndicadores) : new Date()
+              peso: ind?.peso ?? null,
+              talla: ind?.talla ?? null,
+              tfg: ind?.tfg ?? null,
+              fecha: ind?.fecha ? new Date(ind.fecha) : new Date()
             };
 
             if (this.diagnosticos.length > 0) {
@@ -201,37 +199,62 @@ export class PacienteComponent {
   onGuardarPaciente(formData: any) {
     const usuario = this.AuthService.getUser();
 
-    let CIE11Descripcion = '';
-    let CIE11 = '';
-    let codigoEspecialidad = '';
-    let nombreEspecialidad = '';
+    const diag = this.diagnosticos.find(d => d.descripcion === this.cieSeleccionado)
+      || this.diagnosticos[0];
 
-    if (this.diagnosticos.length > 0) {
+    const CIE11 = diag?.codigo || '';
+    const CIE11Descripcion = diag?.descripcion || '';
+    const codigoEspecialidad = diag?.codigoEspecialidad || '';
+    const nombreEspecialidad = diag?.nombreEspecialidad || '';
 
-      let diag = this.diagnosticos.find(d => d.descripcion === this.cieSeleccionado);
+    // Paciente ya registrado en BD local: solo asignar protocolo
+    if (this.pacienteData.fuenteDatos === 'paciente') {
+      const dto: CreateProtocoloPacienteCompletoDto = {
+        fechaConsulta: formData.fechaConsulta,
+        CIE11,
+        CIE11Descripcion,
+        medicoTratante: this.medicoTratante,
+        codigoMedicoTratante: Number(this.codigoMedicoTratante),
+        nombreEspecialidad,
+        codigoEspecialidad,
+        idProtocolo: formData.idProtocolo,
+        idPaciente: this.pacienteData.idPaciente,
+        idServinte: this.pacienteData.idServinte,
+        usuarioCreacion: usuario,
+        documento: this.pacienteData.documento,
+        tipoDocumento: this.pacienteData.tipoDocumento,
+        fechaRegistroProtocolo: formData.fechaInicio,
+        estado: "activo",
+        tipo: formData.tipoPaciente,
+        razonTratamiento: formData.razon,
+        tratamiento: formData.tratamiento,
+        tipoTratamiento: formData.tipoTratamiento
+      };
 
-      if (diag) {
-        CIE11 = diag.codigo;
-        CIE11Descripcion = diag.descripcion;
-        codigoEspecialidad = diag.codigoEspecialidad;
-        nombreEspecialidad = diag.nombreEspecialidad;
-      }else{
-        CIE11=this.diagnosticos[0].codigo;
-        CIE11Descripcion = this.diagnosticos[0].descripcion;
-        codigoEspecialidad = this.diagnosticos[0].codigoEspecialidad;
-        nombreEspecialidad = this.diagnosticos[0].nombreEspecialidad;
-      }
+      console.log('Asignando protocolo a paciente existente:', dto);
+
+      this.miServicio.asignarNuevoProtocoloPaciente(dto).subscribe({
+        next: (resp) => {
+          console.log('Protocolo asignado correctamente:', resp);
+          alert('Paciente guardado con éxito');
+          this.cargaDatos();
+        },
+        error: (err) => {
+          console.error('Error al asignar protocolo:', err);
+          alert('Error al guardar paciente');
+        }
+      });
+      return;
     }
 
-
-    // Mapea lo que recibes del servicio al DTO que espera el backend
+    // Paciente de servinte: crear en BD local junto con el protocolo
     const nuevoPacienteDto = {
       idServinte: this.pacienteData.idServinte,
       nombres: this.pacienteData.nombres,
-      apellidos: this.pacienteData.apellidos, 
+      apellidos: this.pacienteData.apellidos,
       tipoDocumento: this.pacienteData.tipoDocumento,
       documento: this.pacienteData.documento,
-      fechaNacimiento: this.pacienteData.fechaNacimiento, 
+      fechaNacimiento: this.pacienteData.fechaNacimiento,
       nombreContacto: this.pacienteData.nombreContacto,
       telefono1: this.pacienteData.telefono1,
       email1: this.pacienteData.email1,
@@ -239,29 +262,29 @@ export class PacienteComponent {
       email2: this.pacienteData.email2,
       eps: this.pacienteData.eps,
       estado: "activo",
-      indicadores:this.indicadores,
+      indicadores: this.indicadores,
       diagnosticos: this.diagnosticos.map(d => ({
         codigo: d.codigo,
         descripcion: d.descripcion,
         codigoEspecialidad: d.codigoEspecialidad,
         nombreEspecialidad: d.nombreEspecialidad
       })),
-      idProtocolo: formData.idProtocolo, 
-      codigoEspecialidad: codigoEspecialidad,
+      idProtocolo: formData.idProtocolo,
+      codigoEspecialidad,
       fechaConsulta: formData.fechaConsulta,
       tipo: formData.tipoPaciente,
       razonTratamiento: formData.razon,
-      nombreEspecialidad: nombreEspecialidad,
-      CIE11Descripcion: CIE11Descripcion,
-      CIE11: CIE11,
-      tratamientoNombre: formData.tratamiento , 
-      tratamientoTipo: formData.tipoTratamiento ,
+      nombreEspecialidad,
+      CIE11Descripcion,
+      CIE11,
+      tratamientoNombre: formData.tratamiento,
+      tratamientoTipo: formData.tipoTratamiento,
       medicoTratante: this.medicoTratante,
-      codigoMedicoTratante: this.codigoMedicoTratante,
+      codigoMedicoTratante: Number(this.codigoMedicoTratante),
       usuarioCreacion: usuario
     };
 
-    console.log('Enviando paciente nuevo:', nuevoPacienteDto);
+    console.log('Creando paciente nuevo desde servinte:', nuevoPacienteDto);
 
     this.miServicio.createPacienteNuevoCompleto(nuevoPacienteDto)
       .subscribe({
@@ -280,15 +303,17 @@ export class PacienteComponent {
   guardarCambio(formData: any) {
     const usuario = this.AuthService.getUser();
 
+      const diagSeleccionado = this.diagnosticos.find(d => d.descripcion === this.cieSeleccionado);
+
       const dto: CreateProtocoloPacienteCompletoDto = {
         fechaConsulta: formData.fechaConsulta,
         // fechaInicio: formData.fechaInicio,
-        CIE11: this.cieSeleccionado,
-        CIE11Descripcion: this.cieSeleccionado,
+        CIE11: diagSeleccionado?.codigo || this.cieSeleccionado,
+        CIE11Descripcion: diagSeleccionado?.descripcion || this.cieSeleccionado,
         medicoTratante: this.medicoTratante,
-        codigoMedicoTratante: this.codigoMedicoTratante,
-        nombreEspecialidad: this.nombreEspecialidad,
-        codigoEspecialidad: this.especialidad,
+        codigoMedicoTratante: Number(this.codigoMedicoTratante),
+        nombreEspecialidad: diagSeleccionado?.nombreEspecialidad || this.nombreEspecialidad,
+        codigoEspecialidad: diagSeleccionado?.codigoEspecialidad || this.especialidad,
 
         idProtocolo: formData.idProtocolo,
         idPaciente: this.pacienteData.idPaciente,
@@ -322,11 +347,14 @@ export class PacienteComponent {
   actualizarProtocoloPorCie(codigoCie: string) {
     const protocolos = this.pacienteData?.protocolosActuales || [];
     const encontrado = protocolos.find(p => p.CIE11 === codigoCie) || null;
+    const diagActual = this.diagnosticos.find(d => d.codigo === codigoCie);
 
     this.protocoloActual = encontrado;
     this.protocolo = encontrado?.nombreProtocolo || '';
     this.version = encontrado ? String(encontrado.version || '') : '';
-    this.medico = encontrado?.medicoTratante || this.pacienteData?.medicoTratante || '';
+    this.medicoTratante = encontrado?.medicoTratante || diagActual?.medicoTratante || this.pacienteData?.medicoTratante || '';
+    this.codigoMedicoTratante = Number(encontrado?.codigoMedicoTratante) || Number(diagActual?.codigoMedicoTratante) || 0;
+    this.medico = this.medicoTratante;
     this.ciclos = encontrado?.ciclos || [];
     this.sinProtocoloParaCie = !encontrado;
 
