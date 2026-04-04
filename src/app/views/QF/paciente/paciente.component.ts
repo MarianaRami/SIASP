@@ -47,6 +47,7 @@ export class PacienteComponent {
   ciclos: any[] = [];
 
   protocoloActual!: ProtocoloActualDto | null;
+  sinProtocoloParaCie: boolean = false;
 
   mensajeError: string = '';
 
@@ -143,46 +144,39 @@ export class PacienteComponent {
 
             const p = resp.data;
 
-            if (p.protocolosActuales && p.protocolosActuales.length > 0) {
-              this.protocoloActual = p.protocolosActuales[0];
-            } else {
-              this.protocoloActual = null;
-            }
-
             // ahora el backend ya trae nombre completo y identificacion
             this.paciente = this.construirNombreCompleto(this.pacienteData);
             this.identificacion = this.construirIdentificacionCompleta(this.pacienteData);
-            this.medico = this.protocoloActual?.medicoTratante || this.pacienteData.medicoTratante || '';
-            this.protocolo = this.protocoloActual?.nombreProtocolo || '';
             this.eps = this.pacienteData.eps;
             this.diagnosticos = this.pacienteData.diagnosticos && this.pacienteData.diagnosticos.length > 0 ? this.pacienteData.diagnosticos : [];
-            
-            if (this.diagnosticos.length > 0) {
-              this.cie10=this.construirCIE11Completa(this.diagnosticos[0])
-              this.cieSeleccionado = this.diagnosticos[0].descripcion;
-              this.especialidad = this.construirEspecialidadCompleta(this.diagnosticos[0]);
-              this.nombreEspecialidad = this.diagnosticos[0].nombreEspecialidad;
-            }else{
-              if(this.protocoloActual){
-                this.especialidad = this.protocoloActual.nombreEspecialidad || '';
-                this.nombreEspecialidad = this.protocoloActual.nombreEspecialidad || '';
-              }
-            }
+
             this.medicoTratante = this.pacienteData?.medicoTratante || '';
             this.codigoMedicoTratante = this.pacienteData ? Number(this.pacienteData.codigoMedicoTratante) : 0;
 
             this.indicadores = {
-              peso: Number(this.pacienteData.peso), 
+              peso: Number(this.pacienteData.peso),
               talla: Number(this.pacienteData.talla),
               tfg: Number(this.pacienteData.tfg),
               fecha: this.pacienteData.fechaIndicadores ? new Date(this.pacienteData.fechaIndicadores) : new Date()
-            }
-          
-            this.ciclos = this.protocoloActual?.ciclos || [];  
+            };
 
-            if (this.protocolo) {
-              // Aquí transformas los ciclos para la tabla
-              this.datos = (this.ciclos || []).map((ciclo: any) => ({
+            if (this.diagnosticos.length > 0) {
+              this.cie10 = this.construirCIE11Completa(this.diagnosticos[0]);
+              this.cieSeleccionado = this.diagnosticos[0].descripcion;
+              this.especialidad = this.construirEspecialidadCompleta(this.diagnosticos[0]);
+              this.nombreEspecialidad = this.diagnosticos[0].nombreEspecialidad;
+              this.actualizarProtocoloPorCie(this.diagnosticos[0].codigo);
+            } else {
+              const primerProtocolo = p.protocolosActuales?.[0] || null;
+              this.protocoloActual = primerProtocolo;
+              this.protocolo = primerProtocolo?.nombreProtocolo || '';
+              this.version = primerProtocolo ? String(primerProtocolo.version || '') : '';
+              this.medico = primerProtocolo?.medicoTratante || this.pacienteData.medicoTratante || '';
+              this.especialidad = primerProtocolo?.nombreEspecialidad || '';
+              this.nombreEspecialidad = primerProtocolo?.nombreEspecialidad || '';
+              this.ciclos = primerProtocolo?.ciclos || [];
+              this.sinProtocoloParaCie = !primerProtocolo;
+              this.datos = this.ciclos.map((ciclo: any) => ({
                 ciclo: ciclo.numCiclo,
                 estado: this.formatearEstado(ciclo.estado),
                 fechaFinEstimada: ciclo.fechaFinReal || '-'
@@ -323,6 +317,33 @@ export class PacienteComponent {
           alert("Error al asignar protocolo");
         }
       });
+  }
+
+  actualizarProtocoloPorCie(codigoCie: string) {
+    const protocolos = this.pacienteData?.protocolosActuales || [];
+    const encontrado = protocolos.find(p => p.CIE11 === codigoCie) || null;
+
+    this.protocoloActual = encontrado;
+    this.protocolo = encontrado?.nombreProtocolo || '';
+    this.version = encontrado ? String(encontrado.version || '') : '';
+    this.medico = encontrado?.medicoTratante || this.pacienteData?.medicoTratante || '';
+    this.ciclos = encontrado?.ciclos || [];
+    this.sinProtocoloParaCie = !encontrado;
+
+    this.datos = this.ciclos.map((ciclo: any) => ({
+      ciclo: ciclo.numCiclo,
+      estado: this.formatearEstado(ciclo.estado),
+      fechaFinEstimada: ciclo.fechaFinReal || '-'
+    }));
+  }
+
+  onCieChange() {
+    const diag = this.diagnosticos.find(d => d.descripcion === this.cieSeleccionado);
+    if (!diag) return;
+    this.cie10 = this.construirCIE11Completa(diag);
+    this.especialidad = this.construirEspecialidadCompleta(diag);
+    this.nombreEspecialidad = diag.nombreEspecialidad;
+    this.actualizarProtocoloPorCie(diag.codigo);
   }
 
   formatearEstado(estado: string): string {

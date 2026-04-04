@@ -5,7 +5,7 @@
     </button>
     <div class="acciones">
       <button class="btn-accion" *ngIf="protocolo" (click)="configurarCiclo()">Configurar Ciclo</button>
-      <button class="btn-accion" *ngIf="!protocolo" (click)="abrirPopupPr()">Seleccionar protocolo</button>
+      <button class="btn-accion" *ngIf="sinProtocoloParaCie" (click)="abrirPopupPr()">Seleccionar protocolo</button>
     </div>
   </div>
 
@@ -51,6 +51,7 @@
             <select 
                 *ngIf="diagnosticos.length > 1"
                 [(ngModel)]="cieSeleccionado"
+                (ngModelChange)="onCieChange()"
             >
                 <option *ngFor="let d of diagnosticos" [value]="d.descripcion">
                 {{ d.codigo }} — {{ d.descripcion }}
