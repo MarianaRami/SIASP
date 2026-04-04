@@ -64,8 +64,12 @@ export class ReporteCalendarioComponent {
             // Convertir horaInicio → HH:mm
             const horaInicioHM = evento.horaInicio.substring(0, 5);
 
-            // convertir duración en minutos a duración en horas (redondear hacia arriba)
-            const duracionHoras = Math.ceil(evento.duracion / 60);
+            // Calcular duración en horas a partir de horaInicio y horaFin
+            const [hIni, mIni] = evento.horaInicio.split(':').map(Number);
+            const [hFin, mFin] = evento.horaFin.split(':').map(Number);
+            const minutosInicio = hIni * 60 + mIni;
+            const minutosFin = hFin * 60 + mFin;
+            const duracionHoras = Math.ceil((minutosFin - minutosInicio) / 60);
 
             this.pacientes.push({
               sala: Number(salaId),
