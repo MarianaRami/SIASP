@@ -3,11 +3,14 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { credentialsInterceptor } from './interceptors/credentials.interceptor';
+import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes),provideHttpClient(
-      withInterceptors([credentialsInterceptor])  // ⭐ Registrar interceptor
-    )],
+  providers: [
+    provideRouter(routes),
+    provideHttpClient(withInterceptors([credentialsInterceptor])),
+    { provide: DATE_PIPE_DEFAULT_OPTIONS, useValue: { timezone: 'America/Bogota' } }
+  ],
 };
 
 /*
