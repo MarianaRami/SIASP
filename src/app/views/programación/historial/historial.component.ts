@@ -344,7 +344,7 @@ export class HistorialComponent {
       error: (err) => {
         console.error('❌ Error al programar silla:', err);
 
-        if (err.status === 400) {
+        if (err.status === 409 || err.status === 400) {
           alert(
             'No es posible programar al paciente en ese horario porque la silla ya se encuentra ocupada. Por favor selecciona otro horario o silla.'
           );
