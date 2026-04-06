@@ -303,24 +303,42 @@ export class HistorialComponent {
     const cicloActivo = this.cicloActivo;
 
     if (this.modoPopup === 'editar') {
-      let sillaProgramada = false;
-      // Cambio de silla
-      const programaSillaDto = {
-        idEvento: this.eventoAEditar.id,
-        idSilla: datos.idSilla,
-        fecha: datos.fechaEvento,
-        horaInicio: datos.horaInicio,
-        horaFin: datos.horaFin,
-        duracion: datos.duracion,
-        usuarioModificacion: usuario
-      };
-      console.log('Datos para programar silla:', programaSillaDto);
 
-      this.programacionServicio.programarSilla(programaSillaDto).subscribe({
-      next: (res) => {
-        console.log('✅ Silla programada:', res);
-        this.cargarDatos();
+      if (this.eventoAEditar.tipo === 'Aplicación') {
+        // Evento de tipo aplicación: solo programar silla
+        const programaSillaDto = {
+          idEvento: this.eventoAEditar.id,
+          idSilla: datos.idSilla,
+          fecha: datos.fechaEvento,
+          horaInicio: datos.horaInicio,
+          horaFin: datos.horaFin,
+          duracion: datos.duracion,
+          usuarioModificacion: usuario
+        };
+        console.log('Datos para programar silla:', programaSillaDto);
 
+        this.programacionServicio.programarSilla(programaSillaDto).subscribe({
+          next: (res) => {
+            console.log('✅ Silla programada:', res);
+            if (res?.mensaje) {
+              alert(res.mensaje);
+            }
+            this.cargarDatos();
+          },
+          error: (err) => {
+            console.error('❌ Error al programar silla:', err);
+            if (err.status === 409 || err.status === 400) {
+              alert(
+                'No es posible programar al paciente en ese horario porque la silla ya se encuentra ocupada. Por favor selecciona otro horario o silla.'
+              );
+            } else {
+              alert('Ocurrió un error inesperado al programar la silla');
+            }
+          }
+        });
+
+      } else {
+        // Otro tipo de evento: solo editar fecha del evento
         const payload = {
           cedula: this.cedula,
           idCiclo: cicloActivo?.id,
@@ -328,6 +346,7 @@ export class HistorialComponent {
           usuarioModificacion: usuario,
           idEvento: this.eventoAEditar.id
         };
+        console.log('Datos para editar evento:', payload);
 
         this.programacionServicio.editarEventoAplicacionPaciente(payload).subscribe({
           next: (res) => {
@@ -339,43 +358,7 @@ export class HistorialComponent {
             alert('Ocurrió un error al editar el evento');
           }
         });
-      },
-
-      error: (err) => {
-        console.error('❌ Error al programar silla:', err);
-
-        if (err.status === 409 || err.status === 400) {
-          alert(
-            'No es posible programar al paciente en ese horario porque la silla ya se encuentra ocupada. Por favor selecciona otro horario o silla.'
-          );
-        } else {
-          alert('Ocurrió un error inesperado al programar la silla');
-        }
       }
-    });
-
-      
-
-/*
-      //Se verifica si la silla pudo ser programada antes de editar la fecha del evento
-      if(sillaProgramada){
-        const payload = {
-          cedula: this.cedula,
-          idCiclo: cicloActivo?.id,
-          fechaEvento: datos.fechaEvento,
-          usuarioModificacion: usuario,
-          idEvento: this.eventoAEditar.id
-        };
-        console.log('Datos para editar evento:', payload);
-        this.programacionServicio.editarEventoAplicacionPaciente(payload).subscribe({
-          next: (res) => {
-            console.log('✅ Evento editado:', res);
-            this.cargarDatos();
-          },
-          error: (err) => console.error('❌ Error al editar evento:', err)
-        });
-      }
-  */    
 
     } else {
       datos.usuarioModificacion = usuario;
