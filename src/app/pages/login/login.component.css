@@ -24,6 +24,15 @@ button {
   cursor: pointer;
 }
 
+.btn-eye {
+  padding: 8px;
+  color: gray;
+  background-color: transparent; /* ⚠️ no es 'none' */
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
 .sidebar a {
   color: rgb(255, 255, 255);             
   text-decoration: none;    
