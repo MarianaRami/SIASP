@@ -6,11 +6,26 @@
     [(ngModel)]="username"
   />
 
-  <input
-    type="password"
-    placeholder="Contraseña"
-    [(ngModel)]="password"
-  />
+  <div class="password-container">
+
+    <input
+      [type]="mostrarPassword ? 'text' : 'password'"
+      placeholder="Contraseña"
+      [(ngModel)]="password"
+    />
+
+    <button
+      mat-icon-button
+      type="button"
+      (click)="togglePassword()"
+      class="btn-eye"
+    >
+      <mat-icon>
+        {{ mostrarPassword ? 'visibility_off' : 'visibility' }}
+      </mat-icon>
+    </button>
+
+  </div>
 
   <button (click)="onLogin()" [disabled]="loading">
     {{ loading ? 'Ingresando...' : 'Acceder' }}

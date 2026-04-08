@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +13,9 @@ import { Router } from '@angular/router';
   imports: [
     HttpClientModule,
     CommonModule,
-    FormsModule
+    FormsModule,
+    MatButtonModule,
+    MatIconModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -27,6 +31,12 @@ export class LoginComponent {
   loading = false;
 
   constructor(private authService: AuthService, private router: Router) {}
+
+  mostrarPassword = false;
+
+  togglePassword() {
+    this.mostrarPassword = !this.mostrarPassword;
+  }
 
   onLogin() {
 
