@@ -435,19 +435,22 @@ export class HistorialComponent {
     this.mostrarPopupM = false;
   }
 
-  GuardarObservacion(observacion: any) {
+  GuardarObservacion(payload: { observaciones: string; motivoDevolucion: string }) {
     const fechaActual = new Date().toISOString();
 
     const usuario = this.AuthService.getUser();
 
     const cicloActivo = this.ciclos?.find(ciclo => ciclo.estado === 'activo');
 
+    const { observaciones, motivoDevolucion } = payload;
+
     const datosGuardar = {
       idCiclo: cicloActivo?.id,
       idPaciente: this.idpaciente,
-      observaciones: observacion,
+      observaciones: observaciones,
       fecha: fechaActual,
-      usuarioModificador: usuario
+      usuarioModificador: usuario,
+      motivoDevolucion: motivoDevolucion
     }
 
     console.log('Datos para guardar observación:', datosGuardar);

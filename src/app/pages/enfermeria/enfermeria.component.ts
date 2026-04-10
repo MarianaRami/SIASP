@@ -26,7 +26,18 @@ export class EnfermeriaComponent {
     { key: 'cedula', label: 'Cedula' },
     { key: 'telefonos', label: 'Teléfono' },
     { key: 'estado', label: 'Estado', tipo: 'select', opciones: ['Aplicada', 'Suspendida', 'Reprogramar', 'Inasistencia'] },
-    { key: 'observacion', label: 'Observaciones', tipo: 'text' }
+    { key: 'observacion', label: 'Observaciones', tipo: 'text' },
+    {
+      key: 'razonReprogramacion', label: 'Razón reprogramación', tipo: 'select-condicional',
+      dependsOn: 'estado', dependsValue: ['Reprogramar', 'Inasistencia'],
+      opciones: [
+        { value: 'toxicidad',                  label: 'Toxicidad' },
+        { value: 'inasistencia_voluntaria',     label: 'Inasistencia voluntaria' },
+        { value: 'indisponibilidad_paciente',   label: 'Indisponibilidad del paciente' },
+        { value: 'solicitud_paciente',          label: 'Solicitud del paciente' },
+        { value: 'otro',                        label: 'Otro' },
+      ]
+    },
   ];
 
   datos: any[] = [];
@@ -120,7 +131,8 @@ export class EnfermeriaComponent {
         estado: p.estado === 'Aplicada' ? 'aplicada' :  p.estado === 'Inasistencia' ? 'inasistencia' :  p.estado === 'Suspendida' ? 'suspendida' :  'reprogramacion',
         observacion: p.observacion,
         fecha: this.fechaActual,
-        usuarioModificacion: usuario
+        usuarioModificacion: usuario,
+        razonReprogramacion: (p.estado === 'Reprogramar' || p.estado === 'Inasistencia') ? (p.razonReprogramacion ?? null) : null
       }))
     };
 

@@ -29,6 +29,16 @@ export class ConfirmacionComponent {
     { key: 'telefonos', label: 'Telefono' },
     { key: 'estado', label: 'Estado', tipo: 'select', opciones: ['Confirmado', 'Reprogramar'] },
     { key: 'observacion', label: 'Observaciones', tipo: 'text' },
+    {
+      key: 'razonReprogramacion', label: 'Razón reprogramación', tipo: 'select-condicional',
+      dependsOn: 'estado', dependsValue: 'Reprogramar',
+      opciones: [
+        { value: 'toxicidad',                  label: 'Toxicidad' },
+        { value: 'solicitud_paciente',          label: 'Solicitud del paciente' },
+        { value: 'indisponibilidad_paciente',   label: 'Indisponibilidad del paciente' },
+        { value: 'otro',                        label: 'Otro' },
+      ]
+    },
   ];
 
   datos: any[] = [];
@@ -94,7 +104,8 @@ export class ConfirmacionComponent {
       fecha: this.fechaActual,
       usuarioModificacion: usuario,
       estado: p.estado === 'Confirmado' ? 'confirmada' : 'reprogramacion',
-      observacion: p.observacion
+      observacion: p.observacion,
+      razonReprogramacion: p.estado === 'Reprogramar' ? (p.razonReprogramacion ?? null) : null
     }))};
 
     console.log("📤 Enviando payload:", payload);

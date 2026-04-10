@@ -14,7 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PopupMedicamentosObvComponent {
  @Output() cerrar = new EventEmitter<void>();
- @Output() guardarEvento = new EventEmitter<any>();
+ @Output() guardarEvento = new EventEmitter<{ observaciones: string; motivoDevolucion: string }>();
 
  constructor(
     private route: ActivatedRoute,
@@ -55,11 +55,10 @@ export class PopupMedicamentosObvComponent {
   }
 
   guardar() {
-    console.log('Observaciones:', this.observaciones);
-    console.log('Medicamentos:', this.medicamentos);
-    this.guardarEvento.emit(this.observaciones);
-
-    // Debería enviar idCiclo, idPaciente, observaciones , fecha y usuario modificador
+    this.guardarEvento.emit({
+      observaciones: this.observaciones,
+      motivoDevolucion: 'error_formulacion_medicamento_prog'
+    });
   }
 
   cancelar() {

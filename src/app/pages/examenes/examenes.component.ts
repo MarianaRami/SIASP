@@ -26,7 +26,8 @@ interface ExamenPaciente {
   examenesPendientes: ExamenesPendientes;
   estado: string;
   observación: string;
-  examenesPendientesTexto?: string; 
+  examenesPendientesTexto?: string;
+  razonReprogramacion?: string | null;
 }
 
 
@@ -53,7 +54,17 @@ export class ExamenesComponent {
       tipo: 'select',
       opciones: ['Aprobado', 'Reprobado', 'No Presentado']
     },
-    { key: 'observación', label: 'Observación', tipo: 'text' }
+    { key: 'observación', label: 'Observación', tipo: 'text' },
+    {
+      key: 'razonReprogramacion', label: 'Razón', tipo: 'select-condicional',
+      dependsOn: 'estado', dependsValue: ['Reprobado', 'No Presentado'],
+      opciones: [
+        { value: 'toxicidad',                  label: 'Toxicidad' },
+        { value: 'reprobacion_examen',          label: 'Reprobación de exámen' },
+        { value: 'indisponibilidad_paciente',   label: 'No presentó exámenes' },
+        { value: 'otro',                        label: 'Otro' },
+      ]
+    },
   ];
 
   datos: ExamenPaciente[] = [];
@@ -149,7 +160,8 @@ export class ExamenesComponent {
             fecha: this.fechaActual,
             usuarioModificacion: usuario,
             estado: p.estado === 'Aprobado' ? 'aprobado' : p.estado === 'Reprobado' ? 'reprobado' : 'no_presentado',
-            observacion: p.observación
+            observacion: p.observación,
+            razonReprogramacion: (p.estado === 'Reprobado' || p.estado === 'No Presentado') ? (p.razonReprogramacion ?? null) : null
           }))
         };
 
