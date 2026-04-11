@@ -49,7 +49,7 @@ export class ModalCrearUsuarios implements OnInit {
         
         //id_usuario: this.idUsuario,
         //fechaAsignacion: fecha,
-        //estado: 'Activo'
+        //estado: 'activo'
       });
     });
 

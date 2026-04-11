@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GestionUsuariosService } from '../../../services/gestion-usuarios';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-modal-roles-usuarios',
@@ -54,36 +54,64 @@ export class ModalRolesUsuarios {
   }
 
   guardarCambios() {
-    const rolesActuales = this.usuario.rolesDetalle.map((r: any) => r.rol.id) || [];
+    const rolesActuales: string[] = this.usuario.rolesDetalle.map(
+      (r: any) => r.rol.id
+    ) || [];
 
-    const rolesNuevos = this.rolesSeleccionados.filter(id => !rolesActuales.includes(id));
+    // 🔹 NUEVOS (no estaban antes)
+    const rolesNuevos = this.rolesSeleccionados.filter(
+      id => !rolesActuales.includes(id)
+    );
 
-    if(rolesNuevos.length === 0) {
+    // 🔹 ELIMINADOS (ya no están seleccionados)
+    const rolesEliminados = rolesActuales.filter(
+      id => !this.rolesSeleccionados.includes(id)
+    );
+
+    // 🔥 si no hay cambios
+    if (rolesNuevos.length === 0 && rolesEliminados.length === 0) {
       this.cerrar.emit();
       return;
     }
 
     this.cargando = true;
 
-    const fechaHoy = new Date().toISOString().split('T')[0];
+    const fechaHoy = this.formatearFecha(new Date());
 
-    const peticiones = rolesNuevos.map(idRol => 
-      this.usuariosService.asignarRolUsuario({
-        id_usuario: this.usuario.id,
-        id_rol: idRol,
-        fechaAsignacion: fechaHoy,
-        estado: 'activo'
-      })
-    );
+   const peticiones = [] as Observable<any>[];
+
+    // ✅ AGREGAR roles nuevos
+    rolesNuevos.forEach(idRol => {
+      peticiones.push(
+        this.usuariosService.asignarRolUsuario({
+          id_usuario: this.usuario.id,
+          id_rol: idRol,
+          fechaAsignacion: fechaHoy,
+          estado: 'Activo'
+        })
+      );
+    });
+
+    // ❌ DESACTIVAR roles eliminados
+    rolesEliminados.forEach((idRol: string) => {
+      peticiones.push(
+        this.usuariosService.asignarRolUsuario({
+          id_usuario: this.usuario.id,
+          id_rol: idRol,
+          fechaAsignacion: fechaHoy,
+          estado: 'Inactivo' // 🔥 clave
+        })
+      );
+    });
 
     forkJoin(peticiones).subscribe({
       next: () => {
-        console.log('Roles actualizados');
+        console.log('✅ Roles sincronizados');
         this.guardado.emit();
         this.cerrar.emit();
       },
       error: (err) => {
-        console.error('Error al actualizar roles', err);
+        console.error('❌ Error al actualizar roles', err);
         this.cargando = false;
       }
     });
