@@ -13,7 +13,12 @@
 
     <div class="fila">
         <label>Ciclo <span class="requerido">*</span>:</label>
-        <div>{{ ciclo }}</div>
+
+        <select [(ngModel)]="ciclo">
+            <option *ngFor="let c of ciclosDisponibles" [value]="c">
+            {{ c }}
+            </option>
+        </select>
     </div>
 
     <div class="fila">

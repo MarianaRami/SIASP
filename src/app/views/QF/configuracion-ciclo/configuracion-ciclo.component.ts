@@ -52,6 +52,8 @@ export class ConfiguracionCicloComponent {
 
   protocoloActual!: ProtocoloActualDto | null;
 
+  ciclosDisponibles: number[] = Array.from({ length: 20 }, (_, i) => i + 1);
+
   columnas = [
     { key: 'Aplicacion', label: 'No. Aplicación' },
     { key: 'Fecha', label: 'Fecha programada' },
@@ -183,6 +185,8 @@ export class ConfiguracionCicloComponent {
     // Actualiza eventos si el usuario los modificó
     protocoloFinal.eventos = this.eventos;
 
+    protocoloFinal.numeroCiclo = this.ciclo;
+
     // Navega al nuevo componente y le pasa el protocolo final
     this.router.navigate(
       ['qf/busqueda/paciente', this.cedula, 'conf-ciclo', 'conf-aplicaciones'],
@@ -231,7 +235,7 @@ export class ConfiguracionCicloComponent {
     protocoloFinal.configuracionMedicamentos = config_meds;
 
     protocoloFinal.descripcion = this.protocoloActual?.descripcion || '';
-    protocoloFinal.numeroCiclo = this.protocoloActual?.numeroCiclo || 1; 
+    protocoloFinal.numeroCiclo = this.ciclo;
     protocoloFinal.numero_ciclos = (this.protocoloActual?.numero_ciclos || 0) ;
     protocoloFinal.nombreProtocolo = this.protocoloActual?.nombreProtocolo || '';
     protocoloFinal.version = this.protocoloActual?.version || 1;
