@@ -16,14 +16,10 @@
 
     <button
       class="btn-eye"
-      mat-icon-button
       type="button"
       (click)="togglePassword()"
-      class="btn-eye"
     >
-      <mat-icon>
-        {{ mostrarPassword ? 'visibility_off' : 'visibility' }}
-      </mat-icon>
+      {{ mostrarPassword ? '🙈' : '👁' }}
     </button>
 
   </div>
