@@ -14,6 +14,10 @@ import { CommonModule } from '@angular/common';
   styleUrl: './paciente.component.css'
 })
 export class PacienteComponent {
+sinProtocoloParaCie: any;
+onCieChange() {
+throw new Error('Method not implemented.');
+}
 version: any;
 mensajeError: any;
 diagnosticos: any;
