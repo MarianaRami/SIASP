@@ -4,8 +4,6 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-login',
@@ -13,9 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [
     HttpClientModule,
     CommonModule,
-    FormsModule,
-    MatButtonModule,
-    MatIconModule
+    FormsModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
