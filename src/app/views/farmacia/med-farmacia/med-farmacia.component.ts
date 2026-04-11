@@ -29,7 +29,7 @@ export class MedFarmaciaComponent {
     { key: 'cantidad', label: 'Cantidad' },
     { key: 'ciclo', label: 'Ciclo' },
     { key: 'dia', label: 'Día' },
-    { key: 'notificado', label: 'Notificado' }
+    { key: 'notificado', label: 'Estado' }
   ];
 
   datos: any[] = [];
