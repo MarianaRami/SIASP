@@ -186,6 +186,7 @@ export class ExamenesComponent {
           }))
         };*/
         alert('Cambios guardados correctamente ✅');
+        this.cargarExamenes(this.fechaActual);
       },
       error: (err) =>{
         console.error('❌ Error al guardar los cambios en el servidor:', err)
