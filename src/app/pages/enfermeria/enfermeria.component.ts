@@ -147,12 +147,12 @@ export class EnfermeriaComponent {
         cambios.forEach(c => {
           this.datosOriginales[c.cedula] = { ...c };
         });
+        this.cargarPacientes();
       },
       error: (err) => {
         console.error("❌ Error al guardar:", err);
         alert("Error al guardar la información");
       }
     });
-    
   }
 }
