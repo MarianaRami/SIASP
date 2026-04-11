@@ -125,7 +125,7 @@ export class InfProtocoloComponent {
         state: { protocolo }
       }); 
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error al verificar el nombre del protocolo:', error);
       alert('Ocurrió un error al verificar el nombre del protocolo. Intenta nuevamente.');
     }

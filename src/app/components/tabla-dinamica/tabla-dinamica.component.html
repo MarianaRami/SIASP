@@ -47,8 +47,21 @@
 
       <!-- Número -->
       <ng-template #siguienteTipo5>
-        <ng-container *ngIf="col.tipo === 'number'; else textoNormal">
+        <ng-container *ngIf="col.tipo === 'number'; else siguienteTipo6">
           <input type="number" [(ngModel)]="fila[col.key]" />
+        </ng-container>
+      </ng-template>
+
+      <!-- Select condicional: solo se muestra si fila[col.dependsOn] coincide con col.dependsValue -->
+      <ng-template #siguienteTipo6>
+        <ng-container *ngIf="col.tipo === 'select-condicional'; else textoNormal">
+          <ng-container *ngIf="col.dependsOn && (fila[col.dependsOn] === col.dependsValue || (col.dependsValue?.includes && col.dependsValue.includes(fila[col.dependsOn]))); else sinRazon">
+            <select [(ngModel)]="fila[col.key]" (change)="onCambio(fila)">
+              <option value="">-- Seleccione --</option>
+              <option *ngFor="let op of col.opciones" [value]="op.value">{{ op.label }}</option>
+            </select>
+          </ng-container>
+          <ng-template #sinRazon><span>—</span></ng-template>
         </ng-container>
       </ng-template>
 

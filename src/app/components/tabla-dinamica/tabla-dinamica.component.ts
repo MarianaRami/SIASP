@@ -23,5 +23,13 @@ export class TablaDinamicaComponent {
   onCambio(fila: any) {
     this.cambio.emit(fila);
   }
+
+  mostrarCondicional(col: any, fila: any): boolean {
+    if (!col.dependsOn) return false;
+    const val = fila[col.dependsOn];
+    return Array.isArray(col.dependsValue)
+      ? col.dependsValue.includes(val)
+      : val === col.dependsValue;
+  }
 }
 
