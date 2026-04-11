@@ -1,4 +1,4 @@
-import { Component, importProvidersFrom } from '@angular/core';
+import { Component, OnInit, importProvidersFrom } from '@angular/core';
 import { RouterOutlet, Router, provideRouter, RouterModule } from '@angular/router';
 import { MenuSuperiorComponent } from './components/menu-superior/menu-superior.component';
 import { MenuIzquierdoComponent } from './components/menu-izquierdo/menu-izquierdo.component';
@@ -25,7 +25,7 @@ import { AuthService } from './services/auth.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   constructor(private router: Router, public authService: AuthService) {}
 
   get isLoginRoute(): boolean {
@@ -33,12 +33,13 @@ export class AppComponent {
   }
 
   ngOnInit() {
-
-  if (this.authService.isSessionExpired()) {
-    this.authService.clearSession();
+    if (this.authService.isSessionExpired()) {
+      this.authService.clearSession();
+    } else {
+      // Sesión vigente: arrancar renovación automática y sync entre pestañas
+      this.authService.startSessionManagement();
+    }
   }
-
-}
   
 }
 
