@@ -1,0 +1,94 @@
+.contenedor {
+  font-family: 'Roboto', sans-serif;
+}
+
+h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.header-con-buscador {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.header-con-buscador h2 {
+  margin: 0;
+}
+
+.header-con-buscador input {
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 15px;
+  border: 1px solid #818181;
+  width: 200px;
+}
+
+.filtros-fecha {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 16px;
+}
+
+.filtros-fecha input[type='date'] {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.selector-fecha {
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.selector-fecha label {
+  font-weight: 600;
+  color: #333;
+}
+
+.selector-fecha input[type="date"] {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.guardar-fijo {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+}
+
+.guardar-fijo button {
+  padding: 12px 32px;
+  background-color: rgb(255, 103, 29);
+  color: rgb(255, 255, 255);
+  border: none;
+  border-radius: 15px;
+  font-size: 16px;
+  min-width: 200px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+.guardar-fijo button:hover {
+  transform: scale(1.05);
+  background-color: #fcd5ba;
+}
+
+
+.grafica-container {
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+canvas {
+  width: 100% !important;
+  height: 300px !important;
+}

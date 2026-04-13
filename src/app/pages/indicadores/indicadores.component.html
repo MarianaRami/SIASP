@@ -1,1 +1,64 @@
+<div class="contenedor">
 
+  <div class="header-con-buscador">
+    <h2>Indicadores</h2>
+
+    <div class="filtros-fecha">
+      <input type="date" [(ngModel)]="fechaInicio">
+      <input type="date" [(ngModel)]="fechaFin">
+    </div>
+  </div>
+  
+
+  <!-- 🔹 FILTROS -->
+  <div class="selector-reporte">
+
+    <select [(ngModel)]="tipoReporte">
+      <option *ngFor="let r of reportes" [value]="r.value">
+        {{ r.label }}
+      </option>
+    </select>
+
+    <!-- solo auditoría -->
+    <input
+      *ngIf="tipoReporte === 'auditoria'"
+      type="text"
+      placeholder="Documento"
+      [(ngModel)]="documento"
+    />
+
+    <button (click)="buscar()">Buscar</button>
+
+  </div>
+
+  <!-- 🔹 LOADING -->
+  <p *ngIf="cargando">Cargando...</p>
+
+  <!-- 🔹 RESULTADOS -->
+  <table *ngIf="data.length > 0">
+    <thead>
+      <tr>
+        <th *ngFor="let col of data[0] | keyvalue">
+          {{ col.key }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of data">
+        <td *ngFor="let col of item | keyvalue">
+          {{ col.value }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="grafica-container" *ngIf="data.length > 0">
+    <h3>Visualización</h3>
+    <canvas id="graficaIndicadores"></canvas>
+  </div>
+
+  <button class="btn-secundario" (click)="descargarExcel()" [disabled]="!data.length">
+    Descargar Excel
+  </button>
+
+</div>
