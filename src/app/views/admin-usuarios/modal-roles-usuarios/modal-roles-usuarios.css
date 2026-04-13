@@ -1,23 +1,38 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.4); /* un poco más oscuro */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
 
+/* MODAL */
 .modal {
   width: 420px;
   max-width: 90%;
   background: white;
   border-radius: 20px;
   padding: 24px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   font-family: 'Roboto', sans-serif;
+  animation: fadeInScale 0.2s ease;
 }
 
+/* ANIMACIÓN SUAVE */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* HEADER */
 .header-modal {
   display: flex;
   justify-content: space-between;
@@ -30,60 +45,114 @@
   font-size: 20px;
 }
 
+/* BOTÓN CERRAR */
 .btn-cerrar {
   border: none;
   background: transparent;
   font-size: 18px;
   cursor: pointer;
+  color: gray;
+  transition: transform 0.2s ease;
 }
 
+.btn-cerrar:hover {
+  transform: scale(1.2);
+}
+
+/* INFO USUARIO */
 .info-usuario {
   margin-bottom: 20px;
+  background: #f9f9f9;
+  padding: 10px 12px;
+  border-radius: 10px;
 }
 
 .info-usuario p {
-  margin: 6px 0;
+  margin: 4px 0;
+  font-size: 14px;
 }
 
+/* ROLES */
 .contenedor-roles {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 24px;
   max-height: 250px;
   overflow-y: auto;
+  padding-right: 5px;
 }
 
+/* SCROLL BONITO */
+.contenedor-roles::-webkit-scrollbar {
+  width: 6px;
+}
+
+.contenedor-roles::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+/* ITEM ROL */
 .rol-item {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 15px;
+  font-size: 14px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
 }
 
+.rol-item:hover {
+  background: #f5f5f5;
+}
+
+/* CHECKBOX */
+.rol-item input[type="checkbox"] {
+  accent-color: rgb(255, 103, 29);
+  cursor: pointer;
+}
+
+/* BOTONES */
 .acciones-modal {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
 }
 
-.btn-secundario,
+/* BOTÓN CANCELAR */
+.btn-secundario {
+  border: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  background: #e9e9e9;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+.btn-secundario:hover {
+  background: #dcdcdc;
+  transform: scale(1.05);
+}
+
+/* BOTÓN PRINCIPAL */
 .btn-principal {
   border: none;
   padding: 10px 18px;
   border-radius: 12px;
   cursor: pointer;
   font-size: 14px;
-}
-
-.btn-secundario {
-  background: #e9e9e9;
-  color: #333;
-}
-
-.btn-principal {
   background-color: rgb(255, 103, 29);
   color: white;
+  transition: all 0.2s ease;
+}
+
+.btn-principal:hover {
+  background-color: #fcd5ba;
+  transform: scale(1.05);
 }
 
 .btn-principal:disabled {

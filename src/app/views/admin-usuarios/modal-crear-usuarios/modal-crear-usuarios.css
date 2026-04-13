@@ -1,31 +1,163 @@
-.modal-backdrop {
+/* FONDO */
+.overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
+/* MODAL */
 .modal {
   background: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 300px;
+  padding: 24px;
+  border-radius: 20px;
+  width: 380px;
+  max-width: 90%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  font-family: 'Roboto', sans-serif;
+  animation: fadeInScale 0.2s ease;
 }
 
+/* ANIMACIÓN */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* HEADER */
+.header-modal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.header-modal h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+/* BOTÓN CERRAR */
+.btn-cerrar {
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  cursor: pointer;
+  color: gray;
+  transition: transform 0.2s ease;
+}
+
+.btn-cerrar:hover {
+  transform: scale(1.2);
+}
+
+/* INPUTS */
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.formulario input {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.formulario input:focus {
+  outline: none;
+  border-color: rgb(255, 103, 29);
+}
+
+/* ROLES */
 .roles {
   margin: 15px 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
+/* SCROLL BONITO */
+.roles::-webkit-scrollbar {
+  width: 6px;
+}
+
+.roles::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+/* ITEM ROL */
+.rol-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.rol-item:hover {
+  background: #f5f5f5;
+}
+
+/* CHECKBOX */
+.rol-item input[type="checkbox"] {
+  accent-color: rgb(255, 103, 29);
+  cursor: pointer;
+}
+
+/* BOTONES */
 .acciones {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* BOTÓN SECUNDARIO */
+.btn-secundario {
+  border: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  background: #e9e9e9;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+.btn-secundario:hover {
+  background: #dcdcdc;
+  transform: scale(1.05);
+}
+
+/* BOTÓN PRINCIPAL */
+.btn-principal {
+  border: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  background-color: rgb(255, 103, 29);
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.btn-principal:hover {
+  background-color: #fcd5ba;
+  transform: scale(1.05);
 }

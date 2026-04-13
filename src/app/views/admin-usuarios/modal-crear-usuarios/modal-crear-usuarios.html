@@ -1,27 +1,33 @@
-<div class="modal-backdrop">
+<div class="overlay">
 
   <div class="modal">
 
-    <h3>Asignar Roles</h3>
+    <div class="header-modal">
+      <h3>Asignar Roles</h3>
+      <button class="btn-cerrar" (click)="cerrarModal()">✕</button>
+    </div>
 
-    <!-- ID USUARIO -->
-    <input 
-      type="text" 
-      placeholder="Nombre"
-      [(ngModel)]="nombre"
-    />
+    <!-- FORM -->
+    <div class="formulario">
 
-    <!-- ID USUARIO -->
-    <input 
-      type="text" 
-      placeholder="Usuario"
-      [(ngModel)]="usuario"
-    />
+      <input 
+        type="text" 
+        placeholder="Nombre"
+        [(ngModel)]="nombre"
+      />
+
+      <input 
+        type="text" 
+        placeholder="Usuario"
+        [(ngModel)]="usuario"
+      />
+
+    </div>
 
     <!-- ROLES -->
     <div class="roles">
 
-      <label *ngFor="let rol of roles">
+      <label class="rol-item" *ngFor="let rol of roles">
         <input
           type="checkbox"
           [value]="rol.id"
@@ -34,8 +40,13 @@
 
     <!-- BOTONES -->
     <div class="acciones">
-      <button (click)="guardar()">Guardar</button>
-      <button (click)="cerrarModal()">Cancelar</button>
+      <button class="btn-secundario" (click)="cerrarModal()">
+        Cancelar
+      </button>
+
+      <button class="btn-principal" (click)="guardar()">
+        Guardar
+      </button>
     </div>
 
   </div>
