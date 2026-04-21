@@ -10,31 +10,31 @@ export class IndicadoresService {
   private baseUrl = 'http://localhost:3000';
   private http = inject(HttpClient);
 
-  getErroresMedicamentos(body: any): Observable<any[]> {
-    return this.http.post<any[]>(`${this.baseUrl}/gestion-pacientes/reporte-errores-medicamentos`, body);
+  getErroresMedicamentos(fechaIni: string, fechaFin: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/gestion-pacientes/reporte-errores-medicamentos/${fechaIni}/${fechaFin}`);
   }
 
-  getAuditoriaPaciente(body: any): Observable<any[]> {
-    return this.http.post<any[]>(`${this.baseUrl}/gestion-pacientes/reporte-auditoria-paciente`, body);
+  getAuditoriaPaciente(documento: string, fechaIni: string, fechaFin: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/gestion-pacientes/reporte-auditoria-paciente/${documento}/${fechaIni}/${fechaFin}`);
   }
 
-  getOportunidadInicio(body: any): Observable<any[]> {
-    return this.http.post<any[]>(`${this.baseUrl}/gestion-pacientes/reporte-oportunidad-inicio`, body);
+  getOportunidadInicio(fechaIni: string, fechaFin: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/gestion-pacientes/reporte-oportunidad-inicio/${fechaIni}/${fechaFin}`);
   }
 
-  getCambioProtocolo(body: any): Observable<any[]> {
-    return this.http.post<any[]>(`${this.baseUrl}/gestion-pacientes/reporte-cambio-protocolo`, body);
+  getCambioProtocolo(fechaIni: string, fechaFin: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/gestion-pacientes/reporte-cambio-protocolo/${fechaIni}/${fechaFin}`);
   }
 
-  getFallecidos(body: any): Observable<any[]> {
-    return this.http.post<any[]>(`${this.baseUrl}/gestion-pacientes/reporte-fallecidos-desistidos`, body);
+  getFallecidos(fechaIni: string, fechaFin: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/gestion-pacientes/reporte-fallecidos-desistidos/${fechaIni}/${fechaFin}`);
   }
 
-  getOcupacionSillas(body: any): Observable<any[]> {
-    return this.http.post<any[]>(`${this.baseUrl}/gestion-pacientes/reporte-ocupacion-sillas`, body);
+  getOcupacionSillas(fechaIni: string, fechaFin: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/gestion-pacientes/reporte-ocupacion-sillas/${fechaIni}/${fechaFin}`);
   }
 
-  getToxicidad(body: any): Observable<any[]> {
-    return this.http.post<any[]>(`${this.baseUrl}/gestion-pacientes/reporte-toxicidad`, body);
+  getToxicidad(fechaIni: string, fechaFin: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/gestion-pacientes/reporte-toxicidad/${fechaIni}/${fechaFin}`);
   }
 }

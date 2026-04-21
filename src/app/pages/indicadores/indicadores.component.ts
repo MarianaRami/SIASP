@@ -49,47 +49,36 @@ export class IndicadoresComponent {
 
     this.cargando = true;
 
-    const bodyFechas = {
-      fechaIni: this.fechaInicio,
-      fechaFin: this.fechaFin
-    };
-
-    const bodyAuditoria = {
-      documento: this.documento,
-      fechaIni: this.fechaInicio,
-      fechaFin: this.fechaFin
-    };
-
     let request$;
 
     switch (this.tipoReporte) {
 
       case 'errores':
-        request$ = this.indicadoresService.getErroresMedicamentos(bodyFechas);
+        request$ = this.indicadoresService.getErroresMedicamentos(this.fechaInicio, this.fechaFin);
         break;
 
       case 'auditoria':
-        request$ = this.indicadoresService.getAuditoriaPaciente(bodyAuditoria);
+        request$ = this.indicadoresService.getAuditoriaPaciente(this.documento, this.fechaInicio, this.fechaFin);
         break;
 
       case 'oportunidad':
-        request$ = this.indicadoresService.getOportunidadInicio(bodyFechas);
+        request$ = this.indicadoresService.getOportunidadInicio(this.fechaInicio, this.fechaFin);
         break;
 
       case 'cambio':
-        request$ = this.indicadoresService.getCambioProtocolo(bodyFechas);
+        request$ = this.indicadoresService.getCambioProtocolo(this.fechaInicio, this.fechaFin);
         break;
 
       case 'fallecidos':
-        request$ = this.indicadoresService.getFallecidos(bodyFechas);
+        request$ = this.indicadoresService.getFallecidos(this.fechaInicio, this.fechaFin);
         break;
 
       case 'ocupacion':
-        request$ = this.indicadoresService.getOcupacionSillas(bodyFechas);
+        request$ = this.indicadoresService.getOcupacionSillas(this.fechaInicio, this.fechaFin);
         break;
 
       case 'toxicidad':
-        request$ = this.indicadoresService.getToxicidad(bodyFechas);
+        request$ = this.indicadoresService.getToxicidad(this.fechaInicio, this.fechaFin);
         break;
 
       default:
@@ -219,6 +208,12 @@ export class IndicadoresComponent {
     }
 
     this.crearGrafica(labels, data);
+  }
+
+  formatValor(value: any): string {
+    if (value === null || value === undefined) return '';
+    if (typeof value === 'object') return JSON.stringify(value);
+    return String(value);
   }
 
   descargarExcel() {
