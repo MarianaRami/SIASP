@@ -2,12 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ProtocolosService } from '../../../services/protocolos.service';
+import { PopupMotivoComponent } from "../../../components/popup-motivo/popup-motivo.component";
 
 @Component({
   selector: 'app-pop-up-medicamentos',
   imports: [
-    CommonModule, FormsModule
-  ],
+    CommonModule, FormsModule,
+    PopupMotivoComponent
+],
   templateUrl: './pop-up-medicamentos.component.html',
   styleUrl: './pop-up-medicamentos.component.css'
 })
@@ -15,9 +17,15 @@ export class PopUpMedicamentosComponent {
   @Input() medicamentos: any[] = [];
   @Output() cerrar = new EventEmitter<void>();
   @Output() siguiente = new EventEmitter<any[]>(); 
-  @Output() guardar = new EventEmitter<any[]>();
+  @Output() guardar = new EventEmitter<{
+    medicamentos: any[];
+    motivo?: string;
+    observaciones?: string;
+  }>();
 
   listaMedicamentos: string[] = [];
+  mostrarPopupMotivo = false;
+  datosPendientes: any[] = [];
 
   opcionesFormula = [
     { label:'SC', value: 'SC' }, 
@@ -71,6 +79,20 @@ export class PopUpMedicamentosComponent {
     });
   }
 
+  onConfirmarMotivo(event: {motivo?: string; observaciones?: string}) {
+    this.mostrarPopupMotivo = false;
+
+    this.guardar.emit({
+      medicamentos: this.datosPendientes,
+      motivo: event.motivo,
+      observaciones: event.observaciones
+    });
+  }
+
+  cerrarMotivo() {
+    this.mostrarPopupMotivo = false;
+  }
+
   emitirGuardar() {
     const datosEnviar = this.medicamentos.map(med => ({
       nombre: med.nombre,
@@ -81,7 +103,8 @@ export class PopUpMedicamentosComponent {
       duracion: (Number(med.duracion.horas || 0) * 60) + Number(med.duracion.minutos || 0)
     }));
 
-    this.guardar.emit(datosEnviar);
+    this.datosPendientes = datosEnviar;
+    this.mostrarPopupMotivo = true; // 🔥 abre modal
   }
 
   eliminarFila(index: number) {
