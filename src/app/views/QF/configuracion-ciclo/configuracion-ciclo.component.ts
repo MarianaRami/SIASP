@@ -194,7 +194,20 @@ export class ConfiguracionCicloComponent {
     );
   }
 
+  mapMotivo(motivo: string): string {
+    const mapa: any = {
+      finalizado_medico: 'error_formulacion_medicamento',
+      fallecido: 'error_digitacion_medicamento',
+      precancelado: 'error_formulacion_medicamento_prog',
+      cambio_protocolo: 'error_formulacion_medicamento_prog'
+    };
+
+    return mapa[motivo] || null;
+  }
+
   guardarBorrador(datos: any) {
+    const { medicamentos, motivo, observaciones } = datos;
+
     this.mostrarPopupMedicamentosDetalle = false;
     this.infoCicloCompleta.medicamentos = datos;
 
@@ -263,6 +276,9 @@ export class ConfiguracionCicloComponent {
     protocoloFinal.presentaciones = [];
     
     protocoloFinal.estado = 'borrador';
+
+    protocoloFinal.motivoDevolucion = this.mapMotivo(motivo);
+    protocoloFinal.observacionesDevolucion = observaciones || null;
 
     const usuario = this.AuthService.getUser();
     protocoloFinal.usuarioCreacion = usuario? usuario : 'desconocido';

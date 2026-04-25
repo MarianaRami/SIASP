@@ -180,96 +180,112 @@ export class ConfiguracionAplicacionesComponent implements OnInit {
     });
   }*/
 
+  mapMotivo(motivo: string): string {
+    const mapa: any = {
+      finalizado_medico: 'error_formulacion_medicamento',
+      fallecido: 'error_digitacion_medicamento',
+      precancelado: 'error_formulacion_medicamento_prog',
+      cambio_protocolo: 'error_formulacion_medicamento_prog'
+    };
+
+    return mapa[motivo] || null;
+  }
+
   guardarBorrador(datos: any) {
-  this.mostrarPopupMedicamentosDetalle = false;
-  this.infoCicloCompleta.presentaciones = datos;
+    const { medicamentos, motivo, observaciones } = datos;
+    
+    this.mostrarPopupMedicamentosDetalle = false;
+    this.infoCicloCompleta.presentaciones = datos;
 
-  // Construir el objeto a enviar basado en infoCicloCompleta
-  let protocoloFinal: any = {};
+    // Construir el objeto a enviar basado en infoCicloCompleta
+    let protocoloFinal: any = {};
 
-  // IDs principales
-  protocoloFinal.idProtocoloPaciente = this.infoCicloCompleta.idProtocoloPaciente || '';
-  protocoloFinal.idPaciente = this.infoCicloCompleta.idPaciente || '';
+    // IDs principales
+    protocoloFinal.idProtocoloPaciente = this.infoCicloCompleta.idProtocoloPaciente || '';
+    protocoloFinal.idPaciente = this.infoCicloCompleta.idPaciente || '';
 
-  // Configuración de medicamentos
-  let config_meds: {dia: number, medicamentos: {nombre: string, dosis: number}[]}[] = [];
-  
-  if (this.infoCicloCompleta.configuracionMedicamentos) {
-    for (const confmed of this.infoCicloCompleta.configuracionMedicamentos) {
-      let medsConf = confmed.medicamentos || [];
-      let meds: {nombre: string, dosis: number}[] = [];
-      
-      for (const med of medsConf) {
-        meds.push({
-          nombre: med.nombre || '',
-          dosis: Number(med.dosis) || 0
+    // Configuración de medicamentos
+    let config_meds: {dia: number, medicamentos: {nombre: string, dosis: number}[]}[] = [];
+    
+    if (this.infoCicloCompleta.configuracionMedicamentos) {
+      for (const confmed of this.infoCicloCompleta.configuracionMedicamentos) {
+        let medsConf = confmed.medicamentos || [];
+        let meds: {nombre: string, dosis: number}[] = [];
+        
+        for (const med of medsConf) {
+          meds.push({
+            nombre: med.nombre || '',
+            dosis: Number(med.dosis) || 0
+          });
+        }
+
+        config_meds.push({
+          dia: Number(confmed.dia) || 0,
+          medicamentos: meds
         });
       }
-
-      config_meds.push({
-        dia: Number(confmed.dia) || 0,
-        medicamentos: meds
-      });
     }
-  }
 
-  protocoloFinal.configuracionMedicamentos = config_meds;
+    protocoloFinal.configuracionMedicamentos = config_meds;
 
-  // Datos del protocolo
-  protocoloFinal.descripcion = this.infoCicloCompleta.descripcion || '';
-  protocoloFinal.numeroCiclo = this.infoCicloCompleta.numeroCiclo || 1;
-  protocoloFinal.numero_ciclos = this.infoCicloCompleta.numero_ciclos || 0;
-  protocoloFinal.nombreProtocolo = this.infoCicloCompleta.nombreProtocolo || '';
-  protocoloFinal.version = this.infoCicloCompleta.version || 1;
-  protocoloFinal.fechaCreacion = this.infoCicloCompleta.fechaCreacion || new Date().toISOString();
-  protocoloFinal.ciclos = this.infoCicloCompleta.ciclos || [];
+    // Datos del protocolo
+    protocoloFinal.descripcion = this.infoCicloCompleta.descripcion || '';
+    protocoloFinal.numeroCiclo = this.infoCicloCompleta.numeroCiclo || 1;
+    protocoloFinal.numero_ciclos = this.infoCicloCompleta.numero_ciclos || 0;
+    protocoloFinal.nombreProtocolo = this.infoCicloCompleta.nombreProtocolo || '';
+    protocoloFinal.version = this.infoCicloCompleta.version || 1;
+    protocoloFinal.fechaCreacion = this.infoCicloCompleta.fechaCreacion || new Date().toISOString();
+    protocoloFinal.ciclos = this.infoCicloCompleta.ciclos || [];
 
-  // Indicadores
-  if (this.infoCicloCompleta.indicadores) {
-    protocoloFinal.indicadores = {
-      id_ind_ciclo_paciente: this.infoCicloCompleta.indicadores.id_ind_ciclo_paciente,
-      peso: Number(this.infoCicloCompleta.indicadores.peso) || 0,
-      sc: Number(this.infoCicloCompleta.indicadores.sc) || 0,
-      tfg: Number(this.infoCicloCompleta.indicadores.tfg) || 0,
-      talla: Number(this.infoCicloCompleta.indicadores.talla) || 0,
-      fecha: this.infoCicloCompleta.indicadores.fecha
-    };
-  }
-
-  // Fechas
-  protocoloFinal.fechaConsulta = this.infoCicloCompleta.fechaConsulta || '';
-  protocoloFinal.fecha_inicio_estimada = this.infoCicloCompleta.fecha_inicio_estimada || '';
-
-  // Medicamentos y conciliación
-  protocoloFinal.conciliacionMedicamentos = this.infoCicloCompleta.conciliacionMedicamentos || false;
-  protocoloFinal.medicamentos = this.infoCicloCompleta.medicamentos || [];
-
-  // Eventos
-  protocoloFinal.eventos = this.infoCicloCompleta.eventos || [];
-
-  // Presentaciones
-  protocoloFinal.presentaciones = this.infoCicloCompleta.presentaciones || [];
-
-  // Estado y usuario
-  protocoloFinal.estado = 'borrador';
-  
-  const usuario = this.AuthService.getUser();
-  protocoloFinal.usuarioCreacion = usuario ? usuario : 'desconocido';
-
-  console.log("✅ Guardando borrador:", protocoloFinal);
-
-  this.cicloPacienteService.createCicloPaciente(protocoloFinal).subscribe({
-    next: (resp) => {
-      console.log('✅ Ciclo creado como borrador:', resp);
-      this.router.navigate(['qf/busqueda']);
-      alert('Configuración guardada como borrador exitosamente.');
-    },
-    error: (err) => {
-      console.error('❌ Error creando ciclo:', err);
-      alert('Error al guardar el borrador. Por favor, intente nuevamente.');
+    // Indicadores
+    if (this.infoCicloCompleta.indicadores) {
+      protocoloFinal.indicadores = {
+        id_ind_ciclo_paciente: this.infoCicloCompleta.indicadores.id_ind_ciclo_paciente,
+        peso: Number(this.infoCicloCompleta.indicadores.peso) || 0,
+        sc: Number(this.infoCicloCompleta.indicadores.sc) || 0,
+        tfg: Number(this.infoCicloCompleta.indicadores.tfg) || 0,
+        talla: Number(this.infoCicloCompleta.indicadores.talla) || 0,
+        fecha: this.infoCicloCompleta.indicadores.fecha
+      };
     }
-  });
-}
+
+    // Fechas
+    protocoloFinal.fechaConsulta = this.infoCicloCompleta.fechaConsulta || '';
+    protocoloFinal.fecha_inicio_estimada = this.infoCicloCompleta.fecha_inicio_estimada || '';
+
+    // Medicamentos y conciliación
+    protocoloFinal.conciliacionMedicamentos = this.infoCicloCompleta.conciliacionMedicamentos || false;
+    protocoloFinal.medicamentos = this.infoCicloCompleta.medicamentos || [];
+
+    // Eventos
+    protocoloFinal.eventos = this.infoCicloCompleta.eventos || [];
+
+    // Presentaciones
+    protocoloFinal.presentaciones = this.infoCicloCompleta.presentaciones || [];
+
+    // Estado y usuarioS
+    protocoloFinal.estado = 'borrador';
+
+    protocoloFinal.motivoDevolucion = this.mapMotivo(motivo);
+    protocoloFinal.observacionesDevolucion = observaciones || null;
+
+    const usuario = this.AuthService.getUser();
+    protocoloFinal.usuarioCreacion = usuario ? usuario : 'desconocido';
+
+    console.log("✅ Guardando borrador:", protocoloFinal);
+
+    this.cicloPacienteService.createCicloPaciente(protocoloFinal).subscribe({
+      next: (resp) => {
+        console.log('✅ Ciclo creado como borrador:', resp);
+        this.router.navigate(['qf/busqueda']);
+        alert('Configuración guardada como borrador exitosamente.');
+      },
+      error: (err) => {
+        console.error('❌ Error creando ciclo:', err);
+        alert('Error al guardar el borrador. Por favor, intente nuevamente.');
+      }
+    });
+  }
 
   Guardar() {
     const nuevaConfiguracion = this.datosTabla.map(fila => {

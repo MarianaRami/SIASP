@@ -103,5 +103,11 @@
         (click)="emitirGuardar()">Guardar borrador
     </button>
   </div>
+
+  <app-popup-motivo
+    *ngIf="mostrarPopupMotivo"
+    (cerrar)="cerrarMotivo()"
+    (enviar)="onConfirmarMotivo($event)">
+  </app-popup-motivo>
 </div>
 
