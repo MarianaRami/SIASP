@@ -1,0 +1,31 @@
+<div class="contenedor">
+
+  <h2>Borradores</h2>
+
+  <div class="filtros-fecha">
+    <input type="date" [(ngModel)]="fechaInicio">
+    <input type="date" [(ngModel)]="fechaFin">
+
+    <button (click)="buscar()">Buscar</button>
+  </div>
+
+  <p *ngIf="cargando">Cargando...</p>
+
+  <table *ngIf="data.length">
+    <thead>
+      <tr>
+        <th *ngFor="let col of data[0] | keyvalue">
+          {{ col.key }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of data">
+        <td *ngFor="let col of item | keyvalue">
+          {{ col.value }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
