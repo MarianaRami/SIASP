@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-historial-paciente',
@@ -12,39 +13,57 @@ import { GestionPacientesService } from '../../../services/gestion-pacientes.ser
 })
 export class HistorialPacienteComponent {
 
-  constructor(private service: GestionPacientesService) {}
+  constructor(
+    private service: GestionPacientesService, 
+    private route: ActivatedRoute
+  ) {}
 
   documento: string = '';
-  fechaInicio: string = '';
+  fechaIni: string = '';
   fechaFin: string = '';
 
-  data: any[] = [];
+  historial: any[] = [];
   cargando = false;
 
-  buscar() {
-    if (!this.documento) {
-      alert('Documento requerido');
-      return;
-    }
+  ngOnInit() {
+    this.documento = this.route.snapshot.paramMap.get('documento') || '';
 
-    if (!this.fechaInicio || !this.fechaFin) {
-      alert('Fechas requeridas');
-      return;
-    }
+    console.log('Documento desde URL:', this.documento);
 
-    this.cargando = true;
+    this.cargarHistorial();
+  }
 
-    this.service
-      .getAuditoriaPacienteGet(this.documento, this.fechaInicio, this.fechaFin)
-      .subscribe({
-        next: (res) => {
-          this.data = res;
-          this.cargando = false;
-        },
-        error: (err) => {
-          console.error(err);
-          this.cargando = false;
-        }
-      });
+  private formatearFecha(fecha: Date): string {
+    const year = fecha.getFullYear();
+    const month = String(fecha.getMonth() + 1).padStart(2, '0');
+    const day = String(fecha.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  private obtenerFechas(): { fechaIni: string; fechaFin: string } {
+    const hoy = new Date();
+    const haceUnaSemana = new Date();
+    haceUnaSemana.setDate(hoy.getDate() - 7);
+
+    return {
+      fechaIni: this.fechaIni || this.formatearFecha(haceUnaSemana),
+      fechaFin: this.fechaFin || this.formatearFecha(hoy)
+    };
+  }
+
+
+  cargarHistorial() {
+    const { fechaIni, fechaFin } = this.obtenerFechas();
+
+    this.service.getAuditoriaPacienteGet(
+      this.documento,
+      fechaIni,
+      fechaFin
+    ).subscribe({
+      next: (res) => {
+        this.historial = res;
+      },
+      error: (err) => console.error(err)
+    });
   }
 }

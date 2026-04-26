@@ -23,6 +23,7 @@ h2 {
 /* 🔹 FILTROS */
 .filtros {
   display: flex;
+  gap: 15px;
   align-items: center;
   gap: 10px;
 }
@@ -46,6 +47,11 @@ h2 {
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
 }
 
 /* 🔹 BOTÓN */
@@ -96,4 +102,10 @@ tbody tr:hover {
   margin-top: 10px;
   font-size: 14px;
   color: #666;
+}
+
+input, select {
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
