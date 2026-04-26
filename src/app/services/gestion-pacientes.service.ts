@@ -126,5 +126,18 @@ export class GestionPacientesService {
       `${this.apiUrl}/reporte-farmacia-por-dia/${desde}/${hasta}/OP`
     );
   }
+
+  // ------------------- INDICADORES -------------------
+  getErroresMedicamentosGet(fechaIni: string, fechaFin: string) {
+    return this.http.get<any[]>(
+      `${this.apiUrl}/gestion-pacientes/reporte-errores-medicamentos/${fechaIni}/${fechaFin}`
+    );
+  }
+
+  getAuditoriaPacienteGet(documento: string, fechaIni: string, fechaFin: string) {
+    return this.http.get<any[]>(
+      `${this.apiUrl}/gestion-pacientes/reporte-auditoria-paciente/${documento}/${fechaIni}/${fechaFin}`
+    );
+  }
 }
 

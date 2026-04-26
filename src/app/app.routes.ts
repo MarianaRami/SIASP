@@ -20,6 +20,7 @@ import { PacienteComponent } from './views/QF/paciente/paciente.component';
 import { ConfiguracionCicloComponent } from './views/QF/configuracion-ciclo/configuracion-ciclo.component';
 import { PopUpObvMedicamentosComponent } from './views/QF/pop-up-obv-medicamentos/pop-up-obv-medicamentos.component';
 import { ConfiguracionAplicacionesComponent } from './views/QF/configuracion-aplicaciones/configuracion-aplicaciones.component';
+import { BorradoresComponent } from './views/QF/borradores/borradores.component';
 
 import { BusquedaAUComponent } from './views/autorizaciones/busqueda-au/busqueda-au.component';
 import { AutorizacionComponent } from './views/autorizaciones/autorizacion/autorizacion.component';
@@ -102,6 +103,7 @@ export const routes: Routes = [
   // QF
   { path: 'qf', component: QfComponent, canActivate: [roleGuard], data: { roles: ['admin', 'QF'] } },
 
+  { path: 'qf/indicadores', component: BorradoresComponent, canActivate: [roleGuard], data: { roles: ['admin', 'QF'] }  },
   { path: 'qf/busqueda', component: BusquedaComponent, canActivate: [roleGuard], data: { roles: ['admin', 'QF'] } },
   { path: 'qf/observaciones', component: ObservacionesComponent, canActivate: [roleGuard], data: { roles: ['admin', 'QF'] } },
   { path: 'qf/observaciones/medicamentos', component: PopUpObvMedicamentosComponent, canActivate: [roleGuard], data: { roles: ['admin', 'QF'] } },
