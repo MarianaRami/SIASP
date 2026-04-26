@@ -1,45 +1,99 @@
 .contenedor {
   font-family: 'Roboto', sans-serif;
+  padding: 10px;
 }
 
-.header_izq {
-  display: flex;
-  align-items: center;
-}
-
-.btn-volver {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  margin-right: 15px;
-}
-
+/* 🔹 HEADER */
 h2 {
   font-size: 20px;
   margin-bottom: 10px;
 }
 
-.guardar-fijo {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 100;
+.header-con-buscador {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
-.guardar-fijo button {
-  padding: 12px 32px;
-  background-color: #FFE5D7;
-  color: rgb(14, 13, 13);
+.header-con-buscador h2 {
+  margin: 0;
+}
+
+/* 🔹 FILTROS */
+.filtros {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filtros input {
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 15px;
+  border: 1px solid #818181;
+  width: 200px;
+}
+
+.filtros-fecha {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filtros-fecha input[type='date'] {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* 🔹 BOTÓN */
+button {
+  padding: 10px 20px;
+  background-color: rgb(255, 103, 29);
+  color: white;
   border: none;
   border-radius: 15px;
-  font-size: 16px;
-  min-width: 200px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   cursor: pointer;
+  font-size: 14px;
 }
 
-.guardar-fijo button:hover {
+button:hover {
   transform: scale(1.05);
   background-color: #fcd5ba;
+}
+
+/* 🔹 TABLA */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+thead {
+  background-color: #f5f5f5;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  font-weight: 600;
+}
+
+/* 🔹 FILAS */
+tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* 🔹 LOADING */
+.loading {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #666;
 }

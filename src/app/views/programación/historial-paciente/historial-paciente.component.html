@@ -1,17 +1,38 @@
 <div class="contenedor">
-    <div class="header_izq">
-        <button class="btn-volver" (click)="volver()" >
-            <img src="assets/images/volver.png" width="18" style="cursor:pointer;" />
-        </button>
-        <h2>Historial del paciente</h2>
-    </div>
 
-    <app-tabla-dinamica
-        [columnas]="columnas"
-        [datos]="datos">
-    </app-tabla-dinamica>
-    
-    <div class="guardar-fijo">
-        <button>Guardar</button>
-    </div>
+  <h2>Historial del Paciente</h2>
+
+  <div class="filtros-fecha">
+    <input 
+      type="text"
+      placeholder="Documento"
+      [(ngModel)]="documento"
+    >
+
+    <input type="date" [(ngModel)]="fechaInicio">
+    <input type="date" [(ngModel)]="fechaFin">
+
+    <button (click)="buscar()">Buscar</button>
+  </div>
+
+  <p *ngIf="cargando">Cargando...</p>
+
+  <table *ngIf="data.length">
+    <thead>
+      <tr>
+        <th *ngFor="let col of data[0] | keyvalue">
+          {{ col.key }}
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let item of data">
+        <td *ngFor="let col of item | keyvalue">
+          {{ col.value }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
 </div>

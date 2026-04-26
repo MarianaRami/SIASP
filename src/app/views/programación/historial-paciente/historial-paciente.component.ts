@@ -1,34 +1,50 @@
 import { Component } from '@angular/core';
-import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla-dinamica.component';
-import { Router } from '@angular/router';
-
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
 
 @Component({
   selector: 'app-historial-paciente',
-  imports: [TablaDinamicaComponent],
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './historial-paciente.component.html',
   styleUrl: './historial-paciente.component.css'
 })
 export class HistorialPacienteComponent {
-  constructor(private router: Router) {}
 
-  columnas = [
-    { key: 'Ciclo', label: 'Ciclo' },
-    { key: 'Aplicación', label: 'Aplicación' },
-    { key: 'Fecha', label: 'Fecha' },
-    { key: 'Estado', label: 'Estado' },
-    { key: 'Observación', label: 'Observación' }
-  ];
-  datos = [
-    { Ciclo: '1', Aplicación: '1'},
-    { Ciclo: '1', Aplicación: '2'},
-    { Ciclo: '1', Aplicación: '3'},
-    { Ciclo: '2', Aplicación: '1'},
-    { Ciclo: '2', Aplicación: '2'},
-    { Ciclo: '3', Aplicación: '1'},
-  ];
+  constructor(private service: GestionPacientesService) {}
 
-  volver() {
-    this.router.navigate(['programacion/busquedaPro/historial'])
+  documento: string = '';
+  fechaInicio: string = '';
+  fechaFin: string = '';
+
+  data: any[] = [];
+  cargando = false;
+
+  buscar() {
+    if (!this.documento) {
+      alert('Documento requerido');
+      return;
+    }
+
+    if (!this.fechaInicio || !this.fechaFin) {
+      alert('Fechas requeridas');
+      return;
+    }
+
+    this.cargando = true;
+
+    this.service
+      .getAuditoriaPacienteGet(this.documento, this.fechaInicio, this.fechaFin)
+      .subscribe({
+        next: (res) => {
+          this.data = res;
+          this.cargando = false;
+        },
+        error: (err) => {
+          console.error(err);
+          this.cargando = false;
+        }
+      });
   }
 }
