@@ -130,13 +130,13 @@ export class GestionPacientesService {
   // ------------------- INDICADORES -------------------
   getErroresMedicamentosGet(fechaIni: string, fechaFin: string) {
     return this.http.get<any[]>(
-      `${this.apiUrl}/gestion-pacientes/reporte-errores-medicamentos/${fechaIni}/${fechaFin}`
+      `${this.apiUrl}/reporte-errores-medicamentos/${fechaIni}/${fechaFin}`
     );
   }
 
   getAuditoriaPacienteGet(documento: string, fechaIni: string, fechaFin: string) {
     return this.http.get<any[]>(
-      `${this.apiUrl}/gestion-pacientes/reporte-auditoria-paciente/${documento}/${fechaIni}/${fechaFin}`
+      `${this.apiUrl}/reporte-auditoria-paciente/${documento}/${fechaIni}/${fechaFin}`
     );
   }
 }

@@ -267,7 +267,7 @@ export class ConfiguracionAplicacionesComponent implements OnInit {
     protocoloFinal.estado = 'borrador';
 
     protocoloFinal.motivoDevolucion = this.mapMotivo(motivo);
-    protocoloFinal.observacionesDevolucion = observaciones || null;
+    protocoloFinal.observacion = observaciones || null;
 
     const usuario = this.AuthService.getUser();
     protocoloFinal.usuarioCreacion = usuario ? usuario : 'desconocido';

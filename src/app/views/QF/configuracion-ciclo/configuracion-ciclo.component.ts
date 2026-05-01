@@ -278,7 +278,7 @@ export class ConfiguracionCicloComponent {
     protocoloFinal.estado = 'borrador';
 
     protocoloFinal.motivoDevolucion = this.mapMotivo(motivo);
-    protocoloFinal.observacionesDevolucion = observaciones || null;
+    protocoloFinal.observacion = observaciones || null;
 
     const usuario = this.AuthService.getUser();
     protocoloFinal.usuarioCreacion = usuario? usuario : 'desconocido';
