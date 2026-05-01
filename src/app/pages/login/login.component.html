@@ -28,6 +28,11 @@
     {{ loading ? 'Ingresando...' : 'Acceder' }}
   </button>
 
+  <div *ngIf="loading" class="loading-overlay">
+    <div class="spinner"></div>
+    <p>Validando credenciales...</p>
+  </div>
+
   <!-- MENSAJE DE ERROR -->
   <p *ngIf="loginError" class="error-message">
     {{ errorMessage }}
