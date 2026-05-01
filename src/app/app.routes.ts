@@ -47,19 +47,23 @@ import { ProtocolosComponent } from './views/admin-sistema/protocolos/protocolos
 import { InfProtocoloComponent } from './views/admin-sistema/inf-protocolo/inf-protocolo.component';
 import { roleGuard } from './guards/role.guard';
 
+import { Inicio } from './pages/inicio/inicio.component';
+
 // roles: Admin, Jefe_Enfermeria, Jefe_Piso, Director_Farmacia, Farmacia, Enfermeria, QF, Programacion, Autorizaciones, Doctora
 export const routes: Routes = [
-  { path: 'examenes', component: ExamenesComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Doctora'] } },
+  { path: 'inicio', component: Inicio },
 
-  { path: 'enfermeria', component: EnfermeriaComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Enfermeria'] } },
+  { path: 'examenes', component: ExamenesComponent, canActivate: [roleGuard], data: { roles: ['admin', 'doctora'] } },
 
-  { path: 'jefe-enfermeria', component: JefeEnfermeriaComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Jefe_Enfermeria'] } },
+  { path: 'enfermeria', component: EnfermeriaComponent, canActivate: [roleGuard], data: { roles: ['admin', 'enfermeria'] } },
+
+  { path: 'jefe-enfermeria', component: JefeEnfermeriaComponent, canActivate: [roleGuard], data: { roles: ['admin', 'jefe_enfermeria'] } },
   
   { path: 'admin-usuarios', component: AdministradorUsuariosComponent, canActivate: [roleGuard], data: { roles: ['admin'] } },
   
   { path: 'indicadores', component: IndicadoresComponent },
 
-  { path:'jefe-piso', component: JefePisoComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Jefe_Piso'] } },
+  { path:'jefe-piso', component: JefePisoComponent, canActivate: [roleGuard], data: { roles: ['admin', 'jefe_piso'] } },
 
   //Administrador Sistema
   { path: 'admin-sistema', component: AdministradorSistemaComponent, canActivate: [roleGuard], data: { roles: ['admin'] } },
@@ -70,46 +74,46 @@ export const routes: Routes = [
   { path: 'admin-sistema/Protocolo/Info-Protocolo/Info-Ciclo', component: InfCicloComponent, canActivate: [roleGuard], data: { roles: ['admin'] } },
   { path: 'admin-sistema/Protocolo/Info-Protocolo/Info-Ciclo/Info-Medicamentos', component: InfMedicamentosComponent, canActivate: [roleGuard], data: { roles: ['admin'] } },
   { path:  'admin-sistema/Protocolo/Info-Protocolo', component: InfProtocoloComponent, canActivate: [roleGuard], data: { roles: ['admin'] } },
-  { path: 'admin-sistema/Protocolo/:id', component: ProtocolosComponent },
+  { path: 'admin-sistema/Protocolo/:id', component: ProtocolosComponent, canActivate: [roleGuard], data: { roles: ['admin'] } },
 
   //Director Famacia
-  { path: 'director-farmacia', component: DirectorFarmaciaComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Director_Farmacia'] } },
+  { path: 'director-farmacia', component: DirectorFarmaciaComponent, canActivate: [roleGuard], data: { roles: ['admin', 'director_farmacia'] } },
   
   // Farmacia
-  { path: 'farmacia', component: FarmaciaComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Farmacia'] } },
+  { path: 'farmacia', component: FarmaciaComponent, canActivate: [roleGuard], data: { roles: ['admin', 'farmacia'] } },
 
-  { path: 'farmacia/farmacia', component: MedFarmaciaComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Farmacia'] } },
-  { path: 'farmacia/OP', component: OPComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Farmacia'] } },
+  { path: 'farmacia/farmacia', component: MedFarmaciaComponent, canActivate: [roleGuard], data: { roles: ['admin', 'farmacia'] } },
+  { path: 'farmacia/OP', component: OPComponent, canActivate: [roleGuard], data: { roles: ['admin', 'farmacia'] } },
 
   // Programación
-  { path: 'programacion', component: ProgramacionComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Programacion'] } },
+  { path: 'programacion', component: ProgramacionComponent, canActivate: [roleGuard], data: { roles: ['admin', 'programacion'] } },
 
-  { path: 'programacion/busquedaPro', component: BusquedaProComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Programacion'] } },
-  { path: 'programacion/confirmación', component: ConfirmacionComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Programacion'] } },
-  { path: 'programacion/busquedaPro/historial/:cedula', component: HistorialComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Programacion'] } },
-  { path: 'programacion/pendientesNotificacion', component: PendientesNotificacionComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Programacion'] } },
-  { path: 'programacion/reprogramacion', component: ReprogramacionComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Programacion'] } },
-  { path: 'programacion/busquedaPro/historial/:cedula/historial', component: HistorialPacienteComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Programacion'] } },
-  { path: 'programacion/calendario', component: CalendarioPacientesComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Programacion'] } },
-  { path: 'programacion/calendario/reporte/:date', component: ReporteCalendarioComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Programacion'] } },
+  { path: 'programacion/busquedaPro', component: BusquedaProComponent, canActivate: [roleGuard], data: { roles: ['admin', 'programacion'] } },
+  { path: 'programacion/confirmación', component: ConfirmacionComponent, canActivate: [roleGuard], data: { roles: ['admin', 'programacion'] } },
+  { path: 'programacion/busquedaPro/historial/:cedula', component: HistorialComponent, canActivate: [roleGuard], data: { roles: ['admin', 'programacion'] } },
+  { path: 'programacion/pendientesNotificacion', component: PendientesNotificacionComponent, canActivate: [roleGuard], data: { roles: ['admin', 'programacion'] } },
+  { path: 'programacion/reprogramacion', component: ReprogramacionComponent, canActivate: [roleGuard], data: { roles: ['admin', 'programacion'] } },
+  { path: 'programacion/busquedaPro/historial/:cedula/historial', component: HistorialPacienteComponent, canActivate: [roleGuard], data: { roles: ['admin', 'programacion'] } },
+  { path: 'programacion/calendario', component: CalendarioPacientesComponent, canActivate: [roleGuard], data: { roles: ['admin', 'programacion'] } },
+  { path: 'programacion/calendario/reporte/:date', component: ReporteCalendarioComponent, canActivate: [roleGuard], data: { roles: ['admin', 'programacion'] } },
 
   // Autorizaciones
-  { path: 'autorizaciones', component: AutorizacionesComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Autorizaciones'] } },
+  { path: 'autorizaciones', component: AutorizacionesComponent, canActivate: [roleGuard], data: { roles: ['admin', 'autorizaciones'] } },
 
-  { path: 'autorizaciones/busquedaAU', component: BusquedaAUComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Autorizaciones'] } },
-  { path: 'autorizaciones/busquedaAU/Autorizacion/:cedula', component: AutorizacionComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Autorizaciones'] } },
-  { path: 'autorizaciones/Pacientes', component: PacientesComponent, canActivate: [roleGuard], data: { roles: ['admin', 'Autorizaciones'] } },
+  { path: 'autorizaciones/busquedaAU', component: BusquedaAUComponent, canActivate: [roleGuard], data: { roles: ['admin', 'autorizaciones'] } },
+  { path: 'autorizaciones/busquedaAU/Autorizacion/:cedula', component: AutorizacionComponent, canActivate: [roleGuard], data: { roles: ['admin', 'autorizaciones'] } },
+  { path: 'autorizaciones/Pacientes', component: PacientesComponent, canActivate: [roleGuard], data: { roles: ['admin', 'autorizaciones'] } },
 
   // QF
-  { path: 'qf', component: QfComponent, canActivate: [roleGuard], data: { roles: ['admin', 'QF'] } },
+  { path: 'qf', component: QfComponent, canActivate: [roleGuard], data: { roles: ['admin', 'qf'] } },
 
-  { path: 'qf/indicadores', component: BorradoresComponent, canActivate: [roleGuard], data: { roles: ['admin', 'QF'] }  },
-  { path: 'qf/busqueda', component: BusquedaComponent, canActivate: [roleGuard], data: { roles: ['admin', 'QF'] } },
-  { path: 'qf/observaciones', component: ObservacionesComponent, canActivate: [roleGuard], data: { roles: ['admin', 'QF'] } },
-  { path: 'qf/observaciones/medicamentos', component: PopUpObvMedicamentosComponent, canActivate: [roleGuard], data: { roles: ['admin', 'QF'] } },
-  { path: 'qf/busqueda/paciente/:cedula', component: PacienteComponent, canActivate: [roleGuard], data: { roles: ['admin', 'QF'] } },
-  { path: 'qf/busqueda/paciente/:cedula/conf-ciclo' , component: ConfiguracionCicloComponent, canActivate: [roleGuard], data: { roles: ['admin', 'QF'] } },
-  { path: 'qf/busqueda/paciente/:cedula/conf-ciclo/conf-aplicaciones', component: ConfiguracionAplicacionesComponent, canActivate: [roleGuard], data: { roles: ['admin', 'QF'] } },
+  { path: 'qf/indicadores', component: BorradoresComponent, canActivate: [roleGuard], data: { roles: ['admin', 'qf'] }  },
+  { path: 'qf/busqueda', component: BusquedaComponent, canActivate: [roleGuard], data: { roles: ['admin', 'qf'] } },
+  { path: 'qf/observaciones', component: ObservacionesComponent, canActivate: [roleGuard], data: { roles: ['admin', 'qf'] } },
+  { path: 'qf/observaciones/medicamentos', component: PopUpObvMedicamentosComponent, canActivate: [roleGuard], data: { roles: ['admin', 'qf'] } },
+  { path: 'qf/busqueda/paciente/:cedula', component: PacienteComponent, canActivate: [roleGuard], data: { roles: ['admin', 'qf'] } },
+  { path: 'qf/busqueda/paciente/:cedula/conf-ciclo' , component: ConfiguracionCicloComponent, canActivate: [roleGuard], data: { roles: ['admin', 'qf'] } },
+  { path: 'qf/busqueda/paciente/:cedula/conf-ciclo/conf-aplicaciones', component: ConfiguracionAplicacionesComponent, canActivate: [roleGuard], data: { roles: ['admin', 'qf'] } },
 
   { path: '', component: LoginComponent }, 
 ];

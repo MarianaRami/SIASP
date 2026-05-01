@@ -52,7 +52,7 @@ export class LoginComponent {
         this.loading = false;
 
         setTimeout(() => {
-          this.router.navigate(['admin-sistema']);
+          this.router.navigate(['inicio']);
         }, 1000);
 
       },
