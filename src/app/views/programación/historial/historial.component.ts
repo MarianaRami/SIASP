@@ -64,6 +64,8 @@ export class HistorialComponent {
   mostrarBotonProgramar = false;
   mostrarBotonNotificar = false;
 
+  fechaExamenEditable: string = '';
+
   tratamientoOptions = [
     { value: 'poli', label: 'Politerapia' },
     { value: 'mono', label: 'Monoterapia' },
@@ -131,6 +133,8 @@ export class HistorialComponent {
         }
       });
   }
+
+  
 
   formatearEstadoCiclo(estado: string): string {
     const mapa: Record<string, string> = {

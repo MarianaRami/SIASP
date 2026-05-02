@@ -149,7 +149,7 @@ export class ExamenesComponent {
       (p) => !p.observación || p.observación.trim() === ''
     );
 
-    if (sinObservacion.length > 0) {
+    if (sinObservacion.length > 0 && (cambios.some(p => p.estado === 'Reprobado' || p.estado === 'No Presentado'))) {
       alert('⚠️ Debes agregar una observación para todos los pacientes modificados.');
       return;
     }
