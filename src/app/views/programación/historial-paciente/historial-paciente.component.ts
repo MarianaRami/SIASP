@@ -26,11 +26,13 @@ export class HistorialPacienteComponent {
   cargando = false;
 
   ngOnInit() {
-    this.documento = this.route.snapshot.paramMap.get('documento') || '';
+    this.route.paramMap.subscribe(params => {
+      this.documento = params.get('cedula') || '';
 
-    console.log('Documento desde URL:', this.documento);
+      console.log('Documento desde URL:', this.documento);
 
-    this.cargarHistorial();
+      this.cargarHistorial();
+    });
   }
 
   private formatearFecha(fecha: Date): string {
