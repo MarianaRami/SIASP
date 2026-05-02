@@ -184,6 +184,7 @@ export class PacienteComponent {
               }));
             }
           }
+          this.cargaDatos();
         },
         error: (err) => {
           console.error('Error al obtener paciente:', err);
@@ -197,6 +198,7 @@ export class PacienteComponent {
           }
         }
       });
+      this.cargaDatos();
   }
 
   onGuardarPaciente(formData: any) {
@@ -247,6 +249,7 @@ export class PacienteComponent {
           alert('Error al guardar paciente');
         }
       });
+      this.cargaDatos()
       return;
     }
 
@@ -301,6 +304,7 @@ export class PacienteComponent {
           alert('Error al guardar paciente');
         }
       });
+      this.cargaDatos();
   }
 
   guardarCambio(formData: any) {
@@ -345,6 +349,7 @@ export class PacienteComponent {
           alert("Error al asignar protocolo");
         }
       });
+      this.cargaDatos()
   }
 
   actualizarProtocoloPorCie(codigoCie: string) {
