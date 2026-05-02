@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-inicio',
@@ -8,6 +9,13 @@ import { RouterModule } from '@angular/router';
   templateUrl: './inicio.component.html',
   styleUrl: './inicio.component.css',
 })
-export class Inicio {
 
+export class Inicio {
+  usuario: string = 'Usuario';
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    this.usuario = this.authService.getUser() || 'Usuario';
+  }
 }
