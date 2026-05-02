@@ -97,6 +97,15 @@
             <div>{{ nombreTrat }}</div>
             
         </div>
+
+        <div class="fila" *ngIf="tieneCicloActivo">
+            <label>Fecha exámenes:</label>
+            <input type="date" [(ngModel)]="fechaExamenEditable" />
+
+            <button class="btn-accion" (click)="guardarFechaExamenes()">
+                Guardar fecha
+            </button>
+        </div>
     </div>
 
     <div class="columna-derecha">

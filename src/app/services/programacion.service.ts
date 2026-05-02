@@ -111,4 +111,12 @@ export class ProgramacionService {
     );
   }
 
+  // ------------------- PROGRAMACION (CAMBIO FECHA EXÁMENES) -------------------
+  programarExamenesPaciente(payload: any) {
+    return this.http.post(
+      `${this.apiUrl}/pacientes/programacion-examenes`,
+      payload
+    );
+  }
+
 }
