@@ -193,6 +193,7 @@ export class ExamenesComponent {
         alert('❌ Error al guardar los cambios');
       }
     });
+    this.cargarExamenes(this.fechaActual);
   }
 }
 
