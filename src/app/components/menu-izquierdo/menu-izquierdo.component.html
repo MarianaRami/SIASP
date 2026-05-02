@@ -3,56 +3,56 @@
 
     <li>
       <a routerLink="/qf" routerLinkActive="active"
-      *ngIf="authService.hasAnyRole(['admin','QF'])">
+      *ngIf="authService.hasAnyRole(['admin','qf'])">
       QF
       </a>
     </li>
 
     <li>
       <a routerLink="/autorizaciones" routerLinkActive="active"
-      *ngIf="authService.hasAnyRole(['admin','Autorizaciones'])">
+      *ngIf="authService.hasAnyRole(['admin','autorizaciones'])">
       Autorizaciones
       </a>
     </li>
 
     <li>
       <a routerLink="/programacion" routerLinkActive="active"
-      *ngIf="authService.hasAnyRole(['admin','Programacion'])">
+      *ngIf="authService.hasAnyRole(['admin','programacion'])">
       Programación
       </a>
     </li>
 
     <li>
       <a routerLink="/examenes" routerLinkActive="active" 
-      *ngIf="authService.hasAnyRole(['admin','Doctora'])">
+      *ngIf="authService.hasAnyRole(['admin','examenes'])">
       Exámenes
       </a>
     </li>
 
     <li>
       <a routerLink="/enfermeria" routerLinkActive="active" 
-      *ngIf="authService.hasAnyRole(['admin','Enfermeria'])">
+      *ngIf="authService.hasAnyRole(['admin','enfermeria'])">
       Enfermería
       </a>
     </li>
 
     <li>
       <a routerLink="/jefe-enfermeria" routerLinkActive="active" 
-      *ngIf="authService.hasAnyRole(['admin','Jefe_Enfermeria'])">
+      *ngIf="authService.hasAnyRole(['admin','jefe_enfermeria'])">
       Jefe enfermería
       </a>
     </li>
 
     <li>
       <a routerLink="/farmacia" routerLinkActive="active" 
-      *ngIf="authService.hasAnyRole(['admin','Farmacia'])">
+      *ngIf="authService.hasAnyRole(['admin','farmacia'])">
       Farmacia
     </a>
     </li>
 
     <li>
       <a routerLink="/director-farmacia" routerLinkActive="active" 
-      *ngIf="authService.hasAnyRole(['admin','Director_Farmacia'])">
+      *ngIf="authService.hasAnyRole(['admin','director_farmacia'])">
       Director farmacia
       </a>
     </li>
@@ -73,14 +73,14 @@
     
     <li>
       <a routerLink="/jefe-piso" routerLinkActive="active" 
-      *ngIf="authService.hasAnyRole(['admin','Jefe_Piso'])" >
+      *ngIf="authService.hasAnyRole(['admin','jefe_piso'])" >
       Jefe de piso
       </a>
     </li>
 
     <li>
       <a routerLink="/indicadores" routerLinkActive="active" 
-      *ngIf="authService.hasAnyRole(['admin'])">
+      *ngIf="authService.hasAnyRole(['admin', 'indicadores'])">
       Indicadores
       </a>
     </li>
