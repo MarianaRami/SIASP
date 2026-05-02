@@ -4,6 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { ProtocolosService } from '../../../services/protocolos.service';
 import { PopupMotivoComponent } from "../../../components/popup-motivo/popup-motivo.component";
 
+export enum MotivoDevolucion {
+  ERROR_FORMULACION_MEDICAMENTO       = 'error_formulacion_medicamento',
+  ERROR_DIGITACION_MEDICAMENTO        = 'error_digitacion_medicamento',
+  ERROR_FORMULACION_MEDICAMENTO_PROG  = 'error_formulacion_medicamento_prog',
+}
+
 @Component({
   selector: 'app-pop-up-medicamentos',
   imports: [
@@ -32,6 +38,12 @@ export class PopUpMedicamentosComponent {
     { label:'Peso', value: 'peso' }, 
     { label:'AUC', value: 'AUC' }, 
     { label:'Fija', value: 'fija' }
+  ];
+
+  motivosDevolucion = [
+    { value: MotivoDevolucion.ERROR_FORMULACION_MEDICAMENTO, label: 'Error en formulación del medicamento' },
+    { value: MotivoDevolucion.ERROR_DIGITACION_MEDICAMENTO, label: 'Error en digitación del medicamento' },
+    { value: MotivoDevolucion.ERROR_FORMULACION_MEDICAMENTO_PROG, label: 'Error en formulación en programación' }
   ];
 
   constructor(private protocoloService: ProtocolosService) {}

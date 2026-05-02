@@ -13,16 +13,15 @@ import { FormsModule } from '@angular/forms';
 export class PopupMotivoComponent {
   @Output() cerrar = new EventEmitter<void>();
   @Output() enviar = new EventEmitter<{motivo?:string; observaciones?: string}>();
-
-  motivoSeleccionado: string = '';
-  observaciones: string = '';
-
-  motivos = [
+  @Input() motivos: { value: string; label: string }[] = [
     { value: 'finalizado_medico', label: 'Finalizado por médico'},
     { value: 'fallecido', label: 'Fallecimiento'},  
     { value: 'precancelado', label: 'Paciente desiste'}, 
     { value: 'cambio_protocolo', label: 'Cambio de protocolo'}
-  ]; 
+  ];
+
+  motivoSeleccionado: string = '';
+  observaciones: string = '';
   
   confirmar() {
     this.enviar.emit({

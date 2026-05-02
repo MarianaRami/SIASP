@@ -40,3 +40,10 @@
     <button class="guardar-btn" (click)="borrador()">Guardar borrador</button>
   </div>
 </div>
+
+<app-popup-motivo
+  *ngIf="mostrarPopupMotivo"
+  [motivos]="motivosDevolucion"
+  (cerrar)="cerrarMotivo()"
+  (enviar)="onConfirmarMotivo($event)">
+</app-popup-motivo>

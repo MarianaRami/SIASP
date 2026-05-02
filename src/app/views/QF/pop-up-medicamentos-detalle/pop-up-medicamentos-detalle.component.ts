@@ -3,10 +3,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
 import { MedicamentoParaPresentacionDto, CombinacionOptima, MedicamentoPresentacionResponse } from '../../../models/descripcion-medicamentos';
+import { PopupMotivoComponent } from '../../../components/popup-motivo/popup-motivo.component';
+import { MotivoDevolucion } from '../pop-up-medicamentos/pop-up-medicamentos.component';
 
 @Component({
   selector: 'app-pop-up-medicamentos-detalle',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, PopupMotivoComponent],
   templateUrl: './pop-up-medicamentos-detalle.component.html',
   styleUrl: './pop-up-medicamentos-detalle.component.css'
 })
@@ -20,6 +22,15 @@ export class PopUpMedicamentosDetalleComponent {
 
   presentaciones: any[] = [];
   resultados: any[] = [];
+
+  mostrarPopupMotivo = false;
+  datosPendientes: any = null;
+
+  motivosDevolucion = [
+    { value: MotivoDevolucion.ERROR_FORMULACION_MEDICAMENTO, label: 'Error en formulación del medicamento' },
+    { value: MotivoDevolucion.ERROR_DIGITACION_MEDICAMENTO, label: 'Error en digitación del medicamento' },
+    { value: MotivoDevolucion.ERROR_FORMULACION_MEDICAMENTO_PROG, label: 'Error en formulación en programación' }
+  ];
 
   constructor(private gestionPacientesService: GestionPacientesService) {}
 
@@ -95,6 +106,20 @@ export class PopUpMedicamentosDetalleComponent {
     this.cerrar.emit();
   }
 
+  onConfirmarMotivo(event: { motivo?: string; observaciones?: string }) {
+    this.mostrarPopupMotivo = false;
+
+    this.pendiente.emit({
+      data: this.datosPendientes,
+      motivo: event.motivo,
+      observaciones: event.observaciones
+    });
+  }
+
+  cerrarMotivo() {
+    this.mostrarPopupMotivo = false;
+  }
+
   guardar() {
     // Transformamos resultados antes de emitir
     const transformados = this.resultados.map((med: any) => ({
@@ -113,7 +138,6 @@ export class PopUpMedicamentosDetalleComponent {
   }
 
   borrador() {
-    // Transformamos resultados antes de emitir
     const transformados = this.resultados.map((med: any) => ({
       nombre: med.nombre,
       dosisTotal: med.dosisTotal,
@@ -125,8 +149,7 @@ export class PopUpMedicamentosDetalleComponent {
       }))
     }));
 
-    console.log('Datos transformados para enviar:', transformados);
-    this.pendiente.emit(transformados);
+    this.datosPendientes = transformados;
+    this.mostrarPopupMotivo = true; 
   }
-
 }

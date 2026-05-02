@@ -106,6 +106,7 @@
 
   <app-popup-motivo
     *ngIf="mostrarPopupMotivo"
+    [motivos]="motivosDevolucion"
     (cerrar)="cerrarMotivo()"
     (enviar)="onConfirmarMotivo($event)">
   </app-popup-motivo>
