@@ -79,7 +79,7 @@ export class MedFarmaciaComponent {
                 cantidad: med.cantidad,
                 ciclo: orden.nombreProtocolo,
                 dia: this.fechaSeleccionada,
-                estadoCiclo: orden?.protocolosActuales?.[0]?.ciclos?.[0]?.estado || 'N/A'
+                estadoCiclo: orden?.estado || 'N/A'
               });
             });
           });
