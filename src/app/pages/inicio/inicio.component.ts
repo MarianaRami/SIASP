@@ -11,11 +11,9 @@ import { AuthService } from '../../services/auth.service';
 })
 
 export class Inicio {
-  usuario: string = 'Usuario';
+  usuario: string;
 
-  constructor(private authService: AuthService) {}
-
-  ngOnInit() {
+  constructor(private authService: AuthService) {
     this.usuario = this.authService.getUser() || 'Usuario';
   }
 }
