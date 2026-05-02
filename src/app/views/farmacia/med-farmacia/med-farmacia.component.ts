@@ -29,7 +29,7 @@ export class MedFarmaciaComponent {
     { key: 'cantidad', label: 'Cantidad' },
     { key: 'ciclo', label: 'Ciclo' },
     { key: 'dia', label: 'Día' },
-    { key: 'notificado', label: 'Estado' }
+    { key: 'estadoCiclo', label: 'Estado' }
   ];
 
   datos: any[] = [];
@@ -78,7 +78,8 @@ export class MedFarmaciaComponent {
                 dosis: med.viaPresentacion,
                 cantidad: med.cantidad,
                 ciclo: orden.nombreProtocolo,
-                dia: this.fechaSeleccionada
+                dia: this.fechaSeleccionada,
+                estadoCiclo: orden?.protocolosActuales?.[0]?.ciclos?.[0]?.estado || 'N/A'
               });
             });
           });
