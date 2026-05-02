@@ -29,7 +29,7 @@ export class EnfermeriaComponent {
     { key: 'observacion', label: 'Observaciones', tipo: 'text' },
     {
       key: 'razonReprogramacion', label: 'Razón reprogramación', tipo: 'select-condicional',
-      dependsOn: 'estado', dependsValue: ['Reprogramar', 'Inasistencia'],
+      dependsOn: 'estado', dependsValue: ['Reprogramar', 'Suspendida', 'Inasistencia'],
       opciones: [
         { value: 'toxicidad',                  label: 'Toxicidad' },
         { value: 'inasistencia_voluntaria',     label: 'Inasistencia voluntaria' },
