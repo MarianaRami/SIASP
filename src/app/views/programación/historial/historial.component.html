@@ -26,6 +26,13 @@
         </ng-container>
         <button class="btn-accion" (click)="abrirPopup()">Cancelar Ciclo</button>
     </div>
+
+    <div class="fila">
+        <label>Estado del ciclo:</label>
+        <div>
+            {{ cicloActivo ? formatearEstadoCiclo(cicloActivo.estado) : 'Sin ciclo activo' }}
+        </div>
+    </div>
   </div>
 
   <div class="formulario">

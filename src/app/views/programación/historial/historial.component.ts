@@ -132,6 +132,18 @@ export class HistorialComponent {
       });
   }
 
+  formatearEstadoCiclo(estado: string): string {
+    const mapa: Record<string, string> = {
+      activo: 'Activo',
+      revisado_examenes: 'Exámenes revisados',
+      notificado: 'Notificado',
+      finalizado: 'Finalizado',
+      cancelado: 'Cancelado'
+    };
+
+    return mapa[estado] || estado;
+  }
+
   actualizarProtocoloCie(){
     const protocoloActual = this.protocolos.find(
       p => p.CIE11 === this.cieSeleccionado
