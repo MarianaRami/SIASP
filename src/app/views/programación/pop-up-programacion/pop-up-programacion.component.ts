@@ -52,15 +52,26 @@ export class PopUpProgramacionComponent {
 
   ngOnInit() {
     this.duracionStr = this.crearTiempoDesdeMinutos(this.duracion);
+
     this.tipo = this.tipoSilla;
-    //Hay que cambiar el servicio para traer las sillas, camillas o habitaciones disponibles
-    this.programacionServicio.getlistadoSillasDisponibles(this.tipo).subscribe({
+    this.cargarRecursos(this.tipo);
+  }
+
+  cargarRecursos(tipo: 'silla' | 'camilla' | 'habitacion') {
+    this.programacionServicio.getlistadoSillasDisponibles(tipo).subscribe({
       next: (res) => {
-        console.log('✅ Listado de sillas:', res);
-        this.sillasDisponibles = res;  
+        console.log('✅ Recursos disponibles:', tipo, res);
+        this.sillasDisponibles = res;
       },
-      error: (err) => console.error('❌ Error al obtener listado de sillas:', err)
+      error: (err) => console.error('❌ Error:', err)
     });
+  }
+
+  onTipoCambio() {
+    this.tipo = this.camilla ? 'camilla' : 'silla';
+
+    this.sillaSeleccionada = null; // limpiar selección anterior
+    this.cargarRecursos(this.tipo);
   }
 
   calcularDuracion(): void {

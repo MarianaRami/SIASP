@@ -25,7 +25,7 @@
 
       <div class="fila">
         <label>¿Necesita camilla?</label>
-        <input type="checkbox" [(ngModel)]="camilla" id="camilla" />
+        <input type="checkbox" [(ngModel)]="camilla" id="camilla" (change)="onTipoCambio()" />
       </div>
     </ng-container>
 
