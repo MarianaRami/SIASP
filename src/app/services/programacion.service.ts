@@ -74,6 +74,16 @@ export class ProgramacionService {
     );
   }
 
+  getDisponibilidadSillas(
+    fecha: string,
+    duracion: number,
+    tipo: 'silla' | 'camilla' | 'habitacion'
+  ) {
+    return this.http.get<any>(
+      `${this.apiUrl}s/disponibilidad-sillas/${fecha}/${duracion}/${tipo}`
+    );
+  }
+
   // ------------------- PROGRAMACION (NOTIFICACIÓN AL PACIENTE) -------------------
   notificacionPaciente(dto: any): Observable<any> {
     return this.http.post<any>(

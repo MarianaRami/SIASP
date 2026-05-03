@@ -42,6 +42,8 @@ export class PopUpProgramacionComponent {
 
   sillasDisponibles: any[] = [];
 
+  disponibilidadSalas:any = {};
+
   tipo = this.tipoSilla;
 
   crearTiempoDesdeMinutos(minutos: number): string {
@@ -55,6 +57,31 @@ export class PopUpProgramacionComponent {
 
     this.tipo = this.tipoSilla;
     this.cargarRecursos(this.tipo);
+  }
+
+  cargarDisponibilidad() {
+    if (!this.fechaEvento || !this.duracion) return;
+
+    this.programacionServicio
+      .getDisponibilidadSillas(this.fechaEvento, this.duracion, this.tipo)
+      .subscribe({
+        next: (res) => {
+          console.log('📊 Disponibilidad:', res);
+          this.disponibilidadSalas = res.disponibilidadSalasObj || {};
+        },
+        error: (err) => console.error(err)
+      });
+  }
+
+  onCambiosDisponibilidad() {
+    this.cargarDisponibilidad();
+  }
+
+  seleccionarSilla(nombreSilla: string) {
+    this.sillaSeleccionada = {
+      id: nombreSilla, // ⚠️ ajusta si backend usa otro id
+      nombre: nombreSilla
+    };
   }
 
   cargarRecursos(tipo: 'silla' | 'camilla' | 'habitacion') {
