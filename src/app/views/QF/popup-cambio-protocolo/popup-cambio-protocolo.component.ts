@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ProtocolosService } from '../../../services/protocolos.service';
 
 @Component({
+  standalone: true,
   selector: 'app-popup-cambio-protocolo',
   imports: [CommonModule, FormsModule],
   templateUrl: './popup-cambio-protocolo.component.html',

@@ -5,6 +5,7 @@ import { AutorizacionesService } from '../../../services/autorizaciones.service'
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
+  standalone: true,
   selector: 'app-popup-medicamentos-obv',
   imports: [
     CommonModule, FormsModule

@@ -13,6 +13,7 @@ import { ProgramacionService } from '../../../services/programacion.service';
 import { PdfService } from '../../../services/pdf.service';
 
 @Component({
+  standalone: true,
   selector: 'app-historial',
   templateUrl: './historial.component.html',
   styleUrl: './historial.component.css',

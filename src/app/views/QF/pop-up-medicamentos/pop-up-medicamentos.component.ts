@@ -11,6 +11,7 @@ export enum MotivoDevolucion {
 }
 
 @Component({
+  standalone: true,
   selector: 'app-pop-up-medicamentos',
   imports: [
     CommonModule, FormsModule,

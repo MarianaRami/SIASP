@@ -7,6 +7,7 @@ import { PopUpMedicamentosDetalleComponent } from '../pop-up-medicamentos-detall
 import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
 
 @Component({
+  standalone: true,
   selector: 'app-configuracion-aplicaciones',
   imports: [
     PopUpMedicamentosDetalleComponent,

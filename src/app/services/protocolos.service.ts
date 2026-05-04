@@ -1,52 +1,52 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
-import { Protocolo, ProtocoloCreate } from '../models/protocolo.model';
+import { Protocolo } from '../models/protocolo.model';
+import { ApiClient } from '../core/api-client.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProtocolosService {
-  private baseUrl = 'http://localhost:3000';
-  private user: string | null = null;
-
-  private readonly http = inject(HttpClient);
+  private readonly api = inject(ApiClient);
 
   // ------------------- PROTOCOLOS -------------------
 
   getProtocolos(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/gestion-protocolos/protocolos-recientes`);
+    return this.api.get<any[]>('/gestion-protocolos/protocolos-recientes');
   }
 
   saveProtocolo(data: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/gestion-protocolos/protocolos/completo`, data);
+    return this.api.post<any>('/gestion-protocolos/protocolos/completo', data);
   }
 
   getProtocoloCompletoById(id: string): Observable<Protocolo> {
-    return this.http.get<any>(`${this.baseUrl}/gestion-protocolos/protocolos/${id}/completo`);
+    return this.api.get<Protocolo>(`/gestion-protocolos/protocolos/${id}/completo`);
   }
 
   existeProtocoloPorNombre(nombre: string): Observable<{ nombre: string; existe: boolean }> {
-    return this.http.get<{ nombre: string; existe: boolean }>(
-      `${this.baseUrl}/gestion-protocolos/protocolos/existe/${encodeURIComponent(nombre)}`
+    return this.api.get<{ nombre: string; existe: boolean }>(
+      `/gestion-protocolos/protocolos/existe/${encodeURIComponent(nombre)}`
     );
   }
 
-  crearNuevaVersionProtocoloCompleto(dto: any) {
-  return this.http.post<any>(
-    `${this.baseUrl}/gestion-protocolos/protocolos/completo/nueva-version`,
-    dto);
-}
+  crearNuevaVersionProtocoloCompleto(dto: any): Observable<any> {
+    return this.api.post<any>('/gestion-protocolos/protocolos/completo/nueva-version', dto);
+  }
 
+  desactivarProtocolo(id: string): Observable<any> {
+    return this.api.patch<any>(`/gestion-protocolos/protocolos/${id}/desactivar`, {});
+  }
+
+  activarProtocolo(id: string): Observable<any> {
+    return this.api.patch<any>(`/gestion-protocolos/protocolos/${id}/activar`, {});
+  }
+
+  // ------------------- ESTADO LOCAL DE PROTOCOLO -------------------
 
   private protocolo: any = null;
 
-  setProtocolo(id: string| null, data: any) {
-    this.protocolo = {
-      ...data,
-      id: id
-    };
+  setProtocolo(id: string | null, data: any) {
+    this.protocolo = { ...data, id };
   }
 
   getProtocolo() {
@@ -57,35 +57,21 @@ export class ProtocolosService {
     this.protocolo = null;
   }
 
-  desactivarProtocolo(id: string): Observable<any> {
-    return this.http.patch(
-      `${this.baseUrl}/gestion-protocolos/protocolos/${id}/desactivar`,
-      {}
-    );
-  }
-
-  activarProtocolo(id: string): Observable<any> {
-    return this.http.patch(
-      `${this.baseUrl}/gestion-protocolos/protocolos/${id}/activar`,
-      {}
-    );
-  }
-
-  // ----------------- VEHICULOS -----------------
+  // ------------------- VEHICULOS -------------------
 
   getVehiculos(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/gestion-protocolos/vehiculos`);
+    return this.api.get<any[]>('/gestion-protocolos/vehiculos');
   }
 
-  // ----------------- CATEGORIA MEDICAMENTO -----------------
+  // ------------------- CATEGORIA MEDICAMENTO -------------------
 
   getCategoriasMedicamento(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/categoria-medicamento`);
+    return this.api.get<any[]>('/categoria-medicamento');
   }
 
-  // ----------------- MEDICAMENTOS -----------------
+  // ------------------- MEDICAMENTOS -------------------
 
   getMedicamentos(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/gestion-protocolos/medicamentos`);
+    return this.api.get<any[]>('/gestion-protocolos/medicamentos');
   }
 }

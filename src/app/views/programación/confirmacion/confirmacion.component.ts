@@ -7,6 +7,7 @@ import { ProgramacionService } from '../../../services/programacion.service';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
+  standalone: true,
   selector: 'app-confirmacion',
   templateUrl: './confirmacion.component.html',
   styleUrl: './confirmacion.component.css',

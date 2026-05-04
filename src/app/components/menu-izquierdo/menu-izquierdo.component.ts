@@ -6,6 +6,7 @@ import { SidebarService } from '../../services/sidebar.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
+  standalone: true,
   selector: 'app-menu-izquierdo',
   imports: [RouterModule, FormsModule, CommonModule],
   templateUrl: './menu-izquierdo.component.html',

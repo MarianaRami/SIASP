@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
 
 @Component({
+  standalone: true,
   selector: 'app-op',
   templateUrl: './op.component.html',
   styleUrl: './op.component.css',

@@ -7,6 +7,7 @@ import { ModalCrearUsuarios } from '../../views/admin-usuarios/modal-crear-usuar
 import { ModalRolesUsuarios } from '../../views/admin-usuarios/modal-roles-usuarios/modal-roles-usuarios';
 
 @Component({
+  standalone: true,
   selector: 'app-administrador-usuarios',
   templateUrl: './administrador-usuarios.component.html',
   styleUrl: './administrador-usuarios.component.css',

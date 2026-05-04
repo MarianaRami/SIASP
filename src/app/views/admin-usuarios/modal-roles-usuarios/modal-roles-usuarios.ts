@@ -5,6 +5,7 @@ import { GestionUsuariosService } from '../../../services/gestion-usuarios';
 import { forkJoin, Observable } from 'rxjs';
 
 @Component({
+  standalone: true,
   selector: 'app-modal-roles-usuarios',
   imports: [CommonModule, FormsModule],
   templateUrl: './modal-roles-usuarios.html',

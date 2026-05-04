@@ -6,6 +6,7 @@ import { AuthService } from '../../../services/auth.service';
 import { ProtocolosService } from '../../../services/protocolos.service';
 
 @Component({
+  standalone: true,
   selector: 'app-conf-medicamentos',
   imports: [FormsModule, CommonModule],
   templateUrl: './conf-medicamentos.component.html',

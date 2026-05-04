@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
+  standalone: true,
   selector: 'app-pop-up-obv-medicamentos',
   imports: [CommonModule, FormsModule],
   templateUrl: './pop-up-obv-medicamentos.component.html',

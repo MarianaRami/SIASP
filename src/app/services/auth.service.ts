@@ -1,8 +1,8 @@
 import { inject, Injectable, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { ApiClient } from '../core/api-client.service';
 
 interface AuthResponse {
   user: string;
@@ -24,8 +24,7 @@ interface RefreshResponse {
   providedIn: 'root'
 })
 export class AuthService implements OnDestroy {
-  private baseUrl = 'http://localhost:3000';
-  private readonly http = inject(HttpClient);
+  private readonly api = inject(ApiClient);
   private readonly router = inject(Router);
 
   private user: string | null = null;
@@ -34,8 +33,7 @@ export class AuthService implements OnDestroy {
   private refreshTimer: ReturnType<typeof setTimeout> | null = null;
   private storageListener: ((e: StorageEvent) => void) | null = null;
 
-  // Cuántos ms antes de que expire el access token se lanza el refresh
-  private readonly REFRESH_BEFORE_EXPIRY_MS = 2 * 60 * 1000;  // 2 minutos
+  private readonly REFRESH_BEFORE_EXPIRY_MS = 2 * 60 * 1000;
 
   // ------------------- AUTH -------------------
 
@@ -44,16 +42,9 @@ export class AuthService implements OnDestroy {
 
     this.clearSession();
 
-    return this.revokeAll().pipe(   // 👈 primero invalida sesiones
+    return this.revokeAll().pipe(
       tap(() => console.log('🧹 Sesiones previas eliminadas')),
-      
-      // luego login
-      switchMap(() =>
-        this.http.post<any>(`${this.baseUrl}/auth/login`, body, {
-          withCredentials: true
-        })
-      ),
-
+      switchMap(() => this.api.post<AuthResponse>('/auth/login', body)),
       tap(response => {
         this.setUser(response.user);
         this.setRoles(response.roles);
@@ -69,22 +60,16 @@ export class AuthService implements OnDestroy {
 
   isSessionExpired(): boolean {
     const expires = localStorage.getItem('sessionExpires');
-
     if (!expires) return true;
-
     return Date.now() > Number(expires);
   }
 
   revoke(): Observable<any> {
-    return this.http.post(`${this.baseUrl}/auth/revoke`, {}, {
-      withCredentials: true
-    });
+    return this.api.post('/auth/revoke', {});
   }
 
   revokeAll(): Observable<any> {
-    return this.http.post(`${this.baseUrl}/auth/revoke-all`, {}, {
-      withCredentials: true
-    });
+    return this.api.post('/auth/revoke-all', {});
   }
 
   clearSession() {
@@ -109,20 +94,11 @@ export class AuthService implements OnDestroy {
 
   // ------------------- SESSION REFRESH -------------------
 
-  /**
-   * Programa el refresh y activa la sincronización entre pestañas.
-   * Llamar tras login o al arrancar la app con sesión vigente.
-   */
   startSessionManagement(): void {
     this.scheduleRefresh();
     this.syncWithOtherTabs();
   }
 
-  /**
-   * Calcula cuánto tiempo falta hasta 2 min antes de que expire el
-   * access token y programa un setTimeout preciso. Al completarse,
-   * llama al servidor y se auto-reprograma con el nuevo expiry.
-   */
   private scheduleRefresh(): void {
     this.stopRefreshTimer();
 
@@ -137,35 +113,33 @@ export class AuthService implements OnDestroy {
   private doRefresh(): void {
     if (!this.getUser()) return;
 
-    this.http.post<RefreshResponse>(`${this.baseUrl}/auth/refresh`, {}, { withCredentials: true })
-      .subscribe({
-        next: (res) => {
-          if (!res.authenticated) {
-            console.warn('⚠️ Refresh token inválido o expirado.');
-            this.clearSession();
-            this.router.navigate(['']);
-            return;
+    this.api.post<RefreshResponse>('/auth/refresh', {}).subscribe({
+      next: (res) => {
+        if (!res.authenticated) {
+          console.warn('⚠️ Refresh token inválido o expirado.');
+          this.clearSession();
+          this.router.navigate(['']);
+          return;
+        }
+        const newExpiry = Date.now() + ((res.expires_in ?? 15) * 60 * 1000);
+        localStorage.setItem('sessionExpires', newExpiry.toString());
+        if (res.roles) {
+          const newRoles = res.roles;
+          if (JSON.stringify(newRoles) !== JSON.stringify(this.getRoles())) {
+            this.setRoles(newRoles);
           }
-          const newExpiry = Date.now() + ((res.expires_in ?? 15) * 60 * 1000);
-          localStorage.setItem('sessionExpires', newExpiry.toString());
-          if (res.roles) {
-            const newRoles = res.roles;
-            if (JSON.stringify(newRoles) !== JSON.stringify(this.getRoles())) {
-              this.setRoles(newRoles);
-            }
-          }
-          console.log('🔄 Sesión renovada, expira en:', res.expires_in, 'min');
-          // Auto-reprogramar para el siguiente ciclo
-          this.scheduleRefresh();
-        },
-        error: () => {} // El interceptor maneja el 401
-      });
+        }
+        console.log('🔄 Sesión renovada, expira en:', res.expires_in, 'min');
+        this.scheduleRefresh();
+      },
+      error: () => {}
+    });
   }
 
   // ------------------- CROSS-TAB SYNC -------------------
 
   private syncWithOtherTabs(): void {
-    if (this.storageListener) return; // ya registrado
+    if (this.storageListener) return;
 
     this.storageListener = (event: StorageEvent) => {
       if (event.key === 'sessionExpires' && event.newValue === null) {
@@ -213,9 +187,7 @@ export class AuthService implements OnDestroy {
   getRoles(): string[] {
     if (this.roles.length === 0) {
       const rawRoles = localStorage.getItem('jwtRoles');
-      if (!rawRoles) {
-        return [];
-      }
+      if (!rawRoles) return [];
 
       try {
         const parsedRoles = JSON.parse(rawRoles);
@@ -243,7 +215,7 @@ export class AuthService implements OnDestroy {
     this.user = user;
     localStorage.setItem('jwtUser', user);
   }
-  
+
   getUser(): string | null {
     if (!this.user) {
       this.user = localStorage.getItem('jwtUser');
@@ -252,17 +224,13 @@ export class AuthService implements OnDestroy {
   }
 
   checkAuth(): Observable<RefreshResponse> {
-    return this.http.post<RefreshResponse>(`${this.baseUrl}/auth/refresh`, {}, {
-      withCredentials: true
-    });
+    return this.api.post<RefreshResponse>('/auth/refresh', {});
   }
 
   isLoggedIn(): boolean {
     const user = this.getUser();
     const roles = this.getRoles();
-
     if (!user || roles.length === 0) return false;
-
     return !this.isSessionExpired();
   }
 }

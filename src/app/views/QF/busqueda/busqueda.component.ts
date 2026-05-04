@@ -3,6 +3,7 @@ import { BuscadorComponent } from '../../../components/buscador/buscador.compone
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
+  standalone: true,
   selector: 'app-busqueda',
   templateUrl: './busqueda.component.html',
   styleUrl: './busqueda.component.css',

@@ -7,6 +7,7 @@ import { GestionPacientesService } from '../../../services/gestion-pacientes.ser
 
 
 @Component({
+  standalone: true,
   selector: 'app-observaciones',
   templateUrl: './observaciones.component.html',
   styleUrl: './observaciones.component.css',

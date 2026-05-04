@@ -1,35 +1,24 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { PacienteResponse, DescripcionCicloPacienteCompleto, DescripcionCicloPacienteCompletoResponse } from '../models/paciente';
-import { MedicamentoParaPresentacionDto } from '../models/descripcion-medicamentos';
-
+import { ApiClient } from '../core/api-client.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AutorizacionesService {
-  private apiUrl = 'http://localhost:3000/gestion-pacientes';
-
-  constructor(private http: HttpClient) { }
+  private readonly api = inject(ApiClient);
 
   // ------------------- AUTORIZACIONES -------------------
+
   getPacienteByDocumento(pacienteId: string): Observable<any> {
-    return this.http.get<any>(
-      `${this.apiUrl}/autorizaciones/datos/${pacienteId}`
-    );
+    return this.api.get<any>(`/gestion-pacientes/autorizaciones/datos/${pacienteId}`);
   }
 
   getPacienteByDocumentoMeds(pacienteId: string): Observable<any> {
-    return this.http.get<any>(
-      `${this.apiUrl}/medicamentos/datos/${pacienteId}`
-    );
+    return this.api.get<any>(`/gestion-pacientes/medicamentos/datos/${pacienteId}`);
   }
 
-  createAutorizacionNueva(dto: any) {
-    return this.http.post<any>(
-      `${this.apiUrl}/autorizar-ciclo`,
-      dto
-    );
+  createAutorizacionNueva(dto: any): Observable<any> {
+    return this.api.post<any>('/gestion-pacientes/autorizar-ciclo', dto);
   }
 }

@@ -8,6 +8,7 @@ import { AuthService } from '../../../services/auth.service';
 import { ProtocoloActualDto } from '../../../models/paciente';
 
 @Component({
+  standalone: true,
   selector: 'app-configuracion-ciclo',
   imports: [
     PopUpMedicamentosComponent, 

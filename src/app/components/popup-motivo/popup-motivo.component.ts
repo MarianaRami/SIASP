@@ -3,6 +3,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
+  standalone: true,
   selector: 'app-popup-motivo',
   templateUrl: './popup-motivo.component.html',
   styleUrls: ['./popup-motivo.component.css'],

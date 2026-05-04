@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProtocolosService } from '../../../services/protocolos.service';
 
 @Component({
+  standalone: true,
   selector: 'app-inf-protocolo',
   imports: [CommonModule, FormsModule],
   templateUrl: './inf-protocolo.component.html',

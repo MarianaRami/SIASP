@@ -2,12 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla-dinamica.component.spec';
+import { TablaDinamicaComponent } from '../../../components/tabla-dinamica/tabla-dinamica.component';
 import { OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { ProtocolosService } from '../../../services/protocolos.service';
 
 @Component({
+  standalone: true,
   selector: 'app-protocolos',
   imports: [
     CommonModule, FormsModule,
@@ -127,4 +128,3 @@ export class ProtocolosComponent {
 
 
 }
-

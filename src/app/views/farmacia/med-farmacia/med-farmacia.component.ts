@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
 
 @Component({
+  standalone: true,
   selector: 'app-med-farmacia',
   templateUrl: './med-farmacia.component.html',
   styleUrl: './med-farmacia.component.css',

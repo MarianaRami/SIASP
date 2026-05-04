@@ -9,6 +9,7 @@ import { PacienteResponseDto } from '../../../models/paciente';
 import { AutorizacionesService } from '../../../services/autorizaciones.service';
 
 @Component({
+  standalone: true,
   selector: 'app-autorizacion',
   templateUrl: './autorizacion.component.html',
   styleUrl: './autorizacion.component.css',

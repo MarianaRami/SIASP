@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ProgramacionService } from '../../../services/programacion.service';
 
 @Component({
+  standalone: true,
   selector: 'app-pop-up-programacion',
   imports: [CommonModule, FormsModule],
   templateUrl: './pop-up-programacion.component.html',

@@ -5,6 +5,7 @@ import { GestionUsuariosService } from '../../../services/gestion-usuarios';
 import { forkJoin, of, switchMap } from 'rxjs';
 
 @Component({
+  standalone: true,
   selector: 'app-modal-crear-usuarios',
   imports: [CommonModule, FormsModule],
   templateUrl: './modal-crear-usuarios.html',

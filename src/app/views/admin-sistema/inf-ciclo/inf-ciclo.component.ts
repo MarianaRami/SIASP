@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProtocolosService } from '../../../services/protocolos.service';
 
 @Component({
+  standalone: true,
   selector: 'app-inf-ciclo',
   imports: [ CommonModule, FormsModule],
   templateUrl: './inf-ciclo.component.html',

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
+  standalone: true,
   selector: 'app-pacientes',
   templateUrl: './pacientes.component.html',
   styleUrl: './pacientes.component.css',

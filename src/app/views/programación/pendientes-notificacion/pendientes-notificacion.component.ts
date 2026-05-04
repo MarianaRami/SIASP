@@ -15,6 +15,7 @@ interface PacienteNotif {
 }
 
 @Component({
+  standalone: true,
   selector: 'app-pendientes-notificacion',
   templateUrl: './pendientes-notificacion.component.html',
   styleUrl: './pendientes-notificacion.component.css',

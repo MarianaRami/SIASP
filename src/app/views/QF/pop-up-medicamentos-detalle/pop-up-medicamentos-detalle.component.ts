@@ -7,6 +7,7 @@ import { PopupMotivoComponent } from '../../../components/popup-motivo/popup-mot
 import { MotivoDevolucion } from '../pop-up-medicamentos/pop-up-medicamentos.component';
 
 @Component({
+  standalone: true,
   selector: 'app-pop-up-medicamentos-detalle',
   imports: [FormsModule, CommonModule, PopupMotivoComponent],
   templateUrl: './pop-up-medicamentos-detalle.component.html',
