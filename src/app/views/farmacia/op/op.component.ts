@@ -27,7 +27,7 @@ export class OPComponent {
     { key: 'cantidad', label: 'Cantidad' },
     { key: 'via', label: 'Via' },
     { key: 'vehiculo', label: 'Vehiculo' },
-    { key: 'notificado', label: 'Estado' }
+    { key: 'estadoCiclo', label: 'Estado' }
   ];
 
    datos: any[] = [];
@@ -78,7 +78,8 @@ export class OPComponent {
                 medicamento: op.nombrePresentacionMedicamento,
                 cantidad: op.cantidad,
                 via: op.viaPresentacion,
-                vehiculo: op.nombreVehiculo
+                vehiculo: op.nombreVehiculo,
+                estadoCiclo: orden?.estado || 'N/A'
               });
             });
           });

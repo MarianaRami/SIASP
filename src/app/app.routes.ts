@@ -53,7 +53,7 @@ import { Inicio } from './pages/inicio/inicio.component';
 export const routes: Routes = [
   { path: 'inicio', component: Inicio },
 
-  { path: 'examenes', component: ExamenesComponent, canActivate: [roleGuard], data: { roles: ['admin', 'doctora'] } },
+  { path: 'examenes', component: ExamenesComponent, canActivate: [roleGuard], data: { roles: ['admin', 'examenes'] } },
 
   { path: 'enfermeria', component: EnfermeriaComponent, canActivate: [roleGuard], data: { roles: ['admin', 'enfermeria'] } },
 
@@ -61,7 +61,7 @@ export const routes: Routes = [
   
   { path: 'admin-usuarios', component: AdministradorUsuariosComponent, canActivate: [roleGuard], data: { roles: ['admin'] } },
   
-  { path: 'indicadores', component: IndicadoresComponent },
+  { path: 'indicadores', component: IndicadoresComponent, canActivate: [roleGuard], data: { roles: ['admin', 'indicadores'] } },
 
   { path:'jefe-piso', component: JefePisoComponent, canActivate: [roleGuard], data: { roles: ['admin', 'jefe_piso'] } },
 

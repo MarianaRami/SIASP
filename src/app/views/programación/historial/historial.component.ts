@@ -134,8 +134,6 @@ export class HistorialComponent {
       });
   }
 
-  
-
   formatearEstadoCiclo(estado: string): string {
     const mapa: Record<string, string> = {
       activo: 'Activo',
@@ -311,6 +309,45 @@ export class HistorialComponent {
 
   cerrarPopupP() {
     this.mostrarPopupP = false;
+  }
+
+  guardarFechaExamenes() {
+    if (!this.fechaExamenEditable) {
+      alert('Selecciona una fecha de exámenes');
+      return;
+    }
+
+    const usuario = this.AuthService.getUser();
+
+    const cicloActivo = this.cicloActivo;
+
+    if (!cicloActivo?.id) {
+      alert('No hay ciclo activo');
+      return;
+    }
+
+    const payload = {
+      idCiclo: cicloActivo.id,
+      examenes: new Date(this.fechaExamenEditable),
+      laboratorios: new Date(this.fechaExamenEditable), // 👈 puedes separarlo después
+      usuarioModificacion: usuario,
+      cedula: this.cedula,
+      PacienteComponento: this.paciente
+    };
+
+    console.log('📤 Payload programación exámenes:', payload);
+
+    this.programacionServicio.programarExamenesPaciente(payload).subscribe({
+      next: (res) => {
+        console.log('✅ Exámenes programados:', res);
+        alert('Fecha de exámenes actualizada correctamente');
+        this.cargarDatos(); // 🔥 refresca vista
+      },
+      error: (err) => {
+        console.error('❌ Error:', err);
+        alert('Error al programar exámenes');
+      }
+    });
   }
 
   programar(datos: any) {

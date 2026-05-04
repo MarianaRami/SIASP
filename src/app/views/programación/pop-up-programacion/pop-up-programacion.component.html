@@ -33,30 +33,47 @@
     <ng-container *ngIf="modo === 'editar'">
       <div class="fila">
         <label>Fecha del evento:</label>
-        <input type="date" [(ngModel)]="fechaEvento" />
+        <input type="date" [(ngModel)]="fechaEvento" (change)="onCambiosDisponibilidad()" />
       </div>
 
       <div class="fila">
-        <label>Silla:</label>
-        <select [(ngModel)]="sillaSeleccionada">
-          <option [ngValue]="null">Seleccione una silla</option>
-          <option 
-            *ngFor="let silla of sillasDisponibles" 
-            [ngValue]="silla"
-          >
-            {{ silla.nombre }}
-          </option>
-        </select>
+        <label>Sillas disponibles:</label>
+      </div>
+
+      <div class="salas">
+        <div *ngFor="let sala of disponibilidadSalas | keyvalue" class="sala">
+          
+          <h4>Sala {{ sala.key }}</h4>
+
+          <div class="sillas">
+            <div 
+              *ngFor="let silla of sala.value | keyvalue"
+              class="silla-card"
+              [class.selected]="sillaSeleccionada?.id === silla.key"
+              (click)="seleccionarSilla(silla.key)"
+            >
+              <strong>{{ silla.key }}</strong>
+
+              <div class="eventos">
+                <div *ngFor="let ev of silla.value.eventosSilla">
+                  {{ ev.horaInicio }} - {{ ev.horaFin }}
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
       </div>
 
       <div class="fila">
         <label>Hora de inicio:</label>
-        <input type="time" [(ngModel)]="horaInicio" />
+        <input type="time" [(ngModel)]="horaInicio" (change)="calcularDuracion();  onCambiosDisponibilidad()" />
       </div>
 
       <div class="fila">
         <label>Hora de fin:</label>
-        <input type="time" [(ngModel)]="horaFin" />
+        <input type="time" [(ngModel)]="horaFin" (change)="calcularDuracion();  onCambiosDisponibilidad()" />
       </div>
 
       <div class="fila">
