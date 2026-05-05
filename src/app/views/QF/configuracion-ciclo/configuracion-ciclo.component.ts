@@ -203,14 +203,14 @@ export class ConfiguracionCicloComponent {
       cambio_protocolo: 'error_formulacion_medicamento_prog'
     };
 
-    return mapa[motivo] || null;
+    return mapa[motivo] || motivo || null;
   }
 
   guardarBorrador(datos: any) {
     const { medicamentos, motivo, observaciones } = datos;
 
     this.mostrarPopupMedicamentosDetalle = false;
-    this.infoCicloCompleta.medicamentos = datos;
+    this.infoCicloCompleta.medicamentos = medicamentos;
 
     // Clona el protocolo original para no modificar el objeto original
     let protocoloFinal : any = {};

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GestionPacientesService } from '../../../services/gestion-pacientes.service';
 import { ActivatedRoute } from '@angular/router';
@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-historial-paciente',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, DatePipe],
   templateUrl: './historial-paciente.component.html',
   styleUrl: './historial-paciente.component.css'
 })
@@ -63,9 +63,10 @@ export class HistorialPacienteComponent {
       fechaFin
     ).subscribe({
       next: (res) => {
+        console.log('Historial auditoria response:', res);
         this.historial = res;
       },
-      error: (err) => console.error(err)
+      error: (err) => console.error('Error cargando historial:', err)
     });
   }
 }

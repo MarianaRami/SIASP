@@ -299,17 +299,37 @@ export class HistorialComponent {
 
   // Pop up programación
   mostrarPopupP = false;
+  requiereAsignacionRecursoPopup = false;
 
   abrirPopupP() {
     this.modoPopup = 'programar';
+    this.requiereAsignacionRecursoPopup = false;
+    this.tipoSillaPopUp = 'silla';
     this.mostrarPopupP = true;
   }
 
   abrirPopupEditar(fila: any) {
     this.modoPopup = 'editar';
     this.eventoAEditar = fila;
-    this.mostrarPopupP = true;
     this.duracionPopup = Number(fila.duracion) || 0;
+
+    const esAplicacion = fila.tipo === 'Aplicación';
+    this.requiereAsignacionRecursoPopup = esAplicacion;
+
+    if (esAplicacion) {
+      const protocoloActual = this.protocolos.find((p: any) => p.CIE11 === this.cieSeleccionado);
+      if (protocoloActual?.tipoProtocolo === 'hospitalizado') {
+        this.tipoSillaPopUp = 'habitacion';
+      } else if (this.necesitaCamillaPaciente) {
+        this.tipoSillaPopUp = 'camilla';
+      } else {
+        this.tipoSillaPopUp = 'silla';
+      }
+    } else {
+      this.tipoSillaPopUp = 'silla';
+    }
+
+    this.mostrarPopupP = true;
   }
 
   cerrarPopupP() {

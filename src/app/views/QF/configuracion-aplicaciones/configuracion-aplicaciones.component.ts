@@ -189,14 +189,14 @@ export class ConfiguracionAplicacionesComponent implements OnInit {
       cambio_protocolo: 'error_formulacion_medicamento_prog'
     };
 
-    return mapa[motivo] || null;
+    return mapa[motivo] || motivo || null;
   }
 
   guardarBorrador(datos: any) {
-    const { medicamentos, motivo, observaciones } = datos;
+    const { data, motivo, observaciones } = datos;
     
     this.mostrarPopupMedicamentosDetalle = false;
-    this.infoCicloCompleta.presentaciones = datos;
+    this.infoCicloCompleta.presentaciones = data;
 
     // Construir el objeto a enviar basado en infoCicloCompleta
     let protocoloFinal: any = {};

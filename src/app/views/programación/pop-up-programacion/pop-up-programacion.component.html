@@ -23,66 +23,99 @@
         <input type="date" [(ngModel)]="laboratorios" />
       </div>
 
-      <div class="fila">
+      <div class="fila" *ngIf="tipoSilla !== 'habitacion'; else recursoFijo">
         <label>¿Necesita camilla?</label>
         <input type="checkbox" [(ngModel)]="camilla" id="camilla" (change)="onTipoCambio()" />
       </div>
+
+      <ng-template #recursoFijo>
+        <div class="fila">
+          <label>Recurso requerido:</label>
+          <div class="valor-duracion">Habitación</div>
+        </div>
+      </ng-template>
     </ng-container>
 
     <!-- 🧩 MODO EDITAR -->
     <ng-container *ngIf="modo === 'editar'">
       <div class="fila">
         <label>Fecha del evento:</label>
-        <input type="date" [(ngModel)]="fechaEvento" (change)="onCambiosDisponibilidad()" />
+        <input type="date" [(ngModel)]="fechaEvento" (change)="onFechaCambio()" />
       </div>
 
-      <div class="fila">
-        <button class="btn-accion" (click)="verDisponibilidad()">
-          Ver disponibilidad
-        </button>
-      </div>
+      <ng-container *ngIf="requiereAsignacionRecurso">
 
-      <div *ngIf="mostrarDisponibilidad" class="salas">
-        <div *ngFor="let sala of disponibilidadSalas | keyvalue" class="sala">
-          
-          <h4>Sala {{ sala.key }}</h4>
-
-          <div class="sillas">
-            <div 
-              *ngFor="let silla of sala.value | keyvalue"
-              class="silla-card"
-              [class.selected]="sillaSeleccionada?.id === silla.key"
-              (click)="seleccionarSilla(silla.key)"
-            >
-              <strong>{{ silla.key }}</strong>
-
-              <div class="eventos">
-                <div *ngFor="let ev of silla.value.eventosSilla">
-                  {{ ev.horaInicio }} - {{ ev.horaFin }}
-                </div>
+        <!-- HOSPITALIZADO: lista directa de habitaciones -->
+        <ng-container *ngIf="tipo === 'habitacion'; else flujoAmbulatorio">
+          <div *ngIf="cargandoHabitaciones" class="estado-disponibilidad">
+            Cargando habitaciones...
+          </div>
+          <div *ngIf="!cargandoHabitaciones && habitaciones.length === 0" class="estado-disponibilidad">
+            No hay habitaciones disponibles.
+          </div>
+          <div *ngIf="!cargandoHabitaciones && habitaciones.length > 0" class="salas">
+            <div class="sillas">
+              <div
+                *ngFor="let hab of habitaciones"
+                class="silla-card"
+                [class.selected]="sillaSeleccionada?.id === hab.id"
+                (click)="seleccionarHabitacion(hab)"
+              >
+                <strong>{{ hab.nombre }}</strong>
               </div>
-
             </div>
           </div>
+        </ng-container>
 
-        </div>
-      </div>
+        <!-- AMBULATORIO: hora inicio + horaFin calculada + disponibilidad -->
+        <ng-template #flujoAmbulatorio>
+          <div class="fila">
+            <label>Hora de inicio:</label>
+            <input type="time" [(ngModel)]="horaInicio" (change)="onHoraInicioCambio()" />
+          </div>
 
-      <div class="fila">
-        <label>Hora de inicio:</label>
-        <input type="time" [(ngModel)]="horaInicio" (change)="calcularDuracion()" />
-      </div>
+          <div class="fila">
+            <label>Hora de fin:</label>
+            <div class="valor-duracion">{{ horaFin || '--:--' }}</div>
+          </div>
 
-      <div class="fila">
-        <label>Hora de fin:</label>
-        <input type="time" [(ngModel)]="horaFin" (change)="calcularDuracion()" />
-      </div>
+          <div class="fila">
+            <label>Duración:</label>
+            <div class="valor-duracion">{{ duracionStr || '--:--' }}</div>
+          </div>
 
-      <div class="fila">
-        <label>Duración:</label>
-        <!--<input type="time" [(ngModel)]="duracionStr" />-->
-        <div>{{ duracionStr }}</div>
-      </div>
+          <div class="fila fila-accion">
+            <button class="btn-accion" (click)="verDisponibilidad()">Ver disponibilidad</button>
+          </div>
+
+          <div *ngIf="cargandoDisponibilidad" class="estado-disponibilidad">
+            Consultando disponibilidad...
+          </div>
+
+          <div *ngIf="sinDisponibilidad" class="estado-disponibilidad">
+            No hay recursos disponibles para esa fecha y duración.
+          </div>
+
+          <div *ngIf="mostrarDisponibilidad && !cargandoDisponibilidad && !sinDisponibilidad" class="salas">
+            <div *ngFor="let grupo of franjasAgrupadasPorSala" class="sala">
+              <h4>Sala {{ grupo.sala }}</h4>
+
+              <div class="sillas">
+                <div
+                  *ngFor="let franja of grupo.franjas"
+                  class="silla-card"
+                  [class.selected]="sillaSeleccionada?.id === franja.idSilla && horaInicio === franja.horaInicioFranja"
+                  (click)="seleccionarFranja(franja)"
+                >
+                  <strong>{{ franja.nombreSilla }}</strong>
+                  <div>Desde: {{ franja.horaInicioFranja }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+
+      </ng-container>
     </ng-container>
 
     <div class="button-group">
@@ -91,4 +124,3 @@
     </div>
   </div>
 </div>
-
