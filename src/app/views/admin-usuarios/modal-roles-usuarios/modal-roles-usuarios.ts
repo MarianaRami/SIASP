@@ -88,7 +88,7 @@ export class ModalRolesUsuarios {
           id_usuario: this.usuario.id,
           id_rol: idRol,
           fechaAsignacion: fechaHoy,
-          estado: 'Activo'
+          estado: 'activo'
         })
       );
     });
@@ -100,7 +100,7 @@ export class ModalRolesUsuarios {
           id_usuario: this.usuario.id,
           id_rol: idRol,
           fechaAsignacion: fechaHoy,
-          estado: 'Inactivo' // 🔥 clave
+          estado: 'inactivo' // 🔥 clave
         })
       );
     });

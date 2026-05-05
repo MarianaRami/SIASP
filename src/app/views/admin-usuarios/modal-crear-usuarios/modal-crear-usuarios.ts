@@ -54,7 +54,8 @@ export class ModalCrearUsuarios implements OnInit {
     // 🔹 1. CREAR USUARIO
     this.usuariosService.crearUsuario({
       nombreUsuario: this.usuario,
-      nombre: this.nombre
+      nombre: this.nombre,
+      estado: 'activo'
     })
     .pipe(
 
@@ -73,7 +74,7 @@ export class ModalCrearUsuarios implements OnInit {
             id_usuario: idUsuario,
             id_rol: idRol,
             fechaAsignacion: fecha,
-            estado: 'Activo'
+            estado: 'activo'
           })
         );
 
