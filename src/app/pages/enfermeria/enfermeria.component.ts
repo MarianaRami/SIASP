@@ -53,10 +53,10 @@ export class EnfermeriaComponent {
 
   filtro: string = '';
   fechaActual = new Date();
-  fechaSeleccionada: string = this.fechaActual.toISOString().split('T')[0]; // formato yyyy-MM-dd
+  fechaSeleccionada: string = this.formatearFecha(this.fechaActual); // formato yyyy-MM-dd
 
   ngOnInit() {
-    this.cargarPacientes(this.fechaActual);
+    this.cargarPacientes(this.fechaSeleccionada);
   }
 
   private formatearFecha(fecha: Date): string {
@@ -66,8 +66,8 @@ export class EnfermeriaComponent {
     return `${year}-${month}-${day}`;
   }
 
-  cargarPacientes(fecha: Date) {
-    this.service.getlistadoEnfermeriaPaciente(this.formatearFecha(fecha), this.tipoPaciente).subscribe({
+  cargarPacientes(fecha: string) {
+    this.service.getlistadoEnfermeriaPaciente(fecha, this.tipoPaciente).subscribe({
       next: (res) => {
         console.log("Pacientes enfermería:", res);
 
@@ -84,18 +84,15 @@ export class EnfermeriaComponent {
         console.error("Error al cargar pacientes:", err);
       }
     });
-   this.datos = [ { Nombre: 'Ana Ruiz', Cedula: '12345678', Teléfono: '3216549870', Estado: '', Observaciones: '' }, { Nombre: 'Carlos Soto', Cedula: '87654321', Teléfono: '3123456789', Estado: '', Observaciones: '' } ];
   }
 
   onFechaChange() {
-    const fecha = new Date(this.fechaSeleccionada);
-    this.cargarPacientes(fecha);
+    this.cargarPacientes(this.fechaSeleccionada);
   }
 
-   onTipoPacienteChange() {
+  onTipoPacienteChange() {
     this.filtro = '';
-    const fecha = new Date(this.fechaSeleccionada);
-    this.cargarPacientes(fecha);
+    this.cargarPacientes(this.fechaSeleccionada);
   }
 
   // -------------------------------
@@ -137,7 +134,7 @@ export class EnfermeriaComponent {
         //cedula: p.cedula,
         estado: p.estado === 'Aplicada' ? 'aplicada' :  p.estado === 'Inasistencia' ? 'inasistencia' :  p.estado === 'Suspendida' ? 'suspendida' :  'reprogramacion',
         observacion: p.observacion,
-        fecha: this.fechaActual,
+        fecha: this.fechaSeleccionada,
         usuarioModificacion: usuario,
         razonReprogramacion: (p.estado === 'Reprogramar' || p.estado === 'Inasistencia') ? (p.razonReprogramacion ?? null) : null
       }))
@@ -154,7 +151,7 @@ export class EnfermeriaComponent {
         cambios.forEach(c => {
           this.datosOriginales[c.cedula] = { ...c };
         });
-        this.cargarPacientes(this.fechaActual);
+        this.cargarPacientes(this.fechaSeleccionada);
       },
       error: (err) => {
         console.error("❌ Error al guardar:", err);
