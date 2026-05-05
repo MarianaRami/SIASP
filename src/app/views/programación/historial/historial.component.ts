@@ -67,6 +67,8 @@ export class HistorialComponent {
 
   fechaExamenEditable: string = '';
 
+  necesitaCamillaPaciente: boolean = false;
+
   tratamientoOptions = [
     { value: 'poli', label: 'Politerapia' },
     { value: 'mono', label: 'Monoterapia' },
@@ -158,6 +160,8 @@ export class HistorialComponent {
     this.protocolo = protocoloActual.nombreProtocolo || 'N/A';
     this.version = protocoloActual?.version?.toString() ?? '';
     this.ciclos = protocoloActual?.ciclos || [];
+
+    this.necesitaCamillaPaciente = this.ciclos?.[0]?.necesitaCamilla || false;
 
     this.datos = (protocoloActual?.eventos || []).map((evento: any) => ({
       ...evento,

@@ -14,6 +14,7 @@ export class PopUpProgramacionComponent {
   @Input() modo: 'programar' | 'editar' = 'programar';
   @Input() tipoSilla: 'silla' | 'camilla' | 'habitacion' = 'silla';
   @Input() duracion: number = 0;
+  @Input() necesitaCamilla: boolean = false;
   @Output() cerrar = new EventEmitter<void>();
   @Output() programar = new EventEmitter<{ 
     aplicacion?: string;
@@ -47,6 +48,8 @@ export class PopUpProgramacionComponent {
 
   tipo = this.tipoSilla;
 
+  mostrarDisponibilidad = false;
+
   crearTiempoDesdeMinutos(minutos: number): string {
       const horas = Math.floor(minutos / 60);
       const mins = minutos % 60;
@@ -56,12 +59,23 @@ export class PopUpProgramacionComponent {
   ngOnInit() {
     this.duracionStr = this.crearTiempoDesdeMinutos(this.duracion);
 
-    this.tipo = this.tipoSilla;
+    this.camilla = this.necesitaCamilla;
+
+    this.tipo = this.camilla ? 'camilla' : this.tipoSilla;
+
     this.cargarRecursos(this.tipo);
   }
 
-  cargarDisponibilidad() {
-    if (!this.fechaEvento || !this.duracion) return;
+  verDisponibilidad() {
+    if (!this.fechaEvento) {
+      alert('Selecciona una fecha primero');
+      return;
+    }
+
+    if (!this.duracion) {
+      alert('Ingresa hora inicio y fin primero');
+      return;
+    }
 
     this.programacionServicio
       .getDisponibilidadSillas(this.fechaEvento, this.duracion, this.tipo)
@@ -69,13 +83,10 @@ export class PopUpProgramacionComponent {
         next: (res) => {
           console.log('📊 Disponibilidad:', res);
           this.disponibilidadSalas = res.disponibilidadSalasObj || {};
+          this.mostrarDisponibilidad = true;
         },
         error: (err) => console.error(err)
       });
-  }
-
-  onCambiosDisponibilidad() {
-    this.cargarDisponibilidad();
   }
 
   seleccionarSilla(nombreSilla: string) {
@@ -102,28 +113,24 @@ export class PopUpProgramacionComponent {
     this.cargarRecursos(this.tipo);
   }
 
-  calcularDuracion(): void {
-  if (!this.horaInicio || !this.horaFin) {
-    this.duracion = 0;
-    this.duracionStr = '';
-    return;
+  calcularDuracion() {
+    if (!this.horaInicio || !this.horaFin) return;
+
+    const [hIni, mIni] = this.horaInicio.split(':').map(Number);
+    const [hFin, mFin] = this.horaFin.split(':').map(Number);
+
+    const inicioMin = hIni * 60 + mIni;
+    const finMin = hFin * 60 + mFin;
+
+    if (finMin <= inicioMin) {
+      this.duracion = 0;
+      this.duracionStr = '';
+      return;
+    }
+
+    this.duracion = finMin - inicioMin;
+    this.duracionStr = this.crearTiempoDesdeMinutos(this.duracion);
   }
-
-  const [hIni, mIni] = this.horaInicio.split(':').map(Number);
-  const [hFin, mFin] = this.horaFin.split(':').map(Number);
-
-  const inicioMin = hIni * 60 + mIni;
-  const finMin = hFin * 60 + mFin;
-
-  if (finMin <= inicioMin) {
-    this.duracion = 0;
-    this.duracionStr = '';
-    return;
-  }
-
-  this.duracion = finMin - inicioMin;
-  this.duracionStr = this.crearTiempoDesdeMinutos(this.duracion);
-}
 
 
   volver() {

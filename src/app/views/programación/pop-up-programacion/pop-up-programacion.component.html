@@ -37,10 +37,12 @@
       </div>
 
       <div class="fila">
-        <label>Sillas disponibles:</label>
+        <button class="btn-accion" (click)="verDisponibilidad()">
+          Ver disponibilidad
+        </button>
       </div>
 
-      <div class="salas">
+      <div *ngIf="mostrarDisponibilidad" class="salas">
         <div *ngFor="let sala of disponibilidadSalas | keyvalue" class="sala">
           
           <h4>Sala {{ sala.key }}</h4>
@@ -68,12 +70,12 @@
 
       <div class="fila">
         <label>Hora de inicio:</label>
-        <input type="time" [(ngModel)]="horaInicio" (change)="calcularDuracion();  onCambiosDisponibilidad()" />
+        <input type="time" [(ngModel)]="horaInicio" (change)="calcularDuracion()" />
       </div>
 
       <div class="fila">
         <label>Hora de fin:</label>
-        <input type="time" [(ngModel)]="horaFin" (change)="calcularDuracion();  onCambiosDisponibilidad()" />
+        <input type="time" [(ngModel)]="horaFin" (change)="calcularDuracion()" />
       </div>
 
       <div class="fila">
