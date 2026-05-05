@@ -1,7 +1,7 @@
 <div class="contenedor-enfermeria">
 
     <div class="header-con-buscador">
-        <h2>Programación del día</h2>
+        <h2>Programación del día - {{ fechaSeleccionada }}</h2>
 
         <div class="acciones-header">
             <select [(ngModel)]="tipoPaciente" (change)="onTipoPacienteChange()">
@@ -9,11 +9,18 @@
                     {{ opcion.label }}
                 </option>
             </select>
+
             <input
-            type="text"
-            placeholder="Buscar por nombre o cédula"
-            [(ngModel)]="filtro"
-            (input)="filtrarDatos()"
+                type="date"
+                [(ngModel)]="fechaSeleccionada"
+                (change)="onFechaChange()"
+            />
+
+            <input
+                type="text"
+                placeholder="Buscar por nombre o cédula"
+                [(ngModel)]="filtro"
+                (input)="filtrarDatos()"
             />
         </div>
         

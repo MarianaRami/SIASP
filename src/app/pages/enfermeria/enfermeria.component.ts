@@ -53,9 +53,10 @@ export class EnfermeriaComponent {
 
   filtro: string = '';
   fechaActual = new Date();
+  fechaSeleccionada: string = this.fechaActual.toISOString().split('T')[0]; // formato yyyy-MM-dd
 
   ngOnInit() {
-    this.cargarPacientes();
+    this.cargarPacientes(this.fechaActual);
   }
 
   private formatearFecha(fecha: Date): string {
@@ -65,13 +66,8 @@ export class EnfermeriaComponent {
     return `${year}-${month}-${day}`;
   }
 
-  onTipoPacienteChange() {
-    this.filtro = '';
-    this.cargarPacientes();
-  }
-
-  cargarPacientes() {
-    this.service.getlistadoEnfermeriaPaciente(this.formatearFecha(this.fechaActual), this.tipoPaciente).subscribe({
+  cargarPacientes(fecha: Date) {
+    this.service.getlistadoEnfermeriaPaciente(this.formatearFecha(fecha), this.tipoPaciente).subscribe({
       next: (res) => {
         console.log("Pacientes enfermería:", res);
 
@@ -89,6 +85,17 @@ export class EnfermeriaComponent {
       }
     });
    this.datos = [ { Nombre: 'Ana Ruiz', Cedula: '12345678', Teléfono: '3216549870', Estado: '', Observaciones: '' }, { Nombre: 'Carlos Soto', Cedula: '87654321', Teléfono: '3123456789', Estado: '', Observaciones: '' } ];
+  }
+
+  onFechaChange() {
+    const fecha = new Date(this.fechaSeleccionada);
+    this.cargarPacientes(fecha);
+  }
+
+   onTipoPacienteChange() {
+    this.filtro = '';
+    const fecha = new Date(this.fechaSeleccionada);
+    this.cargarPacientes(fecha);
   }
 
   // -------------------------------
@@ -147,7 +154,7 @@ export class EnfermeriaComponent {
         cambios.forEach(c => {
           this.datosOriginales[c.cedula] = { ...c };
         });
-        this.cargarPacientes();
+        this.cargarPacientes(this.fechaActual);
       },
       error: (err) => {
         console.error("❌ Error al guardar:", err);
