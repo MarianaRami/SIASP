@@ -34,6 +34,12 @@ export class LoginComponent {
     this.mostrarPassword = !this.mostrarPassword;
   }
 
+  resetMensajes() {
+    this.loginError = false;
+    this.errorMessage = '';
+    this.successMessage = '';
+  }
+
   onLogin() {
 
     this.loading = true;
@@ -44,29 +50,27 @@ export class LoginComponent {
     this.authService.login(this.username, this.password).subscribe({
 
       next: (res) => {
-
         console.log('Login exitoso:', res);
 
         this.successMessage = res.message || 'Login exitoso';
-
         this.loading = false;
 
-        setTimeout(() => {
-          this.router.navigate(['inicio']);
-        }, 1000);
-
+        this.router.navigate(['inicio']);
       },
 
       error: (err) => {
-
         console.error('Error en login:', err);
 
         this.loading = false;
         this.loginError = true;
 
-        this.errorMessage =
-          err?.error?.message || 'Usuario o contraseña incorrectos';
-
+        if (err.status === 401) {
+          this.errorMessage = 'Usuario o contraseña incorrectos';
+        } else if (err.status === 0) {
+          this.errorMessage = 'No hay conexión con el servidor';
+        } else {
+          this.errorMessage = err?.error?.message || 'Error inesperado';
+        }
       }
 
     });

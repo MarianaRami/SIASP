@@ -23,7 +23,7 @@ export const credentialsInterceptor: HttpInterceptorFn = (req, next) => {
         });
         authService.clearSession();
         router.navigate(['']);
-        return EMPTY;
+        return throwError(() => error);
       }
       return throwError(() => error);
     })
